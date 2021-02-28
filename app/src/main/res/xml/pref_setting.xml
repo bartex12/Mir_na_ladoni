@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory
+        android:title="@string/sorting">
+
+    <CheckBoxPreference
+        android:key="cbSort"
+        android:title="@string/is_sorting"
+        app:defaultValue="true"
+        android:summaryOn="@string/cbSortOn"
+        android:summaryOff="@string/cbSortOff">
+    </CheckBoxPreference>
+
+    <ListPreference
+        android:dependency="cbSort"
+        android:entries="@array/pref_entry_sort"
+        android:entryValues="@array/pref_entryValues_sort"
+        android:key="ListSort"
+        android:title="Способ сортировки"
+        app:defaultValue="3"
+        android:summary="@string/ListSort">
+    </ListPreference>
+    </PreferenceCategory>
+
+</androidx.preference.PreferenceScreen>

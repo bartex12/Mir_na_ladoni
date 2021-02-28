@@ -1,0 +1,96 @@
+<resources>
+    <string name="app_name">Мир на ладони MVVM</string>
+    <string name="search_name">Найдено</string>
+    <string name="weather_name">Погода в столице</string>
+    <string name="details_name">Коротко о главном</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hello_state">Hello state!</string>
+    <string name="state">state1</string>
+    <string name="name">Россия</string>
+    <string name="connecting">Подключение к серверу…</string>
+    <string name="weatherInCap">Погода в столице</string>
+    <string name="geoLocation">Место на карте мира</string>
+    <string name="hello_capital">hello_capital</string>
+    <string name="unknown">Unknown</string>
+    <string name="Unknown">Unknown</string>
+    <string name="ErrorCity">Город не найден. Проверьте наличие интернета</string>
+    <string name="action_find">Поиск</string>
+    <string name="Help">"Справка "</string>
+    <string name="search">Поиск</string>
+    <string name="identifier">android:id/search_close_btn</string>
+    <string name="about">О приложении</string>
+    <string name="settings">Настройки</string>
+    <string name="favorites">Избранное</string>
+    <string name="help">Справка</string>
+    <string name="message">MESSAGE</string>
+    <string name="aboutAppMessage">GeekBrains Андроид -популярные библиотеки</string>
+    <string name="cbSortOn">Выберите способ сортировки списка государств </string>
+    <string name="cbSortOff">Сортировка списков по алфавиту </string>
+    <string name="ListSort">Выбор способа сортировки списка государств</string>
+    <string name="noHelp">Справка недоступна</string>
+    <string name="ok">OK</string>
+    <string name="home">Домой</string>
+    <string name="map">Карта</string>
+    <string name="select">Избр.</string>
+    <string name="remove">Удалить</string>
+    <string name="weather">Погода</string>
+    <string name="no_data_available">Нет данных \n Попробуйте изменить поисковый запрос </string>
+    <string name="no_data_state">Нет данных \n Проверьте наличие Интернета </string>
+
+    <string name="fruit">Фрукты</string>
+    <string name="vegetables">Овощи</string>
+    <string name="nature">Природа</string>
+    <string name="animals">Животные</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="sub_">Полезная информация о странах мира</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="addition">Дополнительно</string>
+    <string name="share">Поделиться</string>
+    <string name="send">Оценить</string>
+    <string name="sorting">Сортировка</string>
+    <string name="is_sorting">Нужна сортировка?</string>
+    <string name="green">Зелёная тема</string>
+    <string name="violent">Фиолетовая тема</string>
+    <string name="favor">В избранное</string>
+    <string name="addFavoriteToast">Добавлено в Избранное</string>
+    <string name="no_data_favorite">"Нет данных. Добавьте страну в избранное "</string>
+    <string name="favorite_name">Избранное</string>
+    <string name="remove_favorites">Удалить из избранного</string>
+    <string name="addToFavorite">Добавить в избранное</string>
+    <string name="removeFromFavorite">Удалить из избранного</string>
+    <string name="removeFavoriteToast">Удалено из избранного</string>
+    <string name="geo_name">Карта</string>
+    <string name="forExit">Для выхода нажмите  НАЗАД  ещё раз</string>
+    <string name="sett">Настройки</string>
+    <string name="area">"Площать "</string>
+    <string name="population">Население</string>
+    <string name="help_name">Справка</string>
+    <string name="header">  Попробуйте моё новое приложение Мир на ладони,
+                    загрузив его из GooglePlay по ссылке</string>
+    <string name="uri_stor">https://play.google.com/store/apps/details?id=com.bartex.states_search</string>
+    <string name="blok1">Расскажу, как им пользоваться, чтобы получить максимум пользы.</string>
+    <string name="blok2">На главном экране список из 240 стран мира. Тыкаете в любую и попадаете на экран
+                    детализации, где увидите флаг, размер территории, население. Но всё это фигня.</string>
+    <string name="blok3"> В нижнем меню тыкаете на пункте Карта и попадаете на карту Google приблизительно в
+                    месте расположения указанной страны. Тыкаете в название страны на карте
+                    и перед вами открывается куча открыточных видов этой страны.</string>
+    <string name="blok4">  Кроме того, в некоторых местах есть панорамные фото, видео и
+                    гугловская навигация по дорогам. Смотрите не залипните - в некоторых странах
+                    есть ну очень красивые картинки. Россия, кстати, не исключение.</string>
+    <string name="blok5">Приятного путешествия.</string>
+
+    <string-array name="pref_entry_sort">
+        <item>По населению по убыванию</item>
+        <item>По населению по возрастанию</item>
+        <item>По площади по убыванию</item>
+        <item>По площади по возрастанию</item>
+    </string-array>
+
+    <string-array name="pref_entryValues_sort">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+    </string-array>
+</resources>

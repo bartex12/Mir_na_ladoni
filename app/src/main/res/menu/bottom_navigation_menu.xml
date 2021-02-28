@@ -1,0 +1,20 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/home"
+        android:enabled="true"
+        android:icon="@drawable/ic_baseline_home_24"
+        android:title="@string/home"/>
+
+    <item
+        android:id="@+id/geo"
+        android:enabled="true"
+        android:icon="@drawable/ic_baseline_location_on_24_white"
+        android:title="@string/map"/>
+
+    <item
+        android:id="@+id/weather"
+        android:enabled="true"
+        android:icon="@drawable/ic_baseline_beach_access_24_white"
+        android:title="@string/weather"/>
+
+</menu>

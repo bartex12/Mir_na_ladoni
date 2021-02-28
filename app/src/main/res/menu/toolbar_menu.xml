@@ -1,0 +1,31 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:id="@+id/search"
+        android:title="@string/search"
+        android:icon="@android:drawable/ic_menu_search"
+        app:showAsAction="collapseActionView|ifRoom"
+        app:actionViewClass="androidx.appcompat.widget.SearchView" />
+
+    <item
+        android:id="@+id/favorites"
+        android:icon="@drawable/ic_baseline_favorite_border_24"
+        android:orderInCategory="10"
+        android:title="@string/favorites"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/navigation_settings"
+        android:icon="@drawable/ic_settings_white_24dp"
+        android:orderInCategory="20"
+        android:title="@string/settings"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/navigation_help"
+        android:icon="@drawable/ic_baseline_help_outline_24"
+        android:orderInCategory="25"
+        android:title="@string/help"
+        app:showAsAction="never" />
+
+</menu>
+    <!--с 30 версии андроид SearchView включен в androidx-->
