@@ -5,14 +5,18 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.provider.SyncStateContract
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.GravityCompat
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
 import com.bartex.statesmvvm.App
 import com.bartex.statesmvvm.R
+import com.bartex.statesmvvm.model.constants.Constants
 import com.bartex.statesmvvm.presenter.MainPresenter
 import com.bartex.statesmvvm.view.fragments.BackButtonListener
 import com.bartex.statesmvvm.view.fragments.details.DetailsFragment
@@ -32,12 +36,12 @@ import ru.terrakok.cicerone.android.support.SupportAppNavigator
 import javax.inject.Inject
 
 
-class MainActivity: MvpAppCompatActivity(),
+class    MainActivity: MvpAppCompatActivity(),
     MainView, SearchView.OnQueryTextListener, NavigationView.OnNavigationItemSelectedListener {
 
     private var doubleBackToExitPressedOnce = false
-
     private var toggle:ActionBarDrawerToggle? = null
+    lateinit var navController:NavController
 
     companion object{
         const val TAG = "33333"
@@ -50,9 +54,9 @@ class MainActivity: MvpAppCompatActivity(),
         R.id.container
     )
 
-    val presenter: MainPresenter by moxyPresenter {
-        MainPresenter().apply {  App.instance.appComponent.inject(this) }
-    }
+//    val presenter: MainPresenter by moxyPresenter {
+//        MainPresenter().apply {  App.instance.appComponent.inject(this) }
+//    }
 
     override fun onResumeFragments() {
         super.onResumeFragments()
@@ -63,6 +67,10 @@ class MainActivity: MvpAppCompatActivity(),
         super.onCreate(savedInstanceState)
         Log.d(TAG, "MainActivity onCreate ")
         setContentView(R.layout.activity_main)
+
+        //находим NavController
+        navController =
+            Navigation.findNavController(this, R.id.nav_host_fragment)
 
         setSupportActionBar(toolbar) //поддержка экшенбара для создания строки поиска
         toggle = ActionBarDrawerToggle(this,drawer_layout,
@@ -128,17 +136,30 @@ class MainActivity: MvpAppCompatActivity(),
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val id = item.itemId
+        val destination = navController.currentDestination?.id
         when (id){
             R.id.favorites ->{
-                presenter.showFavorites()
+                destination?. let{
+                    when(it){
+                        R.id.statesFragment ->navController.navigate(R.id.action_statesFragment_to_favoriteFragment)
+                    }
+                }
                 return true
             }
            R.id.navigation_settings ->{
-               presenter. showSettingsActivity()
+               destination?. let{
+                   when(it){
+                       R.id.statesFragment ->navController.navigate(R.id.action_statesFragment_to_prefFragment)
+                   }
+               }
                return true
            }
             R.id.navigation_help->{
-                presenter.showHelp()
+                destination?. let{
+                    when(it){
+                        R.id.statesFragment ->navController.navigate(R.id.action_statesFragment_to_helpFragment)
+                    }
+                }
                 return true
             }
         }
@@ -153,7 +174,10 @@ class MainActivity: MvpAppCompatActivity(),
 
     override fun onQueryTextSubmit(query: String?): Boolean {
         Log.d(TAG, "MainActivity onQueryTextSubmit query = $query ")
-        query?. let{presenter.doSearch(it)}
+        query?. let{
+            val bundle = Bundle().apply { putString(Constants.SEARCH, it) }
+            navController.navigate(R.id.action_statesFragment_to_searchFragment, bundle)
+            }
         return false
     }
 
@@ -166,15 +190,18 @@ class MainActivity: MvpAppCompatActivity(),
         when (item.itemId) {
             R.id.nav_favorites -> {
                 Log.d(TAG, "MainActivity onNavigationItemSelected nav_favorites")
-                presenter.showFavorites()
+                //presenter.showFavorites()
+                navController.navigate(R.id.action_statesFragment_to_favoriteFragment)
             }
             R.id.nav_setting -> {
                 Log.d(TAG, "MainActivity onNavigationItemSelected nav_setting")
-                presenter. showSettingsActivity()
+                //presenter. showSettingsActivity()
+                navController.navigate(R.id.action_statesFragment_to_prefFragment)
             }
             R.id.nav_help -> {
                 Log.d(TAG, "MainActivity onNavigationItemSelected nav_help")
-                presenter.showHelp()
+                //presenter.showHelp()
+                navController.navigate(R.id.action_statesFragment_to_helpFragment)
             }
 
             R.id.nav_share -> {
@@ -233,12 +260,13 @@ class MainActivity: MvpAppCompatActivity(),
     override fun onBackPressed() {
         //если мы в StatesFragment, то при нажатии Назад показываем Snackbar и при повторном
         //нажати в течении 2 секунд закрываем приложение
-        if( supportFragmentManager.findFragmentById(R.id.container) is StatesFragment){
+        if( navController.currentDestination?.id  == R.id.statesFragment){
             Log.d(TAG, "MainActivity onBackPressed  это StatesFragment")
             //если флаг = true - а это при двойном щелчке - закрываем программу
             if (doubleBackToExitPressedOnce) {
                 Log.d(TAG, "MainActivity onBackPressed  doubleBackToExitPressedOnce")
-                presenter.backClicked()
+                //presenter.backClicked()
+                super.onBackPressed()
                 return
             }
             doubleBackToExitPressedOnce = true //выставляем флаг = true
@@ -256,7 +284,7 @@ class MainActivity: MvpAppCompatActivity(),
             //если мы НЕ в StatesFragment, то при нажатии Назад вызываем backPressed() фрагмента
             //и делаем то, что там прописано
         }else{
-            Log.d(TAG, "MainActivity onBackPressed  это НЕ StatesFragment")
+            Log.d(TAG, "MainActivity onBackPressed  это НЕ StatesFragment ")
             supportFragmentManager.fragments.forEach {
                 if(it is BackButtonListener && it.backPressed()){
                     return@onBackPressed

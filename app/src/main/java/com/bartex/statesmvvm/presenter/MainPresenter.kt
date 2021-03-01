@@ -22,7 +22,7 @@ class MainPresenter: MvpPresenter<MainView>() {
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
-        router.navigateTo(Screens.StatesScreen())
+        //router.navigateTo(Screens.StatesScreen())
     }
 
     fun backClicked() {

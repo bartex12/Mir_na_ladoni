@@ -12,7 +12,8 @@ class StatesPresenter: BasePresenter() {
         const val TAG = "33333"
     }
 
-    override fun getListData(): Single<List<State>> = statesRepo.getStates()
+    override fun getListData(): Single<List<State>> =
+        statesRepo.getStates()
 
     override fun navigateToScreen(state:State) {
         router.navigateTo(Screens.DetailsScreen(state))

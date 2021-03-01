@@ -1,6 +1,8 @@
 package com.bartex.statesmvvm.model.repositories.states.cash
 
 import android.util.Log
+import androidx.room.Room
+import com.bartex.statesmvvm.App
 import com.bartex.statesmvvm.model.entity.state.State
 import com.bartex.statesmvvm.model.room.Database
 import com.bartex.statesmvvm.model.room.tables.RoomFavorite
@@ -9,6 +11,9 @@ import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Single
 
 class RoomStateCash(val db: Database): IRoomStateCash {
+
+//    val db: Database =
+//        Room.databaseBuilder(App.instance, Database::class.java, Database.DB_NAME).build()
 
     companion object{
         const val TAG = "33333"

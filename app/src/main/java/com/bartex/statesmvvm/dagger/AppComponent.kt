@@ -1,6 +1,7 @@
 package com.bartex.statesmvvm.dagger
 
 import com.bartex.statesmvvm.presenter.*
+import com.bartex.statesmvvm.view.fragments.favorite.FavoriteViewModel
 import com.bartex.statesmvvm.view.main.MainActivity
 import dagger.Component
 import javax.inject.Singleton
@@ -31,5 +32,5 @@ interface AppComponent {
     fun inject(searchPresenter: SearchPresenter)
     fun inject(helpPresenter: HelpPresenter)
     fun inject(favoritePresenter: FavoritePresenter)
-
+    fun inject(favoriteViewModel: FavoriteViewModel)
 }

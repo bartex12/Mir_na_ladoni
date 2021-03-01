@@ -5,6 +5,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bartex.statesmvvm.App
 import com.bartex.statesmvvm.R
@@ -24,6 +26,7 @@ class StatesFragment : MvpAppCompatFragment(),
 
     private var position = 0
     var adapter: StatesRVAdapter? = null
+    lateinit var navController:NavController
 
     companion object {
         const val TAG = "33333"
@@ -45,10 +48,13 @@ class StatesFragment : MvpAppCompatFragment(),
         super.onViewCreated(view, savedInstanceState)
         Log.d(TAG, "StatesFragment onViewCreated ")
 
+        navController = Navigation.findNavController(view)
+
         //восстанавливаем позицию списка после поворота или возвращения на экран
         position = presenter.getPosition()
 
         //приводим меню тулбара в соответствии с onPrepareOptionsMenu в MainActivity
+        //без этой строки меню в тулбаре ведёт себя неправильно
         setHasOptionsMenu(true)
         requireActivity().invalidateOptionsMenu()
     }
