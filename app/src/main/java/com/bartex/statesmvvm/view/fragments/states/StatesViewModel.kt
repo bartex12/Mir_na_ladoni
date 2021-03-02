@@ -20,10 +20,8 @@ class StatesViewModel: ViewModel() {
 
     @Inject
     lateinit var helper : IPreferenceHelper
-
     @Inject
     lateinit var mainThreadScheduler: Scheduler
-
     @Inject
     lateinit var statesRepo: IStatesRepo
 
@@ -57,9 +55,6 @@ class StatesViewModel: ViewModel() {
                     Log.d(TAG, "StatesViewModel  loadData states.size = ${it.size}")
                     listStates.value = it
                 }
-//                listPresenter.states.clear()
-//                states?. let{listPresenter.states.addAll(it)}
-//                viewState.updateList()
             }, {error -> Log.d(TAG, "StatesViewModel onError ${error.message}")
             })
     }

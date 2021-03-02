@@ -3,6 +3,7 @@ package com.bartex.statesmvvm.dagger
 import com.bartex.statesmvvm.presenter.*
 import com.bartex.statesmvvm.view.fragments.details.DetailsViewModel
 import com.bartex.statesmvvm.view.fragments.favorite.FavoriteViewModel
+import com.bartex.statesmvvm.view.fragments.search.SearchViewModel
 import com.bartex.statesmvvm.view.fragments.states.StatesViewModel
 import com.bartex.statesmvvm.view.fragments.weather.WeatherViewModel
 import com.bartex.statesmvvm.view.fragments.weather.WeatherViewState
@@ -38,4 +39,5 @@ interface AppComponent {
     fun inject(statesViewModel: StatesViewModel)
     fun inject(detailsViewModel: DetailsViewModel)
     fun inject(weatherViewModel: WeatherViewModel)
+    fun inject(searchViewModel: SearchViewModel)
 }

@@ -26,16 +26,6 @@ class WeatherFragment : Fragment()  {
 
     companion object {
         const val TAG = "33333"
-        private const val ARG_STATE = "state"
-
-//        @JvmStatic
-//        fun newInstance(state: State) =
-//            WeatherFragment()
-//                .apply {
-//                    arguments = Bundle().apply {
-//                        putParcelable(ARG_STATE, state)
-//                    }
-//                }
     }
 
     override fun onCreateView(

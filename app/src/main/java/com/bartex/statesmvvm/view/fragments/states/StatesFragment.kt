@@ -31,15 +31,7 @@ class StatesFragment : Fragment() {
 
     companion object {
         const val TAG = "33333"
-
-        fun newInstance() = StatesFragment()
     }
-
-//    val presenter: StatesPresenter by moxyPresenter {
-//        StatesPresenter().apply {
-//            App.instance.appComponent.inject(this)
-//        }
-//    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?) =
         View.inflate(context, R.layout.fragment_states, null)
@@ -64,7 +56,6 @@ class StatesFragment : Fragment() {
         initAdapter()
 
         //восстанавливаем позицию списка после поворота или возвращения на экран
-        //position = presenter.getPosition()
         position =  stateViewModel.getPositionState()
 
         //приводим меню тулбара в соответствии с onPrepareOptionsMenu в MainActivity
@@ -77,6 +68,7 @@ class StatesFragment : Fragment() {
         super.onResume()
         Log.d(TAG, "StatesFragment onResume ")
         //два раза всё отрабатывает - это плохо
+        //todo
         //presenter.loadData() // обновляем данные при изменении настроек
     }
 

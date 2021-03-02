@@ -5,45 +5,37 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bartex.statesmvvm.App
 import com.bartex.statesmvvm.R
+import com.bartex.statesmvvm.model.constants.Constants
+import com.bartex.statesmvvm.model.entity.state.State
 import com.bartex.statesmvvm.presenter.base.IBaseView
 import com.bartex.statesmvvm.presenter.SearchPresenter
 import com.bartex.statesmvvm.view.adapter.state.StatesRVAdapter
 import com.bartex.statesmvvm.view.adapter.imageloader.GlideToVectorYouLoader
+import com.bartex.statesmvvm.view.adapter.list.ListRVAdapter
 import com.bartex.statesmvvm.view.fragments.BackButtonListener
+import com.bartex.statesmvvm.view.fragments.states.StatesViewModel
 import kotlinx.android.synthetic.main.fragment_search.*
+import kotlinx.android.synthetic.main.fragment_states.*
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
 
-class SearchFragment: MvpAppCompatFragment(),
-    IBaseView,
-    BackButtonListener {
+class SearchFragment: Fragment() {
 
     private var position = 0
-    var adapter: StatesRVAdapter? = null
+    var adapter: ListRVAdapter? = null
+    lateinit var navController: NavController
+    lateinit var searchViewModel: SearchViewModel
 
     companion object {
         const val TAG = "33333"
-        private const val ARG_SEARCH = "search"
-
-        @JvmStatic
-        fun newInstance(search: String) =
-            SearchFragment()
-                .apply {
-                    arguments = Bundle().apply {
-                        putString(ARG_SEARCH, search)
-                    }
-                }
-    }
-
-    val presenter: SearchPresenter by moxyPresenter {
-        val search = arguments?.getString(ARG_SEARCH)
-        Log.d(TAG, "SearchFragment SearchPresenter by moxyPresenter search = $search ")
-        SearchPresenter(search).apply {
-            App.instance.appComponent.inject(this)
-        }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?) =
@@ -52,17 +44,46 @@ class SearchFragment: MvpAppCompatFragment(),
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         Log.d(TAG, "SearchFragment onViewCreated ")
+
+        val search = arguments?.getString(Constants.SEARCH)
+
+        navController = Navigation.findNavController(view)
+        searchViewModel = ViewModelProvider(this).get(SearchViewModel::class.java)
+        searchViewModel.apply {App.instance.appComponent.inject(this)}
+
+        searchViewModel.loadDataSearch(search)
+        searchViewModel.getStatesSearch()
+            .observe(viewLifecycleOwner, Observer {
+            renderDataSearched(it)
+        })
+
+        initAdapter()
+
         //восстанавливаем позицию списка после поворота или возвращения на экран
-        position = presenter.getPositionSearch()
+        position = searchViewModel.getPositionSearch()
+
         //приводим меню тулбара в соответствии с onPrepareOptionsMenu в MainActivity
         setHasOptionsMenu(true)
         requireActivity().invalidateOptionsMenu()
     }
 
+    private fun renderDataSearched(listSearched: List<State>) {
+        if(listSearched.isEmpty()){
+            rv_search.visibility = View.GONE
+            empty_view_Search.visibility = View.VISIBLE
+        }else{
+            rv_search.visibility =  View.VISIBLE
+            empty_view_Search.visibility =View.GONE
+
+            adapter?.listStates = listSearched
+        }
+    }
+
     override fun onResume() {
         super.onResume()
         Log.d(TAG, "SearchFragment onResume ")
-        presenter.loadData() // обновляем данные при изменении настроек
+        //todo
+        //presenter.loadData() // обновляем данные при изменении настроек
     }
 
     //запоминаем  позицию списка, на которой сделан клик - на случай поворота экрана
@@ -71,14 +92,14 @@ class SearchFragment: MvpAppCompatFragment(),
         //определяем первую видимую позицию
         val manager = rv_search.layoutManager as LinearLayoutManager
         val firstPosition = manager.findFirstVisibleItemPosition()
-        presenter.savePositionSearch(firstPosition)
+        searchViewModel.savePositionSearch(firstPosition)
     }
 
-    override fun init() {
-        Log.d(TAG, "SearchFragment init ")
+    fun initAdapter() {
+        Log.d(TAG, "SearchFragment initAdapter ")
         rv_search.layoutManager = LinearLayoutManager(context)
-        adapter = StatesRVAdapter(
-            presenter.listPresenter,
+        adapter = ListRVAdapter(
+            getOnClickListener(),
             GlideToVectorYouLoader(
                 requireActivity()
             )
@@ -87,22 +108,11 @@ class SearchFragment: MvpAppCompatFragment(),
         rv_search.layoutManager?.scrollToPosition(position) //крутим в запомненную позицию списка
     }
 
-    override fun updateList() {
-        Log.d(TAG, "SearchFragment updateList ")
-        if(presenter.listPresenter.states.isEmpty()){
-            rv_search.visibility = View.GONE
-            empty_view_Search.visibility = View.VISIBLE
-            Log.d(TAG, "SearchFragment updateList  list = Empty")
-        }else{
-            rv_search.visibility =  View.VISIBLE
-            empty_view_Search.visibility =View.GONE
-
-            Log.d(TAG, "SearchFragment updateList  list size = " +
-                    "${presenter.listPresenter.states.size}")
-            adapter?.notifyDataSetChanged()
+    private fun getOnClickListener(): ListRVAdapter.OnitemClickListener =
+        object : ListRVAdapter.OnitemClickListener{
+            override fun onItemclick(state: State) {
+                val bundle = Bundle().apply { putParcelable(Constants.STATE, state) }
+                navController.navigate(R.id.action_statesFragment_to_detailsFragment, bundle)
+            }
         }
-    }
-
-    override fun backPressed(): Boolean = presenter.backPressed()
-
 }

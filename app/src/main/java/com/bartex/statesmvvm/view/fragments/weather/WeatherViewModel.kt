@@ -32,17 +32,8 @@ class WeatherViewModel:ViewModel() {
             ?.subscribe(
                 {
                     weatherInCapital.value = WeatherViewState(weather = it)
-//                    state.name?. let{stateName->viewState.setStateName(stateName)}
-//                    it.name?. let{capital->viewState.setCapitalName(capital)}
-//                    it.main?.pressure?. let{pressure-> viewState.setPressure(pressure)}
-//                    it.main?.humidity?. let{humidity-> viewState.setHumidity(humidity)}
-//                    it.weather?.get(0)?.description?. let{description->viewState.setDescription(description)}
-//                    it.main?.temp?. let { temp -> viewState.setTemp(temp)}
-//                    it.weather?.get(0)?.icon?. let{icon->viewState.setIconDrawble(icon)}
-//                    Log.d(WeatherPresenter.TAG, "WeatherPresenter onSuccess ${it.name} ${it.main?.temp}")
                 },
                 {error ->
-//                    viewState.setErrorMessage()
                     weatherInCapital.value = WeatherViewState(error = error)
                     Log.d(TAG, "WeatherViewModel onError ${error.message}")}
             )
