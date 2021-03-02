@@ -15,7 +15,6 @@ import javax.inject.Singleton
 @Component(
     modules = [
         AppModule::class,
-        CiceroneModule::class,
         CacheModule::class,
         ApiModule::class,
         RepoModule::class,
@@ -27,7 +26,6 @@ import javax.inject.Singleton
 
 interface AppComponent {
 
-    fun inject(mainActivity: MainActivity)
     fun inject(favoriteViewModel: FavoriteViewModel)
     fun inject(statesViewModel: StatesViewModel)
     fun inject(detailsViewModel: DetailsViewModel)

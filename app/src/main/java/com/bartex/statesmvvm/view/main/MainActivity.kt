@@ -14,22 +14,12 @@ import androidx.appcompat.widget.SearchView
 import androidx.core.view.GravityCompat
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
-import com.bartex.statesmvvm.App
 import com.bartex.statesmvvm.R
 import com.bartex.statesmvvm.model.constants.Constants
-import com.bartex.statesmvvm.view.fragments.details.DetailsFragment
-import com.bartex.statesmvvm.view.fragments.favorite.FavoriteFragment
-import com.bartex.statesmvvm.view.fragments.help.HelpFragment
-import com.bartex.statesmvvm.view.fragments.search.SearchFragment
-import com.bartex.statesmvvm.view.fragments.states.StatesFragment
-import com.bartex.statesmvvm.view.fragments.weather.WeatherFragment
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
-import ru.terrakok.cicerone.NavigatorHolder
-import ru.terrakok.cicerone.android.support.SupportAppNavigator
-import javax.inject.Inject
 
 
 class    MainActivity: AppCompatActivity(),
@@ -41,18 +31,6 @@ class    MainActivity: AppCompatActivity(),
 
     companion object{
         const val TAG = "33333"
-    }
-
-    @Inject
-    lateinit var navigatorHolder: NavigatorHolder
-
-    private val navigator = SupportAppNavigator(this, supportFragmentManager,
-        R.id.container
-    )
-
-    override fun onResumeFragments() {
-        super.onResumeFragments()
-        navigatorHolder.setNavigator(navigator)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -91,7 +69,6 @@ class    MainActivity: AppCompatActivity(),
         }
 
         nav_view.setNavigationItemSelectedListener(this) //слушатель меню шторки
-        App.instance.appComponent.inject(this)
     }
 
     override fun onResume() {
@@ -180,11 +157,11 @@ class    MainActivity: AppCompatActivity(),
         return super.onOptionsItemSelected(item)
     }
 
-    override fun onPause() {
-        super.onPause()
-        Log.d(TAG, "MainActivity onPause ")
-        navigatorHolder.removeNavigator()
-    }
+//    override fun onPause() {
+//        super.onPause()
+//        Log.d(TAG, "MainActivity onPause ")
+//        navigatorHolder.removeNavigator()
+//    }
 
     override fun onQueryTextSubmit(query: String?): Boolean {
         Log.d(TAG, "MainActivity onQueryTextSubmit query = $query ")
