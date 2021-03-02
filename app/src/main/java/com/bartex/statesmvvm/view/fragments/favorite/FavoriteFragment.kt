@@ -29,16 +29,7 @@ class FavoriteFragment: Fragment() {
 
     companion object {
         const val TAG = "33333"
-//
-//        fun newInstance() = FavoriteFragment()
     }
-
-    //todo сохр позицию, строки в норм виде
-//    val presenter: FavoritePresenter by moxyPresenter {
-//        FavoritePresenter().apply {
-//            App.instance.appComponent.inject(this)
-//        }
-//    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?) =
         View.inflate(context, R.layout.fragment_favorite, null)
@@ -69,7 +60,6 @@ class FavoriteFragment: Fragment() {
 
         //восстанавливаем позицию списка после поворота или возвращения на экран
         position =  favoriteViewModel.getPositionFavorite()
-        //position = presenter.getPosition()
 
         //приводим меню тулбара в соответствии с onPrepareOptionsMenu в MainActivity
         setHasOptionsMenu(true)
@@ -80,6 +70,7 @@ class FavoriteFragment: Fragment() {
         rv_favorite.layoutManager = LinearLayoutManager(requireActivity())
 
         adapter = FavoriteRVAdapter(
+            favoriteViewModel,
             getOnClickListener(),
             GlideToVectorYouLoader(
                 requireActivity()
@@ -98,30 +89,17 @@ class FavoriteFragment: Fragment() {
             rv_favorite.visibility =  View.VISIBLE
             empty_view_favorite.visibility =View.GONE
 
-            val favStr = favorites.map {
-                Favorite(name = it.name, area = favoriteViewModel.getArea(it),
-                population = favoriteViewModel.getPopulation(it), flag = it.flag)
-            }
-
-            adapter?.listFavoriteStates = favStr
+            adapter?.listFavoriteStates = favorites
         }
     }
 
     private fun getOnClickListener(): FavoriteRVAdapter.OnitemClickListener =
             object : FavoriteRVAdapter.OnitemClickListener{
-                override fun onItemclick(favorite: Favorite) {
-                    val bundle = Bundle().apply { putParcelable(Constants.FAVORITE, favorite) }
+                override fun onItemclick(state: State) {
+                    val bundle = Bundle().apply { putParcelable(Constants.STATE, state) }
                     navController.navigate(R.id.action_favoriteFragment_to_detailsFragment, bundle)
                 }
             }
-
-
-    override fun onResume() {
-        super.onResume()
-        Log.d(TAG, "FavoriteFragment onResume ")
-        //todo
-        //presenter.loadFavorite() // обновляем данные при изменении настроек
-    }
 
     //запоминаем  позицию списка, на которой сделан клик - на случай поворота экрана
     override fun onPause() {
@@ -131,9 +109,6 @@ class FavoriteFragment: Fragment() {
         val manager = rv_favorite.layoutManager as LinearLayoutManager
         val firstPosition = manager.findFirstVisibleItemPosition()
         favoriteViewModel.savePositionFavorite(firstPosition)
-        //presenter.savePosition(firstPosition)
     }
-    //todo
-    //override fun backPressed(): Boolean = presenter.backPressed()
 
 }

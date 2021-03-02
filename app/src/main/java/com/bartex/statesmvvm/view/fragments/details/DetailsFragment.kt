@@ -125,6 +125,8 @@ class DetailsFragment : Fragment() {
                 true
             }
             R.id.geo -> {
+                //c GoogleNavigation карта не включается в стэк вызовов и поэтому если вызвать карту
+                //а потом погоду и нажать кнопку назад, карта не выховется  - это хорошо
                 Log.d(TAG, "DetailsFragment BottomNavigationView page_2")
                 state?. let {sendGeoIntent(detailsViewModel.getStateZoom(it))}
                 true
@@ -132,7 +134,6 @@ class DetailsFragment : Fragment() {
             R.id.weather -> {
                 Log.d(TAG, "DetailsFragment BottomNavigationView page_3")
                 state?. let {
-                    //presenter.showWeather(it)
                     val bundle = Bundle().apply { putParcelable(Constants.DETAILS, state)}
                     navController.navigate(R.id.action_detailsFragment_to_weatherFragment, bundle)
                 }

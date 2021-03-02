@@ -9,18 +9,19 @@ import com.bartex.statesmvvm.R
 import com.bartex.statesmvvm.model.entity.favorite.Favorite
 import com.bartex.statesmvvm.model.entity.state.State
 import com.bartex.statesmvvm.view.adapter.imageloader.IImageLoader
+import com.bartex.statesmvvm.view.fragments.favorite.FavoriteViewModel
 import kotlinx.android.synthetic.main.item_state_favorite.view.*
 
-class FavoriteRVAdapter(private val onitemClickListener: OnitemClickListener, val imageLoader: IImageLoader<ImageView>)
+class FavoriteRVAdapter(private val favoriteViewModel: FavoriteViewModel, private val onitemClickListener: OnitemClickListener, val imageLoader: IImageLoader<ImageView>)
     : RecyclerView.Adapter<FavoriteRVAdapter.ViewHolder> (){
 
     interface OnitemClickListener{
-        fun onItemclick(state: Favorite)
+        fun onItemclick(state: State)
     }
 
     //так сделано чтобы передавать список в адаптер без конструктора
     // - через присвоение полю значения
-    var listFavoriteStates: List<Favorite> = listOf()
+    var listFavoriteStates: List<State> = listOf()
     set(value){
         field = value
         notifyDataSetChanged()
@@ -42,14 +43,14 @@ class FavoriteRVAdapter(private val onitemClickListener: OnitemClickListener, va
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        fun bind(favoriteState: Favorite){
-            itemView.tv_name_favorite.text = favoriteState.name
-            itemView.tv_area_favorite.text = favoriteState.area.toString()
-            itemView.tv_population_favorite.text = favoriteState.population.toString()
-            favoriteState.flag?.let { imageLoader.loadInto(it, itemView.iv_flag_favorite) }
+        fun bind(state: State){
+            itemView.tv_name_favorite.text = state.name
+            itemView.tv_area_favorite.text = favoriteViewModel.getArea(state)
+            itemView.tv_population_favorite.text = favoriteViewModel.getPopulation(state)
+            state.flag?.let { imageLoader.loadInto(it, itemView.iv_flag_favorite) }
 
             itemView.setOnClickListener {
-                onitemClickListener.onItemclick(favoriteState)
+                onitemClickListener.onItemclick(state)
             }
         }
     }

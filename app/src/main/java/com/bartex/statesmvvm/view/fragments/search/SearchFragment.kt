@@ -71,13 +71,6 @@ class SearchFragment: Fragment() {
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        Log.d(TAG, "SearchFragment onResume ")
-        //todo
-        //presenter.loadData() // обновляем данные при изменении настроек
-    }
-
     //запоминаем  позицию списка, на которой сделан клик - на случай поворота экрана
     override fun onPause() {
         super.onPause()
@@ -104,7 +97,7 @@ class SearchFragment: Fragment() {
         object : StateRVAdapter.OnitemClickListener{
             override fun onItemclick(state: State) {
                 val bundle = Bundle().apply { putParcelable(Constants.STATE, state) }
-                navController.navigate(R.id.action_statesFragment_to_detailsFragment, bundle)
+                navController.navigate(R.id.action_searchFragment_to_detailsFragment, bundle)
             }
         }
 }

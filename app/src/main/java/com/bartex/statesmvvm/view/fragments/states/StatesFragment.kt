@@ -32,7 +32,7 @@ class StatesFragment : Fragment() {
         const val TAG = "33333"
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?) =
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View =
         View.inflate(context, R.layout.fragment_states, null)
 
 
@@ -61,14 +61,6 @@ class StatesFragment : Fragment() {
         //без этой строки меню в тулбаре ведёт себя неправильно
         setHasOptionsMenu(true)
         requireActivity().invalidateOptionsMenu()
-    }
-
-    override fun onResume() {
-        super.onResume()
-        Log.d(TAG, "StatesFragment onResume ")
-        //два раза всё отрабатывает - это плохо
-        //todo
-        //presenter.loadData() // обновляем данные при изменении настроек
     }
 
     //запоминаем  позицию списка, на которой сделан клик - на случай поворота экрана
