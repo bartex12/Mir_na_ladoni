@@ -5,28 +5,29 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bartex.statesmvvm.App
 import com.bartex.statesmvvm.R
-import com.bartex.statesmvvm.presenter.base.IBaseView
-import com.bartex.statesmvvm.presenter.StatesPresenter
-import com.bartex.statesmvvm.view.adapter.state.StatesRVAdapter
+import com.bartex.statesmvvm.model.constants.Constants
+import com.bartex.statesmvvm.model.entity.state.State
+import com.bartex.statesmvvm.view.adapter.favorite.FavoriteRVAdapter
 import com.bartex.statesmvvm.view.adapter.imageloader.GlideToVectorYouLoader
-import com.bartex.statesmvvm.view.fragments.BackButtonListener
+import com.bartex.statesmvvm.view.adapter.list.ListRVAdapter
+import com.bartex.statesmvvm.view.fragments.favorite.FavoriteFragment
 import kotlinx.android.synthetic.main.fragment_states.*
-import moxy.MvpAppCompatFragment
-import moxy.ktx.moxyPresenter
 
 
-class StatesFragment : MvpAppCompatFragment(),
-    IBaseView,
-    BackButtonListener {
+class StatesFragment : Fragment() {
 
     private var position = 0
-    var adapter: StatesRVAdapter? = null
+    var adapter: ListRVAdapter? = null
     lateinit var navController:NavController
+    lateinit var stateViewModel: StatesViewModel
 
     companion object {
         const val TAG = "33333"
@@ -34,11 +35,11 @@ class StatesFragment : MvpAppCompatFragment(),
         fun newInstance() = StatesFragment()
     }
 
-    val presenter: StatesPresenter by moxyPresenter {
-        StatesPresenter().apply {
-            App.instance.appComponent.inject(this)
-        }
-    }
+//    val presenter: StatesPresenter by moxyPresenter {
+//        StatesPresenter().apply {
+//            App.instance.appComponent.inject(this)
+//        }
+//    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?) =
         View.inflate(context, R.layout.fragment_states, null)
@@ -50,8 +51,21 @@ class StatesFragment : MvpAppCompatFragment(),
 
         navController = Navigation.findNavController(view)
 
+        stateViewModel = ViewModelProvider(this).get(StatesViewModel::class.java)
+        stateViewModel.apply { App.instance.appComponent.inject(this)}
+
+        stateViewModel.loadData()
+
+        stateViewModel.getStates()
+            .observe(viewLifecycleOwner, Observer<List<State>> {
+            renderData(it)
+            })
+
+        initAdapter()
+
         //восстанавливаем позицию списка после поворота или возвращения на экран
-        position = presenter.getPosition()
+        //position = presenter.getPosition()
+        position =  stateViewModel.getPositionState()
 
         //приводим меню тулбара в соответствии с onPrepareOptionsMenu в MainActivity
         //без этой строки меню в тулбаре ведёт себя неправильно
@@ -63,7 +77,7 @@ class StatesFragment : MvpAppCompatFragment(),
         super.onResume()
         Log.d(TAG, "StatesFragment onResume ")
         //два раза всё отрабатывает - это плохо
-        presenter.loadData() // обновляем данные при изменении настроек
+        //presenter.loadData() // обновляем данные при изменении настроек
     }
 
     //запоминаем  позицию списка, на которой сделан клик - на случай поворота экрана
@@ -73,34 +87,41 @@ class StatesFragment : MvpAppCompatFragment(),
         //определяем первую видимую позицию
         val manager = rv_states.layoutManager as LinearLayoutManager
         val firstPosition = manager.findFirstVisibleItemPosition()
-        presenter.savePosition(firstPosition)
+        stateViewModel.savePositionState(firstPosition)
     }
 
-    override fun init() {
-        rv_states.layoutManager = LinearLayoutManager(context)
-        adapter = StatesRVAdapter(
-            presenter.listPresenter,
+    private fun initAdapter() {
+        rv_states.layoutManager = LinearLayoutManager(requireActivity())
+
+        adapter = ListRVAdapter(
+            getOnClickListener(),
             GlideToVectorYouLoader(
                 requireActivity()
             )
         )
         rv_states.adapter = adapter
         rv_states.layoutManager?.scrollToPosition(position) //крутим в запомненную позицию списка
+        Log.d(FavoriteFragment.TAG, "FavoriteFragment init scrollToPosition = $position")
     }
 
-    override fun updateList() {
-        if(presenter.listPresenter.states.isEmpty()){
+    private fun renderData(states: List<State>) {
+        if(states.isEmpty()){
             rv_states.visibility = View.GONE
             empty_view.visibility = View.VISIBLE
         }else{
             rv_states.visibility =  View.VISIBLE
             empty_view.visibility =View.GONE
 
-            adapter?.notifyDataSetChanged()
+            adapter?.listStates = states
         }
     }
 
-    override fun backPressed() = presenter.backPressed()
-
+    private fun getOnClickListener(): ListRVAdapter.OnitemClickListener =
+        object : ListRVAdapter.OnitemClickListener{
+            override fun onItemclick(state: State) {
+                val bundle = Bundle().apply { putParcelable(Constants.STATE, state) }
+                navController.navigate(R.id.action_statesFragment_to_detailsFragment, bundle)
+            }
+        }
 }
 

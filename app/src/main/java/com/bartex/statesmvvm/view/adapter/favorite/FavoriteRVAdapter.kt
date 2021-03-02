@@ -6,22 +6,21 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.bartex.statesmvvm.R
+import com.bartex.statesmvvm.model.entity.favorite.Favorite
 import com.bartex.statesmvvm.model.entity.state.State
-import com.bartex.statesmvvm.presenter.list.IFavoriteListPresenter
 import com.bartex.statesmvvm.view.adapter.imageloader.IImageLoader
-import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.item_state_favorite.view.*
 
 class FavoriteRVAdapter(private val onitemClickListener: OnitemClickListener, val imageLoader: IImageLoader<ImageView>)
     : RecyclerView.Adapter<FavoriteRVAdapter.ViewHolder> (){
 
     interface OnitemClickListener{
-        fun onItemclick(state: State)
+        fun onItemclick(state: Favorite)
     }
 
     //так сделано чтобы передавать список в адаптер без конструктора
     // - через присвоение полю значения
-    var favoriteStates: List<State> = listOf()
+    var listFavoriteStates: List<Favorite> = listOf()
     set(value){
         field = value
         notifyDataSetChanged()
@@ -33,17 +32,17 @@ class FavoriteRVAdapter(private val onitemClickListener: OnitemClickListener, va
         return ViewHolder(view)
     }
 
-    override fun getItemCount(): Int = favoriteStates.size
+    override fun getItemCount(): Int = listFavoriteStates.size
 
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
-        holder.bind(favoriteStates[position])
+        holder.bind(listFavoriteStates[position])
     }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        fun bind(favoriteState: State){
+        fun bind(favoriteState: Favorite){
             itemView.tv_name_favorite.text = favoriteState.name
             itemView.tv_area_favorite.text = favoriteState.area.toString()
             itemView.tv_population_favorite.text = favoriteState.population.toString()
@@ -53,24 +52,5 @@ class FavoriteRVAdapter(private val onitemClickListener: OnitemClickListener, va
                 onitemClickListener.onItemclick(favoriteState)
             }
         }
-
-//        override var pos = -1
-
-//        override fun setName(name: String) {
-//            containerView.tv_name_favorite.text = name
-//        }
-
-//        override fun loadFlag(url: String) {
-//            imageLoader.loadInto(url, containerView.iv_flag_favorite)
-        }
-
-//        override fun setArea(area: String) {
-//            containerView.tv_area_favorite.text = area
-//        }
-
-//        override fun setPopulation(population: String) {
-//            containerView.tv_population_favorite.text = population
-//        }
-//    }
-
+    }
 }

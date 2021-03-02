@@ -2,46 +2,40 @@ package com.bartex.statesmvvm.view.fragments.weather
 
 import android.graphics.drawable.Drawable
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
 import com.bartex.statesmvvm.App
 import com.bartex.statesmvvm.R
+import com.bartex.statesmvvm.model.constants.Constants
 import com.bartex.statesmvvm.model.entity.state.State
-import com.bartex.statesmvvm.presenter.WeatherPresenter
-import com.bartex.statesmvvm.view.fragments.BackButtonListener
+import com.bartex.statesmvvm.model.entity.weather.WeatherInCapital
 import kotlinx.android.synthetic.main.fragment_weather.*
-import moxy.MvpAppCompatFragment
-import moxy.ktx.moxyPresenter
 
-class WeatherFragment : MvpAppCompatFragment(),
-    IWeatherView,
-    BackButtonListener {
+class WeatherFragment : Fragment()  {
 
     private var state: State? = null
+    lateinit var navController:NavController
+    lateinit var weatherViewModel:WeatherViewModel
 
     companion object {
         const val TAG = "33333"
         private const val ARG_STATE = "state"
 
-        @JvmStatic
-        fun newInstance(state: State) =
-            WeatherFragment()
-                .apply {
-                    arguments = Bundle().apply {
-                        putParcelable(ARG_STATE, state)
-                    }
-                }
-    }
-
-    val presenter: WeatherPresenter by moxyPresenter {
-        arguments?.let {state = it.getParcelable<State>(ARG_STATE)}
-        Log.d(TAG, "WeatherFragment  capital = ${state?.capital}")
-        WeatherPresenter(state).apply {
-            App.instance.appComponent.inject(this)
-        }
+//        @JvmStatic
+//        fun newInstance(state: State) =
+//            WeatherFragment()
+//                .apply {
+//                    arguments = Bundle().apply {
+//                        putParcelable(ARG_STATE, state)
+//                    }
+//                }
     }
 
     override fun onCreateView(
@@ -54,47 +48,39 @@ class WeatherFragment : MvpAppCompatFragment(),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        arguments?.let {state = it.getParcelable<State>(Constants.DETAILS)}
+
+        navController = Navigation.findNavController(view)
+        weatherViewModel = ViewModelProvider(this).get(WeatherViewModel::class.java)
+        weatherViewModel.apply { App.instance.appComponent.inject(this) }
+
+        weatherViewModel.loadWeather(state)
+        weatherViewModel.getWeather().observe(viewLifecycleOwner, Observer {
+            if (it ==null) return@Observer
+            if (it.error!=null)renderError(it.error)
+            if (it.weather != null)renderWeather(it.weather)
+        })
+
         //приводим меню тулбара в соответствии с onPrepareOptionsMenu в MainActivity
         setHasOptionsMenu(true)
         requireActivity().invalidateOptionsMenu()
     }
 
-    override fun setStateName(state: String) {
-        tv_state_name.text = state
-    }
-
-    override fun setCapitalName(head: String) {
-        tv_capital_name.text = head
-    }
-
-    override fun setTemp(temp: Float) {
-        tv_capital_temp.text = String.format("%.0f \u2103", temp)
-    }
-
-    override fun setPressure(pressure: Int) {
-        tv_capital_pressure.text = String.format("атм. давление %d мбар", pressure)
-    }
-
-    override fun setHumidity(humidity: Int) {
-        tv_capital_humidity.text = String.format("отн.влажность %d проц.", humidity)
-    }
-
-    override fun setDescription(description: String) {
-        tv_capital_description.text = description
-    }
-
-    override fun setIconDrawble(icon: String) {
-        iv_icon.setImageDrawable(getIconFromIconCod(icon))
-    }
-
-    override fun setErrorMessage() {
-        tv_capital_description.text = getString(R.string.ErrorCity)
+    private fun renderError(error: Throwable) {
+        tv_capital_description.text = error.message
         iv_icon.setImageDrawable( ContextCompat.getDrawable(requireContext(),R.drawable.whatcanido))
     }
 
-    override fun backPressed(): Boolean {
-        presenter.backPressed()
-        return true
+    private fun renderWeather(weather: WeatherInCapital?) {
+        state?.name?. let{ tv_state_name.text = it}
+        tv_capital_name.text = weather?.name
+        tv_capital_pressure.text = String.format("атм. давление %d мбар", weather?.main?.pressure)
+        tv_capital_humidity.text = String.format("отн.влажность %d проц.", weather?.main?.humidity)
+        tv_capital_description.text = weather?.weather?.get(0)?.description
+        tv_capital_temp.text = String.format("%.0f \u2103", weather?.main?.temp)
+        weather?.weather?.get(0)?.icon?. let{ iv_icon.setImageDrawable(getIconFromIconCod(it))}
+
     }
 
     //Drawable это import android.graphics.drawable.Drawable - не буду тащить его в презентер

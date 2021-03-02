@@ -20,25 +20,25 @@ class Screens {
         override fun getFragment() = DetailsFragment.newInstance(state)
     }
 
-    class WeatherScreen(val state: State) : SupportAppScreen() {
-        override fun getFragment() = WeatherFragment.newInstance(state)
-    }
+//    class WeatherScreen(val state: State) : SupportAppScreen() {
+//        override fun getFragment() = WeatherFragment.newInstance(state)
+//    }
 
-    class SearchScreen(val search: String) : SupportAppScreen() {
-        override fun getFragment() = SearchFragment.newInstance(search)
-    }
+//    class SearchScreen(val search: String) : SupportAppScreen() {
+//        override fun getFragment() = SearchFragment.newInstance(search)
+//    }
+//
+//    class HelpScreen : SupportAppScreen() {
+//        override fun getFragment() = HelpFragment.newInstance()
+//    }
+//
+//    class SettingsScreen : SupportAppScreen() {
+//        override fun getActivityIntent(context: Context?): Intent =
+//            Intent(context, SettingsActivity::class.java)
+//    }
 
-    class HelpScreen : SupportAppScreen() {
-        override fun getFragment() = HelpFragment.newInstance()
-    }
-
-    class SettingsScreen : SupportAppScreen() {
-        override fun getActivityIntent(context: Context?): Intent =
-            Intent(context, SettingsActivity::class.java)
-    }
-
-    class FavoriteScreen : SupportAppScreen() {
-        override fun getFragment() = FavoriteFragment.newInstance()
-    }
+//    class FavoriteScreen : SupportAppScreen() {
+//        override fun getFragment() = FavoriteFragment.newInstance()
+//    }
 
 }

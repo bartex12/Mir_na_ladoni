@@ -19,6 +19,7 @@ import javax.inject.Inject
 // Router для навигации
 abstract class BasePresenter: MvpPresenter<IBaseView>() {
 
+
     @Inject
     lateinit var helper : IPreferenceHelper
 
@@ -77,7 +78,7 @@ abstract class BasePresenter: MvpPresenter<IBaseView>() {
         val isSorted = helper.isSorted()
         val getSortCase = helper.getSortCase()
         var f_st:List<State>?= null
-        Log.d(StatesPresenter.TAG, "BasePresenter  loadData isSorted = $isSorted getSortCase = $getSortCase")
+        Log.d(TAG, "BasePresenter  loadData isSorted = $isSorted getSortCase = $getSortCase")
         getListData()
             .observeOn(Schedulers.computation())
             .flatMap {st->
@@ -96,11 +97,11 @@ abstract class BasePresenter: MvpPresenter<IBaseView>() {
             .observeOn(mainThreadScheduler)
             .subscribe ({states->
                 states?. let{
-                Log.d(StatesPresenter.TAG, "BasePresenter  loadData states.size = ${it.size}")}
+                Log.d(TAG, "BasePresenter  loadData states.size = ${it.size}")}
                 listPresenter.states.clear()
                 states?. let{listPresenter.states.addAll(it)}
                 viewState.updateList()
-            }, {error -> Log.d(StatesPresenter.TAG, "BasePresenter onError ${error.message}")
+            }, {error -> Log.d(TAG, "BasePresenter onError ${error.message}")
             })
     }
 

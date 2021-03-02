@@ -13,6 +13,8 @@ import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bartex.statesmvvm.App
 import com.bartex.statesmvvm.R
+import com.bartex.statesmvvm.model.constants.Constants
+import com.bartex.statesmvvm.model.entity.favorite.Favorite
 import com.bartex.statesmvvm.model.entity.state.State
 import com.bartex.statesmvvm.view.adapter.favorite.FavoriteRVAdapter
 import com.bartex.statesmvvm.view.adapter.imageloader.GlideToVectorYouLoader
@@ -27,8 +29,8 @@ class FavoriteFragment: Fragment() {
 
     companion object {
         const val TAG = "33333"
-
-        fun newInstance() = FavoriteFragment()
+//
+//        fun newInstance() = FavoriteFragment()
     }
 
     //todo сохр позицию, строки в норм виде
@@ -66,8 +68,9 @@ class FavoriteFragment: Fragment() {
         initAdapter()
 
         //восстанавливаем позицию списка после поворота или возвращения на экран
-        //todo
+        position =  favoriteViewModel.getPositionFavorite()
         //position = presenter.getPosition()
+
         //приводим меню тулбара в соответствии с onPrepareOptionsMenu в MainActivity
         setHasOptionsMenu(true)
         requireActivity().invalidateOptionsMenu()
@@ -95,16 +98,22 @@ class FavoriteFragment: Fragment() {
             rv_favorite.visibility =  View.VISIBLE
             empty_view_favorite.visibility =View.GONE
 
-            adapter?.favoriteStates = favorites
+            val favStr = favorites.map {
+                Favorite(name = it.name, area = favoriteViewModel.getArea(it),
+                population = favoriteViewModel.getPopulation(it), flag = it.flag)
+            }
+
+            adapter?.listFavoriteStates = favStr
         }
     }
 
     private fun getOnClickListener(): FavoriteRVAdapter.OnitemClickListener =
-        object : FavoriteRVAdapter.OnitemClickListener{
-            override fun onItemclick(state: State) {
-                navController.navigate(R.id.action_favoriteFragment_to_detailsFragment)
+            object : FavoriteRVAdapter.OnitemClickListener{
+                override fun onItemclick(favorite: Favorite) {
+                    val bundle = Bundle().apply { putParcelable(Constants.FAVORITE, favorite) }
+                    navController.navigate(R.id.action_favoriteFragment_to_detailsFragment, bundle)
+                }
             }
-        }
 
 
     override fun onResume() {
@@ -121,36 +130,9 @@ class FavoriteFragment: Fragment() {
         //определяем первую видимую позицию
         val manager = rv_favorite.layoutManager as LinearLayoutManager
         val firstPosition = manager.findFirstVisibleItemPosition()
-        //todo
+        favoriteViewModel.savePositionFavorite(firstPosition)
         //presenter.savePosition(firstPosition)
     }
-
-//    override fun init() {
-//        rv_favorite.layoutManager = LinearLayoutManager(context)
-//
-//        adapter = FavoriteRVAdapter(
-//            presenter.favoritePresenter,
-//            GlideToVectorYouLoader(
-//                requireActivity()
-//            )
-//        )
-//        rv_favorite.adapter = adapter
-//        rv_favorite.layoutManager?.scrollToPosition(position) //крутим в запомненную позицию списка
-//        Log.d(TAG, "FavoriteFragment init scrollToPosition = $position")
-//    }
-
-//    override fun updateList() {
-//        if(presenter.favoritePresenter.states.isEmpty()){
-//            rv_favorite.visibility = View.GONE
-//            empty_view_favorite.visibility = View.VISIBLE
-//        }else{
-//            rv_favorite.visibility =  View.VISIBLE
-//            empty_view_favorite.visibility =View.GONE
-//
-//            adapter?.notifyDataSetChanged()
-//        }
-//    }
-
     //todo
     //override fun backPressed(): Boolean = presenter.backPressed()
 
