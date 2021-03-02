@@ -3,8 +3,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="#80cff2da"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".view.fragments.weather.WeatherFragment">
 
     <TextView
         android:id="@+id/tv_capital_name"
@@ -28,7 +30,8 @@
         android:id="@+id/iv_icon"
         android:layout_width="120dp"
         android:layout_height="120dp"
-        android:layout_gravity="center_horizontal"/>
+        android:layout_gravity="center_horizontal"
+        tools:src="@tools:sample/avatars"/>
 
     <TextView
         android:id="@+id/tv_capital_description"
