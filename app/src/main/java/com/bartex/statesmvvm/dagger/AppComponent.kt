@@ -1,12 +1,11 @@
 package com.bartex.statesmvvm.dagger
 
-import com.bartex.statesmvvm.presenter.*
 import com.bartex.statesmvvm.view.fragments.details.DetailsViewModel
 import com.bartex.statesmvvm.view.fragments.favorite.FavoriteViewModel
+import com.bartex.statesmvvm.view.fragments.help.HelpViewModel
 import com.bartex.statesmvvm.view.fragments.search.SearchViewModel
 import com.bartex.statesmvvm.view.fragments.states.StatesViewModel
 import com.bartex.statesmvvm.view.fragments.weather.WeatherViewModel
-import com.bartex.statesmvvm.view.fragments.weather.WeatherViewState
 import com.bartex.statesmvvm.view.main.MainActivity
 import dagger.Component
 import javax.inject.Singleton
@@ -29,15 +28,10 @@ import javax.inject.Singleton
 interface AppComponent {
 
     fun inject(mainActivity: MainActivity)
-
-    fun inject(mainPresenter: MainPresenter)
-    fun inject(statesPresenter: StatesPresenter)
-    fun inject(detailsPresenter: DetailsPresenter)
-    fun inject(searchPresenter: SearchPresenter)
-    fun inject(helpPresenter: HelpPresenter)
     fun inject(favoriteViewModel: FavoriteViewModel)
     fun inject(statesViewModel: StatesViewModel)
     fun inject(detailsViewModel: DetailsViewModel)
     fun inject(weatherViewModel: WeatherViewModel)
     fun inject(searchViewModel: SearchViewModel)
+    fun inject(helpViewModel: HelpViewModel)
 }

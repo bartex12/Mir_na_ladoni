@@ -7,7 +7,6 @@ import androidx.lifecycle.ViewModel
 import com.bartex.statesmvvm.model.entity.state.State
 import com.bartex.statesmvvm.model.repositories.states.cash.IRoomStateCash
 import com.bartex.statesmvvm.model.utils.IStateUtils
-import com.bartex.statesmvvm.presenter.DetailsPresenter
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.schedulers.Schedulers
 import javax.inject.Inject

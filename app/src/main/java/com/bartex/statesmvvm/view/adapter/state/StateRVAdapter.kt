@@ -1,4 +1,4 @@
-package com.bartex.statesmvvm.view.adapter.list
+package com.bartex.statesmvvm.view.adapter.state
 
 import android.view.LayoutInflater
 import android.view.View
@@ -7,12 +7,11 @@ import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.bartex.statesmvvm.R
 import com.bartex.statesmvvm.model.entity.state.State
-import com.bartex.statesmvvm.view.adapter.favorite.FavoriteRVAdapter
 import com.bartex.statesmvvm.view.adapter.imageloader.IImageLoader
 import kotlinx.android.synthetic.main.item_state.view.*
 
-class ListRVAdapter(private val onitemClickListener: OnitemClickListener, val imageLoader: IImageLoader<ImageView>)
-    : RecyclerView.Adapter<ListRVAdapter.ViewHolder> () {
+class StateRVAdapter(private val onitemClickListener: OnitemClickListener, val imageLoader: IImageLoader<ImageView>)
+    : RecyclerView.Adapter<StateRVAdapter.ViewHolder> () {
 
     interface OnitemClickListener{
         fun onItemclick(state: State)

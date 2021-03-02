@@ -5,11 +5,11 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.provider.SyncStateContract
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.GravityCompat
 import androidx.navigation.NavController
@@ -17,8 +17,6 @@ import androidx.navigation.Navigation
 import com.bartex.statesmvvm.App
 import com.bartex.statesmvvm.R
 import com.bartex.statesmvvm.model.constants.Constants
-import com.bartex.statesmvvm.presenter.MainPresenter
-import com.bartex.statesmvvm.view.fragments.BackButtonListener
 import com.bartex.statesmvvm.view.fragments.details.DetailsFragment
 import com.bartex.statesmvvm.view.fragments.favorite.FavoriteFragment
 import com.bartex.statesmvvm.view.fragments.help.HelpFragment
@@ -29,15 +27,13 @@ import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
-import moxy.MvpAppCompatActivity
-import moxy.ktx.moxyPresenter
 import ru.terrakok.cicerone.NavigatorHolder
 import ru.terrakok.cicerone.android.support.SupportAppNavigator
 import javax.inject.Inject
 
 
-class    MainActivity: MvpAppCompatActivity(),
-    MainView, SearchView.OnQueryTextListener, NavigationView.OnNavigationItemSelectedListener {
+class    MainActivity: AppCompatActivity(),
+     SearchView.OnQueryTextListener, NavigationView.OnNavigationItemSelectedListener {
 
     private var doubleBackToExitPressedOnce = false
     private var toggle:ActionBarDrawerToggle? = null
@@ -53,10 +49,6 @@ class    MainActivity: MvpAppCompatActivity(),
     private val navigator = SupportAppNavigator(this, supportFragmentManager,
         R.id.container
     )
-
-//    val presenter: MainPresenter by moxyPresenter {
-//        MainPresenter().apply {  App.instance.appComponent.inject(this) }
-//    }
 
     override fun onResumeFragments() {
         super.onResumeFragments()
@@ -117,47 +109,69 @@ class    MainActivity: MvpAppCompatActivity(),
     }
 
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
-        supportFragmentManager.findFragmentById(R.id.container)?. let{
-            menu?.findItem(R.id.search)?.isVisible = it is StatesFragment
-            menu?.findItem(R.id.favorites)?.isVisible = it !is FavoriteFragment && it !is WeatherFragment
-        }
+        //нашел способ установить видимость иконок в тулбаре без перебора всех вариантов
+        val id = navController.currentDestination?.id
 
-        toolbar.title = when(supportFragmentManager.findFragmentById(R.id.container)){
-            is StatesFragment -> getString(R.string.app_name)
-            is SearchFragment -> getString(R.string.search_name)
-            is WeatherFragment -> getString(R.string.weather_name)
-            is DetailsFragment -> getString(R.string.details_name)
-            is FavoriteFragment -> getString(R.string.favorite_name)
-            is HelpFragment -> getString(R.string.help_name)
-            else -> getString(R.string.app_name)
+        //видимость иконок в тулбаре
+        id?. let {
+            menu?.findItem(R.id.search)?.isVisible = it == R.id.statesFragment
+            menu?.findItem(R.id.navigation_help)?.isVisible = it!= R.id.helpFragment
+            menu?.findItem(R.id.navigation_settings)?.isVisible = it!= R.id.prefFragment
+            menu?.findItem(R.id.favorites)?.isVisible =
+                it!= R.id.favoriteFragment && it!= R.id.weatherFragment
+                        && it!= R.id.prefFragment && it!= R.id.helpFragment
+
+            //заголовки тулбара в зависимости от фрагмента
+            toolbar.title = when(it){
+                R.id.statesFragment -> getString(R.string.app_name)
+                R.id.searchFragment -> getString(R.string.search_name)
+                R.id.weatherFragment -> getString(R.string.weather_name)
+                R.id.detailsFragment -> getString(R.string.details_name)
+                R.id.favoriteFragment -> getString(R.string.favorite_name)
+                R.id.helpFragment -> getString(R.string.help_name)
+                R.id.prefFragment -> getString(R.string.pref_name)
+                else -> getString(R.string.app_name)
+            }
         }
         return super.onPrepareOptionsMenu(menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val id = item.itemId
-        val destination = navController.currentDestination?.id
+        val destinationId = navController.currentDestination?.id
         when (id){
             R.id.favorites ->{
-                destination?. let{
+                destinationId?. let{
                     when(it){
-                        R.id.statesFragment ->navController.navigate(R.id.action_statesFragment_to_favoriteFragment)
+                        R.id.statesFragment -> navController.navigate(R.id.action_statesFragment_to_favoriteFragment)
+                        R.id.searchFragment->navController.navigate(R.id.action_searchFragment_to_favoriteFragment)
+                        R.id.detailsFragment->navController.navigate(R.id.action_detailsFragment_to_favoriteFragment)
                     }
                 }
                 return true
             }
            R.id.navigation_settings ->{
-               destination?. let{
+               destinationId?. let{
                    when(it){
-                       R.id.statesFragment ->navController.navigate(R.id.action_statesFragment_to_prefFragment)
+                       R.id.statesFragment -> navController.navigate(R.id.action_statesFragment_to_prefFragment)
+                       R.id.searchFragment ->navController.navigate(R.id.action_searchFragment_to_prefFragment)
+                       R.id.weatherFragment ->navController.navigate(R.id.action_weatherFragment_to_prefFragment)
+                       R.id.detailsFragment ->navController.navigate(R.id.action_detailsFragment_to_prefFragment)
+                       R.id.favoriteFragment -> navController.navigate(R.id. action_favoriteFragment_to_prefFragment)
+                       R.id.helpFragment ->navController.navigate(R.id. action_helpFragment_to_prefFragment)
                    }
                }
                return true
            }
             R.id.navigation_help->{
-                destination?. let{
+                destinationId?. let{
                     when(it){
                         R.id.statesFragment ->navController.navigate(R.id.action_statesFragment_to_helpFragment)
+                        R.id.searchFragment ->navController.navigate(R.id.action_searchFragment_to_helpFragment)
+                        R.id.weatherFragment ->navController.navigate(R.id.action_weatherFragment_to_helpFragment)
+                        R.id.detailsFragment ->navController.navigate(R.id.action_detailsFragment_to_helpFragment)
+                        R.id.favoriteFragment ->navController.navigate(R.id.action_favoriteFragment_to_helpFragment)
+                        R.id.prefFragment ->navController.navigate(R.id.action_prefFragment_to_helpFragment)
                     }
                 }
                 return true
@@ -281,16 +295,9 @@ class    MainActivity: MvpAppCompatActivity(),
             //запускаем поток, в котором через 2 секунды меняем флаг
             Handler(Looper.getMainLooper())
                 .postDelayed({ doubleBackToExitPressedOnce = false }, 2000)
-            //если мы НЕ в StatesFragment, то при нажатии Назад вызываем backPressed() фрагмента
-            //и делаем то, что там прописано
         }else{
             Log.d(TAG, "MainActivity onBackPressed  это НЕ StatesFragment ")
-            supportFragmentManager.fragments.forEach {
-                if(it is BackButtonListener && it.backPressed()){
-                    return@onBackPressed
-                }
-            }
+            super.onBackPressed()
         }
     }
-
 }

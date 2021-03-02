@@ -15,22 +15,14 @@ import com.bartex.statesmvvm.App
 import com.bartex.statesmvvm.R
 import com.bartex.statesmvvm.model.constants.Constants
 import com.bartex.statesmvvm.model.entity.state.State
-import com.bartex.statesmvvm.presenter.base.IBaseView
-import com.bartex.statesmvvm.presenter.SearchPresenter
-import com.bartex.statesmvvm.view.adapter.state.StatesRVAdapter
 import com.bartex.statesmvvm.view.adapter.imageloader.GlideToVectorYouLoader
-import com.bartex.statesmvvm.view.adapter.list.ListRVAdapter
-import com.bartex.statesmvvm.view.fragments.BackButtonListener
-import com.bartex.statesmvvm.view.fragments.states.StatesViewModel
+import com.bartex.statesmvvm.view.adapter.state.StateRVAdapter
 import kotlinx.android.synthetic.main.fragment_search.*
-import kotlinx.android.synthetic.main.fragment_states.*
-import moxy.MvpAppCompatFragment
-import moxy.ktx.moxyPresenter
 
 class SearchFragment: Fragment() {
 
     private var position = 0
-    var adapter: ListRVAdapter? = null
+    var adapter: StateRVAdapter? = null
     lateinit var navController: NavController
     lateinit var searchViewModel: SearchViewModel
 
@@ -98,7 +90,7 @@ class SearchFragment: Fragment() {
     fun initAdapter() {
         Log.d(TAG, "SearchFragment initAdapter ")
         rv_search.layoutManager = LinearLayoutManager(context)
-        adapter = ListRVAdapter(
+        adapter = StateRVAdapter(
             getOnClickListener(),
             GlideToVectorYouLoader(
                 requireActivity()
@@ -108,8 +100,8 @@ class SearchFragment: Fragment() {
         rv_search.layoutManager?.scrollToPosition(position) //крутим в запомненную позицию списка
     }
 
-    private fun getOnClickListener(): ListRVAdapter.OnitemClickListener =
-        object : ListRVAdapter.OnitemClickListener{
+    private fun getOnClickListener(): StateRVAdapter.OnitemClickListener =
+        object : StateRVAdapter.OnitemClickListener{
             override fun onItemclick(state: State) {
                 val bundle = Bundle().apply { putParcelable(Constants.STATE, state) }
                 navController.navigate(R.id.action_statesFragment_to_detailsFragment, bundle)

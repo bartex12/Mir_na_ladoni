@@ -15,9 +15,8 @@ import com.bartex.statesmvvm.App
 import com.bartex.statesmvvm.R
 import com.bartex.statesmvvm.model.constants.Constants
 import com.bartex.statesmvvm.model.entity.state.State
-import com.bartex.statesmvvm.view.adapter.favorite.FavoriteRVAdapter
 import com.bartex.statesmvvm.view.adapter.imageloader.GlideToVectorYouLoader
-import com.bartex.statesmvvm.view.adapter.list.ListRVAdapter
+import com.bartex.statesmvvm.view.adapter.state.StateRVAdapter
 import com.bartex.statesmvvm.view.fragments.favorite.FavoriteFragment
 import kotlinx.android.synthetic.main.fragment_states.*
 
@@ -25,7 +24,7 @@ import kotlinx.android.synthetic.main.fragment_states.*
 class StatesFragment : Fragment() {
 
     private var position = 0
-    var adapter: ListRVAdapter? = null
+    var adapter: StateRVAdapter? = null
     lateinit var navController:NavController
     lateinit var stateViewModel: StatesViewModel
 
@@ -85,7 +84,7 @@ class StatesFragment : Fragment() {
     private fun initAdapter() {
         rv_states.layoutManager = LinearLayoutManager(requireActivity())
 
-        adapter = ListRVAdapter(
+        adapter = StateRVAdapter(
             getOnClickListener(),
             GlideToVectorYouLoader(
                 requireActivity()
@@ -108,8 +107,8 @@ class StatesFragment : Fragment() {
         }
     }
 
-    private fun getOnClickListener(): ListRVAdapter.OnitemClickListener =
-        object : ListRVAdapter.OnitemClickListener{
+    private fun getOnClickListener(): StateRVAdapter.OnitemClickListener =
+        object : StateRVAdapter.OnitemClickListener{
             override fun onItemclick(state: State) {
                 val bundle = Bundle().apply { putParcelable(Constants.STATE, state) }
                 navController.navigate(R.id.action_statesFragment_to_detailsFragment, bundle)
