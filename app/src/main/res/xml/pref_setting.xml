@@ -4,7 +4,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <PreferenceCategory
-        android:title="@string/sorting">
+        android:title="@string/sorting"
+        android:icon="@drawable/ic_baseline_sort_24_yellou">
 
     <CheckBoxPreference
         android:key="cbSort"
