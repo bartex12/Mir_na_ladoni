@@ -14,6 +14,8 @@ import androidx.appcompat.widget.SearchView
 import androidx.core.view.GravityCompat
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.NavigationUI
 import com.bartex.statesmvvm.R
 import com.bartex.statesmvvm.model.constants.Constants
 import com.google.android.material.navigation.NavigationView
@@ -28,6 +30,7 @@ class    MainActivity: AppCompatActivity(),
     private var doubleBackToExitPressedOnce = false
     private var toggle:ActionBarDrawerToggle? = null
     lateinit var navController:NavController
+    lateinit var  appBarConfiguration:AppBarConfiguration
 
     companion object{
         const val TAG = "33333"
@@ -43,52 +46,70 @@ class    MainActivity: AppCompatActivity(),
             Navigation.findNavController(this, R.id.nav_host_fragment)
 
         setSupportActionBar(toolbar) //поддержка экшенбара для создания строки поиска
-        toggle = ActionBarDrawerToggle(this,drawer_layout,
-                toolbar,R.string.navigation_drawer_open,R.string.navigation_drawer_close )//гамбургер
-        toggle?. let{ drawer_layout.addDrawerListener(it)}  //слушатель гамбургера
-        toggle?.syncState() //синхронизация гамбургера
+//        toggle = ActionBarDrawerToggle(this,drawer_layout,
+//                toolbar,R.string.navigation_drawer_open,R.string.navigation_drawer_close )//гамбургер
+//        toggle?. let{ drawer_layout.addDrawerListener(it)}  //слушатель гамбургера
+//        toggle?.syncState() //синхронизация гамбургера
 
         //https://stackoverflow.com/questions/28531503/toolbar-switching-from-drawer-to-back-
         // button-with-only-one-activity/29292130#29292130
         //если в BackStack больше одного фрагмента (там почему то всегда есть 1 фрагмент)
         //то отображаем стрелку назад и устанавливаем слушатель на щелчок по ней с действием
         //onBackPressed(), иначе отображаем гамбургер и по щелчку открываем шторку
-        supportFragmentManager.addOnBackStackChangedListener {  //слушатель BackStack
-            if(supportFragmentManager.backStackEntryCount > 1){
-                supportActionBar?.setDisplayHomeAsUpEnabled(true) //показать стрелку
-                toolbar.setNavigationOnClickListener { // слушатель кнопки навигации- стрелка
-                    onBackPressed()
-                }
-            }else{
-                supportActionBar?.setDisplayHomeAsUpEnabled(false) //не показывать стрелку
-                toggle?.syncState()
-                toolbar.setNavigationOnClickListener {// слушатель кнопки навигации- гамбургер
-                    drawer_layout.openDrawer(GravityCompat.START)
-                }
-            }
-        }
+//        supportFragmentManager.addOnBackStackChangedListener {  //слушатель BackStack
+//            if(supportFragmentManager.backStackEntryCount > 1){
+//                supportActionBar?.setDisplayHomeAsUpEnabled(true) //показать стрелку
+//                toolbar.setNavigationOnClickListener { // слушатель кнопки навигации- стрелка
+//                    onBackPressed()
+//                }
+//            }else{
+//                supportActionBar?.setDisplayHomeAsUpEnabled(false) //не показывать стрелку
+//                toggle?.syncState()
+//                toolbar.setNavigationOnClickListener {// слушатель кнопки навигации- гамбургер
+//                    drawer_layout.openDrawer(GravityCompat.START)
+//                }
+//            }
+//        }
 
-        nav_view.setNavigationItemSelectedListener(this) //слушатель меню шторки
+        appBarConfiguration = AppBarConfiguration.Builder(navController.graph)
+//Display the Navigation button as a drawer symbol when it is not being shown as an Up button.
+                .setDrawerLayout(drawer_layout)
+                .build()
+
+        //обработка событий нижней навигации с помощью NavigationUI
+
+        //обработка событий нижней навигации с помощью NavigationUI
+       // NavigationUI.setupWithNavController(bottomNavigation, navController)
+        //обработка событий тулбара - например смена заголовка - с помощью NavigationUI
+        NavigationUI.setupWithNavController(toolbar, navController, appBarConfiguration)
+        //обработка событий меню шторки - если id меню совпадает с id в navigation
+        NavigationUI.setupWithNavController(nav_view, navController)
+        //обработка событий экшенбара
+        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration)
+
+        //слушатель меню шторки
+        nav_view.setNavigationItemSelectedListener(this)
     }
 
-    override fun onResume() {
-        super.onResume()
-        Log.d(TAG, "MainActivity onResume ")
+    override fun onSupportNavigateUp(): Boolean {
+        return NavigationUI.navigateUp(navController, appBarConfiguration)
+                ||super.onSupportNavigateUp()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         Log.d(TAG, "MainActivity onCreateOptionsMenu ")
         menuInflater.inflate(R.menu.toolbar_menu, menu)
+
         val searchItem: MenuItem = menu.findItem(R.id.search)
         val searchView =searchItem.actionView as SearchView
         searchView.setOnQueryTextListener(this)
+
         return true
     }
 
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
         //нашел способ установить видимость иконок в тулбаре без перебора всех вариантов
         val id = navController.currentDestination?.id
-
         //видимость иконок в тулбаре
         id?. let {
             menu?.findItem(R.id.search)?.isVisible = it == R.id.statesFragment
@@ -113,6 +134,8 @@ class    MainActivity: AppCompatActivity(),
         return super.onPrepareOptionsMenu(menu)
     }
 
+    //так  как Избранное - детали и справка - настройки могут бесконечно вызываться друг из друга
+    //чтобы это предотвратить, в их action было задействовано popUpTo и popUpToInclusive
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val id = item.itemId
         val destinationId = navController.currentDestination?.id
@@ -157,12 +180,6 @@ class    MainActivity: AppCompatActivity(),
         return super.onOptionsItemSelected(item)
     }
 
-//    override fun onPause() {
-//        super.onPause()
-//        Log.d(TAG, "MainActivity onPause ")
-//        navigatorHolder.removeNavigator()
-//    }
-
     override fun onQueryTextSubmit(query: String?): Boolean {
         Log.d(TAG, "MainActivity onQueryTextSubmit query = $query ")
         query?. let{
@@ -181,17 +198,14 @@ class    MainActivity: AppCompatActivity(),
         when (item.itemId) {
             R.id.nav_favorites -> {
                 Log.d(TAG, "MainActivity onNavigationItemSelected nav_favorites")
-                //presenter.showFavorites()
                 navController.navigate(R.id.action_statesFragment_to_favoriteFragment)
             }
             R.id.nav_setting -> {
                 Log.d(TAG, "MainActivity onNavigationItemSelected nav_setting")
-                //presenter. showSettingsActivity()
                 navController.navigate(R.id.action_statesFragment_to_prefFragment)
             }
             R.id.nav_help -> {
                 Log.d(TAG, "MainActivity onNavigationItemSelected nav_help")
-                //presenter.showHelp()
                 navController.navigate(R.id.action_statesFragment_to_helpFragment)
             }
 

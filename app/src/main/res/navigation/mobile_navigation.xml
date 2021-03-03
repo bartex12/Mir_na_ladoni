@@ -33,7 +33,9 @@
         tools:layout="@layout/fragment_favorite">
         <action
             android:id="@+id/action_favoriteFragment_to_detailsFragment"
-            app:destination="@id/detailsFragment" />
+            app:destination="@id/detailsFragment"
+            app:popUpTo="@id/favoriteFragment"
+            app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_favoriteFragment_to_prefFragment"
             app:destination="@id/prefFragment" />
@@ -51,7 +53,9 @@
             app:destination="@id/favoriteFragment" />
         <action
             android:id="@+id/action_helpFragment_to_prefFragment"
-            app:destination="@id/prefFragment" />
+            app:destination="@id/prefFragment"
+            app:popUpTo="@id/helpFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/prefFragment"
@@ -59,7 +63,9 @@
         android:label="PrefFragment">
         <action
             android:id="@+id/action_prefFragment_to_helpFragment"
-            app:destination="@id/helpFragment" />
+            app:destination="@id/helpFragment"
+            app:popUpTo="@id/prefFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/weatherFragment"
@@ -86,7 +92,9 @@
             app:destination="@id/weatherFragment" />
         <action
             android:id="@+id/action_detailsFragment_to_favoriteFragment"
-            app:destination="@id/favoriteFragment" />
+            app:destination="@id/favoriteFragment"
+            app:popUpTo="@id/detailsFragment"
+            app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_detailsFragment_to_prefFragment"
             app:destination="@id/prefFragment" />
