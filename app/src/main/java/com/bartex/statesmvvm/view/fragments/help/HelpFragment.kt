@@ -19,7 +19,6 @@ class HelpFragment: Fragment(){
         fun newInstance() = HelpFragment()
     }
 
-    lateinit var navController: NavController
     lateinit var helpViewModel: HelpViewModel
 
     override fun onCreateView(inflater: LayoutInflater,container: ViewGroup?,savedInstanceState: Bundle?)=
@@ -28,7 +27,6 @@ class HelpFragment: Fragment(){
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        navController = Navigation.findNavController(view)
         helpViewModel = ViewModelProvider(this).get(HelpViewModel::class.java)
         helpViewModel.apply {App.instance.appComponent.inject(this)}
 

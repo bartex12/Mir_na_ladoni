@@ -28,7 +28,6 @@ class    MainActivity: AppCompatActivity(),
      SearchView.OnQueryTextListener, NavigationView.OnNavigationItemSelectedListener {
 
     private var doubleBackToExitPressedOnce = false
-    private var toggle:ActionBarDrawerToggle? = null
     lateinit var navController:NavController
     lateinit var  appBarConfiguration:AppBarConfiguration
 
@@ -42,55 +41,23 @@ class    MainActivity: AppCompatActivity(),
         setContentView(R.layout.activity_main)
 
         //находим NavController
-        navController =
-            Navigation.findNavController(this, R.id.nav_host_fragment)
-
-        setSupportActionBar(toolbar) //поддержка экшенбара для создания строки поиска
-//        toggle = ActionBarDrawerToggle(this,drawer_layout,
-//                toolbar,R.string.navigation_drawer_open,R.string.navigation_drawer_close )//гамбургер
-//        toggle?. let{ drawer_layout.addDrawerListener(it)}  //слушатель гамбургера
-//        toggle?.syncState() //синхронизация гамбургера
-
-        //https://stackoverflow.com/questions/28531503/toolbar-switching-from-drawer-to-back-
-        // button-with-only-one-activity/29292130#29292130
-        //если в BackStack больше одного фрагмента (там почему то всегда есть 1 фрагмент)
-        //то отображаем стрелку назад и устанавливаем слушатель на щелчок по ней с действием
-        //onBackPressed(), иначе отображаем гамбургер и по щелчку открываем шторку
-//        supportFragmentManager.addOnBackStackChangedListener {  //слушатель BackStack
-//            if(supportFragmentManager.backStackEntryCount > 1){
-//                supportActionBar?.setDisplayHomeAsUpEnabled(true) //показать стрелку
-//                toolbar.setNavigationOnClickListener { // слушатель кнопки навигации- стрелка
-//                    onBackPressed()
-//                }
-//            }else{
-//                supportActionBar?.setDisplayHomeAsUpEnabled(false) //не показывать стрелку
-//                toggle?.syncState()
-//                toolbar.setNavigationOnClickListener {// слушатель кнопки навигации- гамбургер
-//                    drawer_layout.openDrawer(GravityCompat.START)
-//                }
-//            }
-//        }
+        navController = Navigation.findNavController(this, R.id.nav_host_fragment)
+        //поддержка экшенбара для создания строки поиска
+        setSupportActionBar(toolbar)
 
         appBarConfiguration = AppBarConfiguration.Builder(navController.graph)
-//Display the Navigation button as a drawer symbol when it is not being shown as an Up button.
-                .setDrawerLayout(drawer_layout)
+        //Отображать кнопку навигации как гамбургер , когда она не отображается как кнопка вверх
+                .setOpenableLayout(drawer_layout)
                 .build()
-
-        //обработка событий нижней навигации с помощью NavigationUI
-
-        //обработка событий нижней навигации с помощью NavigationUI
-       // NavigationUI.setupWithNavController(bottomNavigation, navController)
-        //обработка событий тулбара - например смена заголовка - с помощью NavigationUI
-        NavigationUI.setupWithNavController(toolbar, navController, appBarConfiguration)
-        //обработка событий меню шторки - если id меню совпадает с id в navigation
-        NavigationUI.setupWithNavController(nav_view, navController)
-        //обработка событий экшенбара
+        //обработка событий экшенбара -гамбургер, кнопка вверх
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration)
 
-        //слушатель меню шторки
+        //слушатель меню шторки -для обработки пунктов шторки
         nav_view.setNavigationItemSelectedListener(this)
     }
 
+    // Этот метод вызывается всякий раз, когда пользователь выбирает переход вверх
+    // в иерархии действий приложения из панели действий (экшенбара)
     override fun onSupportNavigateUp(): Boolean {
         return NavigationUI.navigateUp(navController, appBarConfiguration)
                 ||super.onSupportNavigateUp()

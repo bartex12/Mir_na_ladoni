@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -96,7 +97,7 @@ class SearchFragment: Fragment() {
     private fun getOnClickListener(): StateRVAdapter.OnitemClickListener =
         object : StateRVAdapter.OnitemClickListener{
             override fun onItemclick(state: State) {
-                val bundle = Bundle().apply { putParcelable(Constants.STATE, state) }
+                val bundle = bundleOf(Constants.STATE to state)
                 navController.navigate(R.id.action_searchFragment_to_detailsFragment, bundle)
             }
         }

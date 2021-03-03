@@ -21,8 +21,7 @@ import kotlinx.android.synthetic.main.fragment_weather.*
 class WeatherFragment : Fragment()  {
 
     private var state: State? = null
-    lateinit var navController:NavController
-    lateinit var weatherViewModel:WeatherViewModel
+    private lateinit var weatherViewModel:WeatherViewModel
 
     companion object {
         const val TAG = "33333"
@@ -41,7 +40,6 @@ class WeatherFragment : Fragment()  {
 
         arguments?.let {state = it.getParcelable<State>(Constants.DETAILS)}
 
-        navController = Navigation.findNavController(view)
         weatherViewModel = ViewModelProvider(this).get(WeatherViewModel::class.java)
         weatherViewModel.apply { App.instance.appComponent.inject(this) }
 
