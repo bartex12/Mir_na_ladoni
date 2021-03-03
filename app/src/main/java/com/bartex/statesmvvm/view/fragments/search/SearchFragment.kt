@@ -23,9 +23,9 @@ import kotlinx.android.synthetic.main.fragment_search.*
 class SearchFragment: Fragment() {
 
     private var position = 0
-    var adapter: StateRVAdapter? = null
+    private var adapter: StateRVAdapter? = null
     lateinit var navController: NavController
-    lateinit var searchViewModel: SearchViewModel
+    private lateinit var searchViewModel: SearchViewModel
 
     companion object {
         const val TAG = "33333"

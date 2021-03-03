@@ -15,11 +15,7 @@ import kotlinx.android.synthetic.main.fragment_help.*
 
 class HelpFragment: Fragment(){
 
-    companion object {
-        fun newInstance() = HelpFragment()
-    }
-
-    lateinit var helpViewModel: HelpViewModel
+    private lateinit var helpViewModel: HelpViewModel
 
     override fun onCreateView(inflater: LayoutInflater,container: ViewGroup?,savedInstanceState: Bundle?)=
         View.inflate(context, R.layout.fragment_help, null)

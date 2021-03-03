@@ -8,6 +8,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -24,14 +25,13 @@ import kotlinx.android.synthetic.main.fragment_details.*
 
 class DetailsFragment : Fragment() {
 
-    lateinit var detailsViewModel :DetailsViewModel
+    private lateinit var detailsViewModel :DetailsViewModel
     lateinit var navController: NavController
+    private var state: State? = null
 
     companion object {
         const val TAG = "33333"
     }
-    
-    private var state: State? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -79,11 +79,10 @@ class DetailsFragment : Fragment() {
 
         btn_addToFavorite.setOnClickListener {
             state?. let {
-                //presenter.addToFavorite(it)
                 detailsViewModel.addToFavorite(it)
                 detailsViewModel.isAddToFavorite().observe(viewLifecycleOwner,Observer{isAdd->
                     if (isAdd){
-                        //Toast.makeText(requireActivity(), getString(R.string.addFavoriteToast), Toast.LENGTH_SHORT ).show()
+                        Toast.makeText(requireActivity(), getString(R.string.addFavoriteToast), Toast.LENGTH_SHORT ).show()
                         btn_addToFavorite.visibility = View.GONE
                         btn_removeFavorite.visibility = View.VISIBLE
                     }else{
@@ -94,11 +93,10 @@ class DetailsFragment : Fragment() {
         }
         btn_removeFavorite.setOnClickListener {
             state?. let {
-                //presenter.removeFavorite(it)
                 detailsViewModel.removeFavorite(it)
                 detailsViewModel.isRemoveFavorite().observe(viewLifecycleOwner,Observer{isRemove->
                     if (isRemove){
-                        // Toast.makeText(requireActivity(), getString(R.string.removeFavoriteToast), Toast.LENGTH_SHORT ).show()
+                        Toast.makeText(requireActivity(), getString(R.string.removeFavoriteToast), Toast.LENGTH_SHORT ).show()
                         btn_addToFavorite.visibility = View.VISIBLE
                         btn_removeFavorite.visibility = View.GONE
                     }else{
@@ -147,7 +145,7 @@ class DetailsFragment : Fragment() {
         }
     }
 
-     fun sendGeoIntent(geoCoord:String) {
+     private fun sendGeoIntent(geoCoord:String) {
 
         val intent = Intent(Intent.ACTION_VIEW, Uri.parse(geoCoord))
         // пакет для использования Гугл карты

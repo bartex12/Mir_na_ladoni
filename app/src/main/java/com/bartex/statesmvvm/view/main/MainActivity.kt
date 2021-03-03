@@ -237,7 +237,6 @@ class    MainActivity: AppCompatActivity(),
             //если флаг = true - а это при двойном щелчке - закрываем программу
             if (doubleBackToExitPressedOnce) {
                 Log.d(TAG, "MainActivity onBackPressed  doubleBackToExitPressedOnce")
-                //presenter.backClicked()
                 super.onBackPressed()
                 return
             }

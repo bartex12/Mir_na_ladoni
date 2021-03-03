@@ -24,9 +24,9 @@ import kotlinx.android.synthetic.main.fragment_favorite.*
 class FavoriteFragment: Fragment() {
 
     private var position = 0
-    var adapter: FavoriteRVAdapter? = null
+    private var adapter: FavoriteRVAdapter? = null
     lateinit var navController:NavController
-    lateinit var favoriteViewModel: FavoriteViewModel
+    private lateinit var favoriteViewModel: FavoriteViewModel
 
     companion object {
         const val TAG = "33333"

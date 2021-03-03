@@ -25,9 +25,9 @@ import kotlinx.android.synthetic.main.fragment_states.*
 class StatesFragment : Fragment() {
 
     private var position = 0
-    var adapter: StateRVAdapter? = null
+    private var adapter: StateRVAdapter? = null
     lateinit var navController:NavController
-    lateinit var stateViewModel: StatesViewModel
+    private lateinit var stateViewModel: StatesViewModel
 
     companion object {
         const val TAG = "33333"
