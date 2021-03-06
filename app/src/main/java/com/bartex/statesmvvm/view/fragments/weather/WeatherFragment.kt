@@ -9,8 +9,6 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.NavController
-import androidx.navigation.Navigation
 import com.bartex.statesmvvm.App
 import com.bartex.statesmvvm.R
 import com.bartex.statesmvvm.model.constants.Constants
@@ -51,17 +49,17 @@ class WeatherFragment : Fragment()  {
         requireActivity().invalidateOptionsMenu()
     }
 
-    private fun renderData(data:WeatherViewStateSealed) {
+    private fun renderData(data:WeatherSealed) {
         when(data){
-            is WeatherViewStateSealed.Success ->{
+            is WeatherSealed.Success ->{
                 renderLoadingStop()
                 renderWeather(data.weather)
             }
-            is WeatherViewStateSealed.Error -> {
+            is WeatherSealed.Error -> {
                 renderLoadingStop()
                 renderError(data.error)
             }
-            is WeatherViewStateSealed.Loading -> {
+            is WeatherSealed.Loading -> {
                 renderLoadingStart()
             }
         }

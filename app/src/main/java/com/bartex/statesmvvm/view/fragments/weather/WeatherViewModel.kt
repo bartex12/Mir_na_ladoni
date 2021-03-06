@@ -15,11 +15,11 @@ class WeatherViewModel:ViewModel() {
         const val TAG = "33333"
     }
 
-    private val weatherInCapitalSealed= MutableLiveData<WeatherViewStateSealed>()
+    private val weatherSealed= MutableLiveData<WeatherSealed>()
 
-    fun getWeatherSealed(state: State?):LiveData<WeatherViewStateSealed>{
+    fun getWeatherSealed(state: State?):LiveData<WeatherSealed>{
         loadWeatherSealed(state)
-        return weatherInCapitalSealed
+        return weatherSealed
     }
 
     @Inject
@@ -29,17 +29,17 @@ class WeatherViewModel:ViewModel() {
 
    private fun loadWeatherSealed(state: State?) {
        //начинаем загрузку данных
-        weatherInCapitalSealed.value = WeatherViewStateSealed.Loading(null)
+        weatherSealed.value = WeatherSealed.Loading(null)
         state?. let {
             weatherRepo.getWeatherInCapital(it.capital,
                 "80bb32e4a0db84762bb04ab2bd724646", "metric", "RU")
         }?.observeOn(mainThreadScheduler)
             ?.subscribe(
                 {
-                    weatherInCapitalSealed.value = WeatherViewStateSealed.Success(weather = it)
+                    weatherSealed.value = WeatherSealed.Success(weather = it)
                 },
                 {error ->
-                    weatherInCapitalSealed.value = WeatherViewStateSealed.Error(error = error)
+                    weatherSealed.value = WeatherSealed.Error(error = error)
                     Log.d(TAG, "WeatherViewModel onError ${error.message}")}
             )
     }
