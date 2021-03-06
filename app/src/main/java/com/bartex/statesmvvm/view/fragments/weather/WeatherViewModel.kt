@@ -28,6 +28,7 @@ class WeatherViewModel:ViewModel() {
     lateinit var weatherRepo: IWeatherRepo
 
    private fun loadWeatherSealed(state: State?) {
+       //начинаем загрузку данных
         weatherInCapitalSealed.value = WeatherViewStateSealed.Loading(null)
         state?. let {
             weatherRepo.getWeatherInCapital(it.capital,

@@ -2,9 +2,11 @@ package com.bartex.statesmvvm.view.fragments.states
 
 import android.os.Bundle
 import android.util.Log
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -46,10 +48,8 @@ class StatesFragment : Fragment() {
         stateViewModel = ViewModelProvider(this).get(StatesViewModel::class.java)
         stateViewModel.apply { App.instance.appComponent.inject(this)}
 
-        stateViewModel.loadData()
-
         stateViewModel.getStates()
-            .observe(viewLifecycleOwner, Observer<List<State>> {
+            .observe(viewLifecycleOwner, Observer<StatesSealed> {
             renderData(it)
             })
 
@@ -88,7 +88,35 @@ class StatesFragment : Fragment() {
         Log.d(FavoriteFragment.TAG, "FavoriteFragment init scrollToPosition = $position")
     }
 
-    private fun renderData(states: List<State>) {
+    private fun renderData(data: StatesSealed) {
+        when(data){
+            is StatesSealed.Success -> {
+                renderLoadingStop()
+                renderState(data.state)
+            }
+            is StatesSealed.Error ->{
+                renderLoadingStop()
+                renderError(data.error)
+            }
+            is StatesSealed.Loading ->{
+                renderLoadingStart()
+            }
+        }
+    }
+
+    private fun renderLoadingStart(){
+        progressBarState.visibility = View.VISIBLE
+    }
+
+    private fun renderLoadingStop(){
+        progressBarState.visibility = View.GONE
+    }
+
+    private fun renderError(error: Throwable) {
+        toast(error.message)
+    }
+
+    private fun renderState(states: List<State>) {
         if(states.isEmpty()){
             rv_states.visibility = View.GONE
             empty_view.visibility = View.VISIBLE
@@ -100,6 +128,7 @@ class StatesFragment : Fragment() {
         }
     }
 
+
     private fun getOnClickListener(): StateRVAdapter.OnitemClickListener =
         object : StateRVAdapter.OnitemClickListener{
             override fun onItemclick(state: State) {
@@ -108,5 +137,12 @@ class StatesFragment : Fragment() {
                 navController.navigate(R.id.action_statesFragment_to_detailsFragment, bundle)
             }
         }
+
+    private fun Fragment.toast(string: String?) {
+        Toast.makeText(context, string, Toast.LENGTH_SHORT).apply {
+            setGravity(Gravity.BOTTOM, 0, 250)
+            show()
+        }
+    }
 }
 

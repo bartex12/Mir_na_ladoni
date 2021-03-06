@@ -70,4 +70,5 @@ class StatesRepo(val api: IDataSourceState, private val networkStatus: INetworkS
             roomCash.getSearchedStatesFromCash(search)
         }
     }.subscribeOn(Schedulers.io())
+
 }

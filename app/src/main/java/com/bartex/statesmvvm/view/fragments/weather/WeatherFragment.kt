@@ -42,7 +42,7 @@ class WeatherFragment : Fragment()  {
 
         weatherViewModel = ViewModelProvider(this).get(WeatherViewModel::class.java)
         weatherViewModel.apply { App.instance.appComponent.inject(this) }
-        
+
         weatherViewModel.getWeatherSealed(state)
             .observe(viewLifecycleOwner, Observer {renderData(it)})
 

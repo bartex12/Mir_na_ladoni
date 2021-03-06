@@ -25,11 +25,17 @@ class StatesViewModel: ViewModel() {
     @Inject
     lateinit var statesRepo: IStatesRepo
 
-    val listStates = MutableLiveData<List<State>>()
+    private val listStates = MutableLiveData<StatesSealed>()
 
-    fun getStates() : LiveData<List<State>> = listStates
+    fun getStates() : LiveData<StatesSealed>{
+        loadData()
+        return listStates
+    }
 
-    fun loadData(){
+    private fun loadData(){
+        //начинаем загрузку данных
+        listStates.value = StatesSealed.Loading(null)
+
         val isSorted = helper.isSorted()
         val getSortCase = helper.getSortCase()
         var f_st:List<State>?= null
@@ -52,10 +58,14 @@ class StatesViewModel: ViewModel() {
             .observeOn(mainThreadScheduler)
             .subscribe ({states->
                 states?. let{
+                    // если данные загружены - выставляем value в MutableLiveData
+                    listStates.value = StatesSealed.Success(state = it)
                     Log.d(TAG, "StatesViewModel  loadData states.size = ${it.size}")
-                    listStates.value = it
                 }
-            }, {error -> Log.d(TAG, "StatesViewModel onError ${error.message}")
+            }, {error ->
+                //если произошла ошибка - выставляем value в MutableLiveData в ошибку
+                    listStates.value = StatesSealed.Error(error = error)
+                    Log.d(TAG, "StatesViewModel onError ${error.message}")
             })
     }
 
