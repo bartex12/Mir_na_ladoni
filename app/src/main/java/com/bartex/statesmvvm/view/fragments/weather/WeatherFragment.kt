@@ -42,17 +42,29 @@ class WeatherFragment : Fragment()  {
 
         weatherViewModel = ViewModelProvider(this).get(WeatherViewModel::class.java)
         weatherViewModel.apply { App.instance.appComponent.inject(this) }
-
-        weatherViewModel.loadWeather(state)
-        weatherViewModel.getWeather().observe(viewLifecycleOwner, Observer {
-            if (it ==null) return@Observer
-            if (it.error!=null)renderError(it.error)
-            if (it.weather != null)renderWeather(it.weather)
-        })
+        
+        weatherViewModel.getWeatherSealed(state)
+            .observe(viewLifecycleOwner, Observer {renderData(it)})
 
         //приводим меню тулбара в соответствии с onPrepareOptionsMenu в MainActivity
         setHasOptionsMenu(true)
         requireActivity().invalidateOptionsMenu()
+    }
+
+    private fun renderData(data:WeatherViewStateSealed) {
+        when(data){
+            is WeatherViewStateSealed.Success ->{
+                renderLoadingStop()
+                renderWeather(data.weather)
+            }
+            is WeatherViewStateSealed.Error -> {
+                renderLoadingStop()
+                renderError(data.error)
+            }
+            is WeatherViewStateSealed.Loading -> {
+                renderLoadingStart()
+            }
+        }
     }
 
     private fun renderError(error: Throwable) {
@@ -68,7 +80,14 @@ class WeatherFragment : Fragment()  {
         tv_capital_description.text = weather?.weather?.get(0)?.description
         tv_capital_temp.text = String.format("%.0f \u2103", weather?.main?.temp)
         weather?.weather?.get(0)?.icon?. let{ iv_icon.setImageDrawable(getIconFromIconCod(it))}
+    }
 
+    private fun renderLoadingStart(){
+        progressBar.visibility = View.VISIBLE
+    }
+
+    private fun renderLoadingStop(){
+        progressBar.visibility = View.GONE
     }
 
     //Drawable это import android.graphics.drawable.Drawable - не буду тащить его в презентер

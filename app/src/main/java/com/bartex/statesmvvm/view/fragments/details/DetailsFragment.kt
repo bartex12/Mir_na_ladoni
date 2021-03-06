@@ -125,7 +125,7 @@ class DetailsFragment : Fragment() {
             }
             R.id.geo -> {
                 //c GoogleNavigation карта не включается в стэк вызовов и поэтому если вызвать карту
-                //а потом погоду и нажать кнопку назад, карта не выховется  - это хорошо
+                //а потом погоду и нажать кнопку назад, карта не вызовется  - это хорошо
                 Log.d(TAG, "DetailsFragment BottomNavigationView page_2")
                 state?. let {sendGeoIntent(detailsViewModel.getStateZoom(it))}
                 true

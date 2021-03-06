@@ -15,26 +15,30 @@ class WeatherViewModel:ViewModel() {
         const val TAG = "33333"
     }
 
-    private val weatherInCapital= MutableLiveData<WeatherViewState>()
+    private val weatherInCapitalSealed= MutableLiveData<WeatherViewStateSealed>()
 
-    fun getWeather():LiveData<WeatherViewState> = weatherInCapital
+    fun getWeatherSealed(state: State?):LiveData<WeatherViewStateSealed>{
+        loadWeatherSealed(state)
+        return weatherInCapitalSealed
+    }
 
     @Inject
     lateinit var mainThreadScheduler: Scheduler
     @Inject
     lateinit var weatherRepo: IWeatherRepo
 
-     fun loadWeather(state: State?) {
+   private fun loadWeatherSealed(state: State?) {
+        weatherInCapitalSealed.value = WeatherViewStateSealed.Loading(null)
         state?. let {
             weatherRepo.getWeatherInCapital(it.capital,
                 "80bb32e4a0db84762bb04ab2bd724646", "metric", "RU")
         }?.observeOn(mainThreadScheduler)
             ?.subscribe(
                 {
-                    weatherInCapital.value = WeatherViewState(weather = it)
+                    weatherInCapitalSealed.value = WeatherViewStateSealed.Success(weather = it)
                 },
                 {error ->
-                    weatherInCapital.value = WeatherViewState(error = error)
+                    weatherInCapitalSealed.value = WeatherViewStateSealed.Error(error = error)
                     Log.d(TAG, "WeatherViewModel onError ${error.message}")}
             )
     }
