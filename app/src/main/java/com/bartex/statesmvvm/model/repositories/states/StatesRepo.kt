@@ -55,14 +55,14 @@ class StatesRepo(val api: IDataSourceState, private val networkStatus: INetworkS
             Log.d(TAG, "StatesRepo searchStates isOnLine  = true   search = $search")
             api.searchStates(search) //получаем данные из сети в виде Single<List<State>>
                 .flatMap {states->//получаем доступ к списку List<State>
-                    val filtr_states =   states.filter {state->
+                    val filterStates =   states.filter { state->
                         state.capital!=null &&  //только со столицами !=null
                                 state.latlng?.size == 2 && //только с известными координатами
                                 state.capital.isNotEmpty() //только с известными столицами
                     }
-                    Log.d(TAG, "StatesRepo  searchStates filtr_states.size = ${filtr_states.size}")
+                    Log.d(TAG, "StatesRepo  searchStates filtr_states.size = ${filterStates.size}")
                     //реализация кэширования списка отобранных стран из сети в базу данных
-                    roomCash.doStatesCash(filtr_states)
+                    roomCash.doStatesCash(filterStates)
                 }
         }else{
             Log.d(TAG, "StatesRepo  isOnLine  = false")

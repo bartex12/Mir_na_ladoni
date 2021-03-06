@@ -46,8 +46,6 @@ class FavoriteFragment: Fragment() {
             App.instance.appComponent.inject(this)
         }
 
-        favoriteViewModel.loadFavorite()
-
         favoriteViewModel.getFavorite().observe(viewLifecycleOwner,object :Observer<List<State>>{
             override fun onChanged(favorites: List<State>?) {
                 Log.d(TAG, "FavoriteFragment onChanged")

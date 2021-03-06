@@ -25,11 +25,17 @@ class SearchViewModel: ViewModel() {
     @Inject
     lateinit var mainThreadScheduler: Scheduler
 
-    val listStatesSearch = MutableLiveData<List<State>>()
+    private val listStatesSearch = MutableLiveData<SearchSealed>()
 
-    fun getStatesSearch() :LiveData<List<State>> = listStatesSearch
+    fun getStatesSearch(search:String?) :LiveData<SearchSealed>{
+        loadDataSearch(search)
+        return listStatesSearch
+    }
 
-    fun loadDataSearch(search:String?){
+    private fun loadDataSearch(search:String?){
+
+        listStatesSearch.value = SearchSealed.Loading(null)
+
         val isSorted = helper.isSorted()
         val getSortCase = helper.getSortCase()
         var f_st:List<State>?= null
@@ -52,10 +58,12 @@ class SearchViewModel: ViewModel() {
                 .observeOn(mainThreadScheduler)
                 .subscribe ({states->
                     states?. let{
+                        listStatesSearch.value = SearchSealed.Success(searchStates = it)
                         Log.d(TAG, "SearchViewModel  loadData states.size = ${it.size}")
-                        listStatesSearch.value = it
                     }
-                }, {error -> Log.d(TAG, "SearchViewModel onError ${error.message}")
+                }, {error ->
+                    listStatesSearch.value = SearchSealed.Error(error = error)
+                    Log.d(TAG, "SearchViewModel onError ${error.message}")
                 })
         }?: Single.just(listOf<State>())
     }

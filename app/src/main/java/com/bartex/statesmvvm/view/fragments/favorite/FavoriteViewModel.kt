@@ -31,9 +31,12 @@ class FavoriteViewModel() : ViewModel() {
 
     private  var listFavoriteStates = MutableLiveData<List<State>>()
 
-    fun getFavorite():LiveData<List<State>> = listFavoriteStates
+    fun getFavorite():LiveData<List<State>>{
+        loadFavorite()
+        return listFavoriteStates
+    }
 
-    fun loadFavorite() {
+    private fun loadFavorite() {
         val isSorted = helper.isSorted()
         val getSortCase = helper.getSortCase()
         var f_st:List<State>?= null

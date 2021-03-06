@@ -14,11 +14,14 @@ import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bartex.statesmvvm.App
 import com.bartex.statesmvvm.R
+import com.bartex.statesmvvm.common.toast
 import com.bartex.statesmvvm.model.constants.Constants
 import com.bartex.statesmvvm.model.entity.state.State
 import com.bartex.statesmvvm.view.adapter.imageloader.GlideToVectorYouLoader
 import com.bartex.statesmvvm.view.adapter.state.StateRVAdapter
+import com.bartex.statesmvvm.view.fragments.states.StatesSealed
 import kotlinx.android.synthetic.main.fragment_search.*
+import kotlinx.android.synthetic.main.fragment_states.*
 
 class SearchFragment: Fragment() {
 
@@ -44,10 +47,9 @@ class SearchFragment: Fragment() {
         searchViewModel = ViewModelProvider(this).get(SearchViewModel::class.java)
         searchViewModel.apply {App.instance.appComponent.inject(this)}
 
-        searchViewModel.loadDataSearch(search)
-        searchViewModel.getStatesSearch()
+        searchViewModel.getStatesSearch(search)
             .observe(viewLifecycleOwner, Observer {
-            renderDataSearched(it)
+                renderDataSearch(it)
         })
 
         initAdapter()
@@ -60,15 +62,57 @@ class SearchFragment: Fragment() {
         requireActivity().invalidateOptionsMenu()
     }
 
-    private fun renderDataSearched(listSearched: List<State>) {
-        if(listSearched.isEmpty()){
+//    private fun renderDataSearched(listSearched: List<State>) {
+//        if(listSearched.isEmpty()){
+//            rv_search.visibility = View.GONE
+//            empty_view_Search.visibility = View.VISIBLE
+//        }else{
+//            rv_search.visibility =  View.VISIBLE
+//            empty_view_Search.visibility =View.GONE
+//
+//            adapter?.listStates = listSearched
+//        }
+//    }
+
+    private fun renderDataSearch(data: SearchSealed) {
+        when(data){
+            is SearchSealed.Success -> {
+                renderLoadingStop()
+                renderSearchState(data.searchStates)
+            }
+            is SearchSealed.Error ->{
+                renderLoadingStop()
+                renderError(data.error)
+            }
+            is SearchSealed.Loading ->{
+                renderLoadingStart()
+            }
+        }
+    }
+
+    private fun renderLoadingStart(){
+        progressBarSearch.visibility = View.VISIBLE
+    }
+
+    private fun renderLoadingStop(){
+        progressBarSearch.visibility = View.GONE
+    }
+
+    private fun renderError(error: Throwable) {
+        toast(error.message)
+        rv_search.visibility = View.GONE
+        empty_view_Search.visibility = View.VISIBLE
+    }
+
+    private fun renderSearchState(states: List<State>) {
+        if(states.isEmpty()){
             rv_search.visibility = View.GONE
             empty_view_Search.visibility = View.VISIBLE
         }else{
             rv_search.visibility =  View.VISIBLE
             empty_view_Search.visibility =View.GONE
 
-            adapter?.listStates = listSearched
+            adapter?.listStates = states
         }
     }
 

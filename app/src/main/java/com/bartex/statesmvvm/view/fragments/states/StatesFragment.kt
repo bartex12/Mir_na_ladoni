@@ -16,6 +16,7 @@ import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bartex.statesmvvm.App
 import com.bartex.statesmvvm.R
+import com.bartex.statesmvvm.common.toast
 import com.bartex.statesmvvm.model.constants.Constants
 import com.bartex.statesmvvm.model.entity.state.State
 import com.bartex.statesmvvm.view.adapter.imageloader.GlideToVectorYouLoader
@@ -49,9 +50,7 @@ class StatesFragment : Fragment() {
         stateViewModel.apply { App.instance.appComponent.inject(this)}
 
         stateViewModel.getStates()
-            .observe(viewLifecycleOwner, Observer<StatesSealed> {
-            renderData(it)
-            })
+            .observe(viewLifecycleOwner, Observer<StatesSealed> {renderData(it)})
 
         initAdapter()
 
@@ -138,11 +137,11 @@ class StatesFragment : Fragment() {
             }
         }
 
-    private fun Fragment.toast(string: String?) {
-        Toast.makeText(context, string, Toast.LENGTH_SHORT).apply {
-            setGravity(Gravity.BOTTOM, 0, 250)
-            show()
-        }
-    }
+//    private fun Fragment.toast(string: String?) {
+//        Toast.makeText(context, string, Toast.LENGTH_SHORT).apply {
+//            setGravity(Gravity.BOTTOM, 0, 250)
+//            show()
+//        }
+//    }
 }
 
