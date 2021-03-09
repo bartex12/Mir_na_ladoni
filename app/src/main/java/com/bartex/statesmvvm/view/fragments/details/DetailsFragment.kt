@@ -17,6 +17,7 @@ import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import com.bartex.statesmvvm.App
 import com.bartex.statesmvvm.R
+import com.bartex.statesmvvm.common.toast
 import com.bartex.statesmvvm.model.constants.Constants
 import com.bartex.statesmvvm.model.entity.state.State
 import com.github.twocoffeesoneteam.glidetovectoryou.GlideToVectorYou
@@ -82,11 +83,11 @@ class DetailsFragment : Fragment() {
                 detailsViewModel.addToFavorite(it)
                 detailsViewModel.isAddToFavorite().observe(viewLifecycleOwner,Observer{isAdd->
                     if (isAdd){
-                        Toast.makeText(requireActivity(), getString(R.string.addFavoriteToast), Toast.LENGTH_SHORT ).show()
+                        toast(getString(R.string.addFavoriteToast))
                         btn_addToFavorite.visibility = View.GONE
                         btn_removeFavorite.visibility = View.VISIBLE
                     }else{
-                        //todo
+                        toast(getString(R.string.noAddFavoriteToast))
                     }
                 } )
             }
@@ -96,11 +97,11 @@ class DetailsFragment : Fragment() {
                 detailsViewModel.removeFavorite(it)
                 detailsViewModel.isRemoveFavorite().observe(viewLifecycleOwner,Observer{isRemove->
                     if (isRemove){
-                        Toast.makeText(requireActivity(), getString(R.string.removeFavoriteToast), Toast.LENGTH_SHORT ).show()
+                        toast(getString(R.string.removeFavoriteToast))
                         btn_addToFavorite.visibility = View.VISIBLE
                         btn_removeFavorite.visibility = View.GONE
                     }else{
-                        //todo
+                        toast(getString(R.string.noRemoveFavoriteToast))
                     }
                 } )
             }

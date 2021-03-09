@@ -68,6 +68,5 @@
                 android:layout_marginBottom="8dp"
                 tools:text="@string/population"/>
         </LinearLayout>
-
     </LinearLayout>
-</androidx.cardview.widget.CardView>
+</androidx.cardview.widget.CardView >

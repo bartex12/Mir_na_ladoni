@@ -62,18 +62,6 @@ class SearchFragment: Fragment() {
         requireActivity().invalidateOptionsMenu()
     }
 
-//    private fun renderDataSearched(listSearched: List<State>) {
-//        if(listSearched.isEmpty()){
-//            rv_search.visibility = View.GONE
-//            empty_view_Search.visibility = View.VISIBLE
-//        }else{
-//            rv_search.visibility =  View.VISIBLE
-//            empty_view_Search.visibility =View.GONE
-//
-//            adapter?.listStates = listSearched
-//        }
-//    }
-
     private fun renderDataSearch(data: SearchSealed) {
         when(data){
             is SearchSealed.Success -> {
