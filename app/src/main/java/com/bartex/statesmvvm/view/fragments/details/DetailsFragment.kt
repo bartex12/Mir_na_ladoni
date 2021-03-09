@@ -69,10 +69,11 @@ class DetailsFragment : Fragment() {
             })
             //заполняем поля экрана
             tv_state_name.text = it.name
-            tv_state_region.text = String.format("Регион:   %S ", it.region)
+
+            tv_state_region.text = detailsViewModel.getStateRegion(it)
             tv_state_area.text =  detailsViewModel.getStateArea(it)
-            tv_state_population.text =  detailsViewModel.setStatePopulation(it)
-            tv_state_capital.text = it.capital
+            tv_state_population.text =  detailsViewModel.getStatePopulation(it)
+            tv_state_capital.text =  detailsViewModel.getStateCapital(it)
             it.flag?. let{flag->
                 GlideToVectorYou.justLoadImage(requireActivity(), Uri.parse(flag), iv_flag_big)
             }

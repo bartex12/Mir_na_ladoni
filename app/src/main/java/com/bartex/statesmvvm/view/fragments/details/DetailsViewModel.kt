@@ -43,7 +43,11 @@ class DetailsViewModel:ViewModel() {
 
     fun  getStateArea(state:State) = stateUtils.getStateArea(state)
 
-    fun setStatePopulation(state:State) = stateUtils.getStatePopulation(state)
+    fun getStatePopulation(state:State) = stateUtils.getStatePopulation(state)
+
+    fun getStateCapital(state:State) = stateUtils.getStateCapital(state)
+
+    fun getStateRegion(state:State) = stateUtils.getStateRegion(state)
 
     fun addToFavorite(state:State){
         Log.d(TAG, "DetailsViewModel addToFavorite ")

@@ -7,4 +7,6 @@ interface IStateUtils {
     fun getStatePopulation(state: State?):String
     fun getStatezoom(state: State?):String
     fun getStateCapital(state: State?):String
+    fun getStateRegion(state: State?):String
+
 }

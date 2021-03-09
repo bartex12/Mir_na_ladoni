@@ -74,4 +74,14 @@ class StateUtils:IStateUtils {
         }
         return capital
     }
+
+    override fun getStateRegion(state: State?): String {
+        var region = ""
+        state?. let {
+            if(it.region!= ""){
+                region = String.format("Регион:   %S ", it.region)
+            }else{ region = "Название региона неизвестно" }
+        }
+       return region
+    }
 }
