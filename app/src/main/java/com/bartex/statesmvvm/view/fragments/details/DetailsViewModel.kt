@@ -29,16 +29,17 @@ class DetailsViewModel:ViewModel() {
     @Inject
     lateinit var stateUtils: IStateUtils
 
-    fun isFavoriteState(state: State){
+    fun isFavoriteState(state: State):LiveData<Boolean>{
         roomCash.isFavorite(state)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
-                isFavorite.value =it
-                //viewState.setVisibility(it)
+                isFavorite.value =true
             }, {
+                isFavorite.value =false
                 Log.d(TAG, "DetailsViewModel isFavorite error = ${it.message} ")
             })
+        return isFavorite
     }
 
     fun  getStateArea(state:State) = stateUtils.getStateArea(state)
@@ -56,7 +57,6 @@ class DetailsViewModel:ViewModel() {
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe (   {
                 isAddToFavorite.value = true
-                //viewState.showAddFavoriteToast()
             },{
                 isAddToFavorite.value = false
                 Log.d(TAG, "DetailsViewModel addToFavorite error = ${it.message} ")
@@ -64,7 +64,7 @@ class DetailsViewModel:ViewModel() {
     }
 
     fun removeFavorite(state:State){
-        Log.d(TAG, "DetailsViewModel addToFavorite ")
+        Log.d(TAG, "DetailsViewModel removeFavorite ")
         roomCash.removeFavorite(state)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())

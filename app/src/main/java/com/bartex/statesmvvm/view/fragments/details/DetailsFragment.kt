@@ -58,11 +58,13 @@ class DetailsFragment : Fragment() {
         //получаем данные о том, находится ли страна в списке избранных и изменяем видимость кнопок
         state?. let {
             detailsViewModel.isFavoriteState(it)
-            detailsViewModel.isFavorite().observe(viewLifecycleOwner, Observer {isFavorite->
+            .observe(viewLifecycleOwner, Observer {isFavorite->
                 if (isFavorite){
+                    Log.d(TAG, "DetailsFragment onViewCreated isFavorite")
                     btn_addToFavorite.visibility = View.GONE
                     btn_removeFavorite.visibility = View.VISIBLE
                 }else{
+                    Log.d(TAG, "DetailsFragment onViewCreated not Favorite")
                     btn_addToFavorite.visibility = View.VISIBLE
                     btn_removeFavorite.visibility = View.GONE
                 }
@@ -84,6 +86,7 @@ class DetailsFragment : Fragment() {
                 detailsViewModel.addToFavorite(it)
                 detailsViewModel.isAddToFavorite().observe(viewLifecycleOwner,Observer{isAdd->
                     if (isAdd){
+                        Log.d(TAG, "DetailsFragment btn_addToFavorite isAdd")
                         toast(getString(R.string.addFavoriteToast))
                         btn_addToFavorite.visibility = View.GONE
                         btn_removeFavorite.visibility = View.VISIBLE
@@ -99,6 +102,7 @@ class DetailsFragment : Fragment() {
                 detailsViewModel.isRemoveFavorite().observe(viewLifecycleOwner,Observer{isRemove->
                     if (isRemove){
                         toast(getString(R.string.removeFavoriteToast))
+                        Log.d(TAG, "DetailsFragment btn_removeFavorite isRemove")
                         btn_addToFavorite.visibility = View.VISIBLE
                         btn_removeFavorite.visibility = View.GONE
                     }else{
