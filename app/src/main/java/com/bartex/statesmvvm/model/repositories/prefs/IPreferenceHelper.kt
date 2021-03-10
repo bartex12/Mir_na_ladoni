@@ -14,4 +14,8 @@ interface IPreferenceHelper {
     fun isSorted():Boolean
 
    fun  saveTextSearch(text:String)
+
+    fun saveTheme()
+
+    fun getTheme():Boolean
 }

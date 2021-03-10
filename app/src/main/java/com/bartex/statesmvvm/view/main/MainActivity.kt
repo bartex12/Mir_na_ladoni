@@ -15,12 +15,16 @@ import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
+import androidx.preference.PreferenceManager
 import com.bartex.statesmvvm.R
 import com.bartex.statesmvvm.model.constants.Constants
+import com.bartex.statesmvvm.model.repositories.prefs.IPreferenceHelper
+import com.bartex.statesmvvm.model.repositories.prefs.PreferenceHelper
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
+import javax.inject.Inject
 
 
 class    MainActivity: AppCompatActivity(),
@@ -37,6 +41,13 @@ class    MainActivity: AppCompatActivity(),
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Log.d(TAG, "MainActivity onCreate ")
+       val isNewTheme =  PreferenceManager.getDefaultSharedPreferences(this)
+            .getBoolean(PreferenceHelper.THEME, false)
+        if(isNewTheme){
+            setTheme(R.style.AppThemeYellow_NoActionBar)
+        }else{
+            setTheme(R.style.AppTheme_NoActionBar)
+        }
         setContentView(R.layout.activity_main)
 
         //находим NavController

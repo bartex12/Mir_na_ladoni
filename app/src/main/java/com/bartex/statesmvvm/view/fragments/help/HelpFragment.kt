@@ -28,5 +28,12 @@ class HelpFragment: Fragment(){
         helpText?. let{
             tv_help.text = Html.fromHtml(it)
         }?:  getString(R.string.noHelp)
+
+        chip4.setOnClickListener{
+            helpViewModel.saveTheme()
+            requireActivity().recreate()
+        }
     }
+
+
 }
