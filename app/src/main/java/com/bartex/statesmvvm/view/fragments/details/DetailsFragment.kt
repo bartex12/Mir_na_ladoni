@@ -8,7 +8,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -20,7 +19,6 @@ import com.bartex.statesmvvm.R
 import com.bartex.statesmvvm.common.toast
 import com.bartex.statesmvvm.model.constants.Constants
 import com.bartex.statesmvvm.model.entity.state.State
-import com.bartex.statesmvvm.view.fragments.states.StatesSealed
 import com.github.twocoffeesoneteam.glidetovectoryou.GlideToVectorYou
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.fragment_details.*
@@ -59,19 +57,7 @@ class DetailsFragment : Fragment() {
         //получаем данные о том, находится ли страна в списке избранных и изменяем видимость кнопок
         state?. let {
             detailsViewModel.isFavoriteState(it)
-                .observe(viewLifecycleOwner, Observer<DetailsSealed> {renderData(it)
-//                if (isFavorite){
-//                    Log.d(TAG, "DetailsFragment onViewCreated isFavorite")
-//                    //toast(getString(R.string.addFavoriteToast))
-//                    btn_addToFavorite.visibility = View.GONE
-//                    btn_removeFavorite.visibility = View.VISIBLE
-//                }else{
-//                    Log.d(TAG, "DetailsFragment onViewCreated not Favorite")
-//                    //toast(getString(R.string.removeFavoriteToast))
-//                    btn_addToFavorite.visibility = View.VISIBLE
-//                    btn_removeFavorite.visibility = View.GONE
-//                }
-            })
+                .observe(viewLifecycleOwner, Observer<DetailsSealed> {renderData(it)})
             //заполняем поля экрана
             tv_state_name.text = it.name
 

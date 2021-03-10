@@ -15,7 +15,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bartex.statesmvvm.App
 import com.bartex.statesmvvm.R
 import com.bartex.statesmvvm.model.constants.Constants
-import com.bartex.statesmvvm.model.entity.favorite.Favorite
 import com.bartex.statesmvvm.model.entity.state.State
 import com.bartex.statesmvvm.view.adapter.favorite.FavoriteRVAdapter
 import com.bartex.statesmvvm.view.adapter.imageloader.GlideToVectorYouLoader

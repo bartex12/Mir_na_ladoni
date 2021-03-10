@@ -16,7 +16,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
 
-        <activity android:name="com.bartex.statesmvvm.view.settings.SettingsActivity" />
         <activity android:name="com.bartex.statesmvvm.view.main.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
