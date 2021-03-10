@@ -9,6 +9,7 @@ import com.bartex.statesmvvm.model.room.tables.RoomFavorite
 import com.bartex.statesmvvm.model.room.tables.RoomState
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Single
+import io.reactivex.rxjava3.schedulers.Schedulers
 
 class RoomStateCash(val db: Database): IRoomStateCash {
 
@@ -89,7 +90,7 @@ class RoomStateCash(val db: Database): IRoomStateCash {
                 emitter.onError(RuntimeException(" Ошибка при добавлении в избранное "))
             }
         }
-    }
+    }.subscribeOn(Schedulers.io())
 
     private fun removeFavor(state: State): Boolean{
         var roomFavorite:RoomFavorite? = null
@@ -110,7 +111,7 @@ class RoomStateCash(val db: Database): IRoomStateCash {
                 emitter.onError(RuntimeException(" Ошибка при добавлении в избранное "))
             }
         }
-    }
+    }.subscribeOn(Schedulers.io())
 
     private fun add(state: State):Boolean {
         val roomFavorite = RoomFavorite(

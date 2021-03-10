@@ -58,13 +58,15 @@ class DetailsFragment : Fragment() {
         //получаем данные о том, находится ли страна в списке избранных и изменяем видимость кнопок
         state?. let {
             detailsViewModel.isFavoriteState(it)
-            .observe(viewLifecycleOwner, Observer {isFavorite->
+                .observe(viewLifecycleOwner, Observer {isFavorite->
                 if (isFavorite){
                     Log.d(TAG, "DetailsFragment onViewCreated isFavorite")
+                    //toast(getString(R.string.addFavoriteToast))
                     btn_addToFavorite.visibility = View.GONE
                     btn_removeFavorite.visibility = View.VISIBLE
                 }else{
                     Log.d(TAG, "DetailsFragment onViewCreated not Favorite")
+                    //toast(getString(R.string.removeFavoriteToast))
                     btn_addToFavorite.visibility = View.VISIBLE
                     btn_removeFavorite.visibility = View.GONE
                 }
@@ -84,31 +86,11 @@ class DetailsFragment : Fragment() {
         btn_addToFavorite.setOnClickListener {
             state?. let {
                 detailsViewModel.addToFavorite(it)
-                detailsViewModel.isAddToFavorite().observe(viewLifecycleOwner,Observer{isAdd->
-                    if (isAdd){
-                        Log.d(TAG, "DetailsFragment btn_addToFavorite isAdd")
-                        toast(getString(R.string.addFavoriteToast))
-                        btn_addToFavorite.visibility = View.GONE
-                        btn_removeFavorite.visibility = View.VISIBLE
-                    }else{
-                        toast(getString(R.string.noAddFavoriteToast))
-                    }
-                } )
             }
         }
         btn_removeFavorite.setOnClickListener {
             state?. let {
                 detailsViewModel.removeFavorite(it)
-                detailsViewModel.isRemoveFavorite().observe(viewLifecycleOwner,Observer{isRemove->
-                    if (isRemove){
-                        toast(getString(R.string.removeFavoriteToast))
-                        Log.d(TAG, "DetailsFragment btn_removeFavorite isRemove")
-                        btn_addToFavorite.visibility = View.VISIBLE
-                        btn_removeFavorite.visibility = View.GONE
-                    }else{
-                        toast(getString(R.string.noRemoveFavoriteToast))
-                    }
-                } )
             }
         }
         //приводим меню тулбара в соответствии с onPrepareOptionsMenu в MainActivity

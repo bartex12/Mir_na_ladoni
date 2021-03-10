@@ -17,30 +17,11 @@ class DetailsViewModel:ViewModel() {
     }
 
     private val isFavorite = MutableLiveData<Boolean>()
-    private val isAddToFavorite = MutableLiveData<Boolean>()
-    private val isRemoveFavorite = MutableLiveData<Boolean>()
-
-    fun isFavorite():LiveData<Boolean> = isFavorite
-    fun isAddToFavorite():LiveData<Boolean> = isAddToFavorite
-    fun isRemoveFavorite():LiveData<Boolean> = isRemoveFavorite
 
     @Inject
     lateinit var roomCash: IRoomStateCash
     @Inject
     lateinit var stateUtils: IStateUtils
-
-    fun isFavoriteState(state: State):LiveData<Boolean>{
-        roomCash.isFavorite(state)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({
-                isFavorite.value =true
-            }, {
-                isFavorite.value =false
-                Log.d(TAG, "DetailsViewModel isFavorite error = ${it.message} ")
-            })
-        return isFavorite
-    }
 
     fun  getStateArea(state:State) = stateUtils.getStateArea(state)
 
@@ -49,16 +30,28 @@ class DetailsViewModel:ViewModel() {
     fun getStateCapital(state:State) = stateUtils.getStateCapital(state)
 
     fun getStateRegion(state:State) = stateUtils.getStateRegion(state)
+    
+    fun getStateZoom(state:State) = stateUtils.getStatezoom(state)
+
+    fun isFavoriteState(state: State):LiveData<Boolean>{
+        roomCash.isFavorite(state)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
+                isFavorite.value =it
+            }, {
+                Log.d(TAG, "DetailsViewModel isFavorite error = ${it.message} ")
+            })
+        return isFavorite
+    }
 
     fun addToFavorite(state:State){
         Log.d(TAG, "DetailsViewModel addToFavorite ")
         roomCash.addToFavorite(state)
-            .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe (   {
-                isAddToFavorite.value = true
+                isFavorite.value = true
             },{
-                isAddToFavorite.value = false
                 Log.d(TAG, "DetailsViewModel addToFavorite error = ${it.message} ")
             })
     }
@@ -66,15 +59,13 @@ class DetailsViewModel:ViewModel() {
     fun removeFavorite(state:State){
         Log.d(TAG, "DetailsViewModel removeFavorite ")
         roomCash.removeFavorite(state)
-            .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe (   {
-                isRemoveFavorite.value = true
+                isFavorite.value = false
             },{
-                isRemoveFavorite.value = false
+               // isRemoveFavorite.value = false
                 Log.d(TAG, "DetailsViewModel removeFavorite error = ${it.message} ")
             })
     }
 
-  fun getStateZoom(state:State) = stateUtils.getStatezoom(state)
 }
