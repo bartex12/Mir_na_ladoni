@@ -16,7 +16,7 @@ class DetailsViewModel:ViewModel() {
         const val TAG = "33333"
     }
 
-    private val isFavorite = MutableLiveData<Boolean>()
+    private val isFavorite = MutableLiveData<DetailsSealed>()
 
     @Inject
     lateinit var roomCash: IRoomStateCash
@@ -30,16 +30,17 @@ class DetailsViewModel:ViewModel() {
     fun getStateCapital(state:State) = stateUtils.getStateCapital(state)
 
     fun getStateRegion(state:State) = stateUtils.getStateRegion(state)
-    
+
     fun getStateZoom(state:State) = stateUtils.getStatezoom(state)
 
-    fun isFavoriteState(state: State):LiveData<Boolean>{
+    fun isFavoriteState(state: State):LiveData<DetailsSealed>{
         roomCash.isFavorite(state)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
-                isFavorite.value =it
+                isFavorite.value =DetailsSealed.Success(isFavorite = it)
             }, {
+                isFavorite.value =DetailsSealed.Error(error = it)
                 Log.d(TAG, "DetailsViewModel isFavorite error = ${it.message} ")
             })
         return isFavorite
@@ -50,8 +51,9 @@ class DetailsViewModel:ViewModel() {
         roomCash.addToFavorite(state)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe (   {
-                isFavorite.value = true
+                isFavorite.value = DetailsSealed.Success(isFavorite = true)
             },{
+                isFavorite.value =DetailsSealed.Error(error = it)
                 Log.d(TAG, "DetailsViewModel addToFavorite error = ${it.message} ")
             })
     }
@@ -61,9 +63,9 @@ class DetailsViewModel:ViewModel() {
         roomCash.removeFavorite(state)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe (   {
-                isFavorite.value = false
+                isFavorite.value = DetailsSealed.Success(isFavorite = false)
             },{
-               // isRemoveFavorite.value = false
+                isFavorite.value =DetailsSealed.Error(error = it)
                 Log.d(TAG, "DetailsViewModel removeFavorite error = ${it.message} ")
             })
     }

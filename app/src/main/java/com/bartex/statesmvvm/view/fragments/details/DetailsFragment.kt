@@ -20,6 +20,7 @@ import com.bartex.statesmvvm.R
 import com.bartex.statesmvvm.common.toast
 import com.bartex.statesmvvm.model.constants.Constants
 import com.bartex.statesmvvm.model.entity.state.State
+import com.bartex.statesmvvm.view.fragments.states.StatesSealed
 import com.github.twocoffeesoneteam.glidetovectoryou.GlideToVectorYou
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.fragment_details.*
@@ -58,18 +59,18 @@ class DetailsFragment : Fragment() {
         //получаем данные о том, находится ли страна в списке избранных и изменяем видимость кнопок
         state?. let {
             detailsViewModel.isFavoriteState(it)
-                .observe(viewLifecycleOwner, Observer {isFavorite->
-                if (isFavorite){
-                    Log.d(TAG, "DetailsFragment onViewCreated isFavorite")
-                    //toast(getString(R.string.addFavoriteToast))
-                    btn_addToFavorite.visibility = View.GONE
-                    btn_removeFavorite.visibility = View.VISIBLE
-                }else{
-                    Log.d(TAG, "DetailsFragment onViewCreated not Favorite")
-                    //toast(getString(R.string.removeFavoriteToast))
-                    btn_addToFavorite.visibility = View.VISIBLE
-                    btn_removeFavorite.visibility = View.GONE
-                }
+                .observe(viewLifecycleOwner, Observer<DetailsSealed> {renderData(it)
+//                if (isFavorite){
+//                    Log.d(TAG, "DetailsFragment onViewCreated isFavorite")
+//                    //toast(getString(R.string.addFavoriteToast))
+//                    btn_addToFavorite.visibility = View.GONE
+//                    btn_removeFavorite.visibility = View.VISIBLE
+//                }else{
+//                    Log.d(TAG, "DetailsFragment onViewCreated not Favorite")
+//                    //toast(getString(R.string.removeFavoriteToast))
+//                    btn_addToFavorite.visibility = View.VISIBLE
+//                    btn_removeFavorite.visibility = View.GONE
+//                }
             })
             //заполняем поля экрана
             tv_state_name.text = it.name
@@ -96,6 +97,28 @@ class DetailsFragment : Fragment() {
         //приводим меню тулбара в соответствии с onPrepareOptionsMenu в MainActivity
         setHasOptionsMenu(true)
         requireActivity().invalidateOptionsMenu()
+    }
+
+    private fun renderData(data: DetailsSealed) {
+        when (data) {
+            is DetailsSealed.Success -> {
+                if (data.isFavorite){
+                    Log.d(TAG, "DetailsFragment renderData Success isFavorite")
+                    //toast(getString(R.string.addFavoriteToast))
+                    btn_addToFavorite.visibility = View.GONE
+                    btn_removeFavorite.visibility = View.VISIBLE
+                }else{
+                    Log.d(TAG, "DetailsFragment renderData Success not Favorite")
+                    //toast(getString(R.string.removeFavoriteToast))
+                    btn_addToFavorite.visibility = View.VISIBLE
+                    btn_removeFavorite.visibility = View.GONE
+                }
+            }
+            is DetailsSealed.Error -> {
+                toast(data.error.message)
+                Log.d(TAG, "DetailsFragment renderData Error")
+            }
+        }
     }
 
     override fun onPause() {
