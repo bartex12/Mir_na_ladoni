@@ -17,4 +17,10 @@
         android:icon="@drawable/ic_baseline_beach_access_24_white"
         android:title="@string/weather"/>
 
+    <item
+        android:id="@+id/wiki"
+        android:enabled="true"
+        android:icon="@drawable/ic_wikipedia"
+        android:title="@string/wiki"/>
+
 </menu>

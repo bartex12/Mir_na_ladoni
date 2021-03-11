@@ -82,6 +82,8 @@
     <string name="pref_name">Настройки</string>
     <string name="noAddFavoriteToast">Ошибка. Не добавлено в избранное</string>
     <string name="noRemoveFavoriteToast">Ошибка. Не удалено из избранного</string>
+    <string name="Википедия">wiki</string>
+    <string name="wiki">Вики</string>
 
     <string-array name="pref_entry_sort">
         <item>По населению по убыванию</item>

@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
+import androidx.core.os.trace
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -132,6 +133,14 @@ class DetailsFragment : Fragment() {
                 state?. let {
                     val bundle = bundleOf(Constants.DETAILS to state)
                     navController.navigate(R.id.action_detailsFragment_to_weatherFragment, bundle)
+                }
+                true
+            }
+            R.id.wiki -> {
+                state?. let {
+                    val intent = Intent(Intent.ACTION_VIEW)
+                    intent.data =  Uri.parse("https://en.wikipedia.org/wiki/${it.name}")
+                    startActivity(intent)
                 }
                 true
             }
