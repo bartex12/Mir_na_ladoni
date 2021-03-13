@@ -66,6 +66,11 @@ class    MainActivity: AppCompatActivity(),
         nav_view.setNavigationItemSelectedListener(this)
     }
 
+    override fun onResume() {
+        super.onResume()
+        Log.d(TAG, "MainActivity onResume ")
+    }
+
     // Этот метод вызывается всякий раз, когда пользователь выбирает переход вверх
     // в иерархии действий приложения из панели действий (экшенбара)
     override fun onSupportNavigateUp(): Boolean {
@@ -85,6 +90,7 @@ class    MainActivity: AppCompatActivity(),
     }
 
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
+        Log.d(TAG, "MainActivity onPrepareOptionsMenu ")
         //нашел способ установить видимость иконок в тулбаре без перебора всех вариантов
         val id = navController.currentDestination?.id
         //видимость иконок в тулбаре

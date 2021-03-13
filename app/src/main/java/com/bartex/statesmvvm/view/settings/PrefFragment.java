@@ -14,6 +14,8 @@ import com.bartex.statesmvvm.R;
 
 public class PrefFragment extends PreferenceFragmentCompat {
 
+
+
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
         // создаём настройки из xml файла

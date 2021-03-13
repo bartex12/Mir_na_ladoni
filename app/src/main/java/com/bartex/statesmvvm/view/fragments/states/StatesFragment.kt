@@ -82,7 +82,7 @@ class StatesFragment : Fragment() {
         )
         rv_states.adapter = adapter
         rv_states.layoutManager?.scrollToPosition(position) //крутим в запомненную позицию списка
-        Log.d(FavoriteFragment.TAG, "FavoriteFragment init scrollToPosition = $position")
+        Log.d(FavoriteFragment.TAG, "StatesFragment initAdapter scrollToPosition = $position")
     }
 
     private fun renderData(data: StatesSealed) {
