@@ -26,18 +26,4 @@
             android:text="@string/Help"
             android:textStyle="normal"/>
     </ScrollView>
-
-
-    <com.google.android.material.chip.Chip
-        android:id="@+id/chip4"
-        style="@style/Widget.MaterialComponents.Chip.Entry"
-        android:layout_gravity="center_horizontal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="24dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:text="новая тема"/>
-
 </androidx.constraintlayout.widget.ConstraintLayout>

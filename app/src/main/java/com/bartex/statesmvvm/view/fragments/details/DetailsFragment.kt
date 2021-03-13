@@ -138,9 +138,11 @@ class DetailsFragment : Fragment() {
             }
             R.id.wiki -> {
                 state?. let {
+                    //ручной запуск анонимной активити со страницей из википедии
                     val intent = Intent(Intent.ACTION_VIEW)
                     intent.data =  Uri.parse("https://en.wikipedia.org/wiki/${it.name}")
                     startActivity(intent)
+
                 }
                 true
             }

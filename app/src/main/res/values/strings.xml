@@ -98,4 +98,42 @@
         <item>3</item>
         <item>4</item>
     </string-array>
+
+    <string-array name="pref_entry_color">
+        <item>Стандартная</item>
+        <item>Зелёная</item>
+        <item>Фиолетовая</item>
+        <item>Красная</item>
+    </string-array>
+
+    <string-array name="pref_entryValues_color">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+    </string-array>
+
+
+    <string name="title_activity_settings">Настройки</string>
+
+    <!-- Preference Titles -->
+    <string name="messages_header">Messages</string>
+    <string name="sync_header">Sync</string>
+
+    <!-- Messages Preferences -->
+    <string name="signature_title">Your signature</string>
+    <string name="reply_title">Default reply action</string>
+
+    <!-- Sync Preferences -->
+    <string name="sync_title">Sync email periodically</string>
+    <string name="attachment_title">Download incoming attachments</string>
+    <string name="attachment_summary_on">Automatically download attachments for incoming emails
+    </string>
+    <string name="attachment_summary_off">Only download attachments when manually requested</string>
+    <string name="kind_sort">Способ сортировки</string>
+    <string name="app_theme">Тема приложения</string>
+    <string name="choose_color_theme">Выберите цветовую тему приложения</string>
+    <string name="theme_cat">Тема</string>
+    <string name="toastForExit">Для выхода нажмите ещё раз</string>
+    <string name="wiki_act">Википедия</string>
 </resources>

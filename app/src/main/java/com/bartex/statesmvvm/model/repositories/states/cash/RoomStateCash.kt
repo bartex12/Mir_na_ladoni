@@ -60,16 +60,14 @@ class RoomStateCash(val db: Database): IRoomStateCash {
     }
 
 
-    override fun loadFavorite(): Single<List<State>> {
-        Log.d(TAG, "RoomStateCash loadFavorite")
-        return  Single.fromCallable {
+    override fun loadFavorite(): Single<List<State>> = Single.fromCallable {
             db.favoriteDao.getAll().map {roomFavorite->
                 State(roomFavorite.capital,roomFavorite.flag, roomFavorite.name,
                     roomFavorite.region,roomFavorite.population, roomFavorite.area,
                     arrayOf(roomFavorite.lat, roomFavorite.lng))
             }
-        }
-    }
+        }.subscribeOn(Schedulers.io())
+
 
     override fun isFavorite(state: State):Single<Boolean> {
         return Single.fromCallable {

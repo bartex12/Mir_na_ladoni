@@ -16,8 +16,4 @@ class HelpViewModel:ViewModel() {
     fun getHelpText():String?{
       return  helpRepo.getHelpText()
     }
-
-    fun saveTheme(){
-        helper.saveTheme()
-    }
 }

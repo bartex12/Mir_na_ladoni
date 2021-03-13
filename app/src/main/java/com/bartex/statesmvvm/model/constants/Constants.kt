@@ -6,4 +6,5 @@ object Constants {
     const val STATE = "STATE"
     const val FAVORITE = "FAVORITE"
     const val DETAILS = "DETAILS"
+    const val WIKI_PAGE_NAME = "WIKI_PAGE_NAME"
 }

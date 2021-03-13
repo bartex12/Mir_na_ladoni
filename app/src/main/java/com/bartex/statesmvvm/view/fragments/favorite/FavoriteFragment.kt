@@ -45,15 +45,12 @@ class FavoriteFragment: Fragment() {
             App.instance.appComponent.inject(this)
         }
 
-        favoriteViewModel.getFavorite().observe(viewLifecycleOwner,object :Observer<List<State>>{
-            override fun onChanged(favorites: List<State>?) {
+        favoriteViewModel.getFavorite().observe(viewLifecycleOwner,Observer<List<State>>{favorites->
                 Log.d(TAG, "FavoriteFragment onChanged")
                 favorites?. let{
                     renderData(it)
-                }?: return
-            }
+                }
         })
-
         initAdapter()
 
         //восстанавливаем позицию списка после поворота или возвращения на экран

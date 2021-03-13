@@ -19,10 +19,22 @@
         android:entries="@array/pref_entry_sort"
         android:entryValues="@array/pref_entryValues_sort"
         android:key="ListSort"
-        android:title="Способ сортировки"
+        android:title="@string/kind_sort"
         app:defaultValue="3"
         android:summary="@string/ListSort">
     </ListPreference>
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/theme_cat">
+        <ListPreference
+            android:entries="@array/pref_entry_color"
+            android:entryValues="@array/pref_entryValues_color"
+            android:key="ListColor"
+            android:title="@string/app_theme"
+            app:defaultValue="1"
+            android:summary="@string/choose_color_theme">
+        </ListPreference>
     </PreferenceCategory>
 
 </androidx.preference.PreferenceScreen>

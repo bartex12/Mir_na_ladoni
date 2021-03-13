@@ -9,6 +9,8 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.Navigation
+import androidx.navigation.ui.NavigationUI
 import com.bartex.statesmvvm.App
 import com.bartex.statesmvvm.R
 import com.bartex.statesmvvm.model.constants.Constants

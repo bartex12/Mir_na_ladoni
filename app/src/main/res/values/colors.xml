@@ -2,7 +2,7 @@
 <resources>
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
-    <color name="colorAccent">#FFA000</color>
+    <color name="colorAccent">#ffab40</color>
 
     <color name="colorFone">#80cff2da</color>
     <color name="button_tint">#85EC6D</color>
@@ -13,13 +13,13 @@
 
     <color name="colorPrimaryPurple">#6200EE</color>
     <color name="colorPrimaryDarkPurple">#3700B3</color>
-    <color name="colorAccentPurple">#03DAC5</color>
+    <color name="colorAccentPurple">#ff6e40</color>
 
     <color name="colorPrimaryRed">#F44336</color>
     <color name="colorPrimaryDarkRed">#D32F2F</color>
-    <color name="colorAccentRed">#00E676</color>
+    <color name="colorAccentRed">#ff4081</color>
 
     <color name="colorPrimaryGreen">#259b24</color>
     <color name="colorPrimaryDarkGreen">#0a7e07</color>
-    <color name="colorAccentGreen">#ff6e40</color>
+    <color name="colorAccentGreen">#6889ff</color>
 </resources>

@@ -14,9 +14,6 @@
             android:id="@+id/action_statesFragment_to_favoriteFragment"
             app:destination="@id/favoriteFragment" />
         <action
-            android:id="@+id/action_statesFragment_to_prefFragment"
-            app:destination="@id/prefFragment" />
-        <action
             android:id="@+id/action_statesFragment_to_helpFragment"
             app:destination="@id/helpFragment" />
         <action
@@ -25,6 +22,11 @@
         <action
             android:id="@+id/action_statesFragment_to_detailsFragment"
             app:destination="@id/detailsFragment" />
+        <action
+            android:id="@+id/action_statesFragment_to_settingsActivity"
+            app:destination="@id/settingsActivity"
+            app:popUpTo="@id/statesFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/favoriteFragment"
@@ -37,11 +39,13 @@
             app:popUpTo="@id/favoriteFragment"
             app:popUpToInclusive="true" />
         <action
-            android:id="@+id/action_favoriteFragment_to_prefFragment"
-            app:destination="@id/prefFragment" />
-        <action
             android:id="@+id/action_favoriteFragment_to_helpFragment"
             app:destination="@id/helpFragment" />
+        <action
+            android:id="@+id/action_favoriteFragment_to_settingsActivity"
+            app:destination="@id/settingsActivity"
+            app:popUpTo="@id/favoriteFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/helpFragment"
@@ -52,20 +56,8 @@
             android:id="@+id/action_helpFragment_to_favoriteFragment"
             app:destination="@id/favoriteFragment" />
         <action
-            android:id="@+id/action_helpFragment_to_prefFragment"
-            app:destination="@id/prefFragment"
-            app:popUpTo="@id/helpFragment"
-            app:popUpToInclusive="true" />
-    </fragment>
-    <fragment
-        android:id="@+id/prefFragment"
-        android:name="com.bartex.statesmvvm.view.settings.PrefFragment"
-        android:label="PrefFragment">
-        <action
-            android:id="@+id/action_prefFragment_to_helpFragment"
-            app:destination="@id/helpFragment"
-            app:popUpTo="@id/prefFragment"
-            app:popUpToInclusive="true" />
+            android:id="@+id/action_helpFragment_to_settingsActivity"
+            app:destination="@id/settingsActivity" />
     </fragment>
     <fragment
         android:id="@+id/weatherFragment"
@@ -73,11 +65,13 @@
         android:label="WeatherFragment"
         tools:layout="@layout/fragment_weather">
         <action
-            android:id="@+id/action_weatherFragment_to_prefFragment"
-            app:destination="@id/prefFragment" />
-        <action
             android:id="@+id/action_weatherFragment_to_helpFragment"
             app:destination="@id/helpFragment" />
+        <action
+            android:id="@+id/action_weatherFragment_to_settingsActivity"
+            app:destination="@id/settingsActivity"
+            app:popUpTo="@id/statesFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/detailsFragment"
@@ -96,11 +90,13 @@
             app:popUpTo="@id/detailsFragment"
             app:popUpToInclusive="true" />
         <action
-            android:id="@+id/action_detailsFragment_to_prefFragment"
-            app:destination="@id/prefFragment" />
-        <action
             android:id="@+id/action_detailsFragment_to_helpFragment"
             app:destination="@id/helpFragment" />
+        <action
+            android:id="@+id/action_detailsFragment_to_settingsActivity"
+            app:destination="@id/settingsActivity"
+            app:popUpTo="@id/detailsFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/searchFragment"
@@ -111,13 +107,20 @@
             android:id="@+id/action_searchFragment_to_favoriteFragment"
             app:destination="@id/favoriteFragment" />
         <action
-            android:id="@+id/action_searchFragment_to_prefFragment"
-            app:destination="@id/prefFragment" />
-        <action
             android:id="@+id/action_searchFragment_to_helpFragment"
             app:destination="@id/helpFragment" />
         <action
             android:id="@+id/action_searchFragment_to_detailsFragment"
             app:destination="@id/detailsFragment" />
+        <action
+            android:id="@+id/action_searchFragment_to_settingsActivity"
+            app:destination="@id/settingsActivity"
+            app:popUpTo="@id/searchFragment"
+            app:popUpToInclusive="true" />
     </fragment>
+    <activity
+        android:id="@+id/settingsActivity"
+        android:name="com.bartex.statesmvvm.view.settings.SettingsActivity"
+        android:label="SettingsActivity" />
+
 </navigation>
