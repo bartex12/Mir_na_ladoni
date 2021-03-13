@@ -32,6 +32,8 @@ class    MainActivity: AppCompatActivity(),
     lateinit var navController:NavController
     lateinit var  appBarConfiguration:AppBarConfiguration
     private var oldTheme:Int = 1
+    private var oldSort:Int = 1
+    private var isOldSort:Boolean = true
 
     companion object{
         const val TAG = "33333"
@@ -44,6 +46,10 @@ class    MainActivity: AppCompatActivity(),
         //читаем сохранённную в настройках тему
         oldTheme = PreferenceManager.getDefaultSharedPreferences(this)
             .getString("ListColor", "1")!!.toInt()
+        oldSort = PreferenceManager.getDefaultSharedPreferences(this)
+            .getString("ListSort", "1")!!.toInt()
+        isOldSort = PreferenceManager.getDefaultSharedPreferences(this)
+            .getBoolean("cbSort", true)
         //устанавливаем сохранённную в настройках тему
         when(oldTheme){
             1->setTheme(R.style.AppTheme)
@@ -73,27 +79,16 @@ class    MainActivity: AppCompatActivity(),
         super.onResume()
         Log.d(TAG, "MainActivity onResume currentDestination =" +
                 " ${navController.currentDestination?.label}")
-
-//            navController.currentDestination?.id?.  let{
-//                navController.navigate(it)
-//        }
-
-//        //чтобы после возврата из SettingsActivity автоматически происходило обновление
-//        //нужно принудительно делать вызов фрагмента который уже есть но у него теперь другие параметры
-//        if (navController.currentDestination?.id == R.id.wikiFragment){
-//            navController.currentDestination?.id?.  let{
-//                navController.navigate(it)
-//        }
-//        }else{
-//            navController.navigate(R.id.statesFragment)
-//        }
-
         //при изменении темы и возвращении из настроек проверяем - какая тема установлена
        val newTheme = PreferenceManager.getDefaultSharedPreferences(this)
             .getString("ListColor", "1")!!.toInt()
         Log.d(TAG, "MainActivity onResume newTheme =$newTheme oldTheme = $oldTheme")
-        //если тема изменилась, пересоздаём активити
-        if (newTheme != oldTheme) recreate()
+        val  newSort = PreferenceManager.getDefaultSharedPreferences(this)
+            .getString("ListSort", "1")!!.toInt()
+       val newIsSort = PreferenceManager.getDefaultSharedPreferences(this)
+           .getBoolean("cbSort", true)
+        //если настройки изменились, пересоздаём активити, чтобы не париться с изменением данных
+        if (newTheme != oldTheme || newSort!= oldSort || newIsSort!= isOldSort ) recreate()
     }
 
     // Этот метод вызывается всякий раз, когда пользователь выбирает переход вверх
@@ -178,16 +173,16 @@ class    MainActivity: AppCompatActivity(),
         when (item.itemId) {
             R.id.nav_favorites -> {
                 Log.d(TAG, "MainActivity onNavigationItemSelected nav_favorites")
-                navController.navigate(R.id.action_statesFragment_to_favoriteFragment)
+                navController.navigate(R.id.favoriteFragment)
             }
             R.id.nav_setting -> {
                 Log.d(TAG, "MainActivity onNavigationItemSelected nav_setting")
-                navController.navigate(R.id.action_statesFragment_to_settingsActivity)
+                navController.navigate(R.id.settingsActivity)
             }
             R.id.nav_help -> {
 
             Log.d(TAG, "MainActivity onNavigationItemSelected nav_help")
-                    navController.navigate(R.id.action_statesFragment_to_helpFragment)
+                    navController.navigate(R.id.helpFragment)
         }
             R.id.nav_share -> {
                 Log.d(TAG, "MainActivity onNavigationItemSelected nav_share")

@@ -24,9 +24,7 @@
             app:destination="@id/detailsFragment" />
         <action
             android:id="@+id/action_statesFragment_to_settingsActivity"
-            app:destination="@id/settingsActivity"
-            app:popUpTo="@id/statesFragment"
-            app:popUpToInclusive="true" />
+            app:destination="@id/settingsActivity" />
     </fragment>
     <fragment
         android:id="@+id/favoriteFragment"
@@ -43,9 +41,7 @@
             app:destination="@id/helpFragment" />
         <action
             android:id="@+id/action_favoriteFragment_to_settingsActivity"
-            app:destination="@id/settingsActivity"
-            app:popUpTo="@id/favoriteFragment"
-            app:popUpToInclusive="true" />
+            app:destination="@id/settingsActivity" />
     </fragment>
     <fragment
         android:id="@+id/helpFragment"
@@ -69,9 +65,7 @@
             app:destination="@id/helpFragment" />
         <action
             android:id="@+id/action_weatherFragment_to_settingsActivity"
-            app:destination="@id/settingsActivity"
-            app:popUpTo="@id/statesFragment"
-            app:popUpToInclusive="true" />
+            app:destination="@id/settingsActivity" />
     </fragment>
     <fragment
         android:id="@+id/detailsFragment"
@@ -94,9 +88,7 @@
             app:destination="@id/helpFragment" />
         <action
             android:id="@+id/action_detailsFragment_to_settingsActivity"
-            app:destination="@id/settingsActivity"
-            app:popUpTo="@id/detailsFragment"
-            app:popUpToInclusive="true" />
+            app:destination="@id/settingsActivity" />
     </fragment>
     <fragment
         android:id="@+id/searchFragment"
@@ -114,9 +106,7 @@
             app:destination="@id/detailsFragment" />
         <action
             android:id="@+id/action_searchFragment_to_settingsActivity"
-            app:destination="@id/settingsActivity"
-            app:popUpTo="@id/searchFragment"
-            app:popUpToInclusive="true" />
+            app:destination="@id/settingsActivity" />
     </fragment>
     <activity
         android:id="@+id/settingsActivity"

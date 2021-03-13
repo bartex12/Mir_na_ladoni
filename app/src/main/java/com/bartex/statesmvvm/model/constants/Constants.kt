@@ -7,4 +7,7 @@ object Constants {
     const val FAVORITE = "FAVORITE"
     const val DETAILS = "DETAILS"
     const val WIKI_PAGE_NAME = "WIKI_PAGE_NAME"
+    const val LIST_COLOR = "LIST_COLOR"
+    const val LIST_SORT = "LIST_SORT"
+    const val IS_LIST_SORT = "IS_LIST_SORT"
 }
