@@ -6,11 +6,11 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.bartex.statesmvvm.R
-import com.bartex.statesmvvm.model.entity.favorite.Favorite
 import com.bartex.statesmvvm.model.entity.state.State
 import com.bartex.statesmvvm.view.adapter.imageloader.IImageLoader
 import com.bartex.statesmvvm.view.fragments.favorite.FavoriteViewModel
-import kotlinx.android.synthetic.main.item_state_favorite.view.*
+import kotlinx.android.synthetic.main.item_state_favor.view.*
+
 
 class FavoriteRVAdapter(private val favoriteViewModel: FavoriteViewModel, private val onitemClickListener: OnitemClickListener, val imageLoader: IImageLoader<ImageView>)
     : RecyclerView.Adapter<FavoriteRVAdapter.ViewHolder> (){
@@ -44,10 +44,10 @@ class FavoriteRVAdapter(private val favoriteViewModel: FavoriteViewModel, privat
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         fun bind(state: State){
-            itemView.tv_name_favorite.text = state.name
-            itemView.tv_area_favorite.text = favoriteViewModel.getArea(state)
-            itemView.tv_population_favorite.text = favoriteViewModel.getPopulation(state)
-            state.flag?.let { imageLoader.loadInto(it, itemView.iv_flag_favorite) }
+            itemView.tv_name_favor.text = state.name
+            itemView.tv_area_favor.text = favoriteViewModel.getArea(state)
+            itemView.tv_population_favor.text = favoriteViewModel.getPopulation(state)
+            state.flag?.let { imageLoader.loadInto(it, itemView.iv_flag_favor) }
 
             itemView.setOnClickListener {
                 onitemClickListener.onItemclick(state)

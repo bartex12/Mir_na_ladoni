@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:background="#80cff2da"
+        android:background="@color/colorFone"
         android:gravity="center_vertical">
 
     <LinearLayout
@@ -26,18 +26,18 @@
         android:gravity="center_vertical">
 
         <ImageView
-            android:id="@+id/iv_flag_favorite"
+            android:id="@+id/iv_flag_favor"
             android:layout_width="60dp"
             android:layout_height="40dp"
             android:layout_marginTop="8dp"/>
 
         <TextView
-            android:id="@+id/tv_name_favorite"
+            android:id="@+id/tv_name_favor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
             android:textSize="16sp"
-            android:textColor="@color/colorPrimaryDark"
+            android:textColor="?colorPrimaryDark"
             tools:text="@string/name"/>
     </LinearLayout>
 
@@ -49,22 +49,22 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/tv_area_favorite"
+                android:id="@+id/tv_area_favor"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
-                android:textColor="@color/colorPrimaryDark"
+                android:textColor="?colorPrimaryDark"
                 android:layout_marginBottom="2dp"
                 android:layout_marginTop="4dp"
                 tools:text="@string/area"
                 />
 
             <TextView
-                android:id="@+id/tv_population_favorite"
+                android:id="@+id/tv_population_favor"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
-                android:textColor="@color/colorPrimaryDark"
+                android:textColor="?colorPrimaryDark"
                 android:layout_marginBottom="8dp"
                 tools:text="@string/population"/>
         </LinearLayout>

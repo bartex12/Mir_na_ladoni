@@ -1,6 +1,6 @@
 <resources>
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.MaterialComponents.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
@@ -9,31 +9,29 @@
         <item name="favorite"> @style/ButtonFavoriteStyle</item>
     </style>
 
-    <style name="AppTheme_NoActionBar"  parent="AppTheme">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-    </style>
 
-    <style name="AppThemeGreen" parent="Theme.MaterialComponents.Light.DarkActionBar">
+    <style name="AppThemeGreen" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="colorPrimary">@color/colorPrimaryGreen</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDarkGreen</item>
         <item name="colorAccent">@color/colorAccentGreen</item>
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
+
+        <item name="favorite"> @style/ButtonFavoriteStyle</item>
     </style>
 
-    <style name="AppThemePurple" parent="Theme.MaterialComponents.Light.DarkActionBar">
+    <style name="AppThemePurple" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="colorPrimary">@color/colorPrimaryPurple</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDarkPurple</item>
         <item name="colorAccent">@color/colorAccentPurple</item>
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
+
+        <item name="favorite"> @style/ButtonFavoriteStyle</item>
     </style>
 
-    <style name="AppThemeYellow" parent="Theme.MaterialComponents.Light.DarkActionBar">
+    <style name="AppThemeYellow" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="colorPrimary">@color/colorPrimaryYellow</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDarkYellow</item>
         <item name="colorAccent">@color/colorAccentYellow</item>
+
+        <item name="favorite"> @style/ButtonFavoriteStyle</item>
     </style>
 
     <style name="AppThemeYellow_NoActionBar" parent="AppThemeYellow">
@@ -46,29 +44,29 @@
 
     <style name="GreetingCityStyle">
         <item name="android:textSize">24sp</item>
-        <item name="android:textColor">@color/colorPrimaryDark</item>
+        <item name="android:textColor">?colorPrimaryDark</item>
         <item name="android:textStyle">italic</item>
     </style>
 
     <style name="StateStyleBase">
         <item name="android:textSize">18sp</item>
-        <item name="android:textColor">@color/colorPrimaryDark</item>
+        <item name="android:textColor">?colorPrimaryDark</item>
     </style>
 
     <style name="StateStyle">
         <item name="android:textSize">18sp</item>
-        <item name="android:textColor">@color/colorPrimaryDark</item>
+        <item name="android:textColor">?colorPrimaryDark</item>
         <item name="android:layout_marginStart">16dp</item>
     </style>
 
     <style name="StateStyleMiddleBase">
         <item name="android:textSize">16sp</item>
-        <item name="android:textColor">@color/colorPrimaryDark</item>
+        <item name="android:textColor">?colorPrimaryDark</item>
     </style>
 
     <style name="StateStyleMiddle">
         <item name="android:textSize">16sp</item>
-        <item name="android:textColor">@color/colorPrimaryDark</item>
+        <item name="android:textColor">?colorPrimaryDark</item>
         <item name="android:layout_marginStart">16dp</item>
     </style>
 
@@ -78,9 +76,9 @@
         <item name="android:layout_margin">16dp</item>
         <item name="android:paddingStart">16dp</item>
         <item name="android:paddingEnd">16dp</item>
-        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:textColor">?colorPrimary</item>
         <item name="android:textSize">12sp</item>
-        <item name="strokeColor">@color/colorAccent</item>
+        <item name="strokeColor">?colorAccent</item>
     </style>
 
 </resources>

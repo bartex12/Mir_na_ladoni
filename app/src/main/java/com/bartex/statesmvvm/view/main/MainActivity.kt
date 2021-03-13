@@ -44,9 +44,9 @@ class    MainActivity: AppCompatActivity(),
        val isNewTheme =  PreferenceManager.getDefaultSharedPreferences(this)
             .getBoolean(PreferenceHelper.THEME, false)
         if(isNewTheme){
-            setTheme(R.style.AppThemeYellow_NoActionBar)
+            setTheme(R.style.AppThemePurple)
         }else{
-            setTheme(R.style.AppTheme_NoActionBar)
+            setTheme(R.style.AppTheme)
         }
         setContentView(R.layout.activity_main)
 
