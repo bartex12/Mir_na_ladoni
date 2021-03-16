@@ -30,6 +30,7 @@ class SettingsActivity : AppCompatActivity() {
             3->setTheme(R.style.AppThemePurple)
             4->setTheme(R.style.AppThemeRed)
             5->setTheme(R.style.AppThemeBlue)
+            6->setTheme(R.style.AppThemeBlack)
         }
         setContentView(R.layout.settings_activity)
 

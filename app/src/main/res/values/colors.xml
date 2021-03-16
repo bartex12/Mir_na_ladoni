@@ -22,6 +22,10 @@
     <color name="colorPrimaryGreen">#259b24</color>
     <color name="colorPrimaryDarkGreen">#0a7e07</color>
     <color name="colorAccentGreen">#6889ff</color>
+
+    <color name="colorPrimaryBlack">#424242</color>
+    <color name="colorPrimaryDarkBlack">#212121</color>
+    <color name="colorAccentBlack">#5677fc</color>
 </resources>
 
     <!--#64ffda-->
