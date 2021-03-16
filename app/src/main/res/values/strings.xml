@@ -104,6 +104,7 @@
         <item>Зелёная</item>
         <item>Фиолетовая</item>
         <item>Красная</item>
+        <item>Синяя</item>
     </string-array>
 
     <string-array name="pref_entryValues_color">
@@ -111,12 +112,11 @@
         <item>2</item>
         <item>3</item>
         <item>4</item>
+        <item>5</item>
     </string-array>
 
 
     <string name="title_activity_settings">Настройки</string>
-
-    <!-- Preference Titles -->
     <string name="messages_header">Messages</string>
     <string name="sync_header">Sync</string>
 

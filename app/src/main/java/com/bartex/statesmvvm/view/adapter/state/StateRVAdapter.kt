@@ -27,7 +27,7 @@ class StateRVAdapter(private val onitemClickListener: OnitemClickListener, val i
     var listStates: List<State> = listOf()
         set(value){
             field = value
-            Log.d(TAG, "StateRVAdapter set =  ${listStates.map {/* it.name+" * "+*/it.capital+" * " }}")
+           // Log.d(TAG, "StateRVAdapter set =  ${listStates.map {/* it.name+" * "+*/it.capital+" * " }}")
             notifyDataSetChanged()
         }
 

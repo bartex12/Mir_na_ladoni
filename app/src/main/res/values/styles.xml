@@ -29,6 +29,12 @@
         <item name="colorAccent">@color/colorAccentRed</item>
     </style>
 
+    <style name="AppThemeBlue" parent="AppTheme">
+        <item name="colorPrimary">@color/colorPrimaryBlue</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDarkBlue</item>
+        <item name="colorAccent">@color/colorAccentBlue</item>
+    </style>
+
 <!--    для памяти как делать NoActionBar-->
 <!--    <style name="AppThemeRed_NoActionBar" parent="AppThemeRed">-->
 <!--        <item name="windowActionBar">false</item>-->

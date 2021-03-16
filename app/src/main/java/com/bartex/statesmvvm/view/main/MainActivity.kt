@@ -56,6 +56,7 @@ class    MainActivity: AppCompatActivity(),
             2->setTheme(R.style.AppThemeGreen)
             3->setTheme(R.style.AppThemePurple)
             4->setTheme(R.style.AppThemeRed)
+            5->setTheme(R.style.AppThemeBlue)
         }
         setContentView(R.layout.activity_main)
 

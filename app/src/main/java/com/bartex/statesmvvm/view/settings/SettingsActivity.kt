@@ -29,6 +29,7 @@ class SettingsActivity : AppCompatActivity() {
             2->setTheme(R.style.AppThemeGreen)
             3->setTheme(R.style.AppThemePurple)
             4->setTheme(R.style.AppThemeRed)
+            5->setTheme(R.style.AppThemeBlue)
         }
         setContentView(R.layout.settings_activity)
 
@@ -46,38 +47,6 @@ class SettingsActivity : AppCompatActivity() {
             onBackPressed()
         }
     }
-//
-//    override fun onResume() {
-//        super.onResume()
-//        Log.d(TAG, "SettingsActivity onResume ")
-//    }
-//
-//    override fun onStop() {
-//        super.onStop()
-//        Log.d(TAG, "SettingsActivity onStop ")
-//    }
-//
-////    override fun onBackPressed() {
-////        //при изменении темы и возвращении из настроек проверяем - какая тема установлена
-////        val newTheme = PreferenceManager.getDefaultSharedPreferences(this)
-////            .getString("ListColor", "1")!!.toInt()
-////        Log.d(MainActivity.TAG, "SettingsActivity onBackPressed newTheme =$newTheme oldTheme = $oldTheme")
-////        //если тема изменилась, пересоздаём активити
-////        if (newTheme != oldTheme){
-////            //показываем Toast
-////            Toast.makeText(this, getString(R.string.toastForExit),Toast.LENGTH_SHORT).show()
-////            //пересоздаём активити с новой темой
-////            recreate()
-////            //finish() если сразу закрывать
-////        }else{
-////            super.onBackPressed()
-////        }
-////    }
-//
-//    override fun onDestroy() {
-//        super.onDestroy()
-//        Log.d(TAG, "SettingsActivity onDestroy ")
-//    }
 
    class SettingsFragment : PreferenceFragmentCompat() {
 
