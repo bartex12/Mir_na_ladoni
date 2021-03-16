@@ -50,10 +50,10 @@ class StatesFragment : Fragment() {
         stateViewModel.getStates()
             .observe(viewLifecycleOwner, Observer<StatesSealed> {renderData(it)})
 
-        initAdapter()
-
         //восстанавливаем позицию списка после поворота или возвращения на экран
         position =  stateViewModel.getPositionState()
+
+        initAdapter()
 
         //приводим меню тулбара в соответствии с onPrepareOptionsMenu в MainActivity
         //без этой строки меню в тулбаре ведёт себя неправильно
@@ -64,11 +64,11 @@ class StatesFragment : Fragment() {
     //запоминаем  позицию списка, на которой сделан клик - на случай поворота экрана
     override fun onPause() {
         super.onPause()
-        Log.d(TAG, "StatesFragment onPause ")
         //определяем первую видимую позицию
         val manager = rv_states.layoutManager as LinearLayoutManager
         val firstPosition = manager.findFirstVisibleItemPosition()
         stateViewModel.savePositionState(firstPosition)
+        Log.d(TAG, "StatesFragment onPause firstPosition = $firstPosition")
     }
 
     private fun initAdapter() {
@@ -81,8 +81,6 @@ class StatesFragment : Fragment() {
             )
         )
         rv_states.adapter = adapter
-        rv_states.layoutManager?.scrollToPosition(position) //крутим в запомненную позицию списка
-        Log.d(FavoriteFragment.TAG, "StatesFragment initAdapter scrollToPosition = $position")
     }
 
     private fun renderData(data: StatesSealed) {
@@ -122,6 +120,8 @@ class StatesFragment : Fragment() {
             empty_view.visibility =View.GONE
 
             adapter?.listStates = states
+            rv_states.layoutManager?.scrollToPosition(position) //крутим в запомненную позицию списка
+            Log.d(TAG, "StatesFragment renderState scrollToPosition = $position")
         }
     }
 
@@ -134,12 +134,5 @@ class StatesFragment : Fragment() {
                 navController.navigate(R.id.action_statesFragment_to_detailsFragment, bundle)
             }
         }
-
-//    private fun Fragment.toast(string: String?) {
-//        Toast.makeText(context, string, Toast.LENGTH_SHORT).apply {
-//            setGravity(Gravity.BOTTOM, 0, 250)
-//            show()
-//        }
-//    }
 }
 

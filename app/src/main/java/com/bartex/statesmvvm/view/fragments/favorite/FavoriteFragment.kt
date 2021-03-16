@@ -72,8 +72,6 @@ class FavoriteFragment: Fragment() {
             )
         )
         rv_favorite.adapter = adapter
-        rv_favorite.layoutManager?.scrollToPosition(position) //крутим в запомненную позицию списка
-        Log.d(TAG, "FavoriteFragment init scrollToPosition = $position")
     }
 
     private fun renderData(favorites: List<State>) {
@@ -85,6 +83,8 @@ class FavoriteFragment: Fragment() {
             empty_view_favorite.visibility =View.GONE
 
             adapter?.listFavoriteStates = favorites
+            rv_favorite.layoutManager?.scrollToPosition(position) //крутим в запомненную позицию списка
+            Log.d(TAG, "FavoriteFragment renderData scrollToPosition = $position")
         }
     }
 

@@ -1,5 +1,6 @@
 package com.bartex.statesmvvm.view.adapter.state
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,6 +14,10 @@ import kotlinx.android.synthetic.main.item_state.view.*
 class StateRVAdapter(private val onitemClickListener: OnitemClickListener, val imageLoader: IImageLoader<ImageView>)
     : RecyclerView.Adapter<StateRVAdapter.ViewHolder> () {
 
+    companion object{
+        const val TAG = "33333"
+    }
+
     interface OnitemClickListener{
         fun onItemclick(state: State)
     }
@@ -22,6 +27,7 @@ class StateRVAdapter(private val onitemClickListener: OnitemClickListener, val i
     var listStates: List<State> = listOf()
         set(value){
             field = value
+            Log.d(TAG, "StateRVAdapter set =  ${listStates.map {/* it.name+" * "+*/it.capital+" * " }}")
             notifyDataSetChanged()
         }
 
@@ -39,6 +45,7 @@ class StateRVAdapter(private val onitemClickListener: OnitemClickListener, val i
     }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+
 
         fun bind(state: State){
             itemView.tv_name.text = state.name

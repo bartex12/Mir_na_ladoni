@@ -19,6 +19,7 @@ import com.bartex.statesmvvm.model.constants.Constants
 import com.bartex.statesmvvm.model.entity.state.State
 import com.bartex.statesmvvm.view.adapter.imageloader.GlideToVectorYouLoader
 import com.bartex.statesmvvm.view.adapter.state.StateRVAdapter
+import com.bartex.statesmvvm.view.fragments.favorite.FavoriteFragment
 import kotlinx.android.synthetic.main.fragment_search.*
 
 class SearchFragment: Fragment() {
@@ -99,6 +100,8 @@ class SearchFragment: Fragment() {
             empty_view_Search.visibility =View.GONE
 
             adapter?.listStates = states
+            rv_search.layoutManager?.scrollToPosition(position) //крутим в запомненную позицию списка
+            Log.d(TAG, "SearchFragment renderSearchState scrollToPosition = $position")
         }
     }
 
@@ -121,7 +124,6 @@ class SearchFragment: Fragment() {
             )
         )
         rv_search.adapter = adapter
-        rv_search.layoutManager?.scrollToPosition(position) //крутим в запомненную позицию списка
     }
 
     private fun getOnClickListener(): StateRVAdapter.OnitemClickListener =

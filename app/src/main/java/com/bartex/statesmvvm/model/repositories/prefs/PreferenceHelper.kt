@@ -9,7 +9,7 @@ class PreferenceHelper(val app: App):
 
     companion object{
         const val TAG = "33333"
-        const val FIRST_POSITION = "FIRST_POSITION"
+        const val FIRST_POSITION_STATE = "FIRST_POSITION_STATE"
         const val FIRST_POSITION_SEARCH = "FIRST_POSITION_SEARCH"
         const val TEXT_SEARCH = "TEXT_SEARCH"
         const val FIRST_POSITION_FAVORITE = "FIRST_POSITION_FAVORITE"
@@ -20,7 +20,7 @@ class PreferenceHelper(val app: App):
 
         PreferenceManager.getDefaultSharedPreferences(app)
             .edit()
-            .putInt(FIRST_POSITION, position)
+            .putInt(FIRST_POSITION_STATE, position)
             .apply()
         Log.d(TAG,"PreferenceHelper savePosition position = $position"
         )
@@ -28,7 +28,7 @@ class PreferenceHelper(val app: App):
 
     override fun getPositionState(): Int {
         val position = PreferenceManager.getDefaultSharedPreferences(app)
-            .getInt(FIRST_POSITION, 0)
+            .getInt(FIRST_POSITION_STATE, 0)
         Log.d(TAG, "PreferenceHelper getPosition FIRST_POSITION = $position")
         return position
     }
