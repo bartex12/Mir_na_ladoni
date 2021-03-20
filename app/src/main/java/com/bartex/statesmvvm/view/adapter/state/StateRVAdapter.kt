@@ -1,6 +1,5 @@
 package com.bartex.statesmvvm.view.adapter.state
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -27,8 +26,9 @@ class StateRVAdapter(private val onitemClickListener: OnitemClickListener, val i
     var listStates: List<State> = listOf()
         set(value){
             field = value
-           // Log.d(TAG, "StateRVAdapter set =  ${listStates.map {/* it.name+" * "+*/it.capital+" * " }}")
             notifyDataSetChanged()
+            // Log.d(TAG, "StateRVAdapter set =  ${listStates.map {/* it.name+" * "+*/it.capital+" * " }}")
+            //Log.d(TAG, "StateRVAdapter bind size = ${MapOfState.mapStates.entries.size} }")
         }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -46,8 +46,8 @@ class StateRVAdapter(private val onitemClickListener: OnitemClickListener, val i
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-
         fun bind(state: State){
+            //itemView.tv_name.text = MapOfState.mapStates.get(state.name)
             itemView.tv_name.text = state.name
             state.flag?.let { imageLoader.loadInto(it, itemView.iv_flag) }
 

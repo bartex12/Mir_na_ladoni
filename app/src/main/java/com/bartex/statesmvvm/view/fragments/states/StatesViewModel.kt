@@ -43,6 +43,7 @@ class StatesViewModel: ViewModel() {
         statesRepo.getStates()
             .observeOn(Schedulers.computation())
             .flatMap {st->
+                Log.d(TAG, "1 StatesViewModel  loadData st.size = ${st.size}")
                 if(isSorted){
                     when (getSortCase) {
                         1 -> {f_st = st.filter {it.population!=null}.sortedByDescending {it.population} }
@@ -52,6 +53,7 @@ class StatesViewModel: ViewModel() {
                     }
                     return@flatMap Single.just(f_st)
                 }else{
+                    Log.d(TAG, "2 StatesViewModel  loadData st.size = ${st.size}")
                     return@flatMap Single.just(st)
                 }
             }

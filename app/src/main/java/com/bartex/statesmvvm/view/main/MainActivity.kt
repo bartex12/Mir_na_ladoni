@@ -75,6 +75,11 @@ class    MainActivity: AppCompatActivity(),
 
         //слушатель меню шторки -для обработки пунктов шторки
         nav_view.setNavigationItemSelectedListener(this)
+
+        val map = mapOf(
+            "a" to 1,
+            "b" to 2
+        )
     }
 
     override fun onResume() {
