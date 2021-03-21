@@ -2,6 +2,8 @@ package com.bartex.statesmvvm.model.repositories.prefs
 
 import androidx.preference.PreferenceManager
 import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.bartex.statesmvvm.App
 
 class PreferenceHelper(val app: App):
@@ -87,18 +89,11 @@ class PreferenceHelper(val app: App):
         )
     }
 
-//    override fun saveTheme() {
-//        PreferenceManager.getDefaultSharedPreferences(app)
-//            .edit()
-//            .putBoolean(THEME, ! getTheme())
-//            .apply()
-//        Log.d(TAG,"PreferenceHelper savePositionSearch THEME = true"
-//        )
-//    }
-
-    override fun getTheme():Boolean {
-        val prefSetting = PreferenceManager.getDefaultSharedPreferences(app)
-        return prefSetting.getBoolean(THEME, false)
+    override fun getTheme():LiveData<Int> {
+        val data = MutableLiveData<Int>()
+        data.value = PreferenceManager.getDefaultSharedPreferences(app)
+            .getString("ListColor", "1")!!.toInt()
+        return data
     }
 
     override fun getRusLang():Boolean {

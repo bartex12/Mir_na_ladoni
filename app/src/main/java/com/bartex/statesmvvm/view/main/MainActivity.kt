@@ -11,14 +11,18 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.GravityCompat
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
 import androidx.preference.PreferenceManager
+import com.bartex.statesmvvm.App
 import com.bartex.statesmvvm.R
 import com.bartex.statesmvvm.model.constants.Constants
 import com.bartex.statesmvvm.model.repositories.prefs.PreferenceHelper
+import com.bartex.statesmvvm.view.fragments.states.StatesViewModel
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.*
@@ -35,15 +39,34 @@ class    MainActivity: AppCompatActivity(),
     private var oldSort:Int = 1
     private var isOldSort:Boolean = true
     private var isOldLang :Boolean = true
+    private lateinit var mainViewModel: MainViewModel
 
     companion object{
         const val TAG = "33333"
     }
 
+//    private val mainViewModel: MainViewModel by lazy {
+//        ViewModelProvider(this).get(MainViewModel::class.java)
+//        mainViewModel.apply {App.instance.appComponent.inject(this)}
+//    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Log.d(TAG, "MainActivity onCreate ")
 
+        if (savedInstanceState == null) {
+            Log.d(TAG, "MainActivity onCreate  первый запуск")
+        }
+
+//        mainViewModel = ViewModelProvider(this).get(MainViewModel::class.java)
+//        mainViewModel.apply {App.instance.appComponent.inject(this)}
+//
+//        mainViewModel.loadTheme()
+//
+//        mainViewModel.getColorTheme().observe(this, Observer<Int> {
+//            Log.d(TAG, "MainActivity onCreate  getTheme = $it")
+//            //recreate()
+//        })
         //читаем сохранённную в настройках тему
         oldTheme = PreferenceManager.getDefaultSharedPreferences(this)
             .getString("ListColor", "1")!!.toInt()
@@ -100,7 +123,6 @@ class    MainActivity: AppCompatActivity(),
         if (newTheme != oldTheme || newSort!= oldSort || newIsSort!= isOldSort || newLang != isOldLang){
             recreate()
         }
-
     }
 
     // Этот метод вызывается всякий раз, когда пользователь выбирает переход вверх

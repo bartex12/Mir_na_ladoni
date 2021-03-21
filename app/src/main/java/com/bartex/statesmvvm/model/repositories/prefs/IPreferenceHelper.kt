@@ -1,5 +1,7 @@
 package com.bartex.statesmvvm.model.repositories.prefs
 
+import androidx.lifecycle.LiveData
+
 interface IPreferenceHelper {
     fun savePositionState(position:Int)
     fun getPositionState(): Int
@@ -15,7 +17,7 @@ interface IPreferenceHelper {
 
    fun  saveTextSearch(text:String)
 
-    fun getTheme():Boolean
+    fun getTheme(): LiveData<Int>
 
     fun getRusLang():Boolean
 }
