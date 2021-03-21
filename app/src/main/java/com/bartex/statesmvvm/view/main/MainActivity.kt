@@ -120,7 +120,9 @@ class    MainActivity: AppCompatActivity(),
         val newLang = PreferenceManager.getDefaultSharedPreferences(this)
             .getBoolean("switchLang", true)
         //если настройки изменились, пересоздаём активити, чтобы не париться с изменением данных
-         
+        if (newTheme != oldTheme || newSort!= oldSort || newIsSort!= isOldSort || newLang != isOldLang){
+            recreate()
+        }
     }
 
     // Этот метод вызывается всякий раз, когда пользователь выбирает переход вверх
