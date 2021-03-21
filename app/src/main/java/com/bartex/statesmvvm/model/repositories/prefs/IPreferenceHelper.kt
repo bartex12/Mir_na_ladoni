@@ -15,7 +15,7 @@ interface IPreferenceHelper {
 
    fun  saveTextSearch(text:String)
 
-    fun saveTheme()
-
     fun getTheme():Boolean
+
+    fun getRusLang():Boolean
 }

@@ -82,7 +82,8 @@ class FavoriteFragment: Fragment() {
             rv_favorite.visibility =  View.VISIBLE
             empty_view_favorite.visibility =View.GONE
 
-            adapter?.listFavoriteStates = favorites
+            adapter?.listFavoriteStates = favorites //передаём список в адаптер
+            adapter?.setRusLang(favoriteViewModel.getRusLang()) //смотрим какой язык в настройках
             rv_favorite.layoutManager?.scrollToPosition(position) //крутим в запомненную позицию списка
             Log.d(TAG, "FavoriteFragment renderData scrollToPosition = $position")
         }

@@ -17,6 +17,9 @@ import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import com.bartex.statesmvvm.App
 import com.bartex.statesmvvm.R
+import com.bartex.statesmvvm.common.MapOfCapital
+import com.bartex.statesmvvm.common.MapOfRegion
+import com.bartex.statesmvvm.common.MapOfState
 import com.bartex.statesmvvm.common.toast
 import com.bartex.statesmvvm.model.constants.Constants
 import com.bartex.statesmvvm.model.entity.state.State
@@ -55,17 +58,24 @@ class DetailsFragment : Fragment() {
 
         bottom_navigation.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
 
-        //получаем данные о том, находится ли страна в списке избранных и изменяем видимость кнопок
+        //заполняем поля экрана
         state?. let {
             detailsViewModel.isFavoriteState(it)
                 .observe(viewLifecycleOwner, Observer<DetailsSealed> {renderData(it)})
             //заполняем поля экрана
-            tv_state_name.text = it.name
+            if (detailsViewModel.getRusLang()){
+                tv_state_name.text =  MapOfState.mapStates[it.name]
+                tv_state_capital.text = detailsViewModel.getStateCapital(MapOfCapital.mapCapital[it.capital])
+                tv_state_region.text = detailsViewModel.getStateRegion(MapOfRegion.mapRegion[it.region])
+            }else{
+                tv_state_name.text = it.name
+                tv_state_capital.text =  detailsViewModel.getStateCapital(it.capital)
+                tv_state_region.text = detailsViewModel.getStateRegion(it.region)
+            }
 
-            tv_state_region.text = detailsViewModel.getStateRegion(it)
-            tv_state_area.text =  detailsViewModel.getStateArea(it)
-            tv_state_population.text =  detailsViewModel.getStatePopulation(it)
-            tv_state_capital.text =  detailsViewModel.getStateCapital(it)
+            tv_state_area.text =  detailsViewModel.getStateArea(it.area)
+            tv_state_population.text =  detailsViewModel.getStatePopulation(it.population)
+
             it.flag?. let{flag->
                 GlideToVectorYou.justLoadImage(requireActivity(), Uri.parse(flag), iv_flag_big)
             }

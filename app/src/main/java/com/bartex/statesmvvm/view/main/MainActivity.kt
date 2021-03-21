@@ -34,6 +34,7 @@ class    MainActivity: AppCompatActivity(),
     private var oldTheme:Int = 1
     private var oldSort:Int = 1
     private var isOldSort:Boolean = true
+    private var isOldLang :Boolean = true
 
     companion object{
         const val TAG = "33333"
@@ -50,6 +51,9 @@ class    MainActivity: AppCompatActivity(),
             .getString("ListSort", "1")!!.toInt()
         isOldSort = PreferenceManager.getDefaultSharedPreferences(this)
             .getBoolean("cbSort", true)
+        isOldLang =PreferenceManager.getDefaultSharedPreferences(this)
+            .getBoolean("switchLang", true)
+
         //устанавливаем сохранённную в настройках тему
         when(oldTheme){
             1->setTheme(R.style.AppTheme)
@@ -76,10 +80,6 @@ class    MainActivity: AppCompatActivity(),
         //слушатель меню шторки -для обработки пунктов шторки
         nav_view.setNavigationItemSelectedListener(this)
 
-        val map = mapOf(
-            "a" to 1,
-            "b" to 2
-        )
     }
 
     override fun onResume() {
@@ -94,8 +94,13 @@ class    MainActivity: AppCompatActivity(),
             .getString("ListSort", "1")!!.toInt()
        val newIsSort = PreferenceManager.getDefaultSharedPreferences(this)
            .getBoolean("cbSort", true)
+        val newLang = PreferenceManager.getDefaultSharedPreferences(this)
+            .getBoolean("switchLang", true)
         //если настройки изменились, пересоздаём активити, чтобы не париться с изменением данных
-        if (newTheme != oldTheme || newSort!= oldSort || newIsSort!= isOldSort ) recreate()
+        if (newTheme != oldTheme || newSort!= oldSort || newIsSort!= isOldSort || newLang != isOldLang){
+            recreate()
+        }
+
     }
 
     // Этот метод вызывается всякий раз, когда пользователь выбирает переход вверх

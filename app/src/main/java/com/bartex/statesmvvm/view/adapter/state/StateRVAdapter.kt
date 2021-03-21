@@ -1,17 +1,21 @@
 package com.bartex.statesmvvm.view.adapter.state
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.bartex.statesmvvm.R
+import com.bartex.statesmvvm.common.MapOfState
 import com.bartex.statesmvvm.model.entity.state.State
 import com.bartex.statesmvvm.view.adapter.imageloader.IImageLoader
 import kotlinx.android.synthetic.main.item_state.view.*
 
 class StateRVAdapter(private val onitemClickListener: OnitemClickListener, val imageLoader: IImageLoader<ImageView>)
     : RecyclerView.Adapter<StateRVAdapter.ViewHolder> () {
+
+    var isRus = false
 
     companion object{
         const val TAG = "33333"
@@ -27,7 +31,7 @@ class StateRVAdapter(private val onitemClickListener: OnitemClickListener, val i
         set(value){
             field = value
             notifyDataSetChanged()
-            // Log.d(TAG, "StateRVAdapter set =  ${listStates.map {/* it.name+" * "+*/it.capital+" * " }}")
+             //Log.d(TAG, "StateRVAdapter set =  ${listStates.map {/* it.name+" * "+*/it.region+" * " }}")
             //Log.d(TAG, "StateRVAdapter bind size = ${MapOfState.mapStates.entries.size} }")
         }
 
@@ -47,13 +51,21 @@ class StateRVAdapter(private val onitemClickListener: OnitemClickListener, val i
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         fun bind(state: State){
-            //itemView.tv_name.text = MapOfState.mapStates.get(state.name)
-            itemView.tv_name.text = state.name
+            if (isRus){
+                itemView.tv_name.text = MapOfState.mapStates[state.name]
+            }else{
+                itemView.tv_name.text = state.name
+            }
+
             state.flag?.let { imageLoader.loadInto(it, itemView.iv_flag) }
 
             itemView.setOnClickListener {
                 onitemClickListener.onItemclick(state)
             }
         }
+    }
+
+    fun setRusLang(isRus:Boolean){
+        this.isRus = isRus
     }
 }

@@ -2,6 +2,8 @@ package com.bartex.statesmvvm.model.room.tables
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.bartex.statesmvvm.common.MapOfCapital
+import com.bartex.statesmvvm.common.MapOfState
 
 /*будем использовать отдельный класс RoomState для работы с базой, чтобы не
  вносить изменений в существующие сущности во избежание создания зависимости логики от Room
@@ -16,5 +18,6 @@ class RoomState(
     var area :Float,
     var lat :Float,
     var lng :Float
-
+//    var nameRus:String,
+//    var capitalRus:String
 )

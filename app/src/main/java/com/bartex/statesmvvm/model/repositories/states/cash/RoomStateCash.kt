@@ -3,6 +3,8 @@ package com.bartex.statesmvvm.model.repositories.states.cash
 import android.util.Log
 import androidx.room.Room
 import com.bartex.statesmvvm.App
+import com.bartex.statesmvvm.common.MapOfCapital
+import com.bartex.statesmvvm.common.MapOfState
 import com.bartex.statesmvvm.model.entity.state.State
 import com.bartex.statesmvvm.model.room.Database
 import com.bartex.statesmvvm.model.room.tables.RoomFavorite
@@ -12,9 +14,6 @@ import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.schedulers.Schedulers
 
 class RoomStateCash(val db: Database): IRoomStateCash {
-
-//    val db: Database =
-//        Room.databaseBuilder(App.instance, Database::class.java, Database.DB_NAME).build()
 
     companion object{
         const val TAG = "33333"
@@ -33,6 +32,8 @@ class RoomStateCash(val db: Database): IRoomStateCash {
                  state.area?:0f,
                  state.latlng?.get(0) ?:0f,
                  state.latlng?.get(1) ?:0f
+//                 MapOfState.mapStates[state.name] ?:"Unknown",
+//                 MapOfCapital.mapCapital[state.capital] ?:"Unknown"
              )
          }
            db.stateDao.insert(roomUsers) //пишем в базу
@@ -42,7 +43,8 @@ class RoomStateCash(val db: Database): IRoomStateCash {
     }
 
     override fun getStatesFromCash(): Single<List<State>> {
-      return  Single.fromCallable {
+        Log.d(TAG, "RoomStateCash getStatesFromCash")
+        return  Single.fromCallable {
           db.stateDao.getAll().map {roomState->
               State(roomState.capital,roomState.flag, roomState.name, roomState.region,
                   roomState.population, roomState.area, arrayOf(roomState.lat, roomState.lng))

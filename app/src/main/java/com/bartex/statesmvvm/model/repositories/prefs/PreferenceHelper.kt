@@ -14,6 +14,7 @@ class PreferenceHelper(val app: App):
         const val TEXT_SEARCH = "TEXT_SEARCH"
         const val FIRST_POSITION_FAVORITE = "FIRST_POSITION_FAVORITE"
         const val THEME = "THEME"
+        const val LANG = "LANG"
     }
 
     override fun savePositionState(position:Int) {
@@ -86,18 +87,23 @@ class PreferenceHelper(val app: App):
         )
     }
 
-    override fun saveTheme() {
-        PreferenceManager.getDefaultSharedPreferences(app)
-            .edit()
-            .putBoolean(THEME, ! getTheme())
-            .apply()
-        Log.d(TAG,"PreferenceHelper savePositionSearch THEME = true"
-        )
-    }
+//    override fun saveTheme() {
+//        PreferenceManager.getDefaultSharedPreferences(app)
+//            .edit()
+//            .putBoolean(THEME, ! getTheme())
+//            .apply()
+//        Log.d(TAG,"PreferenceHelper savePositionSearch THEME = true"
+//        )
+//    }
 
     override fun getTheme():Boolean {
         val prefSetting = PreferenceManager.getDefaultSharedPreferences(app)
         return prefSetting.getBoolean(THEME, false)
+    }
+
+    override fun getRusLang():Boolean {
+        val prefSetting = PreferenceManager.getDefaultSharedPreferences(app)
+        return prefSetting.getBoolean("switchLang", true)
     }
 
 }

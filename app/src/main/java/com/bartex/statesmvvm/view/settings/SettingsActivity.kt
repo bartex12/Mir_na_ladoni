@@ -3,10 +3,7 @@ package com.bartex.statesmvvm.view.settings
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import androidx.preference.CheckBoxPreference
-import androidx.preference.ListPreference
-import androidx.preference.PreferenceFragmentCompat
-import androidx.preference.PreferenceManager
+import androidx.preference.*
 import com.bartex.statesmvvm.R
 import kotlinx.android.synthetic.main.settings_activity.*
 
@@ -95,6 +92,13 @@ class SettingsActivity : AppCompatActivity() {
                     }
                     true
                 }
+
+            findPreference<SwitchPreferenceCompat>("switchLang")
+                ?.setOnPreferenceChangeListener { preference, newValue ->
+                    requireActivity().finish()
+                    true
+                }
+
         }
     }
 }

@@ -74,7 +74,11 @@ class FavoriteViewModel() : ViewModel() {
         return helper.getPositionFavorite()
     }
 
-    fun getArea(state:State) = stateUtils.getStateArea(state)
+    fun getArea(area:Float?) = stateUtils.getStateArea(area)
 
-    fun  getPopulation(state:State) = stateUtils.getStatePopulation(state)
+    fun  getPopulation(population: Int?) = stateUtils.getStatePopulation(population)
+
+    fun getRusLang():Boolean{
+        return helper.getRusLang()
+    }
 }

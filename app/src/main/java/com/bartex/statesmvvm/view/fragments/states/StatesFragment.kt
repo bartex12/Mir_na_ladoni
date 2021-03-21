@@ -120,6 +120,7 @@ class StatesFragment : Fragment() {
             empty_view.visibility =View.GONE
 
             adapter?.listStates = states
+            adapter?.setRusLang(stateViewModel.getRusLang())
             rv_states.layoutManager?.scrollToPosition(position) //крутим в запомненную позицию списка
             Log.d(TAG, "StatesFragment renderState scrollToPosition = $position")
         }

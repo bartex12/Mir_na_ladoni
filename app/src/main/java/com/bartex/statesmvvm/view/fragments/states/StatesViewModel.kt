@@ -78,4 +78,8 @@ class StatesViewModel: ViewModel() {
     fun savePositionState(position: Int){
         helper.savePositionState(position)
     }
+
+    fun getRusLang():Boolean{
+       return helper.getRusLang()
+    }
 }

@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.bartex.statesmvvm.model.entity.state.State
+import com.bartex.statesmvvm.model.repositories.prefs.IPreferenceHelper
 import com.bartex.statesmvvm.model.repositories.states.cash.IRoomStateCash
 import com.bartex.statesmvvm.model.utils.IStateUtils
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
@@ -19,17 +20,19 @@ class DetailsViewModel:ViewModel() {
     private val isFavorite = MutableLiveData<DetailsSealed>()
 
     @Inject
+    lateinit var helper : IPreferenceHelper
+    @Inject
     lateinit var roomCash: IRoomStateCash
     @Inject
     lateinit var stateUtils: IStateUtils
 
-    fun  getStateArea(state:State) = stateUtils.getStateArea(state)
+    fun  getStateArea(area:Float?) = stateUtils.getStateArea(area)
 
-    fun getStatePopulation(state:State) = stateUtils.getStatePopulation(state)
+    fun getStatePopulation(population:Int?) = stateUtils.getStatePopulation(population)
 
-    fun getStateCapital(state:State) = stateUtils.getStateCapital(state)
+    fun getStateCapital(capital:String?) = stateUtils.getStateCapital(capital)
 
-    fun getStateRegion(state:State) = stateUtils.getStateRegion(state)
+    fun getStateRegion(region:String?) = stateUtils.getStateRegion(region)
 
     fun getStateZoom(state:State) = stateUtils.getStatezoom(state)
 
@@ -68,6 +71,10 @@ class DetailsViewModel:ViewModel() {
                 isFavorite.value =DetailsSealed.Error(error = it)
                 Log.d(TAG, "DetailsViewModel removeFavorite error = ${it.message} ")
             })
+    }
+
+    fun getRusLang():Boolean{
+        return helper.getRusLang()
     }
 
 }

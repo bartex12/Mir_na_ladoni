@@ -84,6 +84,8 @@
     <string name="noRemoveFavoriteToast">Ошибка. Не удалено из избранного</string>
     <string name="Википедия">wiki</string>
     <string name="wiki">Вики</string>
+    <string name="lang">Выберите язык.</string>
+
 
     <string-array name="pref_entry_sort">
         <item>По населению по убыванию</item>
@@ -138,4 +140,10 @@
     <string name="theme_cat">Тема</string>
     <string name="toastForExit">Для выхода нажмите ещё раз</string>
     <string name="wiki_act">Википедия</string>
+    <string name="Язык">lang</string>
+    <string name="summary_switch_preference">Язык</string>
+    <string name="changeLang">Выберите язык приложения</string>
+    <string name="appLang">Язык приложения</string>
+    <string name="summary_on">Русский</string>
+    <string name="summary_off">English</string>
 </resources>

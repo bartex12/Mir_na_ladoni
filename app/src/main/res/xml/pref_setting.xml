@@ -37,4 +37,15 @@
         </ListPreference>
     </PreferenceCategory>
 
+    <PreferenceCategory
+        android:title="@string/appLang">
+
+        <SwitchPreferenceCompat
+            android:key="switchLang"
+            android:title="@string/lang"
+            android:summaryOn="@string/summary_on"
+            android:summaryOff="@string/summary_off"
+            app:defaultValue="true"/>
+    </PreferenceCategory>
+
 </androidx.preference.PreferenceScreen>
