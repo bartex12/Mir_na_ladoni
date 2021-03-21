@@ -3,7 +3,7 @@ package com.bartex.statesmvvm.common
 object MapOfCapital {
 
     val mapCapital = mapOf(
-                "Kabul" to "Кабул ",
+                "Kabul" to "Кабул",
                 "Mariehamn" to "Мариехамн",
                 "Tirana" to "Тирана",
                 "Algiers" to "Алжир",

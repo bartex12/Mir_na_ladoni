@@ -3,7 +3,7 @@ package com.bartex.statesmvvm.common
 object MapOfState {
 
 val mapStates = mapOf(
-    "Afghanistan" to "Афганистан ",
+    "Afghanistan" to "Афганистан",
     "Åland Islands" to "Аландские острова",
     "Albania" to "Албания ",
     "Algeria" to "Алжир",
