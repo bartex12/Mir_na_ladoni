@@ -6,7 +6,6 @@ import com.bartex.statesmvvm.view.fragments.help.HelpViewModel
 import com.bartex.statesmvvm.view.fragments.search.SearchViewModel
 import com.bartex.statesmvvm.view.fragments.states.StatesViewModel
 import com.bartex.statesmvvm.view.fragments.weather.WeatherViewModel
-import com.bartex.statesmvvm.view.main.MainActivity
 import com.bartex.statesmvvm.view.main.MainViewModel
 import dagger.Component
 import javax.inject.Singleton

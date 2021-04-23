@@ -81,13 +81,13 @@ class RoomStateCash(val db: Database): IRoomStateCash {
         }
     }
 
-    override fun removeFavorite(state: State)= Completable.create {emitter->
+    override fun removeFavorite(state: State): Completable = Completable.create { emitter->
         removeFavor(state). let{
             if(it){
                 emitter.onComplete()
                 Log.d(TAG, "RoomStateCash addToFavorite emitter.onComplete()")
             }else{
-                emitter.onError(RuntimeException(" Ошибка при добавлении в избранное "))
+                emitter.onError(RuntimeException(" Ошибка при удалении из избранного "))
             }
         }
     }.subscribeOn(Schedulers.io())
@@ -102,7 +102,7 @@ class RoomStateCash(val db: Database): IRoomStateCash {
     }
 
 
-    override fun addToFavorite(state: State)= Completable.create {emitter->
+    override fun addToFavorite(state: State): Completable = Completable.create { emitter->
         add(state). let{
             if(it){
                 emitter.onComplete()

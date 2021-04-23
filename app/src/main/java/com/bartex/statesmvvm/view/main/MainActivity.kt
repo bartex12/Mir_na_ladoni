@@ -105,6 +105,13 @@ class    MainActivity: AppCompatActivity(),
 
     }
 
+    // Этот метод вызывается всякий раз, когда пользователь выбирает переход вверх
+    // в иерархии действий приложения из панели действий (экшенбара)
+    override fun onSupportNavigateUp(): Boolean {
+        return NavigationUI.navigateUp(navController, appBarConfiguration)
+                ||super.onSupportNavigateUp()
+    }
+
     override fun onResume() {
         super.onResume()
         Log.d(TAG, "MainActivity onResume currentDestination =" +
@@ -123,13 +130,6 @@ class    MainActivity: AppCompatActivity(),
         if (newTheme != oldTheme || newSort!= oldSort || newIsSort!= isOldSort || newLang != isOldLang){
             recreate()
         }
-    }
-
-    // Этот метод вызывается всякий раз, когда пользователь выбирает переход вверх
-    // в иерархии действий приложения из панели действий (экшенбара)
-    override fun onSupportNavigateUp(): Boolean {
-        return NavigationUI.navigateUp(navController, appBarConfiguration)
-                ||super.onSupportNavigateUp()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

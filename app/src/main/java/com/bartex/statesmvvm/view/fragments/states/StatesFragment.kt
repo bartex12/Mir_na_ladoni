@@ -19,7 +19,6 @@ import com.bartex.statesmvvm.model.constants.Constants
 import com.bartex.statesmvvm.model.entity.state.State
 import com.bartex.statesmvvm.view.adapter.imageloader.GlideToVectorYouLoader
 import com.bartex.statesmvvm.view.adapter.state.StateRVAdapter
-import com.bartex.statesmvvm.view.fragments.favorite.FavoriteFragment
 import kotlinx.android.synthetic.main.fragment_states.*
 
 

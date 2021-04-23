@@ -58,10 +58,11 @@ class DetailsFragment : Fragment() {
 
         bottom_navigation.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
 
-        //заполняем поля экрана
+        //наблюдаем за добавлением страны в избранное
         state?. let {
             detailsViewModel.isFavoriteState(it)
                 .observe(viewLifecycleOwner, Observer<DetailsSealed> {renderData(it)})
+
             //заполняем поля экрана
             if (detailsViewModel.getRusLang()){
                 tv_state_name.text =  MapOfState.mapStates[it.name]

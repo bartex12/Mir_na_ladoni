@@ -31,7 +31,7 @@ class StateRVAdapter(private val onitemClickListener: OnitemClickListener, val i
         set(value){
             field = value
             notifyDataSetChanged()
-             //Log.d(TAG, "StateRVAdapter set =  ${listStates.map {/* it.name+" * "+*/it.region+" * " }}")
+             Log.d(TAG, "StateRVAdapter set =  ${listStates.map { it.area.toString() }}")
             //Log.d(TAG, "StateRVAdapter bind size = ${MapOfState.mapStates.entries.size} }")
         }
 
