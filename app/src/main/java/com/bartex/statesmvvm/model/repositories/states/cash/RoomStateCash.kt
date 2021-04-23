@@ -32,8 +32,8 @@ class RoomStateCash(val db: Database): IRoomStateCash {
                  state.area?:0f,
                  state.latlng?.get(0) ?:0f,
                  state.latlng?.get(1) ?:0f
-//                 MapOfState.mapStates[state.name] ?:"Unknown",
-//                 MapOfCapital.mapCapital[state.capital] ?:"Unknown"
+//                 state.nameRus?:"",
+//                 state.capitalRus?:""
              )
          }
            db.stateDao.insert(roomUsers) //пишем в базу

@@ -65,9 +65,9 @@ class DetailsFragment : Fragment() {
 
             //заполняем поля экрана
             if (detailsViewModel.getRusLang()){
-                tv_state_name.text =  MapOfState.mapStates[it.name]
-                tv_state_capital.text = detailsViewModel.getStateCapital(MapOfCapital.mapCapital[it.capital])
-                tv_state_region.text = detailsViewModel.getStateRegion(MapOfRegion.mapRegion[it.region])
+                tv_state_name.text =  it.nameRus
+                tv_state_capital.text = detailsViewModel.getStateCapital(it.capitalRus)
+                tv_state_region.text = detailsViewModel.getStateRegion(it.regionRus)
             }else{
                 tv_state_name.text = it.name
                 tv_state_capital.text =  detailsViewModel.getStateCapital(it.capital)

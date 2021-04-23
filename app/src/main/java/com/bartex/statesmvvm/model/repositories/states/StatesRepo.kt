@@ -1,6 +1,9 @@
 package com.bartex.statesmvvm.model.repositories.states
 
 import android.util.Log
+import com.bartex.statesmvvm.common.MapOfCapital
+import com.bartex.statesmvvm.common.MapOfRegion
+import com.bartex.statesmvvm.common.MapOfState
 import com.bartex.statesmvvm.model.api.IDataSourceState
 import com.bartex.statesmvvm.model.entity.state.State
 import com.bartex.statesmvvm.model.network.INetworkStatus
@@ -29,10 +32,17 @@ class StatesRepo(val api: IDataSourceState, private val networkStatus: INetworkS
                     Log.d(TAG, "StatesRepo getStates  isOnLine  = true ")
                     api.getStates() //получаем данные из сети в виде Single<List<State>>
                         .flatMap {states->//получаем доступ к списку List<State>
+                            //фильтруем данные
                            val f_states =  states.filter {state->
                                 state.capital!=null &&  //только со столицами !=null
                                 state.latlng?.size == 2 && //только с известными координатами
                                 state.capital.isNotEmpty() //только с известными столицами
+                            }
+                            //добавляем русские названия из Map в поля State
+                            states.map {
+                                it.nameRus = MapOfState.mapStates[it.name] ?:"Unknown"
+                                it.capitalRus = MapOfCapital.mapCapital[it.capital] ?:"Unknown"
+                                it.regionRus = MapOfRegion.mapRegion[it.region] ?:"Unknown"
                             }
                             Log.d(TAG, "StatesRepo  getStates f_states.size = ${f_states.size}")
                             //реализация кэширования списка пользователей из сети в базу данных

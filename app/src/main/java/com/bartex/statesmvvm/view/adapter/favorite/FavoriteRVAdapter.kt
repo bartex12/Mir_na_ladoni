@@ -49,7 +49,7 @@ class FavoriteRVAdapter(private val favoriteViewModel: FavoriteViewModel, privat
 
         fun bind(state: State){
             itemView.tv_name_favor.text =
-            if (isRus) MapOfState.mapStates[state.name] else state.name
+            if (isRus) state.nameRus else state.name
 
             itemView.tv_area_favor.text = favoriteViewModel.getArea(state.area)
             itemView.tv_population_favor.text = favoriteViewModel.getPopulation(state.population)

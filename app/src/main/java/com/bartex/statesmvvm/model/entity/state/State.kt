@@ -16,7 +16,8 @@ data class State(
     @Expose var region :String? = null,
     @Expose val population :Int? = null,
     @Expose var area :Float? = null,
-    @Expose val latlng:Array<Float>? = null
-//    var nameRus:String = MapOfState.mapStates[name] ?:"Unknown",
-//    var capitalRus:String = MapOfCapital.mapCapital[capital] ?:"Unknown"
+    @Expose val latlng:Array<Float>? = null,
+    var nameRus:String? = null,
+    var capitalRus:String? = null,
+    var regionRus:String? = null
 ): Parcelable
