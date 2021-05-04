@@ -1,4 +1,4 @@
-package com.bartex.statesmvvm.view.adapter.favorite
+package com.bartex.statesmvvm.view.adapter
 
 import android.view.LayoutInflater
 import android.view.View
@@ -6,11 +6,8 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.bartex.statesmvvm.R
-import com.bartex.statesmvvm.common.MapOfState
 import com.bartex.statesmvvm.model.entity.state.State
-import com.bartex.statesmvvm.view.adapter.imageloader.IImageLoader
 import com.bartex.statesmvvm.view.fragments.favorite.FavoriteViewModel
-import kotlinx.android.synthetic.main.item_state.view.*
 import kotlinx.android.synthetic.main.item_state_favor.view.*
 
 

@@ -17,9 +17,8 @@ import com.bartex.statesmvvm.R
 import com.bartex.statesmvvm.common.toast
 import com.bartex.statesmvvm.model.constants.Constants
 import com.bartex.statesmvvm.model.entity.state.State
-import com.bartex.statesmvvm.view.adapter.imageloader.GlideToVectorYouLoader
-import com.bartex.statesmvvm.view.adapter.state.StateRVAdapter
-import com.bartex.statesmvvm.view.fragments.favorite.FavoriteFragment
+import com.bartex.statesmvvm.view.adapter.GlideToVectorYouLoader
+import com.bartex.statesmvvm.view.adapter.StateRVAdapter
 import kotlinx.android.synthetic.main.fragment_search.*
 
 class SearchFragment: Fragment() {

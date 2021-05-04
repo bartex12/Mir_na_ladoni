@@ -1,4 +1,4 @@
-package com.bartex.statesmvvm.view.adapter.state
+package com.bartex.statesmvvm.view.adapter
 
 import android.util.Log
 import android.view.LayoutInflater
@@ -7,9 +7,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.bartex.statesmvvm.R
-import com.bartex.statesmvvm.common.MapOfState
 import com.bartex.statesmvvm.model.entity.state.State
-import com.bartex.statesmvvm.view.adapter.imageloader.IImageLoader
 import kotlinx.android.synthetic.main.item_state.view.*
 
 class StateRVAdapter(private val onitemClickListener: OnitemClickListener, val imageLoader: IImageLoader<ImageView>)

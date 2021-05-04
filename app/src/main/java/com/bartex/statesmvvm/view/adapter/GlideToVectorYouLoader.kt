@@ -1,4 +1,4 @@
-package com.bartex.statesmvvm.view.adapter.imageloader
+package com.bartex.statesmvvm.view.adapter
 
 import android.app.Activity
 import android.net.Uri
