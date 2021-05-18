@@ -11,18 +11,13 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.GravityCompat
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
 import androidx.preference.PreferenceManager
-import com.bartex.statesmvvm.App
 import com.bartex.statesmvvm.R
 import com.bartex.statesmvvm.model.constants.Constants
-import com.bartex.statesmvvm.model.repositories.prefs.PreferenceHelper
-import com.bartex.statesmvvm.view.fragments.states.StatesViewModel
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.*
@@ -138,6 +133,13 @@ class    MainActivity: AppCompatActivity(),
 
         val searchItem: MenuItem = menu.findItem(R.id.search)
         val searchView =searchItem.actionView as SearchView
+        //значок лупы слева в развёрнутом сост и сворачиваем строку поиска (true)
+        //searchView.setIconifiedByDefault(true)
+        //пишем подсказку в строке поиска
+        searchView.queryHint = getString(R.string.search_country)
+        //устанавливаем в панели действий кнопку ( > )для отправки поискового запроса
+        searchView.isSubmitButtonEnabled = true
+        //устанавливаем слушатель
         searchView.setOnQueryTextListener(this)
 
         return true
