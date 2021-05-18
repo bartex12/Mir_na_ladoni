@@ -8,6 +8,7 @@ import com.bartex.statesmvvm.model.api.IDataSourceState
 import com.bartex.statesmvvm.model.entity.state.State
 import com.bartex.statesmvvm.model.network.INetworkStatus
 import com.bartex.statesmvvm.model.repositories.states.cash.IRoomStateCash
+import com.bartex.statesmvvm.view.fragments.search.SearchViewModel
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.schedulers.Schedulers
 
@@ -47,7 +48,7 @@ class StatesRepo(val api: IDataSourceState, private val networkStatus: INetworkS
                             Log.d(TAG, "StatesRepo  getStates f_states.size = ${f_states.size}")
                             //реализация кэширования списка пользователей из сети в базу данных
                            roomCash.doStatesCash(f_states)
-                        }
+                          }
                 }else{
                     Log.d(TAG, "StatesRepo  isOnLine  = false")
                     //получение списка пользователей из кэша
@@ -70,6 +71,12 @@ class StatesRepo(val api: IDataSourceState, private val networkStatus: INetworkS
                                 state.latlng?.size == 2 && //только с известными координатами
                                 state.capital.isNotEmpty() //только с известными столицами
                     }
+                    //добавляем русские названия из Map в поля State
+                    states.map {
+                        it.nameRus = MapOfState.mapStates[it.name] ?:"Unknown"
+                        it.capitalRus = MapOfCapital.mapCapital[it.capital] ?:"Unknown"
+                        it.regionRus = MapOfRegion.mapRegion[it.region] ?:"Unknown"
+                    }
                     Log.d(TAG, "StatesRepo  searchStates filtr_states.size = ${filterStates.size}")
                     //реализация кэширования списка отобранных стран из сети в базу данных
                     roomCash.doStatesCash(filterStates)
@@ -80,5 +87,10 @@ class StatesRepo(val api: IDataSourceState, private val networkStatus: INetworkS
             roomCash.getSearchedStatesFromCash(search)
         }
     }.subscribeOn(Schedulers.io())
+
+    override fun searchStatesFromRoom(search: String): Single<List<State>> {
+        Log.d(TAG, "StatesRepo searchStatesFromRoom search = $search")
+       return roomCash.getSearchedStatesFromCashRus(search)
+    }
 
 }

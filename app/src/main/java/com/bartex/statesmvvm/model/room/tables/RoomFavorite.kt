@@ -13,5 +13,8 @@ class RoomFavorite (
     var population :Int,
     var area :Float,
     var lat :Float,
-    var lng :Float
+    var lng :Float,
+    var nameRus:String,
+    var capitalRus:String,
+    var regionRus:String
 )

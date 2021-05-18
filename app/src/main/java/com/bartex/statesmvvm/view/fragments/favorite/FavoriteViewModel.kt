@@ -39,7 +39,6 @@ class FavoriteViewModel() : ViewModel() {
         val isSorted = helper.isSorted()
         val getSortCase = helper.getSortCase()
         var f_st:List<State>?= null
-        var noSort:List<State>?= null
         roomCash. loadFavorite()
             .observeOn(Schedulers.computation())
             .flatMap {st->

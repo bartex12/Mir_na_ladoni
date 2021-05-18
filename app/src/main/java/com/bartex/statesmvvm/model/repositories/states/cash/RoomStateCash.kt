@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.room.Room
 import com.bartex.statesmvvm.App
 import com.bartex.statesmvvm.common.MapOfCapital
+import com.bartex.statesmvvm.common.MapOfRegion
 import com.bartex.statesmvvm.common.MapOfState
 import com.bartex.statesmvvm.model.entity.state.State
 import com.bartex.statesmvvm.model.room.Database
@@ -23,6 +24,7 @@ class RoomStateCash(val db: Database): IRoomStateCash {
      return  Single.fromCallable { //создаём  Single из списка, по пути пишем в базу
          // map для базы, так как классы разные
          val roomUsers = listStates.map {state->
+             Log.d(TAG, "RoomStateCash doStatesCash: state.nameRus = ${MapOfState.mapStates[state.name] }")
              RoomState(
                  state.capital ?: "",
                  state.flag ?: "",
@@ -31,13 +33,14 @@ class RoomStateCash(val db: Database): IRoomStateCash {
                  state.population ?: 0,
                  state.area?:0f,
                  state.latlng?.get(0) ?:0f,
-                 state.latlng?.get(1) ?:0f
-//                 state.nameRus?:"",
-//                 state.capitalRus?:""
+                 state.latlng?.get(1) ?:0f,
+                 MapOfState.mapStates[state.name] ?:"Unknown",
+                 MapOfCapital.mapCapital[state.capital] ?:"Unknown",
+                 MapOfRegion.mapRegion[state.region] ?:"Unknown"
              )
          }
            db.stateDao.insert(roomUsers) //пишем в базу
-           Log.d(TAG, "RoomStateCash doStatesCash: roomUsers.size = ${roomUsers.size}")
+           Log.d(TAG, "RoomStateCash doStatesCash: size = ${db.stateDao.getAll().size}")
            return@fromCallable listStates //возвращаем toolbar_menu  в виде Single<List<State>>
        }
     }
@@ -47,7 +50,9 @@ class RoomStateCash(val db: Database): IRoomStateCash {
         return  Single.fromCallable {
           db.stateDao.getAll().map {roomState->
               State(roomState.capital,roomState.flag, roomState.name, roomState.region,
-                  roomState.population, roomState.area, arrayOf(roomState.lat, roomState.lng))
+                  roomState.population, roomState.area, arrayOf(roomState.lat, roomState.lng),
+                  roomState.nameRus, roomState.capitalRus, roomState.regionRus
+              )
           }
         }
     }
@@ -56,17 +61,30 @@ class RoomStateCash(val db: Database): IRoomStateCash {
         return  Single.fromCallable {
             db.stateDao.findByName(search).map {roomState->
                 State(roomState.capital,roomState.flag, roomState.name, roomState.region,
-                    roomState.population, roomState.area, arrayOf(roomState.lat, roomState.lng))
+                    roomState.population, roomState.area, arrayOf(roomState.lat, roomState.lng),
+                    roomState.nameRus, roomState.capitalRus, roomState.regionRus
+                )
             }
         }
     }
 
+    override fun getSearchedStatesFromCashRus(search: String) : Single<List<State>>{
+        return  Single.fromCallable {
+            db.stateDao.findByNameRus(search).map {roomState->
+                State(roomState.capital,roomState.flag, roomState.name, roomState.region,
+                    roomState.population, roomState.area, arrayOf(roomState.lat, roomState.lng),
+                    roomState.nameRus, roomState.capitalRus, roomState.regionRus
+                )
+            }
+        }
+    }
 
     override fun loadFavorite(): Single<List<State>> = Single.fromCallable {
             db.favoriteDao.getAll().map {roomFavorite->
                 State(roomFavorite.capital,roomFavorite.flag, roomFavorite.name,
                     roomFavorite.region,roomFavorite.population, roomFavorite.area,
-                    arrayOf(roomFavorite.lat, roomFavorite.lng))
+                    arrayOf(roomFavorite.lat, roomFavorite.lng), roomFavorite.nameRus,
+                    roomFavorite.capitalRus, roomFavorite.regionRus)
             }
         }.subscribeOn(Schedulers.io())
 
@@ -122,7 +140,10 @@ class RoomStateCash(val db: Database): IRoomStateCash {
             population = state.population ?: 0,
             area =  state.area?:0f,
             lat = state.latlng?.get(0) ?:0f,
-            lng =  state.latlng?.get(1) ?:0f
+            lng =  state.latlng?.get(1) ?:0f,
+            nameRus = state.nameRus?:"Unknown",
+            capitalRus = state.capitalRus?:"Unknown",
+            regionRus =  state.regionRus?:"Unknown"
         )
         state.name?. let{
          val rs:RoomFavorite? =   db.favoriteDao.findByName(it)

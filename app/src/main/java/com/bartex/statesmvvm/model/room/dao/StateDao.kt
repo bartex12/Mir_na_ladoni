@@ -41,4 +41,7 @@ interface StateDao {
 
     @Query("SELECT * FROM RoomState WHERE name LIKE '%' ||:name || '%'")
     fun findByName(name:String): List<RoomState>
+
+    @Query("SELECT * FROM RoomState WHERE nameRus LIKE '%' ||:nameRus || '%'")
+    fun findByNameRus(nameRus:String): List<RoomState>
 }

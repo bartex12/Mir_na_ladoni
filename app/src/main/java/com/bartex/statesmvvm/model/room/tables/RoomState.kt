@@ -17,7 +17,8 @@ class RoomState(
     var population :Int,
     var area :Float,
     var lat :Float,
-    var lng :Float
-//    var nameRus:String,
-//    var capitalRus:String
+    var lng :Float,
+    var nameRus:String,
+    var capitalRus:String,
+    var regionRus:String
 )

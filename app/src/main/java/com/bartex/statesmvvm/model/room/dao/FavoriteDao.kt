@@ -2,7 +2,6 @@ package com.bartex.statesmvvm.model.room.dao
 
 import androidx.room.*
 import com.bartex.statesmvvm.model.room.tables.RoomFavorite
-import com.bartex.statesmvvm.model.room.tables.RoomState
 
 @Dao
 interface FavoriteDao {
@@ -33,7 +32,7 @@ interface FavoriteDao {
     fun update(roomFavorites:List<RoomFavorite>)
 
     @Query("SELECT * FROM RoomFavorite")
-    fun getAll():List<RoomState>
+    fun getAll():List<RoomFavorite>
 
     @Query("SELECT * FROM RoomFavorite WHERE name = :stateName LIMIT 1 ")
     fun findByName(stateName:String): RoomFavorite
