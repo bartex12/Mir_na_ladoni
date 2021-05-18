@@ -153,7 +153,6 @@ class DetailsFragment : Fragment() {
                     val intent = Intent(Intent.ACTION_VIEW)
                     intent.data =  Uri.parse("https://en.wikipedia.org/wiki/${it.name}")
                     startActivity(intent)
-
                 }
                 true
             }
