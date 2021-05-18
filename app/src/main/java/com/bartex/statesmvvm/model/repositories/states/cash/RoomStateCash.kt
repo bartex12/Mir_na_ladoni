@@ -67,9 +67,21 @@ class RoomStateCash(val db: Database): IRoomStateCash {
             }
         }.subscribeOn(Schedulers.io())
 
+    override fun getSearchedStatesFromCashEng(search: String) : Single<List<State>> =Single.fromCallable {
+        Log.d(TAG, "RoomStateCash getSearchedStatesFromCashEng: search = $search")
+        //findByName
+        db.stateDao.findByName(search).map {roomState->
+            State(roomState.capital,roomState.flag, roomState.name, roomState.region,
+                roomState.population, roomState.area, arrayOf(roomState.lat, roomState.lng),
+                roomState.nameRus, roomState.capitalRus, roomState.regionRus
+            )
+        }
+    }.subscribeOn(Schedulers.io())
+
     override fun getSearchedStatesFromCashRus(search: String) : Single<List<State>> =
         Single.fromCallable {
             Log.d(TAG, "RoomStateCash getSearchedStatesFromCashRus: search = $search")
+            //findByNameRus
             db.stateDao.findByNameRus(search).map {roomState->
                 State(roomState.capital,roomState.flag, roomState.name, roomState.region,
                     roomState.population, roomState.area, arrayOf(roomState.lat, roomState.lng),
@@ -77,6 +89,7 @@ class RoomStateCash(val db: Database): IRoomStateCash {
                 )
             }
         }.subscribeOn(Schedulers.io())
+
 
     override fun loadFavorite(): Single<List<State>> = Single.fromCallable {
             db.favoriteDao.getAll().map {roomFavorite->

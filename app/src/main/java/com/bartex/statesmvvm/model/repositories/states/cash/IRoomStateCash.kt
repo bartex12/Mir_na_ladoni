@@ -14,4 +14,5 @@ interface IRoomStateCash {
     fun removeFavorite(state:State):Completable
 
     fun getSearchedStatesFromCashRus(search:String):Single<List<State>>
+    fun getSearchedStatesFromCashEng(search:String):Single<List<State>>
 }

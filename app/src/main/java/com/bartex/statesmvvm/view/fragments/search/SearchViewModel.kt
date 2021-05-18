@@ -27,16 +27,8 @@ class SearchViewModel: ViewModel() {
 
     private val listStatesSearch = MutableLiveData<SearchSealed>()
 
-    //private val listStatesSearchFromRoom = MutableLiveData<SearchSealed>()
-
     fun getStatesSearch(search:String?) :LiveData<SearchSealed>{
-        if (getRusLang()){
-            Log.d(TAG, "SearchViewModel getStatesSearch rus")
-            loadDataSearchFromRoom(search)
-        }else{
-            Log.d(TAG, "SearchViewModel getStatesSearch eng")
-            loadDataSearch(search)
-        }
+        loadDataSearchFromRoom(search)
         return listStatesSearch
     }
 
@@ -49,7 +41,11 @@ class SearchViewModel: ViewModel() {
         var f_st:List<State>?= null
 
         search?. let{
-            statesRepo.searchStatesFromRoom(search)
+            if (getRusLang()){
+                statesRepo.searchStatesFromRoomRus(search)
+            }else{
+                statesRepo.searchStatesFromRoomEng(search)
+            }
                 .observeOn(Schedulers.computation())
                 .flatMap {st->
                     if(isSorted){
@@ -71,42 +67,6 @@ class SearchViewModel: ViewModel() {
                         Log.d(TAG, "SearchViewModel  loadDataSearchFromRoom states.size = ${it.size}")
                     }
                 }, {error->
-                    listStatesSearch.value = SearchSealed.Error(error = error)
-                    Log.d(TAG, "SearchViewModel onError ${error.message}")
-                })
-        }?: Single.just(listOf<State>())
-    }
-
-    private fun loadDataSearch(search:String?){
-        Log.d(TAG, "SearchViewModel loadDataSearch search = $search")
-        listStatesSearch.value = SearchSealed.Loading(null)
-
-        val isSorted = helper.isSorted()
-        val getSortCase = helper.getSortCase()
-        var f_st:List<State>?= null
-        search?. let{
-            statesRepo.searchStates(search)
-                .observeOn(Schedulers.computation())
-                .flatMap {st->
-                    if(isSorted){
-                        when (getSortCase) {
-                            1 -> {f_st = st.filter {it.population!=null}.sortedByDescending {it.population} }
-                            2 -> {f_st = st.filter {it.population!=null}.sortedBy {it.population} }
-                            3 -> {f_st = st.filter {it.area!=null}.sortedByDescending {it.area}}
-                            4 -> {f_st = st.filter {it.area!=null}.sortedBy {it.area}}
-                        }
-                        return@flatMap Single.just(f_st)
-                    }else{
-                        return@flatMap Single.just(st)
-                    }
-                }
-                .observeOn(mainThreadScheduler)
-                .subscribe ({states->
-                    states?. let{
-                        listStatesSearch.value = SearchSealed.Success(searchStates = it)
-                        Log.d(TAG, "SearchViewModel  loadDataSearch states.size = ${it.size}")
-                    }
-                }, {error ->
                     listStatesSearch.value = SearchSealed.Error(error = error)
                     Log.d(TAG, "SearchViewModel onError ${error.message}")
                 })

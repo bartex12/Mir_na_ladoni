@@ -5,7 +5,8 @@ import io.reactivex.rxjava3.core.Single
 
 interface IStatesRepo {
     fun getStates(): Single<List<State>>
-    fun searchStates(search:String): Single<List<State>>
+    //fun searchStates(search:String): Single<List<State>>
 
-    fun searchStatesFromRoom(search:String): Single<List<State>>
+    fun searchStatesFromRoomRus(search:String): Single<List<State>>
+    fun searchStatesFromRoomEng(search:String): Single<List<State>>
 }
