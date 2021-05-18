@@ -98,7 +98,9 @@ class SearchFragment: Fragment() {
             rv_search.visibility =  View.VISIBLE
             empty_view_Search.visibility =View.GONE
 
+            //передаём список в адаптер
             adapter?.listStates = states
+            //передаём в адаптер язык - русский или англ
             adapter?.setRusLang(searchViewModel.getRusLang())
             rv_search.layoutManager?.scrollToPosition(position) //крутим в запомненную позицию списка
             Log.d(TAG, "SearchFragment renderSearchState scrollToPosition = $position")

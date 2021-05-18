@@ -199,6 +199,13 @@ class    MainActivity: AppCompatActivity(),
     }
 
     override fun onQueryTextChange(newText: String?): Boolean {
+//        Log.d(TAG, "MainActivity onQueryTextChange newText = $newText ")
+//        newText?. let{
+//            if (newText.isNotEmpty()){
+//                val bundle = Bundle().apply { putString(Constants.SEARCH, it) }
+//                navController.navigate(R.id.action_statesFragment_to_searchFragment, bundle)
+//            }
+//        }
         return false
     }
 
