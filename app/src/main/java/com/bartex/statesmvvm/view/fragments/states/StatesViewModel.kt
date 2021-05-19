@@ -27,12 +27,17 @@ class StatesViewModel: ViewModel() {
 
     private val listStates = MutableLiveData<StatesSealed>()
 
-    fun getStates() : LiveData<StatesSealed>{
-        loadData()
+    fun getStatesFromNet() : LiveData<StatesSealed>{
+        loadDataFromNet()
         return listStates
     }
 
-    private fun loadData(){
+    fun getStatesFromRoom() : LiveData<StatesSealed>{
+        loadDataFromRoom()
+        return listStates
+    }
+
+    private fun loadDataFromRoom(){
         //начинаем загрузку данных
         listStates.value = StatesSealed.Loading(null)
 
@@ -40,7 +45,46 @@ class StatesViewModel: ViewModel() {
         val getSortCase = helper.getSortCase()
         var f_st:List<State>?= null
         Log.d(TAG, "BasePresenter  loadData isSorted = $isSorted getSortCase = $getSortCase")
-        statesRepo.getStates()
+        statesRepo.getStatesFromRoom()
+            .observeOn(Schedulers.computation())
+            .flatMap {st->
+                Log.d(TAG, "1 StatesViewModel  loadData st.size = ${st.size}")
+                if(isSorted){
+                    when (getSortCase) {
+                        1 -> {f_st = st.filter {it.population!=null}.sortedByDescending {it.population} }
+                        2 -> {f_st = st.filter {it.population!=null}.sortedBy {it.population} }
+                        3 -> {f_st = st.filter {it.area!=null}.sortedByDescending {it.area}}
+                        4 -> {f_st = st.filter {it.area!=null}.sortedBy {it.area}}
+                    }
+                    return@flatMap Single.just(f_st)
+                }else{
+                    Log.d(TAG, "2 StatesViewModel  loadData st.size = ${st.size}")
+                    return@flatMap Single.just(st)
+                }
+            }
+            .observeOn(mainThreadScheduler)
+            .subscribe ({states->
+                states?. let{
+                    // если данные загружены - выставляем value в MutableLiveData
+                    listStates.value = StatesSealed.Success(state = it)
+                    Log.d(TAG, "StatesViewModel  loadData states.size = ${it.size}")
+                }
+            }, {error ->
+                //если произошла ошибка - выставляем value в MutableLiveData в ошибку
+                listStates.value = StatesSealed.Error(error = error)
+                Log.d(TAG, "StatesViewModel onError ${error.message}")
+            })
+    }
+
+    private fun loadDataFromNet(){
+        //начинаем загрузку данных
+        listStates.value = StatesSealed.Loading(null)
+
+        val isSorted = helper.isSorted()
+        val getSortCase = helper.getSortCase()
+        var f_st:List<State>?= null
+        Log.d(TAG, "BasePresenter  loadData isSorted = $isSorted getSortCase = $getSortCase")
+        statesRepo.getStatesFromNet()
             .observeOn(Schedulers.computation())
             .flatMap {st->
                 Log.d(TAG, "1 StatesViewModel  loadData st.size = ${st.size}")

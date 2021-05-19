@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -14,6 +15,7 @@ import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bartex.statesmvvm.App
 import com.bartex.statesmvvm.R
+import com.bartex.statesmvvm.common.OnlineLiveData
 import com.bartex.statesmvvm.common.toast
 import com.bartex.statesmvvm.model.constants.Constants
 import com.bartex.statesmvvm.model.entity.state.State
@@ -46,8 +48,27 @@ class StatesFragment : Fragment() {
         stateViewModel = ViewModelProvider(this).get(StatesViewModel::class.java)
         stateViewModel.apply { App.instance.appComponent.inject(this)}
 
-        stateViewModel.getStates()
-            .observe(viewLifecycleOwner, Observer<StatesSealed> {renderData(it)})
+        OnlineLiveData(requireActivity()).observe(
+            viewLifecycleOwner,
+            Observer<Boolean> {
+                if (it){
+                    Log.d(TAG, "StatesFragment OnlineLiveData Online")
+                    stateViewModel.getStatesFromNet()
+                }else{
+                    Log.d(TAG, "StatesFragment OnlineLiveData Offline")
+//                    Toast.makeText(
+//                        requireActivity(),
+//                        R.string.dialog_message_device_is_offline,
+//                        Toast.LENGTH_LONG
+//                    ).show()
+                    stateViewModel.getStatesFromRoom()
+                }
+                    .observe(viewLifecycleOwner, Observer<StatesSealed> {renderData(it)})
+            })
+
+//
+//        stateViewModel.getStatesFromNet()
+//            .observe(viewLifecycleOwner, Observer<StatesSealed> {renderData(it)})
 
         //восстанавливаем позицию списка после поворота или возвращения на экран
         position =  stateViewModel.getPositionState()
@@ -83,6 +104,7 @@ class StatesFragment : Fragment() {
     }
 
     private fun renderData(data: StatesSealed) {
+        Log.d(TAG, "StatesFragment renderData")
         when(data){
             is StatesSealed.Success -> {
                 renderLoadingStop()

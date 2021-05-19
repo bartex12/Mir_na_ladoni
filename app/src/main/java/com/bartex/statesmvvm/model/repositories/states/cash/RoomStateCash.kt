@@ -24,7 +24,7 @@ class RoomStateCash(val db: Database): IRoomStateCash {
      return  Single.fromCallable { //создаём  Single из списка, по пути пишем в базу
          // map для базы, так как классы разные
          val roomUsers = listStates.map {state->
-             Log.d(TAG, "RoomStateCash doStatesCash: state.nameRus = ${MapOfState.mapStates[state.name] }")
+             //Log.d(TAG, "RoomStateCash doStatesCash: state.nameRus = ${MapOfState.mapStates[state.name] }")
              RoomState(
                  state.capital ?: "",
                  state.flag ?: "",

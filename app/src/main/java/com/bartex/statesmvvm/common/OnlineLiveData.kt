@@ -4,12 +4,16 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.net.Network
 import android.net.NetworkRequest
+import android.util.Log
 import androidx.lifecycle.LiveData
+import com.bartex.statesmvvm.view.fragments.states.StatesFragment
 
 // В конструктор передаём контекст, наследуемся от LiveData, которая
 // возвращает булево значение
 class OnlineLiveData(context: Context) : LiveData<Boolean>() {
-
+companion object{
+    const val TAG = "33333"
+}
     // Массив из доступных сетей
     private val availableNetworks = mutableSetOf<Network>()
     // Получаем connectivityManager
@@ -46,6 +50,7 @@ class OnlineLiveData(context: Context) : LiveData<Boolean>() {
 
     // Уведомляем подписчиков о наличии/отсутствии связи с сетью
     private fun update(online: Boolean) {
+        Log.d(TAG, "OnlineLiveData update online = $online")
         if (online != value) {
             postValue(online)
         }
