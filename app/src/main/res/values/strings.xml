@@ -36,6 +36,8 @@
     <string name="weather">Погода</string>
     <string name="no_data_available">Нет данных \n Попробуйте изменить поисковый запрос </string>
     <string name="no_data_state">Нет данных \n Проверьте наличие Интернета </string>
+    <string name="dialog_message_device_is_offline">Вы не можете использовать приложение без подключения к Интернету. Пожалуйста, проверьте
+         интернет-соединение</string>
 
     <string name="fruit">Фрукты</string>
     <string name="vegetables">Овощи</string>
