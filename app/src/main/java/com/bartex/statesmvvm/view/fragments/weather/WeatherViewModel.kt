@@ -17,8 +17,8 @@ class WeatherViewModel:ViewModel() {
 
     private val weatherSealed= MutableLiveData<WeatherSealed>()
 
-    fun getWeatherSealed(state: State?):LiveData<WeatherSealed>{
-        loadWeatherSealed(state)
+    fun getWeatherSealed(state: State?, isNetworkAvailable:Boolean):LiveData<WeatherSealed>{
+        loadWeatherSealed(state, isNetworkAvailable)
         return weatherSealed
     }
 
@@ -27,11 +27,11 @@ class WeatherViewModel:ViewModel() {
     @Inject
     lateinit var weatherRepo: IWeatherRepo
 
-   private fun loadWeatherSealed(state: State?) {
+   private fun loadWeatherSealed(state: State?, isNetworkAvailable:Boolean) {
        //начинаем загрузку данных
         weatherSealed.value = WeatherSealed.Loading(null)
         state?. let {
-            weatherRepo.getWeatherInCapital(it.capital,
+            weatherRepo.getWeatherInCapital(isNetworkAvailable, it.capital,
                 "80bb32e4a0db84762bb04ab2bd724646", "metric", "RU")
         }?.observeOn(mainThreadScheduler)
             ?.subscribe(

@@ -38,6 +38,8 @@
     <string name="no_data_state">Нет данных \n Проверьте наличие Интернета </string>
     <string name="dialog_message_device_is_offline">Вы не можете использовать приложение без подключения к Интернету. Пожалуйста, проверьте
          интернет-соединение</string>
+    <string name="weather_device_is_offline">Вы не можете получить погоду без подключения к Интернету. Пожалуйста, проверьте
+         интернет-соединение</string>
 
     <string name="fruit">Фрукты</string>
     <string name="vegetables">Овощи</string>

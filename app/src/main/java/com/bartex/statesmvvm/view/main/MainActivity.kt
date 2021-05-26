@@ -8,16 +8,20 @@ import android.os.Looper
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.GravityCompat
+import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
 import androidx.preference.PreferenceManager
 import com.bartex.statesmvvm.R
+import com.bartex.statesmvvm.common.OnlineLiveData
 import com.bartex.statesmvvm.model.constants.Constants
+import com.bartex.statesmvvm.view.fragments.states.StatesFragment
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.*
@@ -36,14 +40,11 @@ class    MainActivity: AppCompatActivity(),
     private var isOldLang :Boolean = true
     private lateinit var mainViewModel: MainViewModel
 
+    private var isNetworkAvailable: Boolean = true
+
     companion object{
         const val TAG = "33333"
     }
-
-//    private val mainViewModel: MainViewModel by lazy {
-//        ViewModelProvider(this).get(MainViewModel::class.java)
-//        mainViewModel.apply {App.instance.appComponent.inject(this)}
-//    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,15 +54,22 @@ class    MainActivity: AppCompatActivity(),
             Log.d(TAG, "MainActivity onCreate  первый запуск")
         }
 
-//        mainViewModel = ViewModelProvider(this).get(MainViewModel::class.java)
-//        mainViewModel.apply {App.instance.appComponent.inject(this)}
-//
-//        mainViewModel.loadTheme()
-//
-//        mainViewModel.getColorTheme().observe(this, Observer<Int> {
-//            Log.d(TAG, "MainActivity onCreate  getTheme = $it")
-//            //recreate()
-//        })
+        //следим за сетью
+        OnlineLiveData(this).observe(
+            this@MainActivity,
+            Observer<Boolean> {
+                isNetworkAvailable = it
+                if (!isNetworkAvailable) {
+                    Toast.makeText(
+                        this@MainActivity,
+                        R.string.dialog_message_device_is_offline,
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+            })
+
+        Log.d(TAG, "*** MainActivity onCreate  isNetworkAvailable = $isNetworkAvailable")
+
         //читаем сохранённную в настройках тему
         oldTheme = PreferenceManager.getDefaultSharedPreferences(this)
             .getString("ListColor", "1")!!.toInt()
@@ -126,6 +134,8 @@ class    MainActivity: AppCompatActivity(),
             recreate()
         }
     }
+
+    fun getNetworkAvailable(): Boolean = isNetworkAvailable
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         Log.d(TAG, "MainActivity onCreateOptionsMenu ")

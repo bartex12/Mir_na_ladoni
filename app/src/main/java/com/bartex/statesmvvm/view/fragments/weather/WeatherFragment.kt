@@ -2,9 +2,11 @@ package com.bartex.statesmvvm.view.fragments.weather
 
 import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -16,12 +18,17 @@ import com.bartex.statesmvvm.R
 import com.bartex.statesmvvm.model.constants.Constants
 import com.bartex.statesmvvm.model.entity.state.State
 import com.bartex.statesmvvm.model.entity.weather.WeatherInCapital
+import com.bartex.statesmvvm.view.fragments.states.StatesFragment
+import com.bartex.statesmvvm.view.fragments.states.StatesSealed
+import com.bartex.statesmvvm.view.main.MainActivity
 import kotlinx.android.synthetic.main.fragment_weather.*
 
 class WeatherFragment : Fragment()  {
 
     private var state: State? = null
     private lateinit var weatherViewModel:WeatherViewModel
+    //для доступа к полю MainActivity isNetworkAvailable, где проверяется доступ к интернету
+    var main: MainActivity? = null
 
     companion object {
         const val TAG = "33333"
@@ -32,7 +39,9 @@ class WeatherFragment : Fragment()  {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_weather, container, false)
+        val view:View = inflater.inflate(R.layout.fragment_weather, container, false)
+        main = requireActivity() as MainActivity
+        return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -43,9 +52,15 @@ class WeatherFragment : Fragment()  {
         weatherViewModel = ViewModelProvider(this).get(WeatherViewModel::class.java)
         weatherViewModel.apply { App.instance.appComponent.inject(this) }
 
-        weatherViewModel.getWeatherSealed(state)
-            .observe(viewLifecycleOwner, Observer {renderData(it)})
+        val  isNetworkAvailable = main?.getNetworkAvailable()
+        Log.d(StatesFragment.TAG, "WeatherFragment onViewCreated isNetworkAvailable =$isNetworkAvailable")
 
+        isNetworkAvailable?. let{isNet->
+            weatherViewModel.getWeatherSealed(state, isNet)
+                .observe(viewLifecycleOwner, Observer {
+                    renderData(it)
+                })
+        }
         //приводим меню тулбара в соответствии с onPrepareOptionsMenu в MainActivity
         setHasOptionsMenu(true)
         requireActivity().invalidateOptionsMenu()
@@ -66,9 +81,8 @@ class WeatherFragment : Fragment()  {
             }
         }
     }
-
     private fun renderError(error: Throwable) {
-        tv_capital_description.text = error.message
+        tv_capital_description.text = resources.getString(R.string.weather_device_is_offline)
         iv_icon.setImageDrawable( ContextCompat.getDrawable(requireContext(),R.drawable.whatcanido))
     }
 

@@ -21,6 +21,7 @@ import com.bartex.statesmvvm.model.constants.Constants
 import com.bartex.statesmvvm.model.entity.state.State
 import com.bartex.statesmvvm.view.adapter.GlideToVectorYouLoader
 import com.bartex.statesmvvm.view.adapter.StateRVAdapter
+import com.bartex.statesmvvm.view.main.MainActivity
 import kotlinx.android.synthetic.main.fragment_states.*
 
 
@@ -30,14 +31,18 @@ class StatesFragment : Fragment() {
     private var adapter: StateRVAdapter? = null
     lateinit var navController:NavController
     private lateinit var stateViewModel: StatesViewModel
+    //для доступа к полю MainActivity isNetworkAvailable, где проверяется доступ к интернету
+    var main:MainActivity? = null
 
     companion object {
         const val TAG = "33333"
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View =
-        View.inflate(context, R.layout.fragment_states, null)
-
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View{
+     val  view:View =inflater.inflate(R.layout.fragment_states, container, false)
+        main = requireActivity() as MainActivity
+        return view
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -48,27 +53,22 @@ class StatesFragment : Fragment() {
         stateViewModel = ViewModelProvider(this).get(StatesViewModel::class.java)
         stateViewModel.apply { App.instance.appComponent.inject(this)}
 
-        OnlineLiveData(requireActivity()).observe(
-            viewLifecycleOwner,
-            Observer<Boolean> {
-                if (it){
-                    Log.d(TAG, "StatesFragment OnlineLiveData Online")
-                    stateViewModel.getStatesFromNet()
-                }else{
-                    Log.d(TAG, "StatesFragment OnlineLiveData Offline")
-//                    Toast.makeText(
-//                        requireActivity(),
-//                        R.string.dialog_message_device_is_offline,
-//                        Toast.LENGTH_LONG
-//                    ).show()
-                    stateViewModel.getStatesFromRoom()
-                }
-                    .observe(viewLifecycleOwner, Observer<StatesSealed> {renderData(it)})
-            })
+       val  isNetworkAvailable = main?.getNetworkAvailable()
+        Log.d(TAG, "StatesFragment onViewCreated isNetworkAvailable =$isNetworkAvailable")
 
-//
-//        stateViewModel.getStatesFromNet()
-//            .observe(viewLifecycleOwner, Observer<StatesSealed> {renderData(it)})
+        isNetworkAvailable?. let{
+            if(it){
+                stateViewModel.getStatesFromNet()
+            }else{
+                Toast.makeText(
+                    requireActivity(),
+                    R.string.dialog_message_device_is_offline,
+                    Toast.LENGTH_LONG
+                ).show()
+                stateViewModel.getStatesFromRoom()
+            }
+                .observe(viewLifecycleOwner, Observer<StatesSealed> {renderData(it)})
+        }
 
         //восстанавливаем позицию списка после поворота или возвращения на экран
         position =  stateViewModel.getPositionState()
@@ -79,6 +79,11 @@ class StatesFragment : Fragment() {
         //без этой строки меню в тулбаре ведёт себя неправильно
         setHasOptionsMenu(true)
         requireActivity().invalidateOptionsMenu()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.d(TAG, "StatesFragment onResume")
     }
 
     //запоминаем  позицию списка, на которой сделан клик - на случай поворота экрана

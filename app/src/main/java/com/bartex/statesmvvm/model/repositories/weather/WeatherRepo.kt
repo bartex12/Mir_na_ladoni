@@ -17,24 +17,25 @@ class WeatherRepo(val api: IDataSourceWeather, private val networkStatus: INetwo
     //в зависимости от статуса сети
     //мы или получаем данные из сети, записывая их в базу данных с помощью Room через map
     //или берём из базы, преобразуя их также через map
-    override fun getWeatherInCapital(capital: String?,keyApi: String?,units: String?, lang:String?)
+    override fun getWeatherInCapital(isNetworkAvailable:Boolean, capital: String?,keyApi: String?,units: String?, lang:String?)
             : Single<WeatherInCapital> =
-        networkStatus.isOnlineSingle()
-            .flatMap {isOnLine-> //получаем доступ к Boolean значениям
-                if (isOnLine){ //если сеть есть
-                    Log.d(TAG, "WeatherRepo  isOnLine  = true")
+
+        if(isNetworkAvailable){
+                     Log.d(TAG, "WeatherRepo  isOnLine  = true")
                     //получаем данные из сети в виде Single<WeatherInCapital>
                     api.loadWeatherInCapitalEng(capital, keyApi, units)
-                        .flatMap {weatherInCapital->
+                        .flatMap { weatherInCapital ->
                             Log.d(TAG, "WeatherRepo  loadWeatherInCapitalRu name = " +
-                                    "${weatherInCapital.name} temp = ${weatherInCapital.main?.temp}")
+                                        "${weatherInCapital.name} temp = ${weatherInCapital.main?.temp}"
+                            )
                             //реализация кэширования погоды в столице из сети в базу данных
                             roomWeatherCash.doWeatherCash(weatherInCapital)
                         }
-                }else{
-                    Log.d(TAG, "WeatherRepo  isOnLine  = false")
-                    //получение погоды в столице из кэша
-                    roomWeatherCash.getWeatherFromCash(capital)
-                }
-            }.subscribeOn(Schedulers.io())
+        }else{
+            Log.d(TAG, "WeatherRepo  isNetworkAvailable  = false")
+            //получение погоды в столице из кэша
+            roomWeatherCash.getWeatherFromCash(capital)
+        }
+            .subscribeOn(Schedulers.io())
+
 }
