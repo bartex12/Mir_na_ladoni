@@ -87,8 +87,14 @@ class WeatherFragment : Fragment()  {
     }
 
     private fun renderWeather(weather: WeatherInCapital?) {
-        state?.name?. let{ tv_state_name.text = it}
-        tv_capital_name.text = weather?.name
+        val isRusLang = weatherViewModel.getRusLang()
+        if (isRusLang){
+            state?.capitalRus?. let{  tv_capital_name.text = it}
+            state?.nameRus?. let{ tv_state_name.text = it}
+        }else{
+            state?.name?. let{ tv_state_name.text = it}
+            tv_capital_name.text = weather?.name
+        }
         tv_capital_pressure.text = String.format("атм. давление %d мбар", weather?.main?.pressure)
         tv_capital_humidity.text = String.format("отн.влажность %d проц.", weather?.main?.humidity)
         tv_capital_description.text = weather?.weather?.get(0)?.description
