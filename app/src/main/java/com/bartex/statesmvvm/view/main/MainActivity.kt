@@ -19,7 +19,9 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
 import androidx.preference.PreferenceManager
 import com.bartex.statesmvvm.R
+import com.bartex.statesmvvm.common.AlertDialogFragment
 import com.bartex.statesmvvm.common.OnlineLiveData
+import com.bartex.statesmvvm.common.isOnline
 import com.bartex.statesmvvm.model.constants.Constants
 import com.bartex.statesmvvm.view.fragments.states.StatesFragment
 import com.google.android.material.navigation.NavigationView
@@ -28,7 +30,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 
 
-class    MainActivity: AppCompatActivity(),
+open class    MainActivity: AppCompatActivity(),
      SearchView.OnQueryTextListener, NavigationView.OnNavigationItemSelectedListener {
 
     private var doubleBackToExitPressedOnce = false
@@ -43,6 +45,7 @@ class    MainActivity: AppCompatActivity(),
     private var isNetworkAvailable: Boolean = true
 
     companion object{
+        const val DIALOG_FRAGMENT_TAG = "DIALOG_FRAGMENT_TAG"
         const val TAG = "33333"
     }
 
@@ -50,9 +53,14 @@ class    MainActivity: AppCompatActivity(),
         super.onCreate(savedInstanceState)
         Log.d(TAG, "MainActivity onCreate ")
 
+        //получаем статус сети при первом запуске приложения
         if (savedInstanceState == null) {
-            Log.d(TAG, "MainActivity onCreate  первый запуск")
-        }
+            isNetworkAvailable = isOnline(this)
+            if (!isNetworkAvailable) {
+                showNoInternetConnectionDialog()
+            }
+            }
+            Log.d(TAG, "MainActivity onCreate  первый запуск isNetworkAvailable = $isNetworkAvailable")
 
         //следим за сетью
         OnlineLiveData(this).observe(
@@ -60,11 +68,12 @@ class    MainActivity: AppCompatActivity(),
             Observer<Boolean> {
                 isNetworkAvailable = it
                 if (!isNetworkAvailable) {
-                    Toast.makeText(
-                        this@MainActivity,
-                        R.string.dialog_message_device_is_offline,
-                        Toast.LENGTH_LONG
-                    ).show()
+//                    Toast.makeText(
+//                        this@MainActivity,
+//                        R.string.dialog_message_device_is_offline,
+//                        Toast.LENGTH_LONG
+//                    ).show()
+                    showNoInternetConnectionDialog()
                 }
             })
 
@@ -136,6 +145,17 @@ class    MainActivity: AppCompatActivity(),
     }
 
     fun getNetworkAvailable(): Boolean = isNetworkAvailable
+
+    private fun showNoInternetConnectionDialog() {
+        showAlertDialog(
+            getString(R.string.dialog_title_device_is_offline),
+            getString(R.string.dialog_message_device_is_offline)
+        )
+    }
+
+    private fun showAlertDialog(title: String?, message: String?) {
+        AlertDialogFragment.newInstance(title, message).show(supportFragmentManager, DIALOG_FRAGMENT_TAG)
+    }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         Log.d(TAG, "MainActivity onCreateOptionsMenu ")

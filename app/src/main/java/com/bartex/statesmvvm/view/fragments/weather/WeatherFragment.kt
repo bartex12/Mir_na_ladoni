@@ -23,7 +23,7 @@ import com.bartex.statesmvvm.view.fragments.states.StatesSealed
 import com.bartex.statesmvvm.view.main.MainActivity
 import kotlinx.android.synthetic.main.fragment_weather.*
 
-class WeatherFragment : Fragment()  {
+class  WeatherFragment : Fragment()  {
 
     private var state: State? = null
     private lateinit var weatherViewModel:WeatherViewModel

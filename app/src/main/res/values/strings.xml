@@ -36,10 +36,12 @@
     <string name="weather">Погода</string>
     <string name="no_data_available">Нет данных \n Попробуйте изменить поисковый запрос </string>
     <string name="no_data_state">Нет данных \n Проверьте наличие Интернета </string>
-    <string name="dialog_message_device_is_offline">Вы не можете использовать приложение без подключения к Интернету. Пожалуйста, проверьте
+    <string name="dialog_message_device_is_offline">Вы не сможете эффективно использовать приложение без подключения к Интернету. Пожалуйста, проверьте
          интернет-соединение</string>
     <string name="weather_device_is_offline">Вы не можете получить погоду без подключения к Интернету. Пожалуйста, проверьте
          интернет-соединение</string>
+    <string name="dialog_title_stub">Undefined error</string>
+    <string name="dialog_button_cancel">Cancel</string>
 
     <string name="fruit">Фрукты</string>
     <string name="vegetables">Овощи</string>
@@ -151,4 +153,5 @@
     <string name="summary_on">Русский</string>
     <string name="summary_off">English</string>
     <string name="search_country">Поиск</string>
+    <string name="dialog_title_device_is_offline">Нет соединения с Интернетом</string>
 </resources>

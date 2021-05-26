@@ -38,6 +38,7 @@ class StatesFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View{
      val  view:View =inflater.inflate(R.layout.fragment_states, container, false)
+        //https://overcoder.net/q/107341/%D0%BA%D0%B0%D0%BA-%D0%BF%D0%BE%D0%BB%D1%83%D1%87%D0%B8%D1%82%D1%8C-%D0%B4%D0%BE%D1%81%D1%82%D1%83%D0%BF-%D0%BA-%D0%BF%D0%B5%D1%80%D0%B5%D0%BC%D0%B5%D0%BD%D0%BD%D1%8B%D0%BC-%D0%B0%D0%BA%D1%82%D0%B8%D0%B2%D0%BD%D0%BE%D1%81%D1%82%D0%B8-%D0%B8%D0%B7-%D1%84%D1%80%D0%B0%D0%B3%D0%BC%D0%B5%D0%BD%D1%82%D0%B0-android
         main = requireActivity() as MainActivity
         return view
     }
@@ -80,6 +81,7 @@ class StatesFragment : Fragment() {
     //запоминаем  позицию списка, на которой сделан клик - на случай поворота экрана
     override fun onPause() {
         super.onPause()
+        Log.d(TAG, "StatesFragment onPause")
         //определяем первую видимую позицию
         val manager = rv_states.layoutManager as LinearLayoutManager
         val firstPosition = manager.findFirstVisibleItemPosition()
