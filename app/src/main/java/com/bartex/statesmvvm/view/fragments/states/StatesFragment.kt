@@ -5,7 +5,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -15,7 +14,6 @@ import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bartex.statesmvvm.App
 import com.bartex.statesmvvm.R
-import com.bartex.statesmvvm.common.OnlineLiveData
 import com.bartex.statesmvvm.common.toast
 import com.bartex.statesmvvm.model.constants.Constants
 import com.bartex.statesmvvm.model.entity.state.State
@@ -56,18 +54,11 @@ class StatesFragment : Fragment() {
        val  isNetworkAvailable = main?.getNetworkAvailable()
         Log.d(TAG, "StatesFragment onViewCreated isNetworkAvailable =$isNetworkAvailable")
 
-        isNetworkAvailable?. let{
-            if(it){
-                stateViewModel.getStatesFromNet()
-            }else{
-                Toast.makeText(
-                    requireActivity(),
-                    R.string.dialog_message_device_is_offline,
-                    Toast.LENGTH_LONG
-                ).show()
-                stateViewModel.getStatesFromRoom()
-            }
-                .observe(viewLifecycleOwner, Observer<StatesSealed> {renderData(it)})
+        isNetworkAvailable?. let{isNet->
+            stateViewModel.getStatesSealed(isNet)
+                .observe(viewLifecycleOwner, Observer<StatesSealed> {
+                    renderData(it)
+                })
         }
 
         //восстанавливаем позицию списка после поворота или возвращения на экран
