@@ -18,14 +18,14 @@ class SettingsFragment : PreferenceFragmentCompat() {
         setPreferencesFromResource(R.xml.pref_setting, rootKey)
 
         findPreference<ListPreference>("ListColor")
-            ?.setOnPreferenceChangeListener { preference, newValue ->
+            ?.setOnPreferenceChangeListener { _, newValue ->
                 val  oldTheme = PreferenceManager.getDefaultSharedPreferences(requireActivity())
                     .getString("ListColor", "1")
                 if (newValue != oldTheme){
                     Log.d(
                         TAG, "1 SettingsFragment ListPreferenceTheme newValue = $newValue" +
                             " oldTheme = $oldTheme ")
-                    requireActivity().finish()
+                    requireActivity().recreate()
                 }else{
                     Log.d(
                         TAG, "2 SettingsFragment ListPreferenceTheme newValue = $newValue" +
@@ -35,14 +35,14 @@ class SettingsFragment : PreferenceFragmentCompat() {
             }
 
         findPreference<ListPreference>("ListSort")
-            ?.setOnPreferenceChangeListener { preference, newValue ->
+            ?.setOnPreferenceChangeListener { _, newValue ->
                 val  oldSort = PreferenceManager.getDefaultSharedPreferences(requireActivity())
                     .getString("ListSort", "3")
                 if (newValue != oldSort){
                     Log.d(
                         TAG, "1 SettingsFragment ListPreferenceSort newValue = $newValue" +
                             " oldSort = $oldSort ")
-                    requireActivity().finish()
+                    requireActivity().recreate()
                 }else{
                     Log.d(
                         TAG, "2 SettingsFragment ListPreferenceSort newValue = $newValue" +
@@ -52,13 +52,13 @@ class SettingsFragment : PreferenceFragmentCompat() {
             }
 
         findPreference<CheckBoxPreference>("cbSort")
-            ?.setOnPreferenceChangeListener { preference, newValue ->
+            ?.setOnPreferenceChangeListener { _, newValue ->
                 if (newValue == true){
                     Log.d(TAG, "1 SettingsFragment CheckBoxPreference newValue = $newValue")
 
                 }else{
                     Log.d(TAG, "2 SettingsFragment CheckBoxPreference newValue = $newValue")
-                    requireActivity().finish()
+                    requireActivity().recreate()
                 }
                 true
             }

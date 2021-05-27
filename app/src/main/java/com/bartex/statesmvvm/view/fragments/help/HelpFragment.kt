@@ -113,7 +113,7 @@ class HelpFragment: Fragment() {
                     }
                     STATES,SEARCH -> navController.navigate(R.id.statesFragment)
                     SELECTED-> navController.navigate(R.id.favoriteFragment)
-                    SETTINGS-> navController.navigate(R.id.settingsActivity)
+                    SETTINGS-> navController.navigate(R.id.settingsFragment)
                     else -> navController.navigate(R.id.statesFragment)
                 }
             }

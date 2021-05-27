@@ -20,8 +20,8 @@
             android:id="@+id/action_statesFragment_to_detailsFragment"
             app:destination="@id/detailsFragment" />
         <action
-            android:id="@+id/action_statesFragment_to_settingsActivity"
-            app:destination="@id/settingsActivity" />
+            android:id="@+id/action_statesFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
     </fragment>
     <fragment
         android:id="@+id/favoriteFragment"
@@ -37,8 +37,8 @@
             android:id="@+id/action_favoriteFragment_to_helpFragment"
             app:destination="@id/helpFragment" />
         <action
-            android:id="@+id/action_favoriteFragment_to_settingsActivity"
-            app:destination="@id/settingsActivity" />
+            android:id="@+id/action_favoriteFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
     </fragment>
     <fragment
         android:id="@+id/helpFragment"
@@ -49,8 +49,8 @@
             android:id="@+id/action_helpFragment_to_favoriteFragment"
             app:destination="@id/favoriteFragment" />
         <action
-            android:id="@+id/action_helpFragment_to_settingsActivity"
-            app:destination="@id/settingsActivity" />
+            android:id="@+id/action_helpFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
     </fragment>
     <fragment
         android:id="@+id/weatherFragment"
@@ -61,8 +61,8 @@
             android:id="@+id/action_weatherFragment_to_helpFragment"
             app:destination="@id/helpFragment" />
         <action
-            android:id="@+id/action_weatherFragment_to_settingsActivity"
-            app:destination="@id/settingsActivity" />
+            android:id="@+id/action_weatherFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
     </fragment>
     <fragment
         android:id="@+id/detailsFragment"
@@ -84,12 +84,12 @@
             android:id="@+id/action_detailsFragment_to_helpFragment"
             app:destination="@id/helpFragment" />
         <action
-            android:id="@+id/action_detailsFragment_to_settingsActivity"
-            app:destination="@id/settingsActivity" />
+            android:id="@+id/action_detailsFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
     </fragment>
-    <activity
-        android:id="@+id/settingsActivity"
-        android:name="com.bartex.statesmvvm.view.settings.SettingsActivity"
-        android:label="SettingsActivity" />
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.bartex.statesmvvm.view.fragments.settings.SettingsFragment"
+        android:label="SettingsFragment" />
 
 </navigation>

@@ -8,9 +8,7 @@ import android.os.Looper
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.SearchView
 import androidx.core.view.GravityCompat
 import androidx.lifecycle.Observer
 import androidx.navigation.NavController
@@ -22,8 +20,6 @@ import com.bartex.statesmvvm.R
 import com.bartex.statesmvvm.common.AlertDialogFragment
 import com.bartex.statesmvvm.common.OnlineLiveData
 import com.bartex.statesmvvm.common.isOnline
-import com.bartex.statesmvvm.model.constants.Constants
-import com.bartex.statesmvvm.view.fragments.states.StatesFragment
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.*
@@ -33,13 +29,12 @@ import kotlinx.android.synthetic.main.app_bar_main.*
 open class    MainActivity: AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     private var doubleBackToExitPressedOnce = false
-    lateinit var navController:NavController
-    lateinit var  appBarConfiguration:AppBarConfiguration
+    private lateinit var navController:NavController
+    private lateinit var  appBarConfiguration:AppBarConfiguration
     private var oldTheme:Int = 1
     private var oldSort:Int = 1
     private var isOldSort:Boolean = true
     private var isOldLang :Boolean = true
-    private lateinit var mainViewModel: MainViewModel
 
     private var isNetworkAvailable: Boolean = true
 
@@ -165,8 +160,9 @@ open class    MainActivity: AppCompatActivity(), NavigationView.OnNavigationItem
         id?. let {
             menu?.findItem(R.id.search)?.isVisible = it == R.id.statesFragment
             menu?.findItem(R.id.navigation_help)?.isVisible = it!= R.id.helpFragment
-            menu?.findItem(R.id.favorites)?.isVisible =
-                it!= R.id.favoriteFragment && it!= R.id.weatherFragment && it!= R.id.helpFragment
+            menu?.findItem(R.id.favorites)?.isVisible =  it!= R.id.favoriteFragment
+                    && it!= R.id.weatherFragment && it!= R.id.helpFragment && it!= R.id.settingsFragment
+            menu?.findItem(R.id.navigation_settings)?.isVisible = it != R.id.settingsFragment
 
             //заголовки тулбара в зависимости от фрагмента
             toolbar.title = when(it){
@@ -175,6 +171,7 @@ open class    MainActivity: AppCompatActivity(), NavigationView.OnNavigationItem
                 R.id.detailsFragment -> getString(R.string.details_name)
                 R.id.favoriteFragment -> getString(R.string.favorite_name)
                 R.id.helpFragment -> getString(R.string.help_name)
+                R.id.settingsFragment -> getString(R.string.sett)
                 else -> getString(R.string.app_name)
             }
         }
@@ -184,14 +181,13 @@ open class    MainActivity: AppCompatActivity(), NavigationView.OnNavigationItem
     //так  как Избранное - детали и справка - настройки могут бесконечно вызываться друг из друга
     //чтобы это предотвратить, в их action было задействовано popUpTo и popUpToInclusive
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        val id = item.itemId
-        when (id){
+        when (item.itemId){
             R.id.favorites ->{
                 navController.navigate(R.id.favoriteFragment)
                 return true
             }
            R.id.navigation_settings ->{
-               navController.navigate(R.id.settingsActivity)
+               navController.navigate(R.id.settingsFragment)
                return true
            }
             R.id.navigation_help->{
@@ -211,10 +207,9 @@ open class    MainActivity: AppCompatActivity(), NavigationView.OnNavigationItem
             }
             R.id.nav_setting -> {
                 Log.d(TAG, "MainActivity onNavigationItemSelected nav_setting")
-                navController.navigate(R.id.settingsActivity)
+                navController.navigate(R.id.settingsFragment)
             }
             R.id.nav_help -> {
-
             Log.d(TAG, "MainActivity onNavigationItemSelected nav_help")
                     navController.navigate(R.id.helpFragment)
         }

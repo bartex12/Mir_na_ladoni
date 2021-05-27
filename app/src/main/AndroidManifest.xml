@@ -15,10 +15,7 @@
         android:roundIcon="@mipmap/mir160"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity
-            android:name=".view.settings.SettingsActivity"
-            android:label="@string/title_activity_settings"
-            android:theme="@style/AppTheme"/>
+
 
         <activity android:name=".view.main.MainActivity"
             android:windowSoftInputMode="stateHidden">
