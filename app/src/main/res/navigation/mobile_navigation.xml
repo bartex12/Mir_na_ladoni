@@ -17,9 +17,6 @@
             android:id="@+id/action_statesFragment_to_helpFragment"
             app:destination="@id/helpFragment" />
         <action
-            android:id="@+id/action_statesFragment_to_searchFragment"
-            app:destination="@id/searchFragment" />
-        <action
             android:id="@+id/action_statesFragment_to_detailsFragment"
             app:destination="@id/detailsFragment" />
         <action
@@ -88,24 +85,6 @@
             app:destination="@id/helpFragment" />
         <action
             android:id="@+id/action_detailsFragment_to_settingsActivity"
-            app:destination="@id/settingsActivity" />
-    </fragment>
-    <fragment
-        android:id="@+id/searchFragment"
-        android:name="com.bartex.statesmvvm.view.fragments.search.SearchFragment"
-        android:label="SearchFragment"
-        tools:layout="@layout/fragment_search">
-        <action
-            android:id="@+id/action_searchFragment_to_favoriteFragment"
-            app:destination="@id/favoriteFragment" />
-        <action
-            android:id="@+id/action_searchFragment_to_helpFragment"
-            app:destination="@id/helpFragment" />
-        <action
-            android:id="@+id/action_searchFragment_to_detailsFragment"
-            app:destination="@id/detailsFragment" />
-        <action
-            android:id="@+id/action_searchFragment_to_settingsActivity"
             app:destination="@id/settingsActivity" />
     </fragment>
     <activity

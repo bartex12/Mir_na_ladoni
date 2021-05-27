@@ -32,13 +32,11 @@
         <Button
             android:id="@+id/btn_addToFavorite"
             style="?favorite"
-            app:icon="@drawable/ic_baseline_star_24green"
             app:strokeColor = "@color/colorAccent"
             android:text="@string/addToFavorite"/>
         <Button
             android:id="@+id/btn_removeFavorite"
             style="?favorite"
-            app:icon="@drawable/ic_baseline_star_24green"
             app:strokeColor = "@color/colorAccent"
             android:text="@string/removeFromFavorite" />
     </LinearLayout>

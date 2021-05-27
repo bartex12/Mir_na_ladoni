@@ -6,9 +6,7 @@ import android.util.Log
 import android.view.*
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.widget.SearchView
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.os.bundleOf
-import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -35,6 +33,7 @@ class StatesFragment : Fragment(),
     lateinit var navController:NavController
     private lateinit var stateViewModel: StatesViewModel
     private var searchStates = listOf<State>()
+
     //для доступа к полю MainActivity isNetworkAvailable, где проверяется доступ к интернету
     var main:MainActivity? = null
 
@@ -71,39 +70,6 @@ class StatesFragment : Fragment(),
         position =  stateViewModel.getPositionState()
 
         initAdapter()
-
-        input_edit_text_map.addTextChangedListener { et->
-            if (et.toString().isNotBlank()) {
-                val listSearched = mutableListOf<State>()
-                if(stateViewModel.getRusLang()){
-                    for (state in searchStates) {
-                        state.nameRus?. let{ nameRus->
-                            if((nameRus.toUpperCase(Locale.ROOT)
-                                    .startsWith(et.toString().toUpperCase(Locale.ROOT)))){
-                                listSearched.add(state)
-                            }
-                        }
-                    }
-                }else{
-                    for (state in searchStates) {
-                        state.name?. let{ name->
-                            if((name.toUpperCase(Locale.ROOT)
-                                    .startsWith(et.toString().toUpperCase(Locale.ROOT)))){
-                                listSearched.add(state)
-                            }
-                        }
-                    }
-                }
-
-                adapter?.listStates = listSearched
-            }else{
-                adapter?.listStates = searchStates
-            }
-        }
-        //слушатель на иконку  в конце поля поиска
-        input_layout_map.setEndIconOnClickListener {
-            input_edit_text_map.setText("") // очищаем поле и возвращаем исходный список
-        }
 
         //приводим меню тулбара в соответствии с onPrepareOptionsMenu в MainActivity
         //без этой строки меню в тулбаре ведёт себя неправильно
@@ -184,11 +150,11 @@ class StatesFragment : Fragment(),
         }
     }
 
-
     private fun getOnClickListener(): StateRVAdapter.OnitemClickListener =
         object : StateRVAdapter.OnitemClickListener{
             override fun onItemclick(state: State) {
 
+                //чтобы сразу исчезала клавиатура а не после перехода в детали
                 val inputManager: InputMethodManager =
                     requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                 inputManager.hideSoftInputFromWindow(
@@ -206,7 +172,7 @@ class StatesFragment : Fragment(),
         val searchItem: MenuItem = menu.findItem(R.id.search)
         val searchView =searchItem.actionView as SearchView
         //значок лупы слева в развёрнутом сост и сворачиваем строку поиска (true)
-        searchView.setIconifiedByDefault(true)
+        //searchView.setIconifiedByDefault(true)
         //пишем подсказку в строке поиска
         searchView.queryHint = getString(R.string.search_country)
         //устанавливаем в панели действий кнопку ( > )для отправки поискового запроса
@@ -216,6 +182,8 @@ class StatesFragment : Fragment(),
     }
 
     override fun onQueryTextSubmit(query: String?): Boolean {
+        //ничего не делаем - не будет фрагмента поиска, так как при вводе символов
+        //изменяется список внутри StatesFragment
         return false
     }
 

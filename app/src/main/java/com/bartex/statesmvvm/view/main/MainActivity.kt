@@ -171,7 +171,6 @@ open class    MainActivity: AppCompatActivity(), NavigationView.OnNavigationItem
             //заголовки тулбара в зависимости от фрагмента
             toolbar.title = when(it){
                 R.id.statesFragment -> getString(R.string.app_name)
-                R.id.searchFragment -> getString(R.string.search_name)
                 R.id.weatherFragment -> getString(R.string.weather_name)
                 R.id.detailsFragment -> getString(R.string.details_name)
                 R.id.favoriteFragment -> getString(R.string.favorite_name)

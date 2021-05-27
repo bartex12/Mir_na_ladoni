@@ -50,6 +50,7 @@ class DetailsFragment : Fragment() {
 
         //здесь аргументы нужны для корректной обработки поворота экрана
         arguments?.let {state = it.getParcelable<State>(Constants.STATE )}
+        Log.d(TAG, "DetailsFragment onViewCreated state = ${state.toString()}")
 
         navController = Navigation.findNavController(view)
 
@@ -151,7 +152,11 @@ class DetailsFragment : Fragment() {
                 state?. let {
                     //ручной запуск анонимной активити со страницей из википедии
                     val intent = Intent(Intent.ACTION_VIEW)
-                    intent.data =  Uri.parse("https://en.wikipedia.org/wiki/${it.name}")
+                    if (detailsViewModel.getRusLang()){
+                        intent.data =  Uri.parse("https://ru.wikipedia.org/wiki/${it.nameRus}")
+                    }else{
+                        intent.data =  Uri.parse("https://en.wikipedia.org/wiki/${it.name}")
+                    }
                     startActivity(intent)
                 }
                 true
