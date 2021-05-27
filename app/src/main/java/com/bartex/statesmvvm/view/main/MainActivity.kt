@@ -30,8 +30,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 
 
-open class    MainActivity: AppCompatActivity(),
-     SearchView.OnQueryTextListener, NavigationView.OnNavigationItemSelectedListener {
+open class    MainActivity: AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     private var doubleBackToExitPressedOnce = false
     lateinit var navController:NavController
@@ -59,7 +58,7 @@ open class    MainActivity: AppCompatActivity(),
             if (!isNetworkAvailable) {
                 showNoInternetConnectionDialog()
             }
-            }
+        }
             Log.d(TAG, "MainActivity onCreate  первый запуск isNetworkAvailable = $isNetworkAvailable")
 
         //следим за сетью
@@ -68,11 +67,6 @@ open class    MainActivity: AppCompatActivity(),
             Observer<Boolean> {
                 isNetworkAvailable = it
                 if (!isNetworkAvailable) {
-//                    Toast.makeText(
-//                        this@MainActivity,
-//                        R.string.dialog_message_device_is_offline,
-//                        Toast.LENGTH_LONG
-//                    ).show()
                     showNoInternetConnectionDialog()
                 }
             })
@@ -160,18 +154,6 @@ open class    MainActivity: AppCompatActivity(),
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         Log.d(TAG, "MainActivity onCreateOptionsMenu ")
         menuInflater.inflate(R.menu.toolbar_menu, menu)
-
-        val searchItem: MenuItem = menu.findItem(R.id.search)
-        val searchView =searchItem.actionView as SearchView
-        //значок лупы слева в развёрнутом сост и сворачиваем строку поиска (true)
-        //searchView.setIconifiedByDefault(true)
-        //пишем подсказку в строке поиска
-        searchView.queryHint = getString(R.string.search_country)
-        //устанавливаем в панели действий кнопку ( > )для отправки поискового запроса
-        searchView.isSubmitButtonEnabled = true
-        //устанавливаем слушатель
-        searchView.setOnQueryTextListener(this)
-
         return true
     }
 
@@ -219,26 +201,6 @@ open class    MainActivity: AppCompatActivity(),
             }
         }
         return super.onOptionsItemSelected(item)
-    }
-
-    override fun onQueryTextSubmit(query: String?): Boolean {
-        Log.d(TAG, "MainActivity onQueryTextSubmit query = $query ")
-        query?. let{
-            val bundle = Bundle().apply { putString(Constants.SEARCH, it) }
-            navController.navigate(R.id.action_statesFragment_to_searchFragment, bundle)
-            }
-        return false
-    }
-
-    override fun onQueryTextChange(newText: String?): Boolean {
-//        Log.d(TAG, "MainActivity onQueryTextChange newText = $newText ")
-//        newText?. let{
-//            if (newText.isNotEmpty()){
-//                val bundle = Bundle().apply { putString(Constants.SEARCH, it) }
-//                navController.navigate(R.id.action_statesFragment_to_searchFragment, bundle)
-//            }
-//        }
-        return false
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {

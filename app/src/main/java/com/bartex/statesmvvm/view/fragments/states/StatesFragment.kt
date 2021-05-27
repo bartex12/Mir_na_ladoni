@@ -1,11 +1,14 @@
 package com.bartex.statesmvvm.view.fragments.states
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import android.view.inputmethod.InputMethodManager
+import androidx.appcompat.widget.SearchView
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.os.bundleOf
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -21,14 +24,17 @@ import com.bartex.statesmvvm.view.adapter.GlideToVectorYouLoader
 import com.bartex.statesmvvm.view.adapter.StateRVAdapter
 import com.bartex.statesmvvm.view.main.MainActivity
 import kotlinx.android.synthetic.main.fragment_states.*
+import java.util.*
 
 
-class StatesFragment : Fragment() {
+class StatesFragment : Fragment(),
+    SearchView.OnQueryTextListener {
 
     private var position = 0
     private var adapter: StateRVAdapter? = null
     lateinit var navController:NavController
     private lateinit var stateViewModel: StatesViewModel
+    private var searchStates = listOf<State>()
     //для доступа к полю MainActivity isNetworkAvailable, где проверяется доступ к интернету
     var main:MainActivity? = null
 
@@ -38,7 +44,6 @@ class StatesFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View{
      val  view:View =inflater.inflate(R.layout.fragment_states, container, false)
-        //https://overcoder.net/q/107341/%D0%BA%D0%B0%D0%BA-%D0%BF%D0%BE%D0%BB%D1%83%D1%87%D0%B8%D1%82%D1%8C-%D0%B4%D0%BE%D1%81%D1%82%D1%83%D0%BF-%D0%BA-%D0%BF%D0%B5%D1%80%D0%B5%D0%BC%D0%B5%D0%BD%D0%BD%D1%8B%D0%BC-%D0%B0%D0%BA%D1%82%D0%B8%D0%B2%D0%BD%D0%BE%D1%81%D1%82%D0%B8-%D0%B8%D0%B7-%D1%84%D1%80%D0%B0%D0%B3%D0%BC%D0%B5%D0%BD%D1%82%D0%B0-android
         main = requireActivity() as MainActivity
         return view
     }
@@ -66,6 +71,39 @@ class StatesFragment : Fragment() {
         position =  stateViewModel.getPositionState()
 
         initAdapter()
+
+        input_edit_text_map.addTextChangedListener { et->
+            if (et.toString().isNotBlank()) {
+                val listSearched = mutableListOf<State>()
+                if(stateViewModel.getRusLang()){
+                    for (state in searchStates) {
+                        state.nameRus?. let{ nameRus->
+                            if((nameRus.toUpperCase(Locale.ROOT)
+                                    .startsWith(et.toString().toUpperCase(Locale.ROOT)))){
+                                listSearched.add(state)
+                            }
+                        }
+                    }
+                }else{
+                    for (state in searchStates) {
+                        state.name?. let{ name->
+                            if((name.toUpperCase(Locale.ROOT)
+                                    .startsWith(et.toString().toUpperCase(Locale.ROOT)))){
+                                listSearched.add(state)
+                            }
+                        }
+                    }
+                }
+
+                adapter?.listStates = listSearched
+            }else{
+                adapter?.listStates = searchStates
+            }
+        }
+        //слушатель на иконку  в конце поля поиска
+        input_layout_map.setEndIconOnClickListener {
+            input_edit_text_map.setText("") // очищаем поле и возвращаем исходный список
+        }
 
         //приводим меню тулбара в соответствии с onPrepareOptionsMenu в MainActivity
         //без этой строки меню в тулбаре ведёт себя неправильно
@@ -140,6 +178,7 @@ class StatesFragment : Fragment() {
 
             adapter?.listStates = states
             adapter?.setRusLang(stateViewModel.getRusLang())
+            searchStates = states
             rv_states.layoutManager?.scrollToPosition(position) //крутим в запомненную позицию списка
             Log.d(TAG, "StatesFragment renderState scrollToPosition = $position")
         }
@@ -149,10 +188,66 @@ class StatesFragment : Fragment() {
     private fun getOnClickListener(): StateRVAdapter.OnitemClickListener =
         object : StateRVAdapter.OnitemClickListener{
             override fun onItemclick(state: State) {
+
+                val inputManager: InputMethodManager =
+                    requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                inputManager.hideSoftInputFromWindow(
+                    requireActivity().currentFocus?.windowToken,InputMethodManager.HIDE_NOT_ALWAYS)
+
                 //val bundle = Bundle().apply { putParcelable(Constants.STATE, state) }
                 val bundle = bundleOf(Constants.STATE to state) //так проще
                 navController.navigate(R.id.action_statesFragment_to_detailsFragment, bundle)
             }
         }
+
+    override fun onPrepareOptionsMenu(menu: Menu) {
+        super.onPrepareOptionsMenu(menu)
+
+        val searchItem: MenuItem = menu.findItem(R.id.search)
+        val searchView =searchItem.actionView as SearchView
+        //значок лупы слева в развёрнутом сост и сворачиваем строку поиска (true)
+        searchView.setIconifiedByDefault(true)
+        //пишем подсказку в строке поиска
+        searchView.queryHint = getString(R.string.search_country)
+        //устанавливаем в панели действий кнопку ( > )для отправки поискового запроса
+       // searchView.isSubmitButtonEnabled = true
+        //устанавливаем слушатель
+        searchView.setOnQueryTextListener(this)
+    }
+
+    override fun onQueryTextSubmit(query: String?): Boolean {
+        return false
+    }
+
+    override fun onQueryTextChange(newText: String?): Boolean {
+        newText?. let {
+            if (it.isNotBlank()) {
+                val listSearched = mutableListOf<State>()
+                if(stateViewModel.getRusLang()){
+                    for (state in searchStates) {
+                        state.nameRus?. let{ nameRus->
+                            if((nameRus.toUpperCase(Locale.ROOT)
+                                    .startsWith(it.toUpperCase(Locale.ROOT)))){
+                                listSearched.add(state)
+                            }
+                        }
+                    }
+                }else{
+                    for (state in searchStates) {
+                        state.name?. let{ name->
+                            if((name.toUpperCase(Locale.ROOT)
+                                    .startsWith(it.toUpperCase(Locale.ROOT)))){
+                                listSearched.add(state)
+                            }
+                        }
+                    }
+                }
+                adapter?.listStates = listSearched
+            }else{
+                adapter?.listStates = searchStates
+            }
+        }
+        return false
+    }
 }
 

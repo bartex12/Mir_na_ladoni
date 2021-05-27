@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Мир на ладони MVVM</string>
+    <string name="app_name">Мир на ладони</string>
     <string name="search_name">Найдено</string>
     <string name="weather_name">Погода в столице</string>
     <string name="details_name">Коротко о главном</string>
@@ -42,6 +42,9 @@
          интернет-соединение</string>
     <string name="dialog_title_stub">Undefined error</string>
     <string name="dialog_button_cancel">Cancel</string>
+
+    <string name="search_in_list">Найти в списке</string>
+    <string name="search_in_list_helper_text">Поищите страну в списке</string>
 
     <string name="fruit">Фрукты</string>
     <string name="vegetables">Овощи</string>
