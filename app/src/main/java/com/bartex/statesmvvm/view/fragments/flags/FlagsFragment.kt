@@ -1,5 +1,6 @@
 package com.bartex.statesmvvm.view.fragments.flags
 
+import android.content.res.Configuration
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -12,20 +13,16 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.bartex.statesmvvm.App
 import com.bartex.statesmvvm.R
 import com.bartex.statesmvvm.model.constants.Constants
 import com.bartex.statesmvvm.model.entity.state.State
-import com.bartex.statesmvvm.view.adapter.FavoriteRVAdapter
 import com.bartex.statesmvvm.view.adapter.FlagGridAdapter
 import com.bartex.statesmvvm.view.adapter.GlideToVectorYouLoader
-import com.bartex.statesmvvm.view.fragments.favorite.FavoriteViewModel
-import kotlinx.android.synthetic.main.fragment_favorite.*
 import kotlinx.android.synthetic.main.fragment_flags.*
 
 class FlagsFragment:Fragment() {
-    private var position = 0
     private var adapter: FlagGridAdapter? = null
     lateinit var navController: NavController
     private lateinit var flagViewModel: FlagViewModel
@@ -56,17 +53,18 @@ class FlagsFragment:Fragment() {
         })
         initAdapter()
 
-        //восстанавливаем позицию списка после поворота или возвращения на экран
-        //position =  favoriteViewModel.getPositionFavorite()
-
         //приводим меню тулбара в соответствии с onPrepareOptionsMenu в MainActivity
         setHasOptionsMenu(true)
         requireActivity().invalidateOptionsMenu()
     }
 
     private fun initAdapter() {
-        rv_flags.layoutManager = GridLayoutManager(requireActivity(), 5)
-
+        if(resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT){
+            rv_flags.layoutManager = GridLayoutManager(requireActivity(), 5)
+        }else{
+            rv_flags.layoutManager = GridLayoutManager(requireActivity(), 10)
+        }
+        
         adapter = FlagGridAdapter(getOnClickListener(),
             GlideToVectorYouLoader(requireActivity())
         )
@@ -93,15 +91,4 @@ class FlagsFragment:Fragment() {
                 navController.navigate(R.id.detailsFragment, bundle)
             }
         }
-
-    //запоминаем  позицию списка, на которой сделан клик - на случай поворота экрана
-    override fun onPause() {
-        super.onPause()
-        Log.d(TAG, "FlagsFragment onPause ")
-        //определяем первую видимую позицию
-        val manager = rv_flags.layoutManager as GridLayoutManager
-        val firstPosition = manager.findFirstVisibleItemPosition()
-        //favoriteViewModel.savePositionFavorite(firstPosition)
-    }
-
 }
