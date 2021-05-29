@@ -91,5 +91,9 @@
         android:id="@+id/settingsFragment"
         android:name="com.bartex.statesmvvm.view.fragments.settings.SettingsFragment"
         android:label="SettingsFragment" />
+    <fragment
+        android:id="@+id/flagsFragment"
+        android:name="com.bartex.statesmvvm.view.fragments.flags.FlagsFragment"
+        android:label="FlagsFragment" />
 
 </navigation>

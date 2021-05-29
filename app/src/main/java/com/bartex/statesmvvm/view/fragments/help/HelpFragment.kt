@@ -28,6 +28,7 @@ class HelpFragment: Fragment() {
         const val TAG = "33333"
 
         const val STATES: String ="Для каждой из более чем двухсот стран"
+        const val FLAGS: String ="изображениями флагов"
         const val MAP: String = "Карта"
         const val WEATHER: String = "Погода"
         const val WIKI: String = "Википедии"
@@ -62,6 +63,7 @@ class HelpFragment: Fragment() {
         helpText?.let {
             setStyle(it, "Мир на ладони.", spanHelp)
             makeLinks(it, STATES, color, spanHelp)
+            makeLinks(it, FLAGS, color, spanHelp)
             makeLinks(it, MAP, color, spanHelp)
             makeLinks(it, WEATHER, color, spanHelp)
             makeLinks(it, WIKI, color, spanHelp)
@@ -112,6 +114,7 @@ class HelpFragment: Fragment() {
                         navController.navigate(R.id.detailsFragment, bundle)
                     }
                     STATES,SEARCH -> navController.navigate(R.id.statesFragment)
+                    FLAGS-> navController.navigate(R.id.flagsFragment)
                     SELECTED-> navController.navigate(R.id.favoriteFragment)
                     SETTINGS-> navController.navigate(R.id.settingsFragment)
                     else -> navController.navigate(R.id.statesFragment)

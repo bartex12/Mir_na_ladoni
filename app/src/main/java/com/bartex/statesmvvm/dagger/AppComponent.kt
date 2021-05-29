@@ -2,6 +2,7 @@ package com.bartex.statesmvvm.dagger
 
 import com.bartex.statesmvvm.view.fragments.details.DetailsViewModel
 import com.bartex.statesmvvm.view.fragments.favorite.FavoriteViewModel
+import com.bartex.statesmvvm.view.fragments.flags.FlagViewModel
 import com.bartex.statesmvvm.view.fragments.help.HelpViewModel
 import com.bartex.statesmvvm.view.fragments.states.StatesViewModel
 import com.bartex.statesmvvm.view.fragments.weather.WeatherViewModel
@@ -24,7 +25,7 @@ import javax.inject.Singleton
 )
 
 interface AppComponent {
-
+    fun inject(flagViewModel: FlagViewModel)
     fun inject(favoriteViewModel: FavoriteViewModel)
     fun inject(statesViewModel: StatesViewModel)
     fun inject(detailsViewModel: DetailsViewModel)

@@ -10,6 +10,6 @@ interface IDataSourceState {
     @GET("all")
     fun getStates(): Single<List<State>>
 
-    @GET("name/{name}")
-    fun searchStates( @Path("name") name: String): Single<List<State>>
+//    @GET("name/{name}")
+//    fun searchStates( @Path("name") name: String): Single<List<State>>
 }

@@ -7,6 +7,6 @@ interface IStatesRepo {
 
     fun getStates(isNetworkAvailable:Boolean): Single<List<State>>
 
-    fun searchStatesFromRoomRus(search:String): Single<List<State>>
-    fun searchStatesFromRoomEng(search:String): Single<List<State>>
+   // fun searchStatesFromRoomRus(search:String): Single<List<State>>
+    //fun searchStatesFromRoomEng(search:String): Single<List<State>>
 }

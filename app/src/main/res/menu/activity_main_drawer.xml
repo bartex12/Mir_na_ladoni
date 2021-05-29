@@ -9,6 +9,10 @@
             android:icon="@drawable/ic_baseline_favorite_24"
             android:title="@string/favorites" />
         <item
+            android:id="@+id/nav_flags"
+            android:icon="@drawable/ic_baseline_flag_24"
+            android:title="@string/flags" />
+        <item
             android:id="@+id/nav_setting"
             android:icon="@drawable/ic_settings_red_24dp"
             android:title="@string/settings" />

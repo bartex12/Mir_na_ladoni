@@ -52,12 +52,12 @@ class StatesRepo(val api: IDataSourceState, private val networkStatus: INetworkS
         }
             .subscribeOn(Schedulers.io())
 
-    override fun searchStatesFromRoomRus(search: String): Single<List<State>> {
-        Log.d(TAG, "StatesRepo searchStatesFromRoomRus search = $search")
-       return roomCash.getSearchedStatesFromCashRus(search)
-    }
-    override fun searchStatesFromRoomEng(search: String): Single<List<State>> {
-        Log.d(TAG, "StatesRepo searchStatesFromRoomEng search = $search")
-        return roomCash.getSearchedStatesFromCashEng(search)
-    }
+//    override fun searchStatesFromRoomRus(search: String): Single<List<State>> {
+//        Log.d(TAG, "StatesRepo searchStatesFromRoomRus search = $search")
+//       return roomCash.getSearchedStatesFromCashRus(search)
+//    }
+//    override fun searchStatesFromRoomEng(search: String): Single<List<State>> {
+//        Log.d(TAG, "StatesRepo searchStatesFromRoomEng search = $search")
+//        return roomCash.getSearchedStatesFromCashEng(search)
+//    }
 }

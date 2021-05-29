@@ -11,7 +11,9 @@ import com.bartex.statesmvvm.view.fragments.favorite.FavoriteViewModel
 import kotlinx.android.synthetic.main.item_state_favor.view.*
 
 
-class FavoriteRVAdapter(private val favoriteViewModel: FavoriteViewModel, private val onitemClickListener: OnitemClickListener, val imageLoader: IImageLoader<ImageView>)
+class FavoriteRVAdapter(private val favoriteViewModel: FavoriteViewModel,
+                        private val onitemClickListener: OnitemClickListener,
+                        val imageLoader: IImageLoader<ImageView>)
     : RecyclerView.Adapter<FavoriteRVAdapter.ViewHolder> (){
 
     var isRus = false

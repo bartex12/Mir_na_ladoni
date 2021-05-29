@@ -161,7 +161,8 @@ open class    MainActivity: AppCompatActivity(), NavigationView.OnNavigationItem
             menu?.findItem(R.id.search)?.isVisible = it == R.id.statesFragment
             menu?.findItem(R.id.navigation_help)?.isVisible = it!= R.id.helpFragment
             menu?.findItem(R.id.favorites)?.isVisible =  it!= R.id.favoriteFragment
-                    && it!= R.id.weatherFragment && it!= R.id.helpFragment && it!= R.id.settingsFragment
+                    && it!= R.id.weatherFragment && it!= R.id.helpFragment
+                    && it!= R.id.settingsFragment && it!= R.id.flagsFragment
             menu?.findItem(R.id.navigation_settings)?.isVisible = it != R.id.settingsFragment
 
             //заголовки тулбара в зависимости от фрагмента
@@ -172,6 +173,7 @@ open class    MainActivity: AppCompatActivity(), NavigationView.OnNavigationItem
                 R.id.favoriteFragment -> getString(R.string.favorite_name)
                 R.id.helpFragment -> getString(R.string.help_name)
                 R.id.settingsFragment -> getString(R.string.sett)
+                R.id.flagsFragment -> getString(R.string.flags)
                 else -> getString(R.string.app_name)
             }
         }
@@ -198,6 +200,7 @@ open class    MainActivity: AppCompatActivity(), NavigationView.OnNavigationItem
         return super.onOptionsItemSelected(item)
     }
 
+    //меню шторки
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
 
         when (item.itemId) {
@@ -213,6 +216,10 @@ open class    MainActivity: AppCompatActivity(), NavigationView.OnNavigationItem
             Log.d(TAG, "MainActivity onNavigationItemSelected nav_help")
                     navController.navigate(R.id.helpFragment)
         }
+            R.id.nav_flags -> {
+                Log.d(TAG, "MainActivity onNavigationItemSelected nav_flags")
+                navController.navigate(R.id.flagsFragment)
+            }
             R.id.nav_share -> {
                 Log.d(TAG, "MainActivity onNavigationItemSelected nav_share")
                 //поделиться - передаём ссылку на приложение в маркете
