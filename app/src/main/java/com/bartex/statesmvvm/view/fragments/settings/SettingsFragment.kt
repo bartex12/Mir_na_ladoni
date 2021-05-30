@@ -17,6 +17,11 @@ class SettingsFragment : PreferenceFragmentCompat() {
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.pref_setting, rootKey)
 
+        //приводим меню тулбара в соответствии с onPrepareOptionsMenu в MainActivity
+        //без этой строки меню в тулбаре ведёт себя неправильно
+        setHasOptionsMenu(true)
+        requireActivity().invalidateOptionsMenu()
+
         findPreference<ListPreference>("ListColor")
             ?.setOnPreferenceChangeListener { _, newValue ->
                 val  oldTheme = PreferenceManager.getDefaultSharedPreferences(requireActivity())

@@ -64,7 +64,7 @@ class FlagsFragment:Fragment() {
         }else{
             rv_flags.layoutManager = GridLayoutManager(requireActivity(), 10)
         }
-        
+
         adapter = FlagGridAdapter(getOnClickListener(),
             GlideToVectorYouLoader(requireActivity())
         )

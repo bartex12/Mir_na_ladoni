@@ -78,6 +78,10 @@ class HelpFragment: Fragment() {
             tv_help.movementMethod = LinkMovementMethod.getInstance()
             tv_help.setText(spanHelp, TextView.BufferType.SPANNABLE)
 
+            //приводим меню тулбара в соответствии с onPrepareOptionsMenu в MainActivity
+            //без этой строки меню в тулбаре ведёт себя неправильно
+            setHasOptionsMenu(true)
+            requireActivity().invalidateOptionsMenu()
         }
     }
     private fun setStyle(text:String, phrase:String, spanHelp: Spannable){

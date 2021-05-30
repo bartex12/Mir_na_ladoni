@@ -47,27 +47,6 @@ open class    MainActivity: AppCompatActivity(), NavigationView.OnNavigationItem
         super.onCreate(savedInstanceState)
         Log.d(TAG, "MainActivity onCreate ")
 
-        //получаем статус сети при первом запуске приложения
-        if (savedInstanceState == null) {
-            isNetworkAvailable = isOnline(this)
-            if (!isNetworkAvailable) {
-                showNoInternetConnectionDialog()
-            }
-        }
-            Log.d(TAG, "MainActivity onCreate  первый запуск isNetworkAvailable = $isNetworkAvailable")
-
-        //следим за сетью
-        OnlineLiveData(this).observe(
-            this@MainActivity,
-            Observer<Boolean> {
-                isNetworkAvailable = it
-                if (!isNetworkAvailable) {
-                    showNoInternetConnectionDialog()
-                }
-            })
-
-        Log.d(TAG, "*** MainActivity onCreate  isNetworkAvailable = $isNetworkAvailable")
-
         //читаем сохранённную в настройках тему
         oldTheme = PreferenceManager.getDefaultSharedPreferences(this)
             .getString("ListColor", "1")!!.toInt()
@@ -87,7 +66,28 @@ open class    MainActivity: AppCompatActivity(), NavigationView.OnNavigationItem
             5->setTheme(R.style.AppThemeBlue)
             6->setTheme(R.style.AppThemeBlack)
         }
+        //устанавливаем макет
         setContentView(R.layout.activity_main)
+
+        //получаем статус сети при первом запуске приложения не через LiveData
+        if (savedInstanceState == null) {
+            isNetworkAvailable = isOnline(this)
+            if (!isNetworkAvailable) {
+                showNoInternetConnectionDialog()
+            }
+        }
+        Log.d(TAG, "MainActivity onCreate  первый запуск isNetworkAvailable = $isNetworkAvailable")
+
+        //следим за сетью через LiveData
+        OnlineLiveData(this).observe(
+            this@MainActivity,
+            Observer<Boolean> {
+                isNetworkAvailable = it
+                if (!isNetworkAvailable) {
+                    showNoInternetConnectionDialog()
+                }
+            })
+        Log.d(TAG, "*** MainActivity onCreate  isNetworkAvailable = $isNetworkAvailable")
 
         //находим NavController
         navController = Navigation.findNavController(this, R.id.nav_host_fragment)
@@ -164,6 +164,7 @@ open class    MainActivity: AppCompatActivity(), NavigationView.OnNavigationItem
                     && it!= R.id.weatherFragment && it!= R.id.helpFragment
                     && it!= R.id.settingsFragment && it!= R.id.flagsFragment
             menu?.findItem(R.id.navigation_settings)?.isVisible = it != R.id.settingsFragment
+            menu?.findItem(R.id.navigation_flags)?.isVisible = it == R.id.statesFragment
 
             //заголовки тулбара в зависимости от фрагмента
             toolbar.title = when(it){
@@ -182,10 +183,15 @@ open class    MainActivity: AppCompatActivity(), NavigationView.OnNavigationItem
 
     //так  как Избранное - детали и справка - настройки могут бесконечно вызываться друг из друга
     //чтобы это предотвратить, в их action было задействовано popUpTo и popUpToInclusive
+    //но чтобы здесь использовать action нужно navigate to action, а не фрагмент
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId){
             R.id.favorites ->{
                 navController.navigate(R.id.favoriteFragment)
+                return true
+            }
+            R.id.navigation_flags ->{
+                navController.navigate(R.id.flagsFragment)
                 return true
             }
            R.id.navigation_settings ->{

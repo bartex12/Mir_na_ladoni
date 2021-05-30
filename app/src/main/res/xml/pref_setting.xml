@@ -48,4 +48,15 @@
             app:defaultValue="true"/>
     </PreferenceCategory>
 
+    <PreferenceCategory
+        android:title="@string/splash">
+        <CheckBoxPreference
+            android:key="cbScreen"
+            android:title="@string/show_hide"
+            app:defaultValue="true"
+            android:summaryOn="@string/show_screen"
+            android:summaryOff="@string/hide_screen">
+        </CheckBoxPreference>
+    </PreferenceCategory>
+
 </androidx.preference.PreferenceScreen>

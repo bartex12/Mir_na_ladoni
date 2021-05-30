@@ -154,6 +154,10 @@
     <!-- Messages Preferences -->
     <string name="signature_title">Your signature</string>
     <string name="reply_title">Default reply action</string>
+    <string name="splash">Экран загрузки</string>
+    <string name="show_hide">Показать/скрыть.</string>
+    <string name="show_screen">Показываем экран загрузки</string>
+    <string name="hide_screen">Не показываем экран загрузки</string>
 
     <!-- Sync Preferences -->
     <string name="sync_title">Sync email periodically</string>
