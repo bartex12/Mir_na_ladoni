@@ -3,13 +3,12 @@ package com.bartex.statesmvvm.model.repositories.weather
 import android.util.Log
 import com.bartex.statesmvvm.model.api.IDataSourceWeather
 import com.bartex.statesmvvm.model.entity.weather.WeatherInCapital
-import com.bartex.statesmvvm.model.network.INetworkStatus
 import com.bartex.statesmvvm.model.repositories.weather.cash.IRoomWeatherCash
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.schedulers.Schedulers
 
-class WeatherRepo(val api: IDataSourceWeather, private val networkStatus: INetworkStatus,
-                  private val  roomWeatherCash: IRoomWeatherCash):IWeatherRepo {
+class WeatherRepo(val api: IDataSourceWeather,private val  roomWeatherCash: IRoomWeatherCash)
+    :IWeatherRepo {
 
     companion object{
         const val TAG = "33333"
