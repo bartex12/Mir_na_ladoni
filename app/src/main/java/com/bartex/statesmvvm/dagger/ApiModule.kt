@@ -1,10 +1,7 @@
 package com.bartex.statesmvvm.dagger
 
-import com.bartex.statesmvvm.App
 import com.bartex.statesmvvm.model.api.IDataSourceState
 import com.bartex.statesmvvm.model.api.IDataSourceWeather
-import com.bartex.statesmvvm.model.network.INetworkStatus
-import com.bartex.statesmvvm.model.network.NetworkStatus
 import com.google.gson.FieldNamingPolicy
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -55,7 +52,7 @@ class ApiModule {
             .build()
             .create(IDataSourceWeather::class.java)
 
-    @Singleton
-    @Provides
-    fun networkStatus(app: App): INetworkStatus = NetworkStatus(app)
+//    @Singleton
+//    @Provides
+//    fun networkStatus(app: App): INetworkStatus = NetworkStatus(app)
 }

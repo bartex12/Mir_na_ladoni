@@ -6,7 +6,6 @@ import com.bartex.statesmvvm.common.MapOfRegion
 import com.bartex.statesmvvm.common.MapOfState
 import com.bartex.statesmvvm.model.api.IDataSourceState
 import com.bartex.statesmvvm.model.entity.state.State
-import com.bartex.statesmvvm.model.network.INetworkStatus
 import com.bartex.statesmvvm.model.repositories.states.cash.IRoomStateCash
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.schedulers.Schedulers
@@ -16,13 +15,12 @@ import io.reactivex.rxjava3.schedulers.Schedulers
 // Таким образом, мы позволяем репозиторию самостоятельно следить за тем, чтобы сетевые вызовы
 // выполнялись именно в io-потоке. Всегда лучше поступать именно таким образом, даже когда речь
 // не идёт о сети — во избежание выполнения операций в неверном потоке в вызывающем коде.
-class StatesRepo(val api: IDataSourceState, private val networkStatus: INetworkStatus,
-                 private val roomCash: IRoomStateCash):    IStatesRepo {
+class StatesRepo(val api: IDataSourceState, private val roomCash: IRoomStateCash)
+    : IStatesRepo {
 
     companion object{
         const val TAG = "33333"
     }
-
         //метод  интерфейса IDataSourceState getStates() - в зависимости от статуса сети
     //мы или получаем данные из сети, записывая их в базу данных с помощью Room через map
     //или берём из базы, преобразуя их также через map
