@@ -9,7 +9,6 @@ import org.junit.Assert.assertTrue
 import org.junit.Test
 
 class StateRusValidatorTest {
-
     @Test
     fun nameRus_CorrectName_ReturnTrue(){
         assertTrue(MapOfState.mapStates["Andorra"]== "Андорра" )
