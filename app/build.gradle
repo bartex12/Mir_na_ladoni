@@ -95,4 +95,9 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 
+    //Fragment
+    debugImplementation 'androidx.fragment:fragment-testing:1.3.5'
+    //RecyclerView
+    debugImplementation 'androidx.test.espresso:espresso-contrib:3.3.0'
+
 }
