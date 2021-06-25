@@ -59,7 +59,8 @@ class StatesFragment : Fragment(),
         Log.d(TAG, "StatesFragment onViewCreated isNetworkAvailable =$isNetworkAvailable")
 
         isNetworkAvailable?. let{isNet->
-            stateViewModel.getStatesSealed(isNet)
+            stateViewModel. loadDataSealed(isNet) //запускаем загрузку данных
+            stateViewModel.getStatesSealed() //наблюдаем за изменением данных
                 .observe(viewLifecycleOwner, Observer<StatesSealed> {
                     renderData(it)
                 })

@@ -23,21 +23,22 @@ class StatesViewModel: ViewModel() {
     @Inject
     lateinit var mainThreadScheduler: Scheduler
     @Inject
-    lateinit var statesRepo: IStatesRepo
+    lateinit var statesRepo: IStatesRepo  //репозиторий
 
     private val listStates = MutableLiveData<StatesSealed>()
 
-    fun getStatesSealed(isNetworkAvailable:Boolean) : LiveData<StatesSealed>{
-        loadDataSealed(isNetworkAvailable)
+    fun getStatesSealed() : LiveData<StatesSealed>{
         return listStates
     }
 
-    private fun loadDataSealed(isNetworkAvailable:Boolean){
+    fun loadDataSealed(isNetworkAvailable:Boolean){
         //начинаем загрузку данных
         listStates.value = StatesSealed.Loading(null)
 
         val isSorted = helper.isSorted()
         val getSortCase = helper.getSortCase()
+//        val isSorted =true // по умолчанию
+//        val getSortCase =3 // по умолчанию
         var f_st:List<State>?= null
         Log.d(TAG, "BasePresenter  loadData isSorted = $isSorted getSortCase = $getSortCase")
         statesRepo.getStates(isNetworkAvailable)
