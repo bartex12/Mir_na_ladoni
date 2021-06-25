@@ -1,4 +1,4 @@
-package com.bartex.statesmvvm.view.fragments.states.scheduler
+package com.bartex.statesmvvm.view.fragments.scheduler
 
 import io.reactivex.rxjava3.core.Scheduler
 import io.reactivex.rxjava3.schedulers.Schedulers

@@ -58,7 +58,7 @@ class HelpFragment: Fragment() {
 
         val helpText = helpViewModel.getHelpText()
         val spanHelp = SpannableString(helpText)
-        val color = requireActivity().getColor(R.color.colorPrimaryDarkPurple)
+        val color = requireActivity().resources.getColor(R.color.colorPrimaryDarkPurple)
 
         helpText?.let {
             setStyle(it, "Мир на ладони.", spanHelp)

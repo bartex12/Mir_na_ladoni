@@ -6,20 +6,16 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.Navigation
-import androidx.navigation.ui.NavigationUI
 import com.bartex.statesmvvm.App
 import com.bartex.statesmvvm.R
 import com.bartex.statesmvvm.model.constants.Constants
 import com.bartex.statesmvvm.model.entity.state.State
 import com.bartex.statesmvvm.model.entity.weather.WeatherInCapital
 import com.bartex.statesmvvm.view.fragments.states.StatesFragment
-import com.bartex.statesmvvm.view.fragments.states.StatesSealed
 import com.bartex.statesmvvm.view.main.MainActivity
 import kotlinx.android.synthetic.main.fragment_weather.*
 
@@ -56,7 +52,10 @@ class  WeatherFragment : Fragment()  {
         Log.d(StatesFragment.TAG, "WeatherFragment onViewCreated isNetworkAvailable =$isNetworkAvailable")
 
         isNetworkAvailable?. let{isNet->
-            weatherViewModel.getWeatherSealed(state, isNet)
+
+            weatherViewModel.loadWeatherSealed(state, isNet)
+
+            weatherViewModel.getWeatherSealed()
                 .observe(viewLifecycleOwner, Observer {
                     renderData(it)
                 })

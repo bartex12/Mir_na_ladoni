@@ -14,10 +14,11 @@ import com.bartex.statesmvvm.model.repositories.states.IStatesRepo
 import com.bartex.statesmvvm.model.repositories.states.StatesRepo
 import com.bartex.statesmvvm.model.repositories.states.cash.RoomStateCash
 import com.bartex.statesmvvm.model.room.Database
-import com.bartex.statesmvvm.view.fragments.states.scheduler.SchedulerProvider
-import com.bartex.statesmvvm.view.fragments.states.scheduler.StatesSchedulerProvider
+import com.bartex.statesmvvm.view.fragments.scheduler.SchedulerProvider
+import com.bartex.statesmvvm.view.fragments.scheduler.StatesSchedulerProvider
+import com.google.gson.FieldNamingPolicy
+import com.google.gson.GsonBuilder
 import io.reactivex.rxjava3.core.Single
-import io.reactivex.rxjava3.schedulers.Schedulers
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
@@ -27,11 +28,15 @@ import retrofit2.converter.gson.GsonConverterFactory
 class StatesViewModel(
     var helper : IPreferenceHelper = PreferenceHelper(App.instance),
     var schedulerProvider: SchedulerProvider = StatesSchedulerProvider(),
-     var statesRepo: IStatesRepo =StatesRepo(
+    var statesRepo: IStatesRepo =StatesRepo(
          Retrofit.Builder()
              .baseUrl(baseUrl)
              .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
-             .addConverterFactory(GsonConverterFactory.create())
+             .addConverterFactory(GsonConverterFactory.create(GsonBuilder()
+                     .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
+                     .excludeFieldsWithoutExposeAnnotation()
+                     .create()
+             ))
              .build()
              .create(IDataSourceState::class.java),
          RoomStateCash(
@@ -43,12 +48,6 @@ class StatesViewModel(
         const val TAG = "33333"
         const val baseUrl =  "https://restcountries.eu/rest/v2/"
     }
-
-//    fun gson(): Gson =
-//        GsonBuilder()
-//            .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
-//            .excludeFieldsWithoutExposeAnnotation()
-//            .create()
 
    // @Inject
    // lateinit var helper : IPreferenceHelper
