@@ -6,6 +6,7 @@ import androidx.lifecycle.Observer
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.bartex.statesmvvm.model.entity.state.State
 import com.bartex.statesmvvm.model.entity.weather.WeatherInCapital
+import com.bartex.statesmvvm.model.entity.weather.WeatherQuery
 import com.bartex.statesmvvm.model.repositories.prefs.IPreferenceHelper
 import com.bartex.statesmvvm.model.repositories.states.IStatesRepo
 import com.bartex.statesmvvm.model.repositories.weather.IWeatherRepo
@@ -67,16 +68,14 @@ class WeatherViewModelTest {
         val state = State()
 
         Mockito.`when`(weatherRepo.getWeatherInCapital(
-            true, state.capital, "80bb32e4a0db84762bb04ab2bd724646",
-            "metric", "RU"))
+            true, state.capital, WeatherQuery.keyApi, WeatherQuery.units))
             .thenReturn( Single.just(WeatherInCapital()))
 
         //вызываем метод statesViewModel
         weatherViewModel.loadWeatherSealed(state, true)
         //проверяем что вызывается метод репозитория 1 раз
         verify(weatherRepo, times(1)).getWeatherInCapital(
-            true, null, "80bb32e4a0db84762bb04ab2bd724646",
-            "metric", "RU")
+            true, null, WeatherQuery.keyApi, WeatherQuery.units )
     }
 
     //протестируем работу LiveData
@@ -94,8 +93,7 @@ class WeatherViewModelTest {
 
         //При вызове Репозитория возвращаем шаблонные данные
         Mockito.`when`(weatherRepo.getWeatherInCapital(
-            true, state.capital, "80bb32e4a0db84762bb04ab2bd724646",
-            "metric", "RU"))
+            true, state.capital, WeatherQuery.keyApi, WeatherQuery.units))
             .thenReturn( Single.just(WeatherInCapital()))
 
         try {
@@ -135,8 +133,7 @@ class WeatherViewModelTest {
 
         //При вызове Репозитория возвращаем шаблонные данные
         Mockito.`when`(weatherRepo.getWeatherInCapital(
-            true, state.capital, "80bb32e4a0db84762bb04ab2bd724646",
-            "metric", "RU"))
+            true, state.capital, WeatherQuery.keyApi, WeatherQuery.units))
             .thenReturn( Single.just(WeatherInCapital(name = "Moscow")))
 
         try {
@@ -169,8 +166,7 @@ class WeatherViewModelTest {
 
         //При вызове Репозитория возвращаем ошибку
         Mockito.`when`(weatherRepo.getWeatherInCapital(
-            true, state.capital, "80bb32e4a0db84762bb04ab2bd724646",
-            "metric", "RU"))
+            true, state.capital, WeatherQuery.keyApi, WeatherQuery.units))
             .thenReturn( Single.error(error))
 
         try {

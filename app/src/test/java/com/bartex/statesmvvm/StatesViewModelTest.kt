@@ -83,29 +83,36 @@ class StatesViewModelTest {
         //Получаем LiveData - переменная вынесена, чтобы удалить observer в конце
         val liveData = statesViewModel.getStatesSealed()
 
-        Mockito.`when`(helper.isSorted()).thenReturn(true)
-        Mockito.`when`(helper.getSortCase()).thenReturn(3)
-        //При вызове Репозитория возвращаем шаблонные данные
-        Mockito.`when`(statesRepo.getStates(true))
-            .thenReturn( Single.just(listOf()))
+        //проверяем все варианты
+       for(i in 0..1){
+           for (sortType in 1..4) {
+               val isSorted = i != 0
+               Mockito.`when`(helper.isSorted()).thenReturn(isSorted)
+               Mockito.`when`(helper.getSortCase()).thenReturn(sortType)
 
-        try {
-            //этот метод позволяет подписаться на уведомления и не отписываться от них никогда
-            //Подписываемся на LiveData без учета жизненного цикла
-            liveData.observeForever(observer)
-            statesViewModel.loadDataSealed(true)
+               //При вызове Репозитория возвращаем шаблонные данные
+               Mockito.`when`(statesRepo.getStates(true))
+                   .thenReturn(Single.just(listOf()))
 
-            //Убеждаемся, что Репозиторий вернул данные и LiveData передала их Наблюдателям
-            Assert.assertNotNull(liveData.value)
+               try {
+                   //этот метод позволяет подписаться на уведомления и не отписываться от них никогда
+                   //Подписываемся на LiveData без учета жизненного цикла
+                   liveData.observeForever(observer)
+                   statesViewModel.loadDataSealed(true)
 
-            //Убеждаемся, что Репозиторий вернул список размером = 0
-            val statesSealed:StatesSealed.Success = liveData.value as StatesSealed.Success
-            Assert.assertEquals(statesSealed.state.size, 0 )
+                   //Убеждаемся, что Репозиторий вернул данные и LiveData передала их Наблюдателям
+                   Assert.assertNotNull(liveData.value)
 
-        } finally {
-            //Тест закончен, снимаем Наблюдателя
-            liveData.removeObserver(observer)
-        }
+                   //Убеждаемся, что Репозиторий вернул список размером = 0
+                   val statesSealed: StatesSealed.Success = liveData.value as StatesSealed.Success
+                   Assert.assertEquals(statesSealed.state.size, 0)
+
+               } finally {
+                   //Тест закончен, снимаем Наблюдателя
+                   liveData.removeObserver(observer)
+               }
+           }
+       }
     }
 
     // скармливаем ошибку и смотрим, что возвращается ошибка с заданным текстом сообщения
@@ -116,20 +123,26 @@ class StatesViewModelTest {
         val liveData = statesViewModel.getStatesSealed()
         val error = Throwable(ERROR_TEXT)
 
-        Mockito.`when`(helper.isSorted()).thenReturn(true)
-        Mockito.`when`(helper.getSortCase()).thenReturn(3)
-        //При вызове Репозитория возвращаем ошибку
-        Mockito.`when`(statesRepo.getStates(true))
-            .thenReturn( Single.error(error))
+        //проверяем все варианты
+        for(i in 0..1) {
+            for (sortType in 1..4) {
+                val isSorted = i != 0
+                Mockito.`when`(helper.isSorted()).thenReturn(isSorted)
+                Mockito.`when`(helper.getSortCase()).thenReturn(sortType)
+                //При вызове Репозитория возвращаем ошибку
+                Mockito.`when`(statesRepo.getStates(true))
+                    .thenReturn(Single.error(error))
 
-        try {
-            liveData.observeForever(observer)
-            statesViewModel.loadDataSealed(true)
-            //Убеждаемся, что Репозиторий вернул ошибку и LiveData возвращает ошибку
-            val value: StatesSealed.Error = liveData.value as StatesSealed.Error
-            Assert.assertEquals(error.message, value.error.message)
-        } finally {
-            liveData.removeObserver(observer)
+                try {
+                    liveData.observeForever(observer)
+                    statesViewModel.loadDataSealed(true)
+                    //Убеждаемся, что Репозиторий вернул ошибку и LiveData возвращает ошибку
+                    val value: StatesSealed.Error = liveData.value as StatesSealed.Error
+                    Assert.assertEquals(error.message, value.error.message)
+                } finally {
+                    liveData.removeObserver(observer)
+                }
+            }
         }
     }
 
@@ -139,9 +152,11 @@ class StatesViewModelTest {
     @Test
     @Config(manifest=Config.NONE)
     fun liveData_TestReturnSuccessValue() {
-        val state = State(capital = "Moscow", flag = "", name = "Russia", region = "Europe",
-            population = 146000000, area = 17000000f, latlng = arrayOf(60f, 40f) ,
-            nameRus = "Россия", capitalRus = "Москва", regionRus ="Европа" )
+        val state = State(
+            capital = "Moscow", flag = "", name = "Russia", region = "Europe",
+            population = 146000000, area = 17000000f, latlng = arrayOf(60f, 40f),
+            nameRus = "Россия", capitalRus = "Москва", regionRus = "Европа"
+        )
 
         //Создаем обсервер. В лямбде мы не вызываем никакие методы - в этом нет необходимости
         //так как мы проверяем работу LiveData и не собираемся ничего делать с данными, которые она возвращает
@@ -149,25 +164,32 @@ class StatesViewModelTest {
         //Получаем LiveData - переменная вынесена, чтобы удалить observer в конце
         val liveData = statesViewModel.getStatesSealed()
 
-        Mockito.`when`(helper.isSorted()).thenReturn(true)
-        Mockito.`when`(helper.getSortCase()).thenReturn(3)
-        //При вызове Репозитория возвращаем шаблонные данные
-        Mockito.`when`(statesRepo.getStates(true))
-            .thenReturn( Single.just(listOf(state)))
+        //проверяем все варианты
+        for (i in 0..1) {
+            for (sortType in 1..4) {
+                val isSorted = i != 0
+                Mockito.`when`(helper.isSorted()).thenReturn(isSorted)
+                Mockito.`when`(helper.getSortCase()).thenReturn(sortType)
 
-        try {
-            //этот метод позволяет подписаться на уведомления и не отписываться от них никогда
-            //Подписываемся на LiveData без учета жизненного цикла
-            liveData.observeForever(observer)
-            statesViewModel.loadDataSealed(true)
+                //При вызове Репозитория возвращаем шаблонные данные
+                Mockito.`when`(statesRepo.getStates(true))
+                    .thenReturn(Single.just(listOf(state)))
 
-            //Убеждаемся, что Репозиторий вернул строку "Россия"
-            val statesSealed:StatesSealed.Success = liveData.value as StatesSealed.Success
-            Assert.assertEquals("Россия", statesSealed.state[0].nameRus )
+                try {
+                    //этот метод позволяет подписаться на уведомления и не отписываться от них никогда
+                    //Подписываемся на LiveData без учета жизненного цикла
+                    liveData.observeForever(observer)
+                    statesViewModel.loadDataSealed(true)
 
-        } finally {
-            //Тест закончен, снимаем Наблюдателя
-            liveData.removeObserver(observer)
+                    //Убеждаемся, что Репозиторий вернул строку "Россия"
+                    val statesSealed: StatesSealed.Success = liveData.value as StatesSealed.Success
+                    Assert.assertEquals("Россия", statesSealed.state[0].nameRus)
+
+                } finally {
+                    //Тест закончен, снимаем Наблюдателя
+                    liveData.removeObserver(observer)
+                }
+            }
         }
     }
 }

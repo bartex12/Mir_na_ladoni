@@ -8,6 +8,7 @@ import androidx.room.Room
 import com.bartex.statesmvvm.App
 import com.bartex.statesmvvm.model.api.IDataSourceWeather
 import com.bartex.statesmvvm.model.entity.state.State
+import com.bartex.statesmvvm.model.entity.weather.WeatherQuery
 import com.bartex.statesmvvm.model.repositories.prefs.IPreferenceHelper
 import com.bartex.statesmvvm.model.repositories.prefs.PreferenceHelper
 import com.bartex.statesmvvm.model.repositories.weather.IWeatherRepo
@@ -67,8 +68,8 @@ class WeatherViewModel(
        //начинаем загрузку данных
         weatherSealed.value = WeatherSealed.Loading(null)
         state?. let {
-            weatherRepo.getWeatherInCapital(isNetworkAvailable, it.capital,
-                "80bb32e4a0db84762bb04ab2bd724646", "metric", "RU")
+            weatherRepo.getWeatherInCapital(
+                isNetworkAvailable, it.capital, WeatherQuery.keyApi, WeatherQuery.units)
         }?.observeOn(schedulerProvider.ui())
             ?.subscribe(
                 {

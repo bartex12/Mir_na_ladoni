@@ -3,6 +3,7 @@ package com.bartex.statesmvvm.model.repositories.weather
 import android.util.Log
 import com.bartex.statesmvvm.model.api.IDataSourceWeather
 import com.bartex.statesmvvm.model.entity.weather.WeatherInCapital
+import com.bartex.statesmvvm.model.entity.weather.WeatherQuery
 import com.bartex.statesmvvm.model.repositories.weather.cash.IRoomWeatherCash
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.schedulers.Schedulers
@@ -16,9 +17,9 @@ class WeatherRepo(val api: IDataSourceWeather,private val  roomWeatherCash: IRoo
     //в зависимости от статуса сети
     //мы или получаем данные из сети, записывая их в базу данных с помощью Room через map
     //или берём из базы, преобразуя их также через map
-    override fun getWeatherInCapital(isNetworkAvailable:Boolean, capital: String?,keyApi: String?,units: String?, lang:String?)
+    override fun getWeatherInCapital(
+        isNetworkAvailable:Boolean, capital: String?, keyApi:String, units:String)
             : Single<WeatherInCapital> =
-
         if(isNetworkAvailable){
                      Log.d(TAG, "WeatherRepo  isOnLine  = true")
                     //получаем данные из сети в виде Single<WeatherInCapital>
