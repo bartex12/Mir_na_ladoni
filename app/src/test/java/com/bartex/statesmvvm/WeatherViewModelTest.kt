@@ -8,11 +8,8 @@ import com.bartex.statesmvvm.model.entity.state.State
 import com.bartex.statesmvvm.model.entity.weather.WeatherInCapital
 import com.bartex.statesmvvm.model.entity.weather.WeatherQuery
 import com.bartex.statesmvvm.model.repositories.prefs.IPreferenceHelper
-import com.bartex.statesmvvm.model.repositories.states.IStatesRepo
 import com.bartex.statesmvvm.model.repositories.weather.IWeatherRepo
 import com.bartex.statesmvvm.view.fragments.scheduler.ScheduleProviderStub
-import com.bartex.statesmvvm.view.fragments.states.StatesSealed
-import com.bartex.statesmvvm.view.fragments.states.StatesViewModel
 import com.bartex.statesmvvm.view.fragments.weather.WeatherSealed
 import com.bartex.statesmvvm.view.fragments.weather.WeatherViewModel
 import com.nhaarman.mockito_kotlin.times
