@@ -123,7 +123,7 @@ class DetailsFragmentAutomatorAndEspressoTest {
             TIMEOUT
         )
         uiDevice.waitForIdle(1000L)
-        //на вью  с id = tv_state_name проверить соответствие тексту "Russia" и тд
+        //на вью  с id = tv_state_name проверить соответствие тексту "Канада" и тд
         Espresso.onView(withId(R.id.tv_state_name))
             .check(ViewAssertions.matches(ViewMatchers.withText("Канада")))
         Espresso.onView(withId(R.id.tv_state_region))
