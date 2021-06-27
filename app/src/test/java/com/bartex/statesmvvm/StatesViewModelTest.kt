@@ -164,7 +164,7 @@ class StatesViewModelTest {
         //Получаем LiveData - переменная вынесена, чтобы удалить observer в конце
         val liveData = statesViewModel.getStatesSealed()
 
-        //проверяем все варианты
+        //проверяем все варианты кроме наличия /отсутствия сети - см StateRepoTest
         for (i in 0..1) {
             for (sortType in 1..4) {
                 val isSorted = i != 0

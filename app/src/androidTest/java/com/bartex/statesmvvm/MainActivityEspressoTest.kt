@@ -60,7 +60,6 @@ class MainActivityEspressoTest {
             .check(matches(ViewMatchers.withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)))
     }
 
-
     @After
     fun close() {
         scenario.close()

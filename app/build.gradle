@@ -116,6 +116,9 @@ dependencies {
     androidTestImplementation 'androidx.test.uiautomator:uiautomator:2.2.0'
     androidTestImplementation 'androidx.test:rules:1.4.0-rc01'
 
+    //теперь вместо AndroidJUnit4  AndroidJUnit4ClassRunner
+    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+
     //junit5
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.7.2")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.7.2")

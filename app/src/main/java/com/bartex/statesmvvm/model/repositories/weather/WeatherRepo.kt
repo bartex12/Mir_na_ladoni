@@ -21,7 +21,7 @@ class WeatherRepo(val api: IDataSourceWeather,private val  roomWeatherCash: IRoo
         isNetworkAvailable:Boolean, capital: String?, keyApi:String, units:String)
             : Single<WeatherInCapital> =
         if(isNetworkAvailable){
-                     Log.d(TAG, "WeatherRepo  isOnLine  = true")
+                     //Log.d(TAG, "WeatherRepo  isOnLine  = true")
                     //получаем данные из сети в виде Single<WeatherInCapital>
                     api.loadWeatherInCapitalEng(capital, keyApi, units)
                         .flatMap { weatherInCapital ->
@@ -32,7 +32,7 @@ class WeatherRepo(val api: IDataSourceWeather,private val  roomWeatherCash: IRoo
                             roomWeatherCash.doWeatherCash(weatherInCapital)
                         }
         }else{
-            Log.d(TAG, "WeatherRepo  isNetworkAvailable  = false")
+            //Log.d(TAG, "WeatherRepo  isNetworkAvailable  = false")
             //получение погоды в столице из кэша
             roomWeatherCash.getWeatherFromCash(capital)
         }

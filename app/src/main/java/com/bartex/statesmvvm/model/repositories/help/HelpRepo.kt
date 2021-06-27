@@ -7,7 +7,7 @@ import java.io.IOException
 import java.io.InputStream
 import java.io.InputStreamReader
 
-class HelpRepo(val app: App): IHelpRepo {
+class     HelpRepo(var app: App): IHelpRepo {
 
     override fun getHelpText(): String? {
 //        val iFile: InputStream = app.resources.openRawResource(R.raw.help_states)
