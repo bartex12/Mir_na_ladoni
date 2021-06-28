@@ -57,9 +57,9 @@ class DetailsFragmentAutomatorAndEspressoTest {
     //и проверяем, что становится видна кнопка Удалить из избранного
     @Test
     fun  detailsFragment_ChangeFavoriteButtonState() {
-        //Ожидаем конкретного события: появления ресайклера rv_states
+        //Ожидаем конкретного события: появления строки с текстом Канада
         uiDevice.wait(
-            Until.findObject(By.res(packageName, "rv_states")),
+            Until.findObject(By.text("Канада")),
             TIMEOUT
         )
         uiDevice.waitForIdle(1000L)
@@ -103,9 +103,9 @@ class DetailsFragmentAutomatorAndEspressoTest {
     // русском языке в настройках и сортировке по умолчанию !!!
     @Test
     fun  detailsFragment_CheckDetailFragmentTextFields() {
-        //Ожидаем конкретного события: появления ресайклера rv_states
+        //Ожидаем конкретного события: появления строки с текстом Канада
         uiDevice.wait(
-            Until.findObject(By.res(packageName, "rv_states")),
+            Until.findObject(By.text("Канада")),
             TIMEOUT
         )
         uiDevice.waitForIdle(1000L)

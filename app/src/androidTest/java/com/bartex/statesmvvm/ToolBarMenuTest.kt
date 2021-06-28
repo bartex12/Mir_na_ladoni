@@ -79,8 +79,7 @@ class ToolBarMenuTest {
         )
         //Кликаем по ней
         search.click()
-        //Ожидаем конкретного события: появления ресайклера rv_favorite
-        //Это будет означать, что FavoritesFragment открылся и rv_favorite видно на экране.
+        //Ожидаем конкретного события: появления EditText search_src_text
         val searchEditText: UiObject =  uiDevice.findObject(
             UiSelector().resourceId("com.bartex.states_search:id/search_src_text")
         )

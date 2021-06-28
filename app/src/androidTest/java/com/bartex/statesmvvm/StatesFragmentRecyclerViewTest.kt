@@ -90,9 +90,10 @@ class StatesFragmentRecyclerViewTest {
     //прокрутка до строки с определённым номером и клик на ней
     @Test
     fun statesFragment_PerformClickAtPosition() {
-        //Ожидаем конкретного события: появления ресайклера rv_states
+        //Ожидаем конкретного события: появления строки с текстом Канада
         uiDevice.wait(
-            Until.findObject(By.res(packageName, "rv_states")),         TIMEOUT
+            Until.findObject(By.text("Канада")),
+            TIMEOUT
         )
         //метод, который нажимает на элемент списка:
         //Тут мы вызываем метод actionOnItemAtPosition, который в качестве аргументов принимает
@@ -113,9 +114,10 @@ class StatesFragmentRecyclerViewTest {
     // возникает сбой -> добавил uiDevice.waitForIdle()
     @Test
     fun  statesFragment_PerformClickOnItem() {
-        //Ожидаем конкретного события: появления ресайклера rv_states
+        //Ожидаем конкретного события: появления строки с текстом Канада
         uiDevice.wait(
-            Until.findObject(By.res(packageName, "rv_states")), TIMEOUT
+            Until.findObject(By.text("Канада")),
+            TIMEOUT
         )
         uiDevice.waitForIdle(1000L)
         //Обратите внимание, что мы проматываем чуть ниже - до Norway. Это сделано для того,
@@ -141,9 +143,10 @@ class StatesFragmentRecyclerViewTest {
     //Убеждаемся, что DetailsFragment открывается
     @Test
     fun  statesFragment_OpenDetailsFragment() {
-        //Ожидаем конкретного события: появления ресайклера rv_states
+        //Ожидаем конкретного события: появления строки с текстом Канада
         uiDevice.wait(
-            Until.findObject(By.res(packageName, "rv_states")), TIMEOUT
+            Until.findObject(By.text("Канада")),
+            TIMEOUT
         )
         uiDevice.waitForIdle(1000L)
         //Обратите внимание, что мы проматываем чуть ниже - до Norway. Это сделано для того,
