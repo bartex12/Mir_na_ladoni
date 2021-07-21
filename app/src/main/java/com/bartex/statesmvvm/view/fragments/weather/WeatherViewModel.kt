@@ -23,7 +23,7 @@ import retrofit2.Retrofit
 import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 
-class WeatherViewModel(
+class  WeatherViewModel(
     var helper : IPreferenceHelper = PreferenceHelper(App.instance),
     var schedulerProvider: SchedulerProvider = StatesSchedulerProvider(),
     var weatherRepo: IWeatherRepo = WeatherRepo(
