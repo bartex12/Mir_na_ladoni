@@ -24,7 +24,7 @@ import com.bartex.statesmvvm.view.main.MainActivity
 import kotlinx.android.synthetic.main.fragment_states.*
 import java.util.*
 
-class StatesFragment : Fragment(),
+class   StatesFragment : Fragment(),
     SearchView.OnQueryTextListener {
 
     private var position = 0

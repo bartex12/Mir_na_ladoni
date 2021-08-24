@@ -33,7 +33,7 @@ class MainViewModel: ViewModel() {
 
     private val themeObserver = object : Observer<Int>{
         override fun onChanged(theme: Int?) {
-            colorTheme.value = theme
+            theme?. let{colorTheme.value = it}
         }
     }
 

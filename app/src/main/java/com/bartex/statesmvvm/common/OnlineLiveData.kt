@@ -37,6 +37,11 @@ companion object{
             availableNetworks.add(network)
             update(availableNetworks.isNotEmpty())
         }
+
+        override fun onUnavailable() {
+            super.onUnavailable()
+            update(false)
+        }
     }
 
     // Регистрируем колбэк, если компонент, подписанный на LiveData, активен

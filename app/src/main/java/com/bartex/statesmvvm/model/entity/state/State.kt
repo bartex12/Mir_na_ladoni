@@ -8,6 +8,8 @@ import kotlinx.android.parcel.Parcelize
 
 //Аннотация @Parcelize говорит о необходимости сгенерировать весь boilerplate-код,
 // необходимый для работы Parcelable, автоматически, избавляя нас от рутины его написания вручную.
+//Для того, чтобы работала аннотация @Parcelize нужно добавить
+// plugin с id 'kotlin-android-extensions'
 @Parcelize
 data class State(
     @Expose val capital :String? = null,
