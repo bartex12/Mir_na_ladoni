@@ -45,7 +45,7 @@ class StatesRepo(val api: IDataSourceState, private val roomCash: IRoomStateCash
                     roomCash.doStatesCash(f_states)
                 }
         }else{
-            //получение списка пользователей из кэша
+            //получение списка стран  из кэша
             roomCash.getStatesFromCash()
         }
             .subscribeOn(Schedulers.io())

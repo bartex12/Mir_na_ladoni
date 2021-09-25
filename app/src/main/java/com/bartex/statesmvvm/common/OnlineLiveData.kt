@@ -6,7 +6,6 @@ import android.net.Network
 import android.net.NetworkRequest
 import android.util.Log
 import androidx.lifecycle.LiveData
-import com.bartex.statesmvvm.view.fragments.states.StatesFragment
 
 // В конструктор передаём контекст, наследуемся от LiveData, которая
 // возвращает булево значение

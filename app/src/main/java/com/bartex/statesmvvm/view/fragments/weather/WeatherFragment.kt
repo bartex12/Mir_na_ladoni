@@ -34,7 +34,7 @@ class  WeatherFragment : Fragment()  {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         val view:View = inflater.inflate(R.layout.fragment_weather, container, false)
         main = requireActivity() as MainActivity
         return view

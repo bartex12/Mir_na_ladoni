@@ -23,7 +23,7 @@ class RoomStateCash(val db: Database): IRoomStateCash {
     override fun doStatesCash(listStates: List<State>): Single<List<State>> {
      return  Single.fromCallable { //создаём  Single из списка, по пути пишем в базу
          // map для базы, так как классы разные
-         val roomUsers = listStates.map {state->
+         val roomState = listStates.map {state->
              //Log.d(TAG, "RoomStateCash doStatesCash: state.nameRus = ${MapOfState.mapStates[state.name] }")
              RoomState(
                  state.capital ?: "",
@@ -39,7 +39,7 @@ class RoomStateCash(val db: Database): IRoomStateCash {
                  MapOfRegion.mapRegion[state.region] ?:"Unknown"
              )
          }
-           db.stateDao.insert(roomUsers) //пишем в базу
+           db.stateDao.insert(roomState) //пишем в базу
            Log.d(TAG, "RoomStateCash doStatesCash: size = ${db.stateDao.getAll().size}")
            return@fromCallable listStates //возвращаем в виде Single<List<State>>
        }

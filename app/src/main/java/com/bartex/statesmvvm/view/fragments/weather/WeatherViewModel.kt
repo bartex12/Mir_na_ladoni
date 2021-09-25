@@ -1,4 +1,4 @@
-package com.bartex.statesmvvm.view.fragments.weather
+   package com.bartex.statesmvvm.view.fragments.weather
 
 import android.util.Log
 import androidx.lifecycle.LiveData

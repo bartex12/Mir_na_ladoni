@@ -18,7 +18,7 @@ class ApiModule {
 
     @Named("baseUrlStates")
     @Provides
-    fun baseUrlStates():String = "https://restcountries.eu/rest/v2/"
+    fun baseUrlStates():String = "https://restcountries.com/v2/"
 
     @Named("baseUrlWeather")
     @Provides
