@@ -13,7 +13,7 @@ class HelpViewModel:ViewModel() {
     @Inject
     lateinit var helper : IPreferenceHelper
 
-    fun getHelpText():String?{
+    fun getHelpText(): String {
       return  helpRepo.getHelpText()
     }
 }

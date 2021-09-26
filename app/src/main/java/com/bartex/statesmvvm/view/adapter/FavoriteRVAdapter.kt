@@ -52,7 +52,8 @@ class FavoriteRVAdapter(private val favoriteViewModel: FavoriteViewModel,
 
             itemView.tv_area_favor.text = favoriteViewModel.getArea(state.area)
             itemView.tv_population_favor.text = favoriteViewModel.getPopulation(state.population)
-            state.flag?.let { imageLoader.loadInto(it, itemView.iv_flag_favor) }
+
+            state.flags?.get(0).let { imageLoader.loadInto(it.toString(), itemView.iv_flag_favor) }
 
             itemView.setOnClickListener {
                 onitemClickListener.onItemclick(state)

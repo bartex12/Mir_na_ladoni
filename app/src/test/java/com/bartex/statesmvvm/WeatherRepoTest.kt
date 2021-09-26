@@ -1,6 +1,6 @@
 package com.bartex.statesmvvm
 
-import com.bartex.statesmvvm.model.api.IDataSourceWeather
+import com.bartex.statesmvvm.model.api.ApiServiceWeather
 import com.bartex.statesmvvm.model.entity.weather.WeatherInCapital
 import com.bartex.statesmvvm.model.entity.weather.WeatherQuery
 import com.bartex.statesmvvm.model.repositories.weather.WeatherRepo
@@ -16,7 +16,7 @@ class WeatherRepoTest {
 
     private lateinit var repository: WeatherRepo
     @Mock
-    private lateinit var weatherApi: IDataSourceWeather
+    private lateinit var weatherApi: ApiServiceWeather
     @Mock
     private lateinit var roomWeatherCash: IRoomWeatherCash
 

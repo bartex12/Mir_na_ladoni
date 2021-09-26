@@ -1,21 +1,21 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_marginLeft="8dp"
-    android:layout_marginTop="4dp"
-    android:layout_marginRight="8dp"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_margin="@dimen/layout_margin_4dp"
     android:clipToPadding="false"
     app:cardCornerRadius="4dp"
-    app:cardElevation="4dp">
+    app:cardElevation="4dp"
+    >
 
             <ImageView
                 android:id="@+id/image_view_flag"
                 android:layout_width="60dp"
                 android:layout_height="40dp"
-                android:layout_marginTop="8dp"
-                />
+                android:layout_gravity="center"
+                tools:src="@tools:sample/avatars"
+                android:background="@color/colorFone"/>
 
 </androidx.cardview.widget.CardView >
 

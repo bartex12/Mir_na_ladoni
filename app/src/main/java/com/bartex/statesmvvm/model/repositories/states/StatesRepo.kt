@@ -4,9 +4,10 @@ import android.util.Log
 import com.bartex.statesmvvm.common.MapOfCapital
 import com.bartex.statesmvvm.common.MapOfRegion
 import com.bartex.statesmvvm.common.MapOfState
-import com.bartex.statesmvvm.model.api.IDataSourceState
+import com.bartex.statesmvvm.model.api.IDataSource
 import com.bartex.statesmvvm.model.entity.state.State
 import com.bartex.statesmvvm.model.repositories.states.cash.IRoomStateCash
+import com.bartex.statesmvvm.view.utils.UtilFilters
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.schedulers.Schedulers
 
@@ -15,30 +16,32 @@ import io.reactivex.rxjava3.schedulers.Schedulers
 // Таким образом, мы позволяем репозиторию самостоятельно следить за тем, чтобы сетевые вызовы
 // выполнялись именно в io-потоке. Всегда лучше поступать именно таким образом, даже когда речь
 // не идёт о сети — во избежание выполнения операций в неверном потоке в вызывающем коде.
-class StatesRepo(val api: IDataSourceState, private val roomCash: IRoomStateCash)
+class StatesRepo(val dataSource: IDataSource, private val roomCash: IRoomStateCash)
     : IStatesRepo {
 
     companion object{
         const val TAG = "33333"
     }
-        //метод  интерфейса IDataSourceState getStates() - в зависимости от статуса сети
+        //метод  интерфейса ApiService getStates() - в зависимости от статуса сети
     //мы или получаем данные из сети, записывая их в базу данных с помощью Room через map
     //или берём из базы, преобразуя их также через map
     override fun getStates(isNetworkAvailable: Boolean): Single<List<State>> =
         if(isNetworkAvailable){
-            api.getStates() //получаем данные из сети в виде Single<List<State>>
+            dataSource.getStates() //получаем данные из сети в виде Single<List<State>>
                 .flatMap {states->//получаем доступ к списку List<State>
                     //фильтруем данные
                     val f_states =  states.filter {state->
-                        state.capital!=null &&  //только со столицами !=null
-                                state.latlng?.size == 2 && //только с известными координатами
-                                state.capital.isNotEmpty() //только с известными столицами
+                        UtilFilters.filterData(state)
                     }
                     //добавляем русские названия из Map в поля State
                     states.map {
                         it.nameRus = MapOfState.mapStates[it.name] ?:"Unknown"
                         it.capitalRus = MapOfCapital.mapCapital[it.capital] ?:"Unknown"
-                        it.regionRus = MapOfRegion.mapRegion[it.region] ?:"Unknown"
+                        it.regionRus = MapOfRegion.mapRegion[it.continent] ?:"Unknown"
+                        Log.d(TAG, "StatesRepo ${it.nameRus}" +
+                                " ${it.flags?.get(0)} ${it.name}" +
+                                " ${it.capitalRus} ${it.capital}" +
+                                " ${it.regionRus} ${it.continent}" )
                     }
                     Log.d(TAG, "StatesRepo  getStates f_states.size = ${f_states.size}")
                     //реализация кэширования списка пользователей из сети в базу данных

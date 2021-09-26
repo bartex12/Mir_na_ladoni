@@ -1,7 +1,7 @@
 package com.bartex.statesmvvm.dagger
 
-import com.bartex.statesmvvm.model.api.IDataSourceState
-import com.bartex.statesmvvm.model.api.IDataSourceWeather
+import com.bartex.statesmvvm.model.api.ApiService
+import com.bartex.statesmvvm.model.api.ApiServiceWeather
 import com.google.gson.FieldNamingPolicy
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -34,23 +34,23 @@ class ApiModule {
 
     @Provides
     @Singleton
-    fun apiStates(@Named("baseUrlStates") baseUrl: String, gson: Gson): IDataSourceState =
+    fun apiStates(@Named("baseUrlStates") baseUrl: String, gson: Gson): ApiService =
         Retrofit.Builder()
             .baseUrl(baseUrl)
             .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
             .addConverterFactory(GsonConverterFactory.create(gson))
             .build()
-            .create(IDataSourceState::class.java)
+            .create(ApiService::class.java)
 
     @Provides
     @Singleton
-    fun apiWeather(@Named("baseUrlWeather") baseUrl: String, gson: Gson): IDataSourceWeather =
+    fun apiWeather(@Named("baseUrlWeather") baseUrl: String, gson: Gson): ApiServiceWeather =
         Retrofit.Builder()
             .baseUrl(baseUrl)
             .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
             .addConverterFactory(GsonConverterFactory.create(gson))
             .build()
-            .create(IDataSourceWeather::class.java)
+            .create(ApiServiceWeather::class.java)
 
 //    @Singleton
 //    @Provides

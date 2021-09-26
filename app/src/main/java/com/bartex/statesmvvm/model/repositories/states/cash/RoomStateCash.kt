@@ -1,8 +1,6 @@
 package com.bartex.statesmvvm.model.repositories.states.cash
 
 import android.util.Log
-import androidx.room.Room
-import com.bartex.statesmvvm.App
 import com.bartex.statesmvvm.common.MapOfCapital
 import com.bartex.statesmvvm.common.MapOfRegion
 import com.bartex.statesmvvm.common.MapOfState
@@ -27,16 +25,16 @@ class RoomStateCash(val db: Database): IRoomStateCash {
              //Log.d(TAG, "RoomStateCash doStatesCash: state.nameRus = ${MapOfState.mapStates[state.name] }")
              RoomState(
                  state.capital ?: "",
-                 state.flag ?: "",
+                 state.flags?.get(0).toString() ?: "",
                  state.name ?: "",
-                 state.region ?: "",
+                 state.continent ?: "",
                  state.population ?: 0,
                  state.area?:0f,
                  state.latlng?.get(0) ?:0f,
                  state.latlng?.get(1) ?:0f,
                  MapOfState.mapStates[state.name] ?:"Unknown",
                  MapOfCapital.mapCapital[state.capital] ?:"Unknown",
-                 MapOfRegion.mapRegion[state.region] ?:"Unknown"
+                 MapOfRegion.mapRegion[state.continent] ?:"Unknown"
              )
          }
            db.stateDao.insert(roomState) //пишем в базу
@@ -49,7 +47,7 @@ class RoomStateCash(val db: Database): IRoomStateCash {
         Log.d(TAG, "RoomStateCash getStatesFromCash")
         return  Single.fromCallable {
           db.stateDao.getAll().map {roomState->
-              State(roomState.capital,roomState.flag, roomState.name, roomState.region,
+              State(roomState.capital, listOf(roomState.flag), roomState.name, roomState.region,
                   roomState.population, roomState.area, arrayOf(roomState.lat, roomState.lng),
                   roomState.nameRus, roomState.capitalRus, roomState.regionRus
               )
@@ -59,7 +57,7 @@ class RoomStateCash(val db: Database): IRoomStateCash {
 
     override fun loadFavorite(): Single<List<State>> = Single.fromCallable {
             db.favoriteDao.getAll().map {roomFavorite->
-                State(roomFavorite.capital,roomFavorite.flag, roomFavorite.name,
+                State(roomFavorite.capital, listOf(roomFavorite.flag), roomFavorite.name,
                     roomFavorite.region,roomFavorite.population, roomFavorite.area,
                     arrayOf(roomFavorite.lat, roomFavorite.lng), roomFavorite.nameRus,
                     roomFavorite.capitalRus, roomFavorite.regionRus)
@@ -70,7 +68,7 @@ class RoomStateCash(val db: Database): IRoomStateCash {
     override fun getFlagsFromCash(): Single<List<State>> =
         Single.fromCallable {
             db.stateDao.getAll().map {roomState->
-                State(roomState.capital,roomState.flag, roomState.name, roomState.region,
+                State(roomState.capital, listOf(roomState.flag), roomState.name, roomState.region,
                     roomState.population, roomState.area, arrayOf(roomState.lat, roomState.lng),
                     roomState.nameRus, roomState.capitalRus, roomState.regionRus
                 )
@@ -124,9 +122,9 @@ class RoomStateCash(val db: Database): IRoomStateCash {
     private fun add(state: State):Boolean {
         val roomFavorite = RoomFavorite(
             capital = state.capital ?: "",
-            flag = state.flag ?: "",
+            flag = state.flags?.get(0).toString() ?: "",
             name = state.name ?: "",
-            region =  state.region ?: "",
+            region =  state.continent ?: "",
             population = state.population ?: 0,
             area =  state.area?:0f,
             lat = state.latlng?.get(0) ?:0f,

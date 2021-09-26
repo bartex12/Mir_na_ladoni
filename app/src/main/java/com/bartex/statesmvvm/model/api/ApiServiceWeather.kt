@@ -5,7 +5,7 @@ import io.reactivex.rxjava3.core.Single
 import retrofit2.http.GET
 import retrofit2.http.Query
 
-interface IDataSourceWeather {
+interface ApiServiceWeather {
 
     @GET("data/2.5/weather")
     fun loadWeatherInCapitalEng(

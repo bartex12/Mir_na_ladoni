@@ -4,9 +4,8 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.room.Room
 import com.bartex.statesmvvm.App
-import com.bartex.statesmvvm.model.api.IDataSourceState
+import com.bartex.statesmvvm.model.api.DataSourceRetrofit
 import com.bartex.statesmvvm.model.entity.state.State
 import com.bartex.statesmvvm.model.repositories.prefs.IPreferenceHelper
 import com.bartex.statesmvvm.model.repositories.prefs.PreferenceHelper
@@ -16,12 +15,7 @@ import com.bartex.statesmvvm.model.repositories.states.cash.RoomStateCash
 import com.bartex.statesmvvm.model.room.Database
 import com.bartex.statesmvvm.view.fragments.scheduler.SchedulerProvider
 import com.bartex.statesmvvm.view.fragments.scheduler.StatesSchedulerProvider
-import com.google.gson.FieldNamingPolicy
-import com.google.gson.GsonBuilder
 import io.reactivex.rxjava3.core.Single
-import retrofit2.Retrofit
-import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
-import retrofit2.converter.gson.GsonConverterFactory
 
 //var mainThreadScheduler:SchedulerProvider - сделан через интерфейс для целей тестирования
 //при тестировании вместо StatesSchedulerProvider будет использован класс-заглушка ScheduleProviderStub
@@ -29,24 +23,13 @@ class StatesViewModel(
     var helper : IPreferenceHelper = PreferenceHelper(App.instance),
     var schedulerProvider: SchedulerProvider = StatesSchedulerProvider(),
     var statesRepo: IStatesRepo =StatesRepo(
-         Retrofit.Builder()
-             .baseUrl(baseUrl)
-             .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
-             .addConverterFactory(GsonConverterFactory.create(GsonBuilder()
-                     .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
-                     .excludeFieldsWithoutExposeAnnotation()
-                     .create()
-             ))
-             .build()
-             .create(IDataSourceState::class.java),
-         RoomStateCash(
-             Room.databaseBuilder(App.instance, Database::class.java, Database.DB_NAME).build())
+        dataSource = DataSourceRetrofit(),
+        roomCash =  RoomStateCash(db = Database.getInstance() as Database)
      )
 ): ViewModel() {
 
     companion object{
         const val TAG = "33333"
-        const val baseUrl =  "https://restcountries.eu/rest/v2/"
     }
 
    // @Inject

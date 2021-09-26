@@ -118,7 +118,7 @@ class WeatherViewModelTest {
     @Test
     @Config(manifest=Config.NONE)
     fun liveData_TestReturnSuccessValue() {
-        val state = State(capital = "Moscow", flag = "", name = "Russia", region = "Europe",
+        val state = State(capital = "Moscow", flags = listOf(), name = "Russia", continent = "Europe",
             population = 146000000, area = 17000000f, latlng = arrayOf(60f, 40f) ,
             nameRus = "Россия", capitalRus = "Москва", regionRus ="Европа" )
 

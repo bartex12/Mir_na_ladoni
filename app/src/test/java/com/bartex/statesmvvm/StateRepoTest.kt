@@ -1,6 +1,6 @@
 package com.bartex.statesmvvm
 
-import com.bartex.statesmvvm.model.api.IDataSourceState
+import com.bartex.statesmvvm.model.api.ApiService
 import com.bartex.statesmvvm.model.entity.state.State
 import com.bartex.statesmvvm.model.repositories.states.StatesRepo
 import com.bartex.statesmvvm.model.repositories.states.cash.IRoomStateCash
@@ -10,14 +10,13 @@ import org.junit.Test
 import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.MockitoAnnotations
-import retrofit2.Call
 
 
 class StateRepoTest {
 
     private lateinit var repository: StatesRepo
     @Mock
-    private lateinit var stateApi: IDataSourceState
+    private lateinit var stateApi: ApiService
     @Mock
     private lateinit var roomCash: IRoomStateCash
 

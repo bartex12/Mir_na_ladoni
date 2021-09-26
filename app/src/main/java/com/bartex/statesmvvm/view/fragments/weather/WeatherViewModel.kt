@@ -4,9 +4,8 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.room.Room
 import com.bartex.statesmvvm.App
-import com.bartex.statesmvvm.model.api.IDataSourceWeather
+import com.bartex.statesmvvm.model.api.ApiServiceWeather
 import com.bartex.statesmvvm.model.entity.state.State
 import com.bartex.statesmvvm.model.entity.weather.WeatherQuery
 import com.bartex.statesmvvm.model.repositories.prefs.IPreferenceHelper
@@ -27,7 +26,7 @@ class  WeatherViewModel(
     var helper : IPreferenceHelper = PreferenceHelper(App.instance),
     var schedulerProvider: SchedulerProvider = StatesSchedulerProvider(),
     var weatherRepo: IWeatherRepo = WeatherRepo(
-        Retrofit.Builder()
+      api =  Retrofit.Builder()
             .baseUrl(baseUrl)
             .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
             .addConverterFactory(GsonConverterFactory.create(
@@ -36,11 +35,8 @@ class  WeatherViewModel(
                     .excludeFieldsWithoutExposeAnnotation()
                     .create()))
             .build()
-            .create(IDataSourceWeather::class.java),
-
-        RoomWeatherCash(
-            Room.databaseBuilder(App.instance, Database::class.java, Database.DB_NAME).build()
-        )
+            .create(ApiServiceWeather::class.java),
+        roomWeatherCash =  RoomWeatherCash(db = Database.getInstance() as Database)
     )
 
 ):ViewModel() {

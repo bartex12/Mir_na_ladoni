@@ -1,14 +1,13 @@
 package com.bartex.statesmvvm.model.repositories.weather
 
 import android.util.Log
-import com.bartex.statesmvvm.model.api.IDataSourceWeather
+import com.bartex.statesmvvm.model.api.ApiServiceWeather
 import com.bartex.statesmvvm.model.entity.weather.WeatherInCapital
-import com.bartex.statesmvvm.model.entity.weather.WeatherQuery
 import com.bartex.statesmvvm.model.repositories.weather.cash.IRoomWeatherCash
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.schedulers.Schedulers
 
-class WeatherRepo(val api: IDataSourceWeather,private val  roomWeatherCash: IRoomWeatherCash)
+class WeatherRepo(val api: ApiServiceWeather, private val  roomWeatherCash: IRoomWeatherCash)
     :IWeatherRepo {
 
     companion object{

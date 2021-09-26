@@ -41,12 +41,9 @@ class HelpFragment: Fragment() {
     private lateinit var helpViewModel: HelpViewModel
     lateinit var navController: NavController
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ) =
-        View.inflate(context, R.layout.fragment_help, null)
+    override fun onCreateView( inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View{
+        return inflater.inflate(R.layout.fragment_help, container, false)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -95,6 +92,7 @@ class HelpFragment: Fragment() {
             Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
         )
     }
+
     private fun makeLinks(text: String, phrase: String, phraseColor:Int, spanHelp:Spannable ){
 
         val clickableSpan = object : ClickableSpan() {
@@ -107,8 +105,8 @@ class HelpFragment: Fragment() {
             override fun onClick(view: View) {
                 Log.d(TAG, "HelpFragment makeLinks onClick")
 
-               val stateDefault =  State(capital="Moscow", flag="https://restcountries.eu/data/rus.svg",
-                   name="Russian Federation", region="Europe", population=146599183,
+               val stateDefault =  State(capital="Moscow", flags= listOf(),
+                   name="Russian Federation", continent="Europe", population=146599183,
                    area=1.7124442E7f, latlng= arrayOf(60.0f, 100.0f), nameRus="Россия",
                    capitalRus="Москва", regionRus="Европа")
 
@@ -134,4 +132,5 @@ class HelpFragment: Fragment() {
             end,
             Spanned.SPAN_EXCLUSIVE_EXCLUSIVE )
     }
+
 }
