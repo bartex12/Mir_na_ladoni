@@ -136,7 +136,6 @@ class   StatesFragment : Fragment(),
 
     private fun renderState(states: List<State>) {
         Log.d(TAG, "StatesFragment renderState: states.size = ${states.size}")
-        //Log.d(TAG, "StatesFragment renderState: states = $states")
         if(states.isEmpty()){
             rv_states.visibility = View.GONE
             empty_view.visibility = View.VISIBLE
