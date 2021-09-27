@@ -6,8 +6,7 @@
     android:layout_margin="@dimen/layout_margin_4dp"
     android:clipToPadding="false"
     app:cardCornerRadius="4dp"
-    app:cardElevation="4dp"
-    >
+    app:cardElevation="4dp">
 
             <ImageView
                 android:id="@+id/image_view_flag"

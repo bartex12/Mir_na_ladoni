@@ -18,6 +18,7 @@ import com.bartex.statesmvvm.R
 import com.bartex.statesmvvm.common.toast
 import com.bartex.statesmvvm.model.constants.Constants
 import com.bartex.statesmvvm.model.entity.state.State
+import com.bartex.statesmvvm.model.repositories.states.cash.RoomStateCash
 import com.bartex.statesmvvm.network.NoInternetDialogFragment
 import com.bartex.statesmvvm.network.OnlineLiveData
 import com.bartex.statesmvvm.view.adapter.GlideToVectorYouLoader
@@ -35,16 +36,12 @@ class   StatesFragment : Fragment(),
     private lateinit var stateViewModel: StatesViewModel
     private var searchStates = listOf<State>()
 
-    //для доступа к полю MainActivity isNetworkAvailable, где проверяется доступ к интернету
-    var main:MainActivity? = null
-
     companion object {
         const val TAG = "33333"
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View{
      val  view:View =inflater.inflate(R.layout.fragment_states, container, false)
-        main = requireActivity() as MainActivity
         return view
     }
 
@@ -57,17 +54,29 @@ class   StatesFragment : Fragment(),
         stateViewModel = ViewModelProvider(this).get(StatesViewModel::class.java)
         stateViewModel.apply { App.instance.appComponent.inject(this)}
 
-       val  isNetworkAvailable = main?.getNetworkAvailable()
-        Log.d(TAG, "StatesFragment onViewCreated isNetworkAvailable =$isNetworkAvailable")
+       val  isNetworkAvailable = (requireActivity() as MainActivity).getNetworkAvailable()
 
-        isNetworkAvailable?. let{isNet->
-            stateViewModel. loadDataSealed(isNet) //запускаем загрузку данных
-            stateViewModel.getStatesSealed() //наблюдаем за изменением данных
-                .observe(viewLifecycleOwner, Observer<StatesSealed> {
-                    renderData(it)
+        // при наличии интернета получаем список стран из сети и заполняем базу данных
+        //затем данные получаем из базы
+            stateViewModel.getDataFromDatabase()
+                .observe(viewLifecycleOwner, Observer {listOfState->
+                    if (listOfState.size >200){ //если в базе есть записи
+                        renderState(listOfState)  //берём из базы
+                    }else{ //если в базе ничего нет
+                        if (isNetworkAvailable){ //если сеть есть
+                            //получаем страны из сети
+                            stateViewModel.getStatesSealed()
+                                .observe(viewLifecycleOwner, Observer{stateSealed->
+                                    renderData(stateSealed)
+                                })
+                        }else{//если данных нет ни в сети ни в базе - показываем предупреждение
+                            showAlertDialog(
+                                getString(R.string.dialog_title_device_is_offline),
+                                getString(R.string.dialog_message_load_impossible)
+                            )
+                        }
+                    }
                 })
-        }
-
         //восстанавливаем позицию списка после поворота или возвращения на экран
         position =  stateViewModel.getPositionState()
 
@@ -157,13 +166,25 @@ class   StatesFragment : Fragment(),
             rv_states.visibility =  View.VISIBLE
             empty_view.visibility =View.GONE
 
-            adapter?.listStates = states
+            val isSorted = stateViewModel.isSorted()
+            val getSortCase = stateViewModel.getSortCase()
+            var filtred:List<State> = listOf()
+            if(isSorted){
+                when (getSortCase) {
+                    1 -> {filtred = states.filter {it.population!=null}.sortedByDescending {it.population} }
+                    2 -> {filtred = states.filter {it.population!=null}.sortedBy {it.population} }
+                    3 -> {filtred = states.filter {it.area!=null && it.area!!>0}.sortedByDescending {it.area}}
+                    4 -> {filtred = states.filter {it.area!=null && it.area!!>0   }.sortedBy {it.area}}
+                }
+
+            adapter?.listStates = filtred
             adapter?.setRusLang(stateViewModel.getRusLang())
             searchStates = states
             rv_states.layoutManager?.scrollToPosition(position) //крутим в запомненную позицию списка
             Log.d(TAG, "StatesFragment renderState scrollToPosition = $position")
         }
     }
+}
 
     private fun getOnClickListener(): StateRVAdapter.OnitemClickListener =
         object : StateRVAdapter.OnitemClickListener{

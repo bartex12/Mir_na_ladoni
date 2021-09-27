@@ -25,8 +25,7 @@ class StatesRepo(val dataSource: IDataSource, private val roomCash: IRoomStateCa
         //метод  интерфейса ApiService getStates() - в зависимости от статуса сети
     //мы или получаем данные из сети, записывая их в базу данных с помощью Room через map
     //или берём из базы, преобразуя их также через map
-    override fun getStates(isNetworkAvailable: Boolean): Single<List<State>> =
-        if(isNetworkAvailable){
+    override fun getStates(): Single<List<State>> =
             dataSource.getStates() //получаем данные из сети в виде Single<List<State>>
                 .flatMap {states->//получаем доступ к списку List<State>
                     //фильтруем данные
@@ -46,10 +45,6 @@ class StatesRepo(val dataSource: IDataSource, private val roomCash: IRoomStateCa
                     Log.d(TAG, "StatesRepo  getStates f_states.size = ${f_states.size}")
                     //реализация кэширования списка пользователей из сети в базу данных
                     roomCash.doStatesCash(f_states)
-                }
-        }else{
-            //получение списка стран  из кэша
-            roomCash.getStatesFromCash()
-        }
-            .subscribeOn(Schedulers.io())
+        }.subscribeOn(Schedulers.io())
+
 }

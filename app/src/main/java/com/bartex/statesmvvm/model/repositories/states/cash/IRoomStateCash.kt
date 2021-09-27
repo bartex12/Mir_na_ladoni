@@ -11,7 +11,7 @@ interface IRoomStateCash {
     fun loadFavorite():Single<List<State>>
     fun isFavorite(state:State):Single<Boolean>
     fun removeFavorite(state:State):Completable
-
+    fun loadAllData(): Single<MutableList<State>>
     fun getFlagsFromCash():Single<List<State>>//получение списка пользователей из кэша
 
 }

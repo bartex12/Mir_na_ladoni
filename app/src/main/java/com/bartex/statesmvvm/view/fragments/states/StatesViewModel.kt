@@ -11,10 +11,12 @@ import com.bartex.statesmvvm.model.repositories.prefs.IPreferenceHelper
 import com.bartex.statesmvvm.model.repositories.prefs.PreferenceHelper
 import com.bartex.statesmvvm.model.repositories.states.IStatesRepo
 import com.bartex.statesmvvm.model.repositories.states.StatesRepo
+import com.bartex.statesmvvm.model.repositories.states.cash.IRoomStateCash
 import com.bartex.statesmvvm.model.repositories.states.cash.RoomStateCash
 import com.bartex.statesmvvm.model.room.Database
 import com.bartex.statesmvvm.view.fragments.scheduler.SchedulerProvider
 import com.bartex.statesmvvm.view.fragments.scheduler.StatesSchedulerProvider
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Single
 
 //var mainThreadScheduler:SchedulerProvider - сделан через интерфейс для целей тестирования
@@ -24,8 +26,8 @@ class StatesViewModel(
     var schedulerProvider: SchedulerProvider = StatesSchedulerProvider(),
     var statesRepo: IStatesRepo =StatesRepo(
         dataSource = DataSourceRetrofit(),
-        roomCash =  RoomStateCash(db = Database.getInstance() as Database)
-     )
+        roomCash =  RoomStateCash(db = Database.getInstance() as Database)),
+    val roomCash: IRoomStateCash = RoomStateCash(db =Database.getInstance() as Database)
 ): ViewModel() {
 
     companion object{
@@ -39,48 +41,31 @@ class StatesViewModel(
 //    @Inject
 //    lateinit var statesRepo: IStatesRepo  //репозиторий
 
-    private val listStates = MutableLiveData<StatesSealed>()
+    private val listStatesFromNet = MutableLiveData<StatesSealed>()
+    //список стран из базы
+    private val listStatesFromDatabase = MutableLiveData<MutableList<State>>()
 
     fun getStatesSealed() : LiveData<StatesSealed>{
-        return listStates
+        loadDataSealed()
+        return listStatesFromNet
     }
 
-    fun loadDataSealed(isNetworkAvailable:Boolean){
+    fun loadDataSealed(){
         //начинаем загрузку данных
-        listStates.value = StatesSealed.Loading(null)
+        listStatesFromNet.value = StatesSealed.Loading(null)
 
-        val isSorted = helper.isSorted()
-        val getSortCase = helper.getSortCase()
-        var f_st:List<State>?= null
-        Log.d(TAG, "BasePresenter  loadData isSorted = $isSorted getSortCase = $getSortCase")
-
-        statesRepo.getStates(isNetworkAvailable)
+        statesRepo.getStates()
             .observeOn(schedulerProvider.computation())
-            .flatMap {st->
-                Log.d(TAG, "1 StatesViewModel  loadData st.size = ${st.size}")
-                if(isSorted){
-                    when (getSortCase) {
-                        1 -> {f_st = st.filter {it.population!=null}.sortedByDescending {it.population} }
-                        2 -> {f_st = st.filter {it.population!=null}.sortedBy {it.population} }
-                        3 -> {f_st = st.filter {it.area!=null}.sortedByDescending {it.area}}
-                        4 -> {f_st = st.filter {it.area!=null}.sortedBy {it.area}}
-                    }
-                    return@flatMap Single.just(f_st)
-                }else{
-                    Log.d(TAG, "2 StatesViewModel  loadData st.size = ${st.size}")
-                    return@flatMap Single.just(st)
-                }
-            }
             .observeOn(schedulerProvider.ui())
             .subscribe ({states->
                 states?. let{
                     // если данные загружены - выставляем value в MutableLiveData
-                    listStates.value = StatesSealed.Success(state = it)
+                    listStatesFromNet.value = StatesSealed.Success(state = it)
                     Log.d(TAG, "StatesViewModel  loadData states.size = ${it.size}")
                 }
             }, {error ->
                 //если произошла ошибка - выставляем value в MutableLiveData в ошибку
-                listStates.value = StatesSealed.Error(error = error)
+                listStatesFromNet.value = StatesSealed.Error(error = error)
                 Log.d(TAG, "StatesViewModel onError ${error.message}")
             })
     }
@@ -95,5 +80,28 @@ class StatesViewModel(
 
     fun getRusLang():Boolean{
        return helper.getRusLang()
+    }
+
+    fun getDataFromDatabase(): LiveData<MutableList<State>> {
+        loadDataFromDatabase()
+        return listStatesFromDatabase
+    }
+
+    private fun loadDataFromDatabase() {
+        roomCash.loadAllData()
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
+                listStatesFromDatabase.value = it
+            },{
+                Log.d(TAG, "${it.message}")
+            })
+    }
+
+    fun isSorted(): Boolean{
+        return helper.isSorted()
+    }
+
+    fun getSortCase():Int{
+        return helper.getSortCase()
     }
 }

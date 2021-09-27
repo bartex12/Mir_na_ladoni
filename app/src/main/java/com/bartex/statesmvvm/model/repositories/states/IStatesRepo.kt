@@ -4,5 +4,5 @@ import com.bartex.statesmvvm.model.entity.state.State
 import io.reactivex.rxjava3.core.Single
 
 interface IStatesRepo {
-    fun getStates(isNetworkAvailable:Boolean): Single<List<State>>
+    fun getStates(): Single<List<State>>
 }

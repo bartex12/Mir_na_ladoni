@@ -8,6 +8,7 @@ import com.bartex.statesmvvm.model.entity.state.State
 import com.bartex.statesmvvm.model.room.Database
 import com.bartex.statesmvvm.model.room.tables.RoomFavorite
 import com.bartex.statesmvvm.model.room.tables.RoomState
+import com.bartex.statesmvvm.view.utils.UtilFilters
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.schedulers.Schedulers
@@ -97,6 +98,18 @@ class RoomStateCash(val db: Database): IRoomStateCash {
         }
     }.subscribeOn(Schedulers.io())
 
+    override fun loadAllData(): Single<MutableList<State>> =
+        Single.fromCallable {
+            db.stateDao.getAll().map{roomState->
+                State(roomState.capital, listOf(roomState.flag), roomState.name, roomState.region,
+                    roomState.population, roomState.area, arrayOf(roomState.lat, roomState.lng),
+                    roomState.nameRus, roomState.capitalRus, roomState.regionRus
+                )
+            }.filter {st-> //отбираем только те, где полные данные
+                Log.d(TAG, "RoomStateCash loadAllData:${st.name} ${st.area}")
+                UtilFilters.filterData(st)
+            }.toMutableList()
+        }.subscribeOn(Schedulers.io())
 
     private fun removeFavor(state: State): Boolean{
         var roomFavorite:RoomFavorite? = null
@@ -134,7 +147,7 @@ class RoomStateCash(val db: Database): IRoomStateCash {
             regionRus =  state.regionRus?:"Unknown"
         )
         state.name?. let{
-         val rs:RoomFavorite? =   db.favoriteDao.findByName(it)
+         val rs: RoomFavorite =   db.favoriteDao.findByName(it)
             rs?: let{
                 db.favoriteDao.insert(roomFavorite)
                 return true
