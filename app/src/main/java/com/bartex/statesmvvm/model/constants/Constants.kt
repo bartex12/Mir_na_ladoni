@@ -11,4 +11,5 @@ object Constants {
     const val LIST_SORT = "LIST_SORT"
     const val IS_LIST_SORT = "IS_LIST_SORT"
     const val IS_NETWORK_AVAILABLE = "IS_NETWORK_AVAILABLE"
+    const val DIALOG_FRAGMENT = "DIALOG_FRAGMENT_TAG"
 }

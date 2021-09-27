@@ -18,6 +18,8 @@ import com.bartex.statesmvvm.R
 import com.bartex.statesmvvm.common.toast
 import com.bartex.statesmvvm.model.constants.Constants
 import com.bartex.statesmvvm.model.entity.state.State
+import com.bartex.statesmvvm.network.NoInternetDialogFragment
+import com.bartex.statesmvvm.network.OnlineLiveData
 import com.bartex.statesmvvm.view.adapter.GlideToVectorYouLoader
 import com.bartex.statesmvvm.view.adapter.StateRVAdapter
 import com.bartex.statesmvvm.view.main.MainActivity
@@ -91,6 +93,18 @@ class   StatesFragment : Fragment(),
         val firstPosition = manager.findFirstVisibleItemPosition()
         stateViewModel.savePositionState(firstPosition)
         Log.d(TAG, "StatesFragment onPause firstPosition = $firstPosition")
+    }
+
+    private fun showNoInternetConnectionDialog() {
+        showAlertDialog(
+            getString(R.string.dialog_title_device_is_offline),
+            getString(R.string.dialog_message_device_is_offline)
+        )
+    }
+
+    private fun showAlertDialog(title: String?, message: String?) {
+        NoInternetDialogFragment.newInstance(title, message)
+            .show(requireActivity().supportFragmentManager, Constants.DIALOG_FRAGMENT)
     }
 
     private fun initAdapter() {

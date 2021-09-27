@@ -18,7 +18,7 @@ import androidx.navigation.ui.NavigationUI
 import androidx.preference.PreferenceManager
 import com.bartex.statesmvvm.R
 import com.bartex.statesmvvm.common.AlertDialogFragment
-import com.bartex.statesmvvm.common.OnlineLiveData
+import com.bartex.statesmvvm.network.OnlineLiveData
 import com.bartex.statesmvvm.common.isOnline
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar

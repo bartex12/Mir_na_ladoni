@@ -1,4 +1,6 @@
 <resources>
+    <string name="dialog_title_stub">Неизвестная ошибка</string>
+    <string name="dialog_button_cancel">Понятно</string>
     <string name="app_name">Мир на ладони</string>
     <string name="search_name">Найдено</string>
     <string name="weather_name">Погода в столице</string>
@@ -40,8 +42,6 @@
          интернет-соединение</string>
     <string name="weather_device_is_offline">Вы не можете получить погоду без подключения к Интернету. Пожалуйста, проверьте
          интернет-соединение</string>
-    <string name="dialog_title_stub">Undefined error</string>
-    <string name="dialog_button_cancel">Cancel</string>
 
     <string name="search_in_list">Найти в списке</string>
     <string name="search_in_list_helper_text">Поищите страну в списке</string>

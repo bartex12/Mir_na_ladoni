@@ -1,4 +1,4 @@
-package com.bartex.statesmvvm.common
+package com.bartex.statesmvvm.network
 
 import android.content.Context
 import android.net.ConnectivityManager
