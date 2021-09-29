@@ -182,4 +182,13 @@
     <string name="dialog_message_load_impossible">Для первоначальной загрузки данных требуется Интернет.
         Пожалуйста, проверьте интернет-соединение</string>
     <string name="flags">Флаги</string>
+
+    <string name="all">Все</string>
+    <string name="Europa">Европа</string>
+    <string name="Asia">Азия</string>
+    <string name="America">Америка</string>
+    <string name="Oceania">Океания</string>
+    <string name="Africa">Африка</string>
+    <string name="region">Регион</string>
+    <string name="chooseRegion">Выберите регион</string>
 </resources>

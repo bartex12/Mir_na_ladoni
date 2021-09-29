@@ -8,7 +8,7 @@ import com.bartex.statesmvvm.model.entity.state.State
 import com.bartex.statesmvvm.model.room.Database
 import com.bartex.statesmvvm.model.room.tables.RoomFavorite
 import com.bartex.statesmvvm.model.room.tables.RoomState
-import com.bartex.statesmvvm.view.utils.UtilFilters
+import com.bartex.statesmvvm.view.utils.UtilStates
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.schedulers.Schedulers
@@ -107,7 +107,7 @@ class RoomStateCash(val db: Database): IRoomStateCash {
                 )
             }.filter {st-> //отбираем только те, где полные данные
                 Log.d(TAG, "RoomStateCash loadAllData:${st.name} ${st.area}")
-                UtilFilters.filterData(st)
+                UtilStates.filterData(st)
             }.toMutableList()
         }.subscribeOn(Schedulers.io())
 

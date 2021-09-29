@@ -13,14 +13,13 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.bartex.statesmvvm.App
 import com.bartex.statesmvvm.R
 import com.bartex.statesmvvm.model.constants.Constants
 import com.bartex.statesmvvm.model.entity.state.State
 import com.bartex.statesmvvm.view.adapter.FlagGridAdapter
 import com.bartex.statesmvvm.view.adapter.GlideToVectorYouLoader
-import com.bartex.statesmvvm.view.utils.UtilFilters
+import com.bartex.statesmvvm.view.utils.UtilStates
 import kotlinx.android.synthetic.main.fragment_flags.*
 
 class FlagsFragment:Fragment() {
@@ -81,7 +80,7 @@ class FlagsFragment:Fragment() {
             empty_view_flags.visibility = View.GONE
             Log.d(TAG, "FlagsFragment before filter ${states.size}")
             val filteredStates =  states.filter {
-                UtilFilters.filterData(it) //фильтруем на всякий случай
+                UtilStates.filterData(it) //фильтруем на всякий случай
             }
             Log.d(TAG, "FlagsFragment after filter ${filteredStates.size}")
             adapter?.listFavoriteStates = filteredStates //передаём список в адаптер

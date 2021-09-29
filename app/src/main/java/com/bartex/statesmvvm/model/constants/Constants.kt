@@ -12,4 +12,11 @@ object Constants {
     const val IS_LIST_SORT = "IS_LIST_SORT"
     const val IS_NETWORK_AVAILABLE = "IS_NETWORK_AVAILABLE"
     const val DIALOG_FRAGMENT = "DIALOG_FRAGMENT_TAG"
+
+    const val  REGION_EUROPE = "Европа"
+    const val  REGION_ASIA = "Азия"
+    const val  REGION_AMERICAS = "Америка"
+    const val  REGION_AFRICA = "Африка"
+    const val  REGION_OCEANIA = "Океания"
+    const val  REGION_ALL= "Все"
 }

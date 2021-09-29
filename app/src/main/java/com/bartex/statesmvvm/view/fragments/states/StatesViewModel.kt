@@ -17,17 +17,16 @@ import com.bartex.statesmvvm.model.room.Database
 import com.bartex.statesmvvm.view.fragments.scheduler.SchedulerProvider
 import com.bartex.statesmvvm.view.fragments.scheduler.StatesSchedulerProvider
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import io.reactivex.rxjava3.core.Single
 
 //var mainThreadScheduler:SchedulerProvider - сделан через интерфейс для целей тестирования
 //при тестировании вместо StatesSchedulerProvider будет использован класс-заглушка ScheduleProviderStub
 class StatesViewModel(
     var helper : IPreferenceHelper = PreferenceHelper(App.instance),
-    var schedulerProvider: SchedulerProvider = StatesSchedulerProvider(),
-    var statesRepo: IStatesRepo =StatesRepo(
+    private var schedulerProvider: SchedulerProvider = StatesSchedulerProvider(),
+    private var statesRepo: IStatesRepo =StatesRepo(
         dataSource = DataSourceRetrofit(),
         roomCash =  RoomStateCash(db = Database.getInstance() as Database)),
-    val roomCash: IRoomStateCash = RoomStateCash(db =Database.getInstance() as Database)
+    private val roomCash: IRoomStateCash = RoomStateCash(db =Database.getInstance() as Database)
 ): ViewModel() {
 
     companion object{
@@ -41,9 +40,12 @@ class StatesViewModel(
 //    @Inject
 //    lateinit var statesRepo: IStatesRepo  //репозиторий
 
+    //список стран из сети
     private val listStatesFromNet = MutableLiveData<StatesSealed>()
     //список стран из базы
     private val listStatesFromDatabase = MutableLiveData<MutableList<State>>()
+    //текущий регион
+    private val newRegion = MutableLiveData<String>()
 
     fun getStatesSealed() : LiveData<StatesSealed>{
         loadDataSealed()
@@ -51,7 +53,6 @@ class StatesViewModel(
     }
 
     fun loadDataSealed(){
-        //начинаем загрузку данных
         listStatesFromNet.value = StatesSealed.Loading(null)
 
         statesRepo.getStates()
@@ -104,4 +105,13 @@ class StatesViewModel(
     fun getSortCase():Int{
         return helper.getSortCase()
     }
+
+    fun getNewRegion(): LiveData<String>{
+        return newRegion
+    }
+
+    fun updateRegion(currentRegion: String) {
+        newRegion.value = currentRegion
+    }
+
 }

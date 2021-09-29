@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.util.Log
 import android.view.*
 import android.view.inputmethod.InputMethodManager
+import android.widget.ProgressBar
+import android.widget.TextView
 import androidx.appcompat.widget.SearchView
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
@@ -13,18 +15,19 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.bartex.statesmvvm.App
 import com.bartex.statesmvvm.R
 import com.bartex.statesmvvm.common.toast
 import com.bartex.statesmvvm.model.constants.Constants
 import com.bartex.statesmvvm.model.entity.state.State
-import com.bartex.statesmvvm.model.repositories.states.cash.RoomStateCash
 import com.bartex.statesmvvm.network.NoInternetDialogFragment
-import com.bartex.statesmvvm.network.OnlineLiveData
 import com.bartex.statesmvvm.view.adapter.GlideToVectorYouLoader
 import com.bartex.statesmvvm.view.adapter.StateRVAdapter
 import com.bartex.statesmvvm.view.main.MainActivity
-import kotlinx.android.synthetic.main.fragment_states.*
+import com.bartex.statesmvvm.view.utils.UtilStates
+import com.google.android.material.chip.Chip
+import com.google.android.material.chip.ChipGroup
 import java.util.*
 
 class   StatesFragment : Fragment(),
@@ -34,15 +37,21 @@ class   StatesFragment : Fragment(),
     private var adapter: StateRVAdapter? = null
     lateinit var navController:NavController
     private lateinit var stateViewModel: StatesViewModel
-    private var searchStates = listOf<State>()
+    private lateinit var rvStates: RecyclerView
+    private lateinit  var emptyViewStates: TextView
+    private lateinit var chipGroupStates: ChipGroup
+    private lateinit var progressBarState: ProgressBar
+
+    private var listOfStates  = mutableListOf<State>() //список стран мира
+    private var filtred:List<State> = listOf() // отфильтрованный и отсортированный список (список региона)
+    private var region:String = Constants.REGION_ALL // текущий регион
 
     companion object {
         const val TAG = "33333"
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View{
-     val  view:View =inflater.inflate(R.layout.fragment_states, container, false)
-        return view
+        return inflater.inflate(R.layout.fragment_states, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -54,22 +63,32 @@ class   StatesFragment : Fragment(),
         stateViewModel = ViewModelProvider(this).get(StatesViewModel::class.java)
         stateViewModel.apply { App.instance.appComponent.inject(this)}
 
-       val  isNetworkAvailable = (requireActivity() as MainActivity).getNetworkAvailable()
+        initViews(view)
+        initAdapter()
+        initChipGroupListener()
 
+        //приводим меню тулбара в соответствии с onPrepareOptionsMenu в MainActivity
+        //без этой строки меню в тулбаре ведёт себя неправильно
+        setHasOptionsMenu(true)
+        requireActivity().invalidateOptionsMenu()
+
+       val  isNetworkAvailable = (requireActivity() as MainActivity).getNetworkAvailable()
         // при наличии интернета получаем список стран из сети и заполняем базу данных
         //затем данные получаем из базы
             stateViewModel.getDataFromDatabase()
-                .observe(viewLifecycleOwner, Observer {listOfState->
-                    if (listOfState.size >200){ //если в базе есть записи
-                        renderState(listOfState)  //берём из базы
-                    }else{ //если в базе ничего нет
-                        if (isNetworkAvailable){ //если сеть есть
+                .observe(viewLifecycleOwner, Observer { list ->
+                    if (list.size > 200) { //если в базе есть записи берём из базы
+                        listOfStates = list //запоминаем
+                        chipGroupStates.check(UtilStates. getRegionId(region))
+                        renderDataWithRegion(region)  // с учётом текущего региона
+                    } else { //если в базе ничего нет
+                        if (isNetworkAvailable) { //если сеть есть
                             //получаем страны из сети
                             stateViewModel.getStatesSealed()
-                                .observe(viewLifecycleOwner, Observer{stateSealed->
+                                .observe(viewLifecycleOwner, Observer { stateSealed ->
                                     renderData(stateSealed)
                                 })
-                        }else{//если данных нет ни в сети ни в базе - показываем предупреждение
+                        } else {//если данных нет ни в сети ни в базе - показываем предупреждение
                             showAlertDialog(
                                 getString(R.string.dialog_title_device_is_offline),
                                 getString(R.string.dialog_message_load_impossible)
@@ -80,12 +99,13 @@ class   StatesFragment : Fragment(),
         //восстанавливаем позицию списка после поворота или возвращения на экран
         position =  stateViewModel.getPositionState()
 
-        initAdapter()
-
-        //приводим меню тулбара в соответствии с onPrepareOptionsMenu в MainActivity
-        //без этой строки меню в тулбаре ведёт себя неправильно
-        setHasOptionsMenu(true)
-        requireActivity().invalidateOptionsMenu()
+        stateViewModel.getNewRegion()
+            .observe(viewLifecycleOwner, Observer {newRegion->
+                region = newRegion //текущий регион
+                //при смене региона обновляем данные
+                chipGroupStates.check(UtilStates. getRegionId(region))
+                renderDataWithRegion(region)
+            })
     }
 
     override fun onResume() {
@@ -98,17 +118,17 @@ class   StatesFragment : Fragment(),
         super.onPause()
         Log.d(TAG, "StatesFragment onPause")
         //определяем первую видимую позицию
-        val manager = rv_states.layoutManager as LinearLayoutManager
+        val manager = rvStates.layoutManager as LinearLayoutManager
         val firstPosition = manager.findFirstVisibleItemPosition()
         stateViewModel.savePositionState(firstPosition)
         Log.d(TAG, "StatesFragment onPause firstPosition = $firstPosition")
     }
 
-    private fun showNoInternetConnectionDialog() {
-        showAlertDialog(
-            getString(R.string.dialog_title_device_is_offline),
-            getString(R.string.dialog_message_device_is_offline)
-        )
+    private fun initViews(view: View) {
+        progressBarState =view.findViewById(R.id.progressBarState)
+        rvStates =  view.findViewById(R.id.rv_states)
+        emptyViewStates =  view.findViewById(R.id.empty_view)
+        chipGroupStates =  view.findViewById(R.id.chip_region_region)
     }
 
     private fun showAlertDialog(title: String?, message: String?) {
@@ -117,7 +137,7 @@ class   StatesFragment : Fragment(),
     }
 
     private fun initAdapter() {
-        rv_states.layoutManager = LinearLayoutManager(requireActivity())
+        rvStates.layoutManager = LinearLayoutManager(requireActivity())
 
         adapter = StateRVAdapter(
             getOnClickListener(),
@@ -125,7 +145,30 @@ class   StatesFragment : Fragment(),
                 requireActivity()
             )
         )
-        rv_states.adapter = adapter
+        rvStates.adapter = adapter
+    }
+
+    private fun initChipGroupListener() {
+        chipGroupStates.setOnCheckedChangeListener { _, id ->
+            when(id){ //выделяем цветом
+                -1 -> chipGroupStates.check( R.id.chip_all_region) //если два раза
+                else-> chipGroupStates.check(id) //если один раз
+            }
+            val newRegion:String = UtilStates.getRegionName(id)
+            stateViewModel. updateRegion(newRegion)
+        }
+    }
+
+    private fun renderDataWithRegion(newRegion: String) {
+        when (newRegion) {
+            Constants.REGION_ALL ->renderStates(listOfStates)
+                        else -> {
+                val filteredList = listOfStates.filter { state ->
+                    state.regionRus == newRegion
+                } as MutableList<State>
+                renderStates(filteredList)
+            }
+        }
     }
 
     private fun renderData(data: StatesSealed) {
@@ -133,7 +176,8 @@ class   StatesFragment : Fragment(),
         when(data){
             is StatesSealed.Success -> {
                 renderLoadingStop()
-                renderState(data.state)
+                listOfStates = data.state as MutableList<State>
+                renderStates(listOfStates)
             }
             is StatesSealed.Error ->{
                 renderLoadingStop()
@@ -157,34 +201,56 @@ class   StatesFragment : Fragment(),
         toast(error.message)
     }
 
-    private fun renderState(states: List<State>) {
+    private fun renderStates(states: List<State>) {
         Log.d(TAG, "StatesFragment renderState: states.size = ${states.size}")
         if(states.isEmpty()){
-            rv_states.visibility = View.GONE
-            empty_view.visibility = View.VISIBLE
+            rvStates.visibility = View.GONE
+            emptyViewStates.visibility = View.VISIBLE
         }else{
-            rv_states.visibility =  View.VISIBLE
-            empty_view.visibility =View.GONE
+            rvStates.visibility =  View.VISIBLE
+            emptyViewStates.visibility =View.GONE
+
+            getNumberOnChipName()
 
             val isSorted = stateViewModel.isSorted()
             val getSortCase = stateViewModel.getSortCase()
-            var filtred:List<State> = listOf()
+
             if(isSorted){
                 when (getSortCase) {
                     1 -> {filtred = states.filter {it.population!=null}.sortedByDescending {it.population} }
                     2 -> {filtred = states.filter {it.population!=null}.sortedBy {it.population} }
                     3 -> {filtred = states.filter {it.area!=null && it.area!!>0}.sortedByDescending {it.area}}
-                    4 -> {filtred = states.filter {it.area!=null && it.area!!>0   }.sortedBy {it.area}}
+                    4 -> {filtred = states.filter {it.area!=null && it.area!!>0}.sortedBy {it.area}}
                 }
-
+            Log.d(TAG, "StatesFragment filtred:  $filtred")
             adapter?.listStates = filtred
             adapter?.setRusLang(stateViewModel.getRusLang())
-            searchStates = states
-            rv_states.layoutManager?.scrollToPosition(position) //крутим в запомненную позицию списка
+            rvStates.layoutManager?.scrollToPosition(position) //крутим в запомненную позицию списка
             Log.d(TAG, "StatesFragment renderState scrollToPosition = $position")
         }
     }
 }
+
+    private fun getNumberOnChipName() {
+        for (i in 0 until chipGroupStates.childCount) {
+            val chip = chipGroupStates.getChildAt(i) as Chip
+            val regionName =
+                if (chip.isChecked) {
+                getRegionNameAndNumber()
+            }else{
+                UtilStates. getRegionName(chip.id)
+            }
+            chip.text = regionName
+        }
+    }
+
+    private fun getRegionNameAndNumber(): String {
+        val regionSize: Int = when (region) {
+            Constants.REGION_ALL -> listOfStates.size
+            else -> listOfStates.filter { it.regionRus == region }.size
+        }
+        return  "$region $regionSize"
+    }
 
     private fun getOnClickListener(): StateRVAdapter.OnitemClickListener =
         object : StateRVAdapter.OnitemClickListener{
@@ -195,8 +261,7 @@ class   StatesFragment : Fragment(),
                     requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                 inputManager.hideSoftInputFromWindow(
                     requireActivity().currentFocus?.windowToken,InputMethodManager.HIDE_NOT_ALWAYS)
-
-                //val bundle = Bundle().apply { putParcelable(Constants.STATE, state) }
+                
                 val bundle = bundleOf(Constants.STATE to state) //так проще
                 navController.navigate(R.id.action_statesFragment_to_detailsFragment, bundle)
             }
@@ -224,11 +289,12 @@ class   StatesFragment : Fragment(),
     }
 
     override fun onQueryTextChange(newText: String?): Boolean {
+        stateViewModel. updateRegion(Constants.REGION_ALL)
         newText?. let {
             if (it.isNotBlank()) {
                 val listSearched = mutableListOf<State>()
                 if(stateViewModel.getRusLang()){
-                    for (state in searchStates) {
+                    for (state in listOfStates) {
                         state.nameRus?. let{ nameRus->
                             if((nameRus.toUpperCase(Locale.ROOT)
                                     .startsWith(it.toUpperCase(Locale.ROOT)))){
@@ -237,7 +303,7 @@ class   StatesFragment : Fragment(),
                         }
                     }
                 }else{
-                    for (state in searchStates) {
+                    for (state in listOfStates) {
                         state.name?. let{ name->
                             if((name.toUpperCase(Locale.ROOT)
                                     .startsWith(it.toUpperCase(Locale.ROOT)))){
@@ -246,9 +312,11 @@ class   StatesFragment : Fragment(),
                         }
                     }
                 }
+                //если строка поиска не пуста - выводим список полученный в ходе поиска
                 adapter?.listStates = listSearched
             }else{
-                adapter?.listStates = searchStates
+                //если строка поиска  пуста - выводим то же что было
+                adapter?.listStates = filtred
             }
         }
         return false

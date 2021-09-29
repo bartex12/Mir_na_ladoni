@@ -7,7 +7,7 @@ import com.bartex.statesmvvm.common.MapOfState
 import com.bartex.statesmvvm.model.api.IDataSource
 import com.bartex.statesmvvm.model.entity.state.State
 import com.bartex.statesmvvm.model.repositories.states.cash.IRoomStateCash
-import com.bartex.statesmvvm.view.utils.UtilFilters
+import com.bartex.statesmvvm.view.utils.UtilStates
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.schedulers.Schedulers
 
@@ -30,7 +30,7 @@ class StatesRepo(val dataSource: IDataSource, private val roomCash: IRoomStateCa
                 .flatMap {states->//получаем доступ к списку List<State>
                     //фильтруем данные
                     val f_states =  states.filter {state->
-                        UtilFilters.filterData(state)
+                        UtilStates.filterData(state)
                     }
                     //добавляем русские названия из Map в поля State
                     states.map {
