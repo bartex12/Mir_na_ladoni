@@ -169,6 +169,10 @@ class   StatesFragment : Fragment(),
    private val  onNavigationItemSelectedListener =
        BottomNavigationView.OnNavigationItemSelectedListener { item ->
            when (item.itemId){
+               R.id.states -> {
+                   navController.navigate(R.id.statesFragment)
+                   true
+               }
                R.id.flags -> {
                    navController.navigate(R.id.flagsFragment)
                    true
