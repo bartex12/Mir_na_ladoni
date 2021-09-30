@@ -19,4 +19,6 @@ object Constants {
     const val  REGION_AFRICA = "Африка"
     const val  REGION_OCEANIA = "Океания"
     const val  REGION_ALL= "Все"
+
+    const val PAGER_POSITION = "PAGER_POSITION"
 }

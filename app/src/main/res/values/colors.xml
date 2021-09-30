@@ -26,6 +26,8 @@
     <color name="colorPrimaryBlack">#424242</color>
     <color name="colorPrimaryDarkBlack">#212121</color>
     <color name="colorAccentBlack">#5677fc</color>
+
+    <color name="colorBackground">#80A0F4BA</color>
 </resources>
 
     <!--#64ffda-->
