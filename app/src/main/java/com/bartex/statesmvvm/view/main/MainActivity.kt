@@ -8,6 +8,7 @@ import android.os.Looper
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
@@ -19,8 +20,9 @@ import androidx.navigation.ui.NavigationUI
 import androidx.preference.PreferenceManager
 import com.bartex.statesmvvm.R
 import com.bartex.statesmvvm.common.AlertDialogFragment
-import com.bartex.statesmvvm.network.OnlineLiveData
 import com.bartex.statesmvvm.common.isOnline
+import com.bartex.statesmvvm.network.OnlineLiveData
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.*
@@ -40,6 +42,8 @@ open class    MainActivity: AppCompatActivity(), NavigationView.OnNavigationItem
     private var isNetworkAvailable: Boolean = true
 
     private lateinit var toolbar: Toolbar
+
+    private lateinit var bottomNavigationState : BottomNavigationView
 
     companion object{
         const val DIALOG_FRAGMENT_TAG = "DIALOG_FRAGMENT_TAG"
@@ -62,15 +66,18 @@ open class    MainActivity: AppCompatActivity(), NavigationView.OnNavigationItem
 
         //устанавливаем сохранённную в настройках тему
         when(oldTheme){
-            1->setTheme(R.style.AppTheme)
-            2->setTheme(R.style.AppThemeGreen)
-            3->setTheme(R.style.AppThemePurple)
-            4->setTheme(R.style.AppThemeRed)
-            5->setTheme(R.style.AppThemeBlue)
-            6->setTheme(R.style.AppThemeBlack)
+            1 -> setTheme(R.style.AppTheme)
+            2 -> setTheme(R.style.AppThemeGreen)
+            3 -> setTheme(R.style.AppThemePurple)
+            4 -> setTheme(R.style.AppThemeRed)
+            5 -> setTheme(R.style.AppThemeBlue)
+            6 -> setTheme(R.style.AppThemeBlack)
         }
         //устанавливаем макет
         setContentView(R.layout.activity_main)
+
+        bottomNavigationState = findViewById(R.id.bottom_navigation_state)
+        bottomNavigationState.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
 
         //получаем статус сети при первом запуске приложения не через LiveData
         if (savedInstanceState == null) {
@@ -109,6 +116,24 @@ open class    MainActivity: AppCompatActivity(), NavigationView.OnNavigationItem
         //слушатель меню шторки -для обработки пунктов шторки
         nav_view.setNavigationItemSelectedListener(this)
 
+        navController.addOnDestinationChangedListener { navController, destination, args ->
+            when (destination.id) {
+                R.id.homeFragment -> bottomNavigationState.visibility = View.GONE
+                R.id.statesFragment -> {
+                    bottomNavigationState.visibility = View.VISIBLE
+                    bottomNavigationState.selectedItemId = R.id.states
+                }
+                R.id.weatherFragment -> bottomNavigationState.visibility = View.GONE
+                R.id.detailsFragment -> bottomNavigationState.visibility = View.GONE
+                R.id.favoriteFragment -> bottomNavigationState.visibility = View.VISIBLE
+                R.id.helpFragment -> bottomNavigationState.visibility = View.GONE
+                R.id.settingsFragment -> bottomNavigationState.visibility = View.GONE
+                R.id.flagsFragment -> bottomNavigationState.visibility = View.VISIBLE
+                R.id.tabsFragment -> bottomNavigationState.visibility = View.VISIBLE
+                else -> {}
+            }
+        }
+
     }
 
     // Этот метод вызывается всякий раз, когда пользователь выбирает переход вверх
@@ -120,8 +145,10 @@ open class    MainActivity: AppCompatActivity(), NavigationView.OnNavigationItem
 
     override fun onResume() {
         super.onResume()
-        Log.d(TAG, "MainActivity onResume currentDestination =" +
-                " ${navController.currentDestination?.label}")
+        Log.d(
+            TAG, "MainActivity onResume currentDestination =" +
+                    " ${navController.currentDestination?.label}"
+        )
         //при изменении темы и возвращении из настроек проверяем - какая тема установлена
        val newTheme = PreferenceManager.getDefaultSharedPreferences(this)
             .getString("ListColor", "1")!!.toInt()
@@ -148,7 +175,10 @@ open class    MainActivity: AppCompatActivity(), NavigationView.OnNavigationItem
     }
 
     private fun showAlertDialog(title: String?, message: String?) {
-        AlertDialogFragment.newInstance(title, message).show(supportFragmentManager, DIALOG_FRAGMENT_TAG)
+        AlertDialogFragment.newInstance(title, message).show(
+            supportFragmentManager,
+            DIALOG_FRAGMENT_TAG
+        )
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -157,37 +187,20 @@ open class    MainActivity: AppCompatActivity(), NavigationView.OnNavigationItem
         return true
     }
 
+    //заголовки тулбара в зависимости от фрагмента прописаны в навигационном графе в label
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
         Log.d(TAG, "MainActivity onPrepareOptionsMenu ")
         //нашел способ установить видимость иконок в тулбаре без перебора всех вариантов
         val id = navController.currentDestination?.id
         //видимость иконок в тулбаре
         id?. let {
-            menu?.findItem(R.id.search)?.isVisible = it == R.id.statesFragment
-            menu?.findItem(R.id.navigation_help)?.isVisible = it!= R.id.helpFragment
+            menu?.findItem(R.id.search_toolbar)?.isVisible = it == R.id.statesFragment
+            menu?.findItem(R.id.help_toolbar)?.isVisible = it!= R.id.helpFragment
                     && it!= R.id.homeFragment
-            menu?.findItem(R.id.favorites)?.isVisible = it == R.id.statesFragment
-//                it!= R.id.favoriteFragment
-//                    && it!= R.id.weatherFragment && it!= R.id.helpFragment
-//                    && it!= R.id.settingsFragment && it!= R.id.flagsFragment
-            menu?.findItem(R.id.navigation_settings)?.isVisible = it != R.id.settingsFragment
+            menu?.findItem(R.id.favorites_toolbar)?.isVisible = it == R.id.statesFragment
+            menu?.findItem(R.id.settings_toolbar)?.isVisible = it != R.id.settingsFragment
                     && it!= R.id.homeFragment
-            menu?.findItem(R.id.navigation_flags)?.isVisible = it == R.id.statesFragment
-
-            //заголовки тулбара в зависимости от фрагмента
-            toolbar.title = when(it){
-                R.id.homeFragment -> getString(R.string.app_name)
-                R.id.statesFragment -> getString(R.string.app_name)
-                R.id.weatherFragment -> getString(R.string.weather_name)
-                R.id.detailsFragment -> getString(R.string.details_name)
-                R.id.favoriteFragment -> getString(R.string.favorite_name)
-                R.id.helpFragment -> getString(R.string.help_name)
-                R.id.settingsFragment -> getString(R.string.sett)
-                R.id.flagsFragment -> getString(R.string.flags)
-                R.id.tabsFragment -> getString(R.string.imageQuiz)
-
-                else -> getString(R.string.app_name)
-            }
+            menu?.findItem(R.id.flags_toolbar)?.isVisible = it == R.id.statesFragment
         }
         return super.onPrepareOptionsMenu(menu)
     }
@@ -197,19 +210,19 @@ open class    MainActivity: AppCompatActivity(), NavigationView.OnNavigationItem
     //но чтобы здесь использовать action нужно navigate to action, а не фрагмент
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId){
-            R.id.favorites ->{
+            R.id.favorites_toolbar -> {
                 navController.navigate(R.id.favoriteFragment)
                 return true
             }
-            R.id.navigation_flags ->{
+            R.id.flags_toolbar -> {
                 navController.navigate(R.id.flagsFragment)
                 return true
             }
-           R.id.navigation_settings ->{
-               navController.navigate(R.id.settingsFragment)
-               return true
-           }
-            R.id.navigation_help->{
+            R.id.settings_toolbar -> {
+                navController.navigate(R.id.settingsFragment)
+                return true
+            }
+            R.id.help_toolbar -> {
                 navController.navigate(R.id.helpFragment)
                 return true
             }
@@ -230,9 +243,9 @@ open class    MainActivity: AppCompatActivity(), NavigationView.OnNavigationItem
                 navController.navigate(R.id.settingsFragment)
             }
             R.id.nav_help -> {
-            Log.d(TAG, "MainActivity onNavigationItemSelected nav_help")
-                    navController.navigate(R.id.helpFragment)
-        }
+                Log.d(TAG, "MainActivity onNavigationItemSelected nav_help")
+                navController.navigate(R.id.helpFragment)
+            }
             R.id.nav_flags -> {
                 Log.d(TAG, "MainActivity onNavigationItemSelected nav_flags")
                 navController.navigate(R.id.flagsFragment)
@@ -260,7 +273,8 @@ open class    MainActivity: AppCompatActivity(), NavigationView.OnNavigationItem
             type = "text/plain"
             //чтобы отменить неправильный вариант Запомнить выбор - убрать и вставить эту строку
             action = Intent.ACTION_SEND_MULTIPLE //задаём возможность отправки несколькими способами
-            putExtra(Intent.EXTRA_TEXT,
+            putExtra(
+                Intent.EXTRA_TEXT,
                 """ 
                     ${getString(R.string.header)}
                     
@@ -288,12 +302,15 @@ open class    MainActivity: AppCompatActivity(), NavigationView.OnNavigationItem
     }
 
     //при нажатии на кнопку Назад если фрагмент реализует BackButtonListener, вызываем метод backPressed
-    //при этом если мы в списке стран - выходим из приложения по двойному щелчку,
+    //при этом если мы в homeFragment   - выходим из приложения по двойному щелчку,
     // а если в другом экране - делаем то, что там прописано
     override fun onBackPressed() {
         //если мы в homeFragment, то при нажатии Назад показываем Snackbar и при повторном
         //нажати в течении 2 секунд закрываем приложение
-        Log.d(TAG, "MainActivity onBackPressed  Destination = ${navController.currentDestination?.label}")
+        Log.d(
+            TAG,
+            "MainActivity onBackPressed  Destination = ${navController.currentDestination?.label}"
+        )
         if( navController.currentDestination?.id  == R.id.homeFragment){
             Log.d(TAG, "MainActivity onBackPressed  это StatesFragment")
             //если флаг = true - а это при двойном щелчке - закрываем программу
@@ -310,7 +327,8 @@ open class    MainActivity: AppCompatActivity(), NavigationView.OnNavigationItem
             //показываем Snackbar: Для выхода нажмите  НАЗАД  ещё раз
             Snackbar.make(
                 findViewById(android.R.id.content), this.getString(R.string.forExit),
-                Snackbar.LENGTH_SHORT).show()
+                Snackbar.LENGTH_SHORT
+            ).show()
             //запускаем поток, в котором через 2 секунды меняем флаг
             Handler(Looper.getMainLooper())
                 .postDelayed({ doubleBackToExitPressedOnce = false }, 2000)
@@ -319,4 +337,45 @@ open class    MainActivity: AppCompatActivity(), NavigationView.OnNavigationItem
             super.onBackPressed()
         }
     }
+
+    // нижнее меню
+    //чтобы при многократном вызове фрагментов друг из друга в стэке не скапливались фрагменты,
+    //для всех action сделан popUp to statesFragment и для statesFragment сделан      launchSingleTop
+    private val  onNavigationItemSelectedListener =
+        BottomNavigationView.OnNavigationItemSelectedListener { item ->
+            val itemId =item.itemId
+            val destinationId = navController.currentDestination?.id
+            when (itemId){
+                R.id.states -> {
+                    when(destinationId){
+                        R.id.flagsFragment-> navController.navigate(R.id.action_flagsFragment_to_statesFragment)
+                        R.id.favoriteFragment-> navController.navigate(R.id.action_favoriteFragment_to_statesFragment)
+                        R.id.tabsFragment -> navController.navigate(R.id.action_tabsFragment_to_statesFragment)
+                    }
+                }
+                R.id.flags -> {
+                    when(destinationId){
+                        R.id.statesFragment-> navController.navigate(R.id.action_statesFragment_to_flagsFragment)
+                        R.id.favoriteFragment-> navController.navigate(R.id.action_favoriteFragment_to_flagsFragment)
+                        R.id.tabsFragment -> navController.navigate(R.id.action_tabsFragment_to_flagsFragment)
+                    }
+                }
+                R.id.liked -> {
+                    when(destinationId){
+                        R.id.statesFragment->navController.navigate(R.id.action_statesFragment_to_favoriteFragment)
+                        R.id.flagsFragment->navController.navigate(R.id.action_flagsFragment_to_favoriteFragment)
+                        R.id.tabsFragment ->navController.navigate(R.id.action_tabsFragment_to_favoriteFragment)
+                    }
+                }
+                R.id.quiz -> {
+                    when(destinationId){
+                        R.id.statesFragment->navController.navigate(R.id.action_statesFragment_to_tabsFragment)
+                        R.id.favoriteFragment->navController.navigate(R.id.action_favoriteFragment_to_tabsFragment)
+                        R.id.flagsFragment->navController.navigate(R.id.action_flagsFragment_to_tabsFragment)
+                    }
+                }
+                else -> {}
+            }
+            true
+        }
 }

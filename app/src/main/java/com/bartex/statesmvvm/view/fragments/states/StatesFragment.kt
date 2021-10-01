@@ -26,10 +26,8 @@ import com.bartex.statesmvvm.view.adapter.GlideToVectorYouLoader
 import com.bartex.statesmvvm.view.adapter.StateRVAdapter
 import com.bartex.statesmvvm.view.main.MainActivity
 import com.bartex.statesmvvm.view.utils.UtilStates
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
-import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.fragment_details.*
 import java.util.*
 
@@ -44,7 +42,7 @@ class   StatesFragment : Fragment(),
     private lateinit  var emptyViewStates: TextView
     private lateinit var chipGroupStates: ChipGroup
     private lateinit var progressBarState: ProgressBar
-    private lateinit var bottomNavigationState :BottomNavigationView
+    //private lateinit var bottomNavigationState :BottomNavigationView
 
     private var listOfStates  = mutableListOf<State>() //список стран мира
     private var filtred:List<State> = listOf() // отфильтрованный и отсортированный список (список региона)
@@ -76,7 +74,7 @@ class   StatesFragment : Fragment(),
         setHasOptionsMenu(true)
         requireActivity().invalidateOptionsMenu()
 
-        bottomNavigationState.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
+        //bottomNavigationState.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
 
        val  isNetworkAvailable = (requireActivity() as MainActivity).getNetworkAvailable()
         // при наличии интернета получаем список стран из сети и заполняем базу данных
@@ -135,7 +133,7 @@ class   StatesFragment : Fragment(),
         rvStates =  view.findViewById(R.id.rv_states)
         emptyViewStates =  view.findViewById(R.id.empty_view)
         chipGroupStates =  view.findViewById(R.id.chip_region_region)
-        bottomNavigationState = view.findViewById(R.id. bottom_navigation_state)
+        //bottomNavigationState = view.findViewById(R.id. bottom_navigation_state)
     }
 
     private fun showAlertDialog(title: String?, message: String?) {
@@ -166,32 +164,32 @@ class   StatesFragment : Fragment(),
         }
     }
 
-   private val  onNavigationItemSelectedListener =
-       BottomNavigationView.OnNavigationItemSelectedListener { item ->
-           when (item.itemId){
-               R.id.states -> {
-                   if( navController.currentDestination?.id  != R.id.statesFragment){
-                       navController.navigate(R.id.statesFragment)
-                   }
-                   true
-               }
-               R.id.flags -> {
-                   navController.navigate(R.id.flagsFragment)
-                   true
-               }
-               R.id.liked -> {
-                   navController.navigate(R.id.favoriteFragment)
-                   true
-               }
-               R.id.quiz -> {
-                   navController.navigate(R.id.tabsFragment)
-                   true
-               }
-               else -> {
-                   false
-               }
-           }
-       }
+//   private val  onNavigationItemSelectedListener =
+//       BottomNavigationView.OnNavigationItemSelectedListener { item ->
+//           when (item.itemId){
+//               R.id.states -> {
+//                   if( navController.currentDestination?.id  != R.id.statesFragment){
+//                       navController.navigate(R.id.statesFragment)
+//                   }
+//                   true
+//               }
+//               R.id.flags -> {
+//                   navController.navigate(R.id.flagsFragment)
+//                   true
+//               }
+//               R.id.liked -> {
+//                   navController.navigate(R.id.favoriteFragment)
+//                   true
+//               }
+//               R.id.quiz -> {
+//                   navController.navigate(R.id.tabsFragment)
+//                   true
+//               }
+//               else -> {
+//                   false
+//               }
+//           }
+//       }
 
     private fun renderDataWithRegion(newRegion: String) {
         when (newRegion) {
@@ -304,7 +302,7 @@ class   StatesFragment : Fragment(),
     override fun onPrepareOptionsMenu(menu: Menu) {
         super.onPrepareOptionsMenu(menu)
 
-        val searchItem: MenuItem = menu.findItem(R.id.search)
+        val searchItem: MenuItem = menu.findItem(R.id.search_toolbar)
         val searchView =searchItem.actionView as SearchView
         //значок лупы слева в развёрнутом сост и сворачиваем строку поиска (true)
         //searchView.setIconifiedByDefault(true)

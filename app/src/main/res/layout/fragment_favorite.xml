@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/relativeLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorFone"
@@ -9,19 +11,42 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_favorite"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingTop="16dp"
+        android:layout_height="0dp"
         android:clipToPadding="false"
+        android:paddingTop="16dp"
         android:paddingBottom="16dp"
-        tools:context=".view.main.MainActivity"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:context=".view.main.MainActivity" />
 
     <TextView
         android:id="@+id/empty_view_favorite"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
+        android:text="@string/no_data_favorite"
         android:textSize="18sp"
         android:visibility="gone"
-        android:text="@string/no_data_favorite" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="gone"/>
 
-</RelativeLayout>
+
+<!--    <com.google.android.material.bottomnavigation.BottomNavigationView-->
+<!--        android:id="@+id/bottom_navigation_favorite"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        app:itemBackground="?colorPrimary"-->
+<!--        app:itemIconTint="@color/btn_color_selector"-->
+<!--        app:itemTextColor="@color/btn_color_selector"-->
+<!--        app:labelVisibilityMode="labeled"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="0.0"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        app:layout_constraintVertical_bias="1.0"-->
+<!--        app:menu="@menu/bottom_navigation_state_menu" />-->
+</androidx.constraintlayout.widget.ConstraintLayout>

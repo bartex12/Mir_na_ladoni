@@ -12,7 +12,8 @@
         tools:layout="@layout/fragment_states">
         <action
             android:id="@+id/action_statesFragment_to_favoriteFragment"
-            app:destination="@id/favoriteFragment" />
+            app:destination="@id/favoriteFragment"
+            app:popUpTo="@id/statesFragment" />
         <action
             android:id="@+id/action_statesFragment_to_helpFragment"
             app:destination="@id/helpFragment" />
@@ -24,10 +25,12 @@
             app:destination="@id/settingsFragment" />
         <action
             android:id="@+id/action_statesFragment_to_flagsFragment"
-            app:destination="@id/flagsFragment" />
+            app:destination="@id/flagsFragment"
+            app:popUpTo="@id/statesFragment" />
         <action
             android:id="@+id/action_statesFragment_to_tabsFragment"
-            app:destination="@id/tabsFragment" />
+            app:destination="@id/tabsFragment"
+            app:popUpTo="@id/statesFragment" />
     </fragment>
     <fragment
         android:id="@+id/favoriteFragment"
@@ -45,6 +48,19 @@
         <action
             android:id="@+id/action_favoriteFragment_to_settingsFragment"
             app:destination="@id/settingsFragment" />
+        <action
+            android:id="@+id/action_favoriteFragment_to_flagsFragment"
+            app:destination="@id/flagsFragment"
+            app:popUpTo="@id/statesFragment" />
+        <action
+            android:id="@+id/action_favoriteFragment_to_tabsFragment"
+            app:destination="@id/tabsFragment"
+            app:popUpTo="@id/statesFragment" />
+        <action
+            android:id="@+id/action_favoriteFragment_to_statesFragment"
+            app:destination="@id/statesFragment"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/statesFragment" />
     </fragment>
     <fragment
         android:id="@+id/helpFragment"
@@ -115,12 +131,39 @@
         <action
             android:id="@+id/action_flagsFragment_to_helpFragment"
             app:destination="@id/helpFragment" />
+        <action
+            android:id="@+id/action_flagsFragment_to_favoriteFragment"
+            app:destination="@id/favoriteFragment"
+            app:popUpTo="@id/statesFragment" />
+        <action
+            android:id="@+id/action_flagsFragment_to_tabsFragment"
+            app:destination="@id/tabsFragment"
+            app:popUpTo="@id/statesFragment" />
+        <action
+            android:id="@+id/action_flagsFragment_to_statesFragment"
+            app:destination="@id/statesFragment"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/statesFragment" />
     </fragment>
     <fragment
         android:id="@+id/tabsFragment"
         android:name="com.bartex.statesmvvm.view.fragments.tabs.TabsFragment"
-        android:label="@string/app_name"
-        tools:layout="@layout/fragment_tabs" />
+        android:label="@string/imageQuiz"
+        tools:layout="@layout/fragment_tabs" >
+        <action
+            android:id="@+id/action_tabsFragment_to_flagsFragment"
+            app:destination="@id/flagsFragment"
+            app:popUpTo="@id/statesFragment" />
+        <action
+            android:id="@+id/action_tabsFragment_to_favoriteFragment"
+            app:destination="@id/favoriteFragment"
+            app:popUpTo="@id/statesFragment" />
+        <action
+            android:id="@+id/action_tabsFragment_to_statesFragment"
+            app:destination="@id/statesFragment"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/statesFragment" />
+    </fragment>
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.bartex.statesmvvm.view.fragments.home.HomeFragment"

@@ -42,21 +42,21 @@ class MainActivityEspressoTest {
     // элементы меню, которые при запуске  - NotNull  - открыт фрагмент StatesFragment
     fun activityToolbarMenuitem_NotNull() {
         scenario.onActivity {
-            TestCase.assertNotNull(it.findViewById<ActionMenuItemView>(R.id.search))
-            TestCase.assertNotNull(it.findViewById<ActionMenuItemView>(R.id.favorites))
+            TestCase.assertNotNull(it.findViewById<ActionMenuItemView>(R.id.search_toolbar))
+            TestCase.assertNotNull(it.findViewById<ActionMenuItemView>(R.id.favorites_toolbar))
 
-            TestCase.assertNull(it.findViewById<ActionMenuItemView>(R.id.navigation_flags))
-            TestCase.assertNull(it.findViewById<ActionMenuItemView>(R.id.navigation_settings))
-            TestCase.assertNull(it.findViewById<ActionMenuItemView>(R.id.navigation_help))
+            TestCase.assertNull(it.findViewById<ActionMenuItemView>(R.id.flags_toolbar))
+            TestCase.assertNull(it.findViewById<ActionMenuItemView>(R.id.settings_toolbar))
+            TestCase.assertNull(it.findViewById<ActionMenuItemView>(R.id.help_toolbar))
         }
     }
     @Test
     //проверяем видимость элементов на экране при запуске - открыт фрагмент StatesFragment
     //Метод withEffectiveVisibility() возвращает VISIBLE только если все вью в иерархии видны
     fun activityToolbarMenuitem_AreEffectiveVisible() {
-       onView(withId(R.id.search))
+       onView(withId(R.id.search_toolbar))
            .check(matches(ViewMatchers.withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)))
-        onView(withId(R.id.favorites))
+        onView(withId(R.id.favorites_toolbar))
             .check(matches(ViewMatchers.withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)))
     }
 

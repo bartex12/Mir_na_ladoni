@@ -104,18 +104,18 @@
         android:text="@string/no_data_state"
         tools:visibility="gone"/>
 
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottom_navigation_state"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:labelVisibilityMode="labeled"
-        app:itemBackground = "?colorPrimary"
-        app:itemIconTint = "@color/btn_color_selector"
-        app:itemTextColor= "@color/btn_color_selector"
-        app:menu="@menu/bottom_navigation_state_menu" />
+<!--    <com.google.android.material.bottomnavigation.BottomNavigationView-->
+<!--        android:id="@+id/bottom_navigation_state"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="0.0"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:labelVisibilityMode="labeled"-->
+<!--        app:itemBackground = "?colorPrimary"-->
+<!--        app:itemIconTint = "@color/btn_color_selector"-->
+<!--        app:itemTextColor= "@color/btn_color_selector"-->
+<!--        app:menu="@menu/bottom_navigation_state_menu" />-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>
