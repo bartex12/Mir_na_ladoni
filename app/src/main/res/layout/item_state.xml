@@ -4,7 +4,6 @@
     android:layout_height="60dp"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="horizontal"
-    android:foreground="?attr/selectableItemBackground"
     android:gravity="center_vertical">
 
     <ImageView

@@ -196,4 +196,12 @@
     <string name="chooseRegion">Выберите регион</string>
     <string name="liked">"Избранное "</string>
     <string name="quiz">Викторина</string>
+
+    <string name="choose_play2">Поиграем!</string>
+    <string name="headerMain">Мир на ладони</string>
+    <string name="divider">divider</string>
+    <string name="textQuizMain">Текстовая викторина</string>
+    <string name="statesOfWorld">Страны мира</string>
+    <string name="imageQuizMain">Викторина в картинках</string>
+    <string name="imageQuiz">Викторина</string>
 </resources>

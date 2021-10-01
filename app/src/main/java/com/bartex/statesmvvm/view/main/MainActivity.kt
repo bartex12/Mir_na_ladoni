@@ -9,6 +9,7 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.lifecycle.Observer
 import androidx.navigation.NavController
@@ -37,6 +38,8 @@ open class    MainActivity: AppCompatActivity(), NavigationView.OnNavigationItem
     private var isOldLang :Boolean = true
 
     private var isNetworkAvailable: Boolean = true
+
+    private lateinit var toolbar: Toolbar
 
     companion object{
         const val DIALOG_FRAGMENT_TAG = "DIALOG_FRAGMENT_TAG"
@@ -91,6 +94,8 @@ open class    MainActivity: AppCompatActivity(), NavigationView.OnNavigationItem
 
         //находим NavController
         navController = Navigation.findNavController(this, R.id.nav_host_fragment)
+        toolbar = findViewById(R.id.toolbar)
+        toolbar.setTitleTextAppearance(this, R.style.ToolbarTitleStyle)
         //поддержка экшенбара для создания строки поиска
         setSupportActionBar(toolbar)
 
@@ -160,14 +165,18 @@ open class    MainActivity: AppCompatActivity(), NavigationView.OnNavigationItem
         id?. let {
             menu?.findItem(R.id.search)?.isVisible = it == R.id.statesFragment
             menu?.findItem(R.id.navigation_help)?.isVisible = it!= R.id.helpFragment
-            menu?.findItem(R.id.favorites)?.isVisible =  it!= R.id.favoriteFragment
-                    && it!= R.id.weatherFragment && it!= R.id.helpFragment
-                    && it!= R.id.settingsFragment && it!= R.id.flagsFragment
+                    && it!= R.id.homeFragment
+            menu?.findItem(R.id.favorites)?.isVisible = it == R.id.statesFragment
+//                it!= R.id.favoriteFragment
+//                    && it!= R.id.weatherFragment && it!= R.id.helpFragment
+//                    && it!= R.id.settingsFragment && it!= R.id.flagsFragment
             menu?.findItem(R.id.navigation_settings)?.isVisible = it != R.id.settingsFragment
+                    && it!= R.id.homeFragment
             menu?.findItem(R.id.navigation_flags)?.isVisible = it == R.id.statesFragment
 
             //заголовки тулбара в зависимости от фрагмента
             toolbar.title = when(it){
+                R.id.homeFragment -> getString(R.string.app_name)
                 R.id.statesFragment -> getString(R.string.app_name)
                 R.id.weatherFragment -> getString(R.string.weather_name)
                 R.id.detailsFragment -> getString(R.string.details_name)
@@ -175,6 +184,8 @@ open class    MainActivity: AppCompatActivity(), NavigationView.OnNavigationItem
                 R.id.helpFragment -> getString(R.string.help_name)
                 R.id.settingsFragment -> getString(R.string.sett)
                 R.id.flagsFragment -> getString(R.string.flags)
+                R.id.tabsFragment -> getString(R.string.imageQuiz)
+
                 else -> getString(R.string.app_name)
             }
         }
@@ -280,10 +291,10 @@ open class    MainActivity: AppCompatActivity(), NavigationView.OnNavigationItem
     //при этом если мы в списке стран - выходим из приложения по двойному щелчку,
     // а если в другом экране - делаем то, что там прописано
     override fun onBackPressed() {
-        //если мы в StatesFragment, то при нажатии Назад показываем Snackbar и при повторном
+        //если мы в homeFragment, то при нажатии Назад показываем Snackbar и при повторном
         //нажати в течении 2 секунд закрываем приложение
         Log.d(TAG, "MainActivity onBackPressed  Destination = ${navController.currentDestination?.label}")
-        if( navController.currentDestination?.id  == R.id.statesFragment){
+        if( navController.currentDestination?.id  == R.id.homeFragment){
             Log.d(TAG, "MainActivity onBackPressed  это StatesFragment")
             //если флаг = true - а это при двойном щелчке - закрываем программу
             if (doubleBackToExitPressedOnce) {

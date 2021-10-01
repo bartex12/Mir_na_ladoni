@@ -170,7 +170,9 @@ class   StatesFragment : Fragment(),
        BottomNavigationView.OnNavigationItemSelectedListener { item ->
            when (item.itemId){
                R.id.states -> {
-                   navController.navigate(R.id.statesFragment)
+                   if( navController.currentDestination?.id  != R.id.statesFragment){
+                       navController.navigate(R.id.statesFragment)
+                   }
                    true
                }
                R.id.flags -> {
