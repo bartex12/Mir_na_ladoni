@@ -116,7 +116,7 @@ open class    MainActivity: AppCompatActivity(), NavigationView.OnNavigationItem
         //слушатель меню шторки -для обработки пунктов шторки
         nav_view.setNavigationItemSelectedListener(this)
 
-        navController.addOnDestinationChangedListener { navController, destination, args ->
+        navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
                 R.id.homeFragment -> bottomNavigationState.visibility = View.GONE
                 R.id.statesFragment -> {
@@ -125,11 +125,20 @@ open class    MainActivity: AppCompatActivity(), NavigationView.OnNavigationItem
                 }
                 R.id.weatherFragment -> bottomNavigationState.visibility = View.GONE
                 R.id.detailsFragment -> bottomNavigationState.visibility = View.GONE
-                R.id.favoriteFragment -> bottomNavigationState.visibility = View.VISIBLE
+                R.id.favoriteFragment -> {
+                    bottomNavigationState.visibility = View.VISIBLE
+                    bottomNavigationState.selectedItemId = R.id.liked
+                }
                 R.id.helpFragment -> bottomNavigationState.visibility = View.GONE
                 R.id.settingsFragment -> bottomNavigationState.visibility = View.GONE
-                R.id.flagsFragment -> bottomNavigationState.visibility = View.VISIBLE
-                R.id.tabsFragment -> bottomNavigationState.visibility = View.VISIBLE
+                R.id.flagsFragment -> {
+                    bottomNavigationState.visibility = View.VISIBLE
+                    bottomNavigationState.selectedItemId = R.id.flags
+                }
+                R.id.tabsFragment -> {
+                    bottomNavigationState.visibility = View.VISIBLE
+                    bottomNavigationState.selectedItemId = R.id.quiz
+                }
                 else -> {}
             }
         }
@@ -145,10 +154,6 @@ open class    MainActivity: AppCompatActivity(), NavigationView.OnNavigationItem
 
     override fun onResume() {
         super.onResume()
-        Log.d(
-            TAG, "MainActivity onResume currentDestination =" +
-                    " ${navController.currentDestination?.label}"
-        )
         //при изменении темы и возвращении из настроек проверяем - какая тема установлена
        val newTheme = PreferenceManager.getDefaultSharedPreferences(this)
             .getString("ListColor", "1")!!.toInt()
@@ -196,47 +201,101 @@ open class    MainActivity: AppCompatActivity(), NavigationView.OnNavigationItem
         id?. let {
             menu?.findItem(R.id.search_toolbar)?.isVisible = it == R.id.statesFragment
             menu?.findItem(R.id.help_toolbar)?.isVisible = it!= R.id.helpFragment
-                    && it!= R.id.homeFragment
-            menu?.findItem(R.id.favorites_toolbar)?.isVisible = it == R.id.statesFragment
+                    && it!= R.id.homeFragment && it!= R.id.weatherFragment
             menu?.findItem(R.id.settings_toolbar)?.isVisible = it != R.id.settingsFragment
-                    && it!= R.id.homeFragment
-            menu?.findItem(R.id.flags_toolbar)?.isVisible = it == R.id.statesFragment
+                    && it!= R.id.homeFragment && it!= R.id.weatherFragment
         }
         return super.onPrepareOptionsMenu(menu)
     }
 
+    //меню тулбара
     //так  как Избранное - детали и справка - настройки могут бесконечно вызываться друг из друга
     //чтобы это предотвратить, в их action было задействовано popUpTo и popUpToInclusive
     //но чтобы здесь использовать action нужно navigate to action, а не фрагмент
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId){
-            R.id.favorites_toolbar -> {
-                navController.navigate(R.id.favoriteFragment)
-                return true
-            }
-            R.id.flags_toolbar -> {
-                navController.navigate(R.id.flagsFragment)
-                return true
-            }
+        val id = item.itemId
+        val destinationId = navController.currentDestination?.id
+        when (id){
             R.id.settings_toolbar -> {
-                navController.navigate(R.id.settingsFragment)
+                when(destinationId){
+                 R.id.helpFragment -> navController.navigate(R.id.action_helpFragment_to_settingsFragment)
+                    R.id.flagsFragment-> navController.navigate(R.id.action_flagsFragment_to_settingsFragment)
+                    R.id.favoriteFragment->navController.navigate(R.id.action_favoriteFragment_to_settingsFragment)
+                    R.id.tabsFragment->navController.navigate(R.id.action_tabsFragment_to_settingsFragment)
+                    R.id.statesFragment->navController.navigate(R.id.action_statesFragment_to_settingsFragment)
+                    R.id.weatherFragment->navController.navigate(R.id.action_weatherFragment_to_settingsFragment)
+                    R.id.detailsFragment->navController.navigate(R.id.action_detailsFragment_to_settingsFragment)
+                }
                 return true
             }
             R.id.help_toolbar -> {
-                navController.navigate(R.id.helpFragment)
+                when(destinationId){
+                    R.id.settingsFragment -> navController.navigate(R.id.action_settingsFragment_to_helpFragment)
+                    R.id.flagsFragment->navController.navigate(R.id.action_flagsFragment_to_helpFragment)
+                    R.id.favoriteFragment->navController.navigate(R.id.action_favoriteFragment_to_helpFragment)
+                    R.id.tabsFragment->navController.navigate(R.id.action_tabsFragment_to_helpFragment)
+                    R.id.statesFragment->navController.navigate(R.id.action_statesFragment_to_helpFragment)
+                    R.id.weatherFragment->navController.navigate(R.id.action_weatherFragment_to_helpFragment)
+                    R.id.detailsFragment->navController.navigate(R.id.action_detailsFragment_to_helpFragment)
+                }
                 return true
             }
         }
         return super.onOptionsItemSelected(item)
     }
 
+    // нижнее меню
+    //чтобы при многократном вызове фрагментов друг из друга в стэке не скапливались фрагменты,
+    //для всех action сделан popUp to statesFragment и для statesFragment сделан launchSingleTop
+    private val  onNavigationItemSelectedListener =
+        BottomNavigationView.OnNavigationItemSelectedListener { item ->
+            val itemId =item.itemId
+            val destinationId = navController.currentDestination?.id
+            when (itemId){
+                R.id.states -> {
+                    when(destinationId){
+                        R.id.flagsFragment-> navController.navigate(R.id.action_flagsFragment_to_statesFragment)
+                        R.id.favoriteFragment-> navController.navigate(R.id.action_favoriteFragment_to_statesFragment)
+                        R.id.tabsFragment -> navController.navigate(R.id.action_tabsFragment_to_statesFragment)
+                    }
+                }
+                R.id.flags -> {
+                    when(destinationId){
+                        R.id.statesFragment-> navController.navigate(R.id.action_statesFragment_to_flagsFragment)
+                        R.id.favoriteFragment-> navController.navigate(R.id.action_favoriteFragment_to_flagsFragment)
+                        R.id.tabsFragment -> navController.navigate(R.id.action_tabsFragment_to_flagsFragment)
+                    }
+                }
+                R.id.liked -> {
+                    when(destinationId){
+                        R.id.statesFragment->navController.navigate(R.id.action_statesFragment_to_favoriteFragment)
+                        R.id.flagsFragment->navController.navigate(R.id.action_flagsFragment_to_favoriteFragment)
+                        R.id.tabsFragment ->navController.navigate(R.id.action_tabsFragment_to_favoriteFragment)
+                    }
+                }
+                R.id.quiz -> {
+                    when(destinationId){
+                        R.id.statesFragment->navController.navigate(R.id.action_statesFragment_to_tabsFragment)
+                        R.id.favoriteFragment->navController.navigate(R.id.action_favoriteFragment_to_tabsFragment)
+                        R.id.flagsFragment->navController.navigate(R.id.action_flagsFragment_to_tabsFragment)
+                    }
+                }
+                else -> {}
+            }
+            true
+        }
+
     //меню шторки
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
 
         when (item.itemId) {
-            R.id.nav_favorites -> {
-                Log.d(TAG, "MainActivity onNavigationItemSelected nav_favorites")
-                navController.navigate(R.id.favoriteFragment)
+            R.id.nav_states -> {
+                Log.d(TAG, "MainActivity onNavigationItemSelected nav_states")
+                navController.navigate(R.id.statesFragment)
+            }
+            R.id.nav_quiz -> {
+                Log.d(TAG, "MainActivity onNavigationItemSelected nav_quiz")
+                navController.navigate(R.id.tabsFragment)
             }
             R.id.nav_setting -> {
                 Log.d(TAG, "MainActivity onNavigationItemSelected nav_setting")
@@ -245,11 +304,7 @@ open class    MainActivity: AppCompatActivity(), NavigationView.OnNavigationItem
             R.id.nav_help -> {
                 Log.d(TAG, "MainActivity onNavigationItemSelected nav_help")
                 navController.navigate(R.id.helpFragment)
-            }
-            R.id.nav_flags -> {
-                Log.d(TAG, "MainActivity onNavigationItemSelected nav_flags")
-                navController.navigate(R.id.flagsFragment)
-            }
+            } 
             R.id.nav_share -> {
                 Log.d(TAG, "MainActivity onNavigationItemSelected nav_share")
                 //поделиться - передаём ссылку на приложение в маркете
@@ -338,44 +393,5 @@ open class    MainActivity: AppCompatActivity(), NavigationView.OnNavigationItem
         }
     }
 
-    // нижнее меню
-    //чтобы при многократном вызове фрагментов друг из друга в стэке не скапливались фрагменты,
-    //для всех action сделан popUp to statesFragment и для statesFragment сделан      launchSingleTop
-    private val  onNavigationItemSelectedListener =
-        BottomNavigationView.OnNavigationItemSelectedListener { item ->
-            val itemId =item.itemId
-            val destinationId = navController.currentDestination?.id
-            when (itemId){
-                R.id.states -> {
-                    when(destinationId){
-                        R.id.flagsFragment-> navController.navigate(R.id.action_flagsFragment_to_statesFragment)
-                        R.id.favoriteFragment-> navController.navigate(R.id.action_favoriteFragment_to_statesFragment)
-                        R.id.tabsFragment -> navController.navigate(R.id.action_tabsFragment_to_statesFragment)
-                    }
-                }
-                R.id.flags -> {
-                    when(destinationId){
-                        R.id.statesFragment-> navController.navigate(R.id.action_statesFragment_to_flagsFragment)
-                        R.id.favoriteFragment-> navController.navigate(R.id.action_favoriteFragment_to_flagsFragment)
-                        R.id.tabsFragment -> navController.navigate(R.id.action_tabsFragment_to_flagsFragment)
-                    }
-                }
-                R.id.liked -> {
-                    when(destinationId){
-                        R.id.statesFragment->navController.navigate(R.id.action_statesFragment_to_favoriteFragment)
-                        R.id.flagsFragment->navController.navigate(R.id.action_flagsFragment_to_favoriteFragment)
-                        R.id.tabsFragment ->navController.navigate(R.id.action_tabsFragment_to_favoriteFragment)
-                    }
-                }
-                R.id.quiz -> {
-                    when(destinationId){
-                        R.id.statesFragment->navController.navigate(R.id.action_statesFragment_to_tabsFragment)
-                        R.id.favoriteFragment->navController.navigate(R.id.action_favoriteFragment_to_tabsFragment)
-                        R.id.flagsFragment->navController.navigate(R.id.action_flagsFragment_to_tabsFragment)
-                    }
-                }
-                else -> {}
-            }
-            true
-        }
+
 }

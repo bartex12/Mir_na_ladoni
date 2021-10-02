@@ -106,8 +106,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:labelVisibilityMode="labeled"
         app:itemBackground = "?colorPrimary"
-        app:itemIconTint = "@color/btn_color_selector"
-        app:itemTextColor= "@color/btn_color_selector"
-        app:menu="@menu/bottom_navigation_menu" />
+        app:itemIconTint = "@color/btn_color_selector2"
+        app:itemTextColor= "@color/btn_color_selector2"
+        app:menu="@menu/bottom_details_menu" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

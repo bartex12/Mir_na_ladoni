@@ -2,8 +2,8 @@
     <item
         android:id="@+id/states"
         android:enabled="true"
-        android:icon="@drawable/ic_baseline_home_24"
-        android:title="@string/home"/>
+        android:icon="@drawable/states57"
+        android:title="@string/states"/>
 
     <item
         android:id="@+id/flags"

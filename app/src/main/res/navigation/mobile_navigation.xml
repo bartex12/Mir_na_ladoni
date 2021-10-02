@@ -163,6 +163,12 @@
             app:destination="@id/statesFragment"
             app:launchSingleTop="true"
             app:popUpTo="@id/statesFragment" />
+        <action
+            android:id="@+id/action_tabsFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
+        <action
+            android:id="@+id/action_tabsFragment_to_helpFragment"
+            app:destination="@id/helpFragment" />
     </fragment>
     <fragment
         android:id="@+id/homeFragment"
@@ -181,5 +187,9 @@
             android:id="@+id/action_homeFragment_to_settingsFragment"
             app:destination="@id/settingsFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/frTest"
+        android:name="com.bartex.statesmvvm.view.main.FrTest"
+        android:label="FrTest" />
 
 </navigation>

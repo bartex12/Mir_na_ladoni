@@ -31,7 +31,7 @@
         app:itemBackground = "?colorPrimary"
         app:itemIconTint = "@color/btn_color_selector"
         app:itemTextColor= "@color/btn_color_selector"
-        app:menu="@menu/bottom_navigation_state_menu" />
+        app:menu="@menu/bottom_state_menu" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

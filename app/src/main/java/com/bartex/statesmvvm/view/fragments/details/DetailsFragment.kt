@@ -29,6 +29,8 @@ class DetailsFragment : Fragment() {
     lateinit var navController: NavController
     private var state: State? = null
 
+    lateinit var bottomNavigation:BottomNavigationView
+
     companion object {
         const val TAG = "33333"
     }
@@ -43,6 +45,8 @@ class DetailsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         Log.d(TAG, "DetailsFragment onViewCreated")
+
+        bottomNavigation = requireActivity().findViewById(R.id.bottom_navigation)
 
         //здесь аргументы нужны для корректной обработки поворота экрана
         arguments?.let {state = it.getParcelable<State>(Constants.STATE )}
@@ -89,9 +93,6 @@ class DetailsFragment : Fragment() {
                 detailsViewModel.removeFavorite(it)
             }
         }
-        //приводим меню тулбара в соответствии с onPrepareOptionsMenu в MainActivity
-        setHasOptionsMenu(true)
-        requireActivity().invalidateOptionsMenu()
     }
 
     private fun renderData(data: DetailsSealed) {
@@ -124,11 +125,6 @@ class DetailsFragment : Fragment() {
     private val onNavigationItemSelectedListener =
         BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when(item.itemId) {
-            R.id.home -> {
-                Log.d(TAG, "DetailsFragment BottomNavigationView page_1")
-                navController.navigate(R.id.action_detailsFragment_to_statesFragment)
-                true
-            }
             R.id.geo -> {
                 //c GoogleNavigation карта не включается в стэк вызовов и поэтому если вызвать карту
                 //а потом погоду и нажать кнопку назад, карта не вызовется  - это хорошо

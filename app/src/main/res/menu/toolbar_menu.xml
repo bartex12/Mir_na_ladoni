@@ -8,20 +8,6 @@
         app:actionViewClass="androidx.appcompat.widget.SearchView" />
 
     <item
-        android:id="@+id/favorites_toolbar"
-        android:icon="@drawable/ic_baseline_favorite_border_24"
-        android:orderInCategory="10"
-        android:title="@string/favorites"
-        app:showAsAction="ifRoom" />
-
-    <item
-        android:id="@+id/flags_toolbar"
-        android:icon="@drawable/ic_baseline_outlined_flag_24"
-        android:orderInCategory="15"
-        android:title="@string/flags"
-        app:showAsAction="never" />
-
-    <item
         android:id="@+id/settings_toolbar"
         android:icon="@drawable/ic_settings_white_24dp"
         android:orderInCategory="20"
