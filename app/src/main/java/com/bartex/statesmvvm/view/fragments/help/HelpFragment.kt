@@ -57,7 +57,7 @@ class HelpFragment: Fragment() {
         val spanHelp = SpannableString(helpText)
         val color = requireActivity().resources.getColor(R.color.colorPrimaryDarkPurple)
 
-        helpText?.let {
+        helpText.let {
             setStyle(it, "Мир на ладони.", spanHelp)
             makeLinks(it, STATES, color, spanHelp)
             makeLinks(it, FLAGS, color, spanHelp)
@@ -105,8 +105,8 @@ class HelpFragment: Fragment() {
             override fun onClick(view: View) {
                 Log.d(TAG, "HelpFragment makeLinks onClick")
 
-               val stateDefault =  State(capital="Moscow", flags= listOf(),
-                   name="Russian Federation", continent="Europe", population=146599183,
+               val stateDefault =  State(capital="Moscow", flag= "https://upload.wikimedia.org/wikipedia/en/f/f3/Flag_of_Russia.svg",
+                   name="Russian Federation", region="Europe", population=146599183,
                    area=1.7124442E7f, latlng= arrayOf(60.0f, 100.0f), nameRus="Россия",
                    capitalRus="Москва", regionRus="Европа")
 

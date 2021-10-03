@@ -5,16 +5,17 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import com.bartex.statesmvvm.R
+import com.bartex.statesmvvm.view.fragments.flags.FlagsFragment
 import com.bartex.statesmvvm.view.fragments.states.StatesFragment
 
 class ViewPageAdapter(val context: Context, fragmentManager : FragmentManager)
     : FragmentPagerAdapter(fragmentManager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
 
     val fragments = arrayOf(
-        StatesFragment(),
-        StatesFragment(),
-        StatesFragment(),
-        StatesFragment()
+        FlagsFragment(),
+        FlagsFragment(),
+        FlagsFragment(),
+        FlagsFragment()
     )
 
     private val titles = arrayOf(

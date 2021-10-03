@@ -28,23 +28,23 @@ class StatesRepo(val dataSource: IDataSource, private val roomCash: IRoomStateCa
     override fun getStates(): Single<List<State>> =
             dataSource.getStates() //получаем данные из сети в виде Single<List<State>>
                 .flatMap {states->//получаем доступ к списку List<State>
-                    //фильтруем данные
-                    val f_states =  states.filter {state->
-                        UtilStates.filterData(state)
-                    }
                     //добавляем русские названия из Map в поля State
                     states.map {
                         it.nameRus = MapOfState.mapStates[it.name] ?:"Unknown"
                         it.capitalRus = MapOfCapital.mapCapital[it.capital] ?:"Unknown"
-                        it.regionRus = MapOfRegion.mapRegion[it.continent] ?:"Unknown"
-                        Log.d(TAG, "StatesRepo ${it.nameRus}" +
-                                " ${it.flags?.get(0)} ${it.name}" +
-                                " ${it.capitalRus} ${it.capital}" +
-                                " ${it.regionRus} ${it.continent}" )
+                        it.regionRus = MapOfRegion.mapRegion[it.region] ?:"Unknown"
+//                        Log.d(TAG, "StatesRepo ${it.nameRus}" +
+//                                " ${it.flag} ${it.name}" +
+//                                " ${it.capitalRus} ${it.capital}" +
+//                                " ${it.regionRus} ${it.region}" )
                     }
-                    Log.d(TAG, "StatesRepo  getStates f_states.size = ${f_states.size}")
+                    //фильтруем данные
+                    val filtredStates =  states.filter { state->
+                        UtilStates.filterData(state)
+                    }
+                    Log.d(TAG, "StatesRepo  getStates f_states.size = ${filtredStates.size}")
                     //реализация кэширования списка пользователей из сети в базу данных
-                    roomCash.doStatesCash(f_states)
+                    roomCash.doStatesCash(filtredStates)
         }.subscribeOn(Schedulers.io())
 
 }

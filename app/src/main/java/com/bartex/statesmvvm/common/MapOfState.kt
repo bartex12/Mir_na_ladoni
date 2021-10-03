@@ -130,7 +130,7 @@ val mapStates = mapOf(
     "Liechtenstein" to "Лихтенштейн",
     "Lithuania" to "Литва",
     "Luxembourg" to "Люксембург",
-    "Macedonia (the former Yugoslav Republic of)" to "Северная Македония",
+    "North Macedonia" to "Северная Македония",
     "Madagascar" to "Мадагаскар",
     "Malawi" to "Малави",
     "Malaysia" to "Малайзия",

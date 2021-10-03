@@ -43,4 +43,5 @@ class MainViewModel: ViewModel() {
         helperTheme?.removeObserver(themeObserver)
         super.onCleared()
     }
+
 }

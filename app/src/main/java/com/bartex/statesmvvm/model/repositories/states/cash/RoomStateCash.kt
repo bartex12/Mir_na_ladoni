@@ -26,16 +26,16 @@ class RoomStateCash(val db: Database): IRoomStateCash {
              //Log.d(TAG, "RoomStateCash doStatesCash: state.nameRus = ${MapOfState.mapStates[state.name] }")
              RoomState(
                  state.capital ?: "",
-                 state.flags?.get(0).toString() ?: "",
+                 state.flag?: "",
                  state.name ?: "",
-                 state.continent ?: "",
+                 state.region ?: "",
                  state.population ?: 0,
                  state.area?:0f,
                  state.latlng?.get(0) ?:0f,
                  state.latlng?.get(1) ?:0f,
                  MapOfState.mapStates[state.name] ?:"Unknown",
                  MapOfCapital.mapCapital[state.capital] ?:"Unknown",
-                 MapOfRegion.mapRegion[state.continent] ?:"Unknown"
+                 MapOfRegion.mapRegion[state.region] ?:"Unknown"
              )
          }
            db.stateDao.insert(roomState) //пишем в базу
@@ -48,7 +48,7 @@ class RoomStateCash(val db: Database): IRoomStateCash {
         Log.d(TAG, "RoomStateCash getStatesFromCash")
         return  Single.fromCallable {
           db.stateDao.getAll().map {roomState->
-              State(roomState.capital, listOf(roomState.flag), roomState.name, roomState.region,
+              State(roomState.capital,roomState.flag, roomState.name, roomState.region,
                   roomState.population, roomState.area, arrayOf(roomState.lat, roomState.lng),
                   roomState.nameRus, roomState.capitalRus, roomState.regionRus
               )
@@ -58,7 +58,7 @@ class RoomStateCash(val db: Database): IRoomStateCash {
 
     override fun loadFavorite(): Single<List<State>> = Single.fromCallable {
             db.favoriteDao.getAll().map {roomFavorite->
-                State(roomFavorite.capital, listOf(roomFavorite.flag), roomFavorite.name,
+                State(roomFavorite.capital, roomFavorite.flag, roomFavorite.name,
                     roomFavorite.region,roomFavorite.population, roomFavorite.area,
                     arrayOf(roomFavorite.lat, roomFavorite.lng), roomFavorite.nameRus,
                     roomFavorite.capitalRus, roomFavorite.regionRus)
@@ -69,7 +69,7 @@ class RoomStateCash(val db: Database): IRoomStateCash {
     override fun getFlagsFromCash(): Single<List<State>> =
         Single.fromCallable {
             db.stateDao.getAll().map {roomState->
-                State(roomState.capital, listOf(roomState.flag), roomState.name, roomState.region,
+                State(roomState.capital, roomState.flag, roomState.name, roomState.region,
                     roomState.population, roomState.area, arrayOf(roomState.lat, roomState.lng),
                     roomState.nameRus, roomState.capitalRus, roomState.regionRus
                 )
@@ -101,12 +101,12 @@ class RoomStateCash(val db: Database): IRoomStateCash {
     override fun loadAllData(): Single<MutableList<State>> =
         Single.fromCallable {
             db.stateDao.getAll().map{roomState->
-                State(roomState.capital, listOf(roomState.flag), roomState.name, roomState.region,
+                State(roomState.capital, roomState.flag, roomState.name, roomState.region,
                     roomState.population, roomState.area, arrayOf(roomState.lat, roomState.lng),
                     roomState.nameRus, roomState.capitalRus, roomState.regionRus
                 )
             }.filter {st-> //отбираем только те, где полные данные
-                Log.d(TAG, "RoomStateCash loadAllData:${st.name} ${st.area}")
+               // Log.d(TAG, "RoomStateCash loadAllData:${st.name} ${st.area} ${st.flag}")
                 UtilStates.filterData(st)
             }.toMutableList()
         }.subscribeOn(Schedulers.io())
@@ -135,9 +135,9 @@ class RoomStateCash(val db: Database): IRoomStateCash {
     private fun add(state: State):Boolean {
         val roomFavorite = RoomFavorite(
             capital = state.capital ?: "",
-            flag = state.flags?.get(0).toString() ?: "",
+            flag = state.flag?: "",
             name = state.name ?: "",
-            region =  state.continent ?: "",
+            region =  state.region ?: "",
             population = state.population ?: 0,
             area =  state.area?:0f,
             lat = state.latlng?.get(0) ?:0f,

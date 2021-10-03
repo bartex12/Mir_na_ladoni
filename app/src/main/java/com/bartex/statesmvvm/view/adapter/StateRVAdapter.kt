@@ -52,8 +52,8 @@ class StateRVAdapter(private val onitemClickListener: OnitemClickListener, val i
                 itemView.tv_name.text = state.name
             }
 
-            state.flags?.get(0).let {
-                imageLoader.loadInto(it.toString(), itemView.iv_flag)
+            state.flag?.let {
+                imageLoader.loadInto(it, itemView.iv_flag)
             }
 
             itemView.setOnClickListener {

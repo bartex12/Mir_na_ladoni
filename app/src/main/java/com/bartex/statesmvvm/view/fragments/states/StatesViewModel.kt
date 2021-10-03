@@ -47,6 +47,7 @@ class StatesViewModel(
     //текущий регион
     private val newRegion = MutableLiveData<String>()
 
+
     fun getStatesSealed() : LiveData<StatesSealed>{
         loadDataSealed()
         return listStatesFromNet

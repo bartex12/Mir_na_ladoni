@@ -42,8 +42,8 @@ class FlagGridAdapter(private val onitemClickListener: OnitemClickListener,
 
     inner class ViewHolder(itemView: View):RecyclerView.ViewHolder(itemView){
         fun bind(state: State){
-            state.flags?.get(0). let{
-                imageLoader.loadInto(it.toString(), itemView.image_view_flag )
+            state.flag?. let{
+                imageLoader.loadInto(it, itemView.image_view_flag )
             }
             //щелчок на элементе списка флагов
             itemView.setOnClickListener {

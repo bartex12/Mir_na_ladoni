@@ -13,15 +13,18 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
 import androidx.preference.PreferenceManager
+import com.bartex.statesmvvm.App
 import com.bartex.statesmvvm.R
 import com.bartex.statesmvvm.common.AlertDialogFragment
 import com.bartex.statesmvvm.common.isOnline
 import com.bartex.statesmvvm.network.OnlineLiveData
+import com.bartex.statesmvvm.view.fragments.states.StatesViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
@@ -40,10 +43,12 @@ open class    MainActivity: AppCompatActivity(), NavigationView.OnNavigationItem
     private var isOldLang :Boolean = true
 
     private var isNetworkAvailable: Boolean = true
+    private var isNet: Boolean = true
 
     private lateinit var toolbar: Toolbar
-
     private lateinit var bottomNavigationState : BottomNavigationView
+
+    private lateinit var mainViewModel: MainViewModel
 
     companion object{
         const val DIALOG_FRAGMENT_TAG = "DIALOG_FRAGMENT_TAG"
@@ -76,13 +81,17 @@ open class    MainActivity: AppCompatActivity(), NavigationView.OnNavigationItem
         //устанавливаем макет
         setContentView(R.layout.activity_main)
 
+        mainViewModel = ViewModelProvider(this).get(MainViewModel::class.java)
+        mainViewModel.apply { App.instance.appComponent.inject(this)}
+
         bottomNavigationState = findViewById(R.id.bottom_navigation_state)
         bottomNavigationState.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
 
         //получаем статус сети при первом запуске приложения не через LiveData
         if (savedInstanceState == null) {
-            isNetworkAvailable = isOnline(this)
+            isNetworkAvailable = isOnline(this) //флаг наличия сети, за которым наблюдаем
             if (!isNetworkAvailable) {
+                isNet = false  // флаг наличия сети, за которым не наблюдаем
                 showNoInternetConnectionDialog()
             }
         }
@@ -95,6 +104,10 @@ open class    MainActivity: AppCompatActivity(), NavigationView.OnNavigationItem
                 isNetworkAvailable = it
                 if (!isNetworkAvailable) {
                     showNoInternetConnectionDialog()
+                }else{
+                    if (!isNet){
+                        recreate()
+                    }
                 }
             })
         Log.d(TAG, "*** MainActivity onCreate  isNetworkAvailable = $isNetworkAvailable")

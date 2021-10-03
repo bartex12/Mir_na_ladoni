@@ -72,14 +72,14 @@ class DetailsFragment : Fragment() {
             }else{
                 tv_state_name.text = it.name
                 tv_state_capital.text =  detailsViewModel.getStateCapital(it.capital)
-                tv_state_region.text = detailsViewModel.getStateRegion(it.continent)
+                tv_state_region.text = detailsViewModel.getStateRegion(it.region)
             }
 
             tv_state_area.text =  detailsViewModel.getStateArea(it.area)
             tv_state_population.text =  detailsViewModel.getStatePopulation(it.population)
 
-            it.flags?.get(0). let{ flag->
-                GlideToVectorYou.justLoadImage(requireActivity(), Uri.parse(flag.toString()), iv_flag_big)
+            it.flag?. let{ flag->
+                GlideToVectorYou.justLoadImage(requireActivity(), Uri.parse(flag), iv_flag_big)
             }
         }
 
