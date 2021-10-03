@@ -1,4 +1,10 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/states_detail"
+        android:enabled="true"
+        android:icon="@drawable/states57"
+        android:title="@string/states"/>
     <item
         android:id="@+id/geo"
         android:enabled="true"

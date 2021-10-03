@@ -125,6 +125,12 @@ class DetailsFragment : Fragment() {
     private val onNavigationItemSelectedListener =
         BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when(item.itemId) {
+            R.id.states_detail ->{
+                Log.d(TAG, "DetailsFragment BottomNavigationView page_1")
+                navController.navigate(R.id.action_detailsFragment_to_statesFragment)
+                true
+            }
+
             R.id.geo -> {
                 //c GoogleNavigation карта не включается в стэк вызовов и поэтому если вызвать карту
                 //а потом погоду и нажать кнопку назад, карта не вызовется  - это хорошо
