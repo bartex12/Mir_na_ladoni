@@ -45,7 +45,6 @@ class   StatesFragment : Fragment(),
     private lateinit  var emptyViewStates: TextView
     private lateinit var chipGroupStates: ChipGroup
     private lateinit var progressBarState: ProgressBar
-
     private var listOfStates  = mutableListOf<State>() //список стран мира
     private var filtred:List<State> = listOf() // отфильтрованный и отсортированный список (список региона)
     private var region:String = Constants.REGION_ALL // текущий

@@ -54,6 +54,7 @@ open class    MainActivity: AppCompatActivity(), NavigationView.OnNavigationItem
 
     private val model by lazy{ViewModelProvider(this).get(SharedViewModel::class.java)}
     private  var toolbarTitleFlag = ""
+    private  var toolbarTitleState = ""
 
     companion object{
         const val DIALOG_FRAGMENT_TAG = "DIALOG_FRAGMENT_TAG"
@@ -171,6 +172,15 @@ open class    MainActivity: AppCompatActivity(), NavigationView.OnNavigationItem
                     toolbar.title = toolbarTitleFlag //здесь тоже, иначе не обновляется само
                 }
             })
+
+        //передача данных о надписи на тулбаре из фрагмента викторины со странами
+        model.toolbarTitleFromState
+            .observe(this, Observer {newTitle->
+                toolbarTitleState = newTitle
+                if(getViewPagerCurrentItem() == 1){
+                    toolbar.title = toolbarTitleState //здесь тоже, иначе не обновляется само
+                }
+            })
     }
     private fun getViewPagerCurrentItem(): Int? {
         val frag = supportFragmentManager.findFragmentById(R.id.nav_host_fragment)
@@ -242,7 +252,7 @@ open class    MainActivity: AppCompatActivity(), NavigationView.OnNavigationItem
             if (id == R.id.tabsFragment) {
                 toolbar.title = when (getViewPagerCurrentItem()) {
                     0 -> toolbarTitleFlag
-                    1 -> getString(R.string.app_name)
+                    1 -> toolbarTitleState
                     2 -> getString(R.string.mistakes)
                     else -> getString(R.string.app_name)
                 }

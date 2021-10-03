@@ -250,4 +250,8 @@
     <string name="is_sound">Включение/выключение звука</string>
     <string name="newButton">newButton</string>
 
+    <string name="questionsStub">Мадагаскар</string>
+    <string name="any_image">Изображение</string>
+    <string name="MediumTextStub">Правильно</string>
+
 </resources>
