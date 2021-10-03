@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/colorBackground"
-    tools:context="com.bartex.statesmvvm.view.fragments.tabs.TabsFragment">
+    tools:context="com.bartex.statesmvvm.view.fragments.quiz.tabs.TabsFragment">
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tab_layout_quiz"

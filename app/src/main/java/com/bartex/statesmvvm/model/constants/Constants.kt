@@ -21,4 +21,11 @@ object Constants {
     const val  REGION_ALL= "Все"
 
     const val PAGER_POSITION = "PAGER_POSITION"
+
+    const val TOTAL_QUESTIONS = "TOTAL_QUESTIONS"
+    const val TOTAL_GUESSES = "TOTAL_GUESSES"
+    const val SOUND = "pref_cbSound"
+    const val CHOICES = "pref_numberOfChoices"
+    const val FLAGS_IN_QUIZ = "pref_numberOfFlags"
+    const val IMAGE_STUB = "pref_incorrect"
 }

@@ -1,6 +1,7 @@
 package com.bartex.statesmvvm.model.repositories.states.cash
 
 import android.util.Log
+import androidx.lifecycle.LiveData
 import com.bartex.statesmvvm.common.MapOfCapital
 import com.bartex.statesmvvm.common.MapOfRegion
 import com.bartex.statesmvvm.common.MapOfState
@@ -75,6 +76,56 @@ class RoomStateCash(val db: Database): IRoomStateCash {
                 )
             }
         }.subscribeOn(Schedulers.io())
+
+    //сделать отметку об ошибке
+    override fun writeMistakeInDatabase(mistakeAnswer: String): Single<Boolean> =
+        Single.fromCallable {
+            val mistakeRoomState: RoomState = db.stateDao.getStateByNameRus(mistakeAnswer) //получаем страну по имени
+            if (mistakeRoomState.mistake == 0) { //если статус ошибки = 0
+                mistakeRoomState.mistake = 1 //меняем статус ошибки на 1
+                db.stateDao.update(mistakeRoomState) //обновляем запись в базе
+            }
+            //проверяем как прошла запись
+            val result:Int =  db.stateDao.getMistakeByNameRus(mistakeAnswer)
+            result == 1 //если 1 - возвращаем true, иначе false
+        }
+            .subscribeOn(Schedulers.io())
+
+    //получить список стран на которых сделаны ошибки
+    override fun getMistakesFromDatabase(): Single<List<State>> =
+        Single.fromCallable {
+            val listOfMistakes:List<RoomState> =  db.stateDao.getMistakesList()
+            val states =  listOfMistakes.map{roomState->
+                State(roomState.capital, roomState.flag, roomState.name, roomState.region,
+                    roomState.population, roomState.area, arrayOf(roomState.lat, roomState.lng),
+                    roomState.nameRus, roomState.capitalRus, roomState.regionRus
+                )
+            }
+            states
+        }
+            .subscribeOn(Schedulers.io())
+
+    override fun getAllMistakesLive(): LiveData<List<RoomState>> {
+        return db.stateDao.getAllMistakesLive()
+    }
+
+    //удалить отметку об ошибке
+    override fun removeMistakeFromDatabase(nameRus: String): Single<Boolean> =
+        Single.fromCallable {
+            val mistakeRoomState: RoomState = db.stateDao.getStateByNameRus(nameRus) //получаем страну по имени
+            if (mistakeRoomState.mistake == 1) { //если статус ошибки = 0
+                mistakeRoomState.mistake = 0 //меняем статус ошибки на 1
+                db.stateDao.update(mistakeRoomState) //обновляем запись в базе
+            }
+            //проверяем как прошло удаление отметки
+            val result:Int =  db.stateDao.getMistakeByNameRus(nameRus)
+            result == 0 //если 0 - возвращаем true, иначе false
+        }
+            .subscribeOn(Schedulers.io())
+
+    override fun getAllDataLive(): LiveData<List<RoomState>> {
+        return db.stateDao.getAllRegionsLive()
+    }
 
 
     override fun isFavorite(state: State):Single<Boolean> {

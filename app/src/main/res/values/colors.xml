@@ -28,6 +28,11 @@
     <color name="colorAccentBlack">#5677fc</color>
 
     <color name="colorBackground">#80A0F4BA</color>
+
+    <color name="black">#FF000000</color>
+    <color name="correct_answer">#FF6200EE</color>
+    <color name="incorrect_answer">#FF0000</color>
+
 </resources>
 
     <!--#64ffda-->

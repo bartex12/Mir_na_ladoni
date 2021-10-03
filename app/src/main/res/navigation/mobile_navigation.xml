@@ -150,7 +150,7 @@
     </fragment>
     <fragment
         android:id="@+id/tabsFragment"
-        android:name="com.bartex.statesmvvm.view.fragments.tabs.TabsFragment"
+        android:name="com.bartex.statesmvvm.view.fragments.quiz.tabs.TabsFragment"
         android:label="@string/imageQuiz"
         tools:layout="@layout/fragment_tabs" >
         <action
@@ -172,6 +172,15 @@
         <action
             android:id="@+id/action_tabsFragment_to_helpFragment"
             app:destination="@id/helpFragment" />
+        <action
+            android:id="@+id/action_tabsFragment_to_flagsQuizFragment"
+            app:destination="@id/flagsQuizFragment" />
+        <action
+            android:id="@+id/action_tabsFragment_to_mistakesQuizFragment"
+            app:destination="@id/mistakesQuizFragment" />
+        <action
+            android:id="@+id/action_tabsFragment_to_statesQuizFragment"
+            app:destination="@id/statesQuizFragment" />
     </fragment>
     <fragment
         android:id="@+id/homeFragment"
@@ -194,5 +203,34 @@
         android:id="@+id/frTest"
         android:name="com.bartex.statesmvvm.view.main.FrTest"
         android:label="FrTest" />
+
+    <fragment
+        android:id="@+id/flagsQuizFragment"
+        android:name="com.bartex.statesmvvm.view.fragments.quiz.flag.FlagsQuizFragment"
+        android:label="FlagsQuizFragment" >
+        <action
+            android:id="@+id/action_flagsQuizFragment_to_resultDialogFlags"
+            app:destination="@id/resultDialogFlags" />
+    </fragment>
+    <fragment
+        android:id="@+id/mistakesQuizFragment"
+        android:name="com.bartex.statesmvvm.view.fragments.quiz.mistakes.MistakesQuizFragment"
+        android:label="MistakesQuizFragment" />
+    <fragment
+        android:id="@+id/statesQuizFragment"
+        android:name="com.bartex.statesmvvm.view.fragments.quiz.state.StatesQuizFragment"
+        android:label="StatesQuizFragment" >
+        <action
+            android:id="@+id/action_statesQuizFragment_to_resultDialogState"
+            app:destination="@id/resultDialogState" />
+    </fragment>
+    <dialog
+        android:id="@+id/resultDialogFlags"
+        android:name="com.bartex.statesmvvm.view.fragments.quiz.flag.ResultDialogFlags"
+        android:label="ResultDialogFlags" />
+    <dialog
+        android:id="@+id/resultDialogState"
+        android:name="com.bartex.statesmvvm.view.fragments.quiz.state.ResultDialogState"
+        android:label="ResultDialogState" />
 
 </navigation>

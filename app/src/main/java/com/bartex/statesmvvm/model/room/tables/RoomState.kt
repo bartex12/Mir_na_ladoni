@@ -18,5 +18,6 @@ class  RoomState(
     var lng :Float,
     var nameRus:String,
     var capitalRus:String,
-    var regionRus:String
+    var regionRus:String,
+    var mistake:Int = 0
 )

@@ -57,7 +57,7 @@ class StatesFragmentRecyclerViewTest {
     @Test
     fun test_MainActivityIsStarted() {
         //Ожидаем конкретного события: появления ресайклера rv_states
-        //Это будет означать, что StatesFragment открылся и это поле видно на экране.
+        //Это будет означать, что StatesQuizFragment открылся и это поле видно на экране.
         val rv = uiDevice.wait(
             Until.findObject( By.res(packageName, "rv_states")),TIMEOUT
         )

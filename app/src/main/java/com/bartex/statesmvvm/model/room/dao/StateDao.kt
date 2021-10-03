@@ -1,5 +1,6 @@
 package com.bartex.statesmvvm.model.room.dao
 
+import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.bartex.statesmvvm.model.room.tables.RoomState
 
@@ -44,4 +45,20 @@ interface StateDao {
 
     @Query("SELECT * FROM RoomState WHERE nameRus LIKE '%' ||:nameRus || '%'")
     fun findByNameRus(nameRus:String): List<RoomState>
+
+    //*** викторина ***
+    @Query("SELECT*FROM RoomState WHERE nameRus = :nameRus")
+    fun getStateByNameRus(nameRus:String):RoomState
+
+    @Query("SELECT mistake FROM RoomState WHERE nameRus = :nameRus")
+    fun getMistakeByNameRus(nameRus:String):Int
+
+    @Query("SELECT*FROM RoomState WHERE mistake = 1")
+    fun getMistakesList():List<RoomState>
+
+    @Query("SELECT*FROM RoomState WHERE mistake = 1")
+    fun getAllMistakesLive(): LiveData<List<RoomState>>
+
+    @Query("SELECT*FROM RoomState ")
+    fun getAllRegionsLive():LiveData<List<RoomState>>
 }

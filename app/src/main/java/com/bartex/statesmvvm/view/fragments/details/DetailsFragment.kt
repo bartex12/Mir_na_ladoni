@@ -126,7 +126,7 @@ class DetailsFragment : Fragment() {
         BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when(item.itemId) {
             R.id.states_detail ->{
-                Log.d(TAG, "DetailsFragment BottomNavigationView page_1")
+                Log.d(TAG, "DetailsFragment BottomNavigationView states  ")
                 navController.navigate(R.id.action_detailsFragment_to_statesFragment)
                 true
             }
@@ -134,12 +134,12 @@ class DetailsFragment : Fragment() {
             R.id.geo -> {
                 //c GoogleNavigation карта не включается в стэк вызовов и поэтому если вызвать карту
                 //а потом погоду и нажать кнопку назад, карта не вызовется  - это хорошо
-                Log.d(TAG, "DetailsFragment BottomNavigationView page_2")
+                Log.d(TAG, "DetailsFragment BottomNavigationView geo")
                 state?. let {sendGeoIntent(detailsViewModel.getStateZoom(it))}
                 true
             }
             R.id.weather -> {
-                Log.d(TAG, "DetailsFragment BottomNavigationView page_3")
+                Log.d(TAG, "DetailsFragment BottomNavigationView weather")
                 state?. let {
                     val bundle = bundleOf(Constants.DETAILS to state)
                     navController.navigate(R.id.action_detailsFragment_to_weatherFragment, bundle)
@@ -147,6 +147,7 @@ class DetailsFragment : Fragment() {
                 true
             }
             R.id.wiki -> {
+                Log.d(TAG, "DetailsFragment BottomNavigationView wiki")
                 state?. let {
                     //ручной запуск анонимной активити со страницей из википедии
                     val intent = Intent(Intent.ACTION_VIEW)

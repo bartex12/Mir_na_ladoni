@@ -177,23 +177,13 @@
     <string name="appLang">Язык приложения</string>
     <string name="summary_on">Русский</string>
     <string name="summary_off">English</string>
-    <string name="search_country">Поиск</string>
     <string name="dialog_title_device_is_offline">Нет соединения с Интернетом</string>
     <string name="dialog_message_load_impossible">Для первоначальной загрузки данных требуется Интернет.
         Пожалуйста, проверьте интернет-соединение</string>
     <string name="flags">Флаги</string>
-    <string name="states">Страны</string>
     <string name="mistakes">Ошибки</string>
     <string name="regions">Регионы</string>
 
-    <string name="all">Все</string>
-    <string name="Europa">Европа</string>
-    <string name="Asia">Азия</string>
-    <string name="America">Америка</string>
-    <string name="Oceania">Океания</string>
-    <string name="Africa">Африка</string>
-    <string name="region">Регион</string>
-    <string name="chooseRegion">Выберите регион</string>
     <string name="liked">"Избранное "</string>
     <string name="quiz">Викторина</string>
 
@@ -204,4 +194,60 @@
     <string name="statesOfWorld">Страны мира</string>
     <string name="imageQuizMain">Викторина в картинках</string>
     <string name="imageQuiz">Викторина</string>
+
+    <string name="question">Вопрос %1$d из %2$d</string>
+    <string name="image_description">Изображнние текущего флага викторины</string>
+    <string name="guess_country">Угадайте страну</string>
+    <string name="incorrect_answer">Неправильно!</string>
+    <string name="number_of_choices">Количество вариантов ответов</string>
+    <string name="number_of_flags">Количество вопросов в викторине</string>
+    <string name="number_of_choices_description">Отображаются 2, 4 или 6 кнопок с вариантами ответов</string>
+    <string name="number_of_flags_description">Нужно угадать 5, 10, 15 или 20 флагов</string>
+    <string name="restarting_quiz">Викторина перезапустится с новыми настройками</string>
+    <string name="restarting_new_block">Загружаем новый блок вопросов викторины</string>
+
+    <string name="results">Вопросов: %1$d\nПопыток: %2$d\n%3$.01f%% правильных ответов</string>
+    <string name="result">РЕЗУЛЬТАТЫ</string>
+    <string name="results_questions">Вопросов: %1$d</string>
+    <string name="results_attempts">Попыток: %1$d</string>
+    <string name="results_performance">%1$.0f%% правильных ответов</string>
+    <string name="reset_quiz">Новые вопросы</string>
+    <string name="no_now">Не сегодня!</string>
+    <string name="all">Все</string>
+    <string name="Europa">Европа</string>
+    <string name="Asia">Азия</string>
+    <string name="America">Америка</string>
+    <string name="Oceania">Океания</string>
+    <string name="Africa">Африка</string>
+    <string name="region">Регион</string>
+    <string name="chooseRegion">Выберите регион</string>
+    <string name="no_data_state_test">Пока нет данных</string>
+    <string name="no_data_state_test_all">Вы пока не делали \n ошибок в викторине</string>
+    <string name="no_data_state_test_region">В этом регионе \n пока ошибок нет</string>
+
+    <string name="flag">Флаг</string>
+    <string name="home_item">home_item</string>
+    <string name="search_country">Поиск</string>
+    <string name="send_answer">Отправить</string>
+    <string name="answer">Ответ:</string>
+    <string name="states">Страны</string>
+    <string name="resultDialog">ResultDialog</string>
+    <string name="drawer_name">Quizday - знания на ладони</string>
+    <string name="drawer_header_subtitle">Развлекательн-познавательная викторина</string>
+    <string name="stateName">Название страны</string>
+    <string name="performance">performance</string>
+    <string name="attempts">attempts</string>
+    <string name="questions">questions</string>
+    <string name="newQuestions">Новые вопросы</string>
+
+    <string name="quest">Вопросы</string>
+    <string name="answers">Ответы</string>
+    <string name="incorrect">Неправильные ответы</string>
+    <string name="incorrect_stub">Заменитель флага</string>
+    <string name="incorrect_stub_description">Изображение-заменитель флага при неправильном ответе</string>
+
+    <string name="sound">Звук</string>
+    <string name="is_sound">Включение/выключение звука</string>
+    <string name="newButton">newButton</string>
+
 </resources>

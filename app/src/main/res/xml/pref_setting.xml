@@ -59,4 +59,57 @@
         </CheckBoxPreference>
     </PreferenceCategory>
 
+
+    <PreferenceCategory
+        app:title="@string/quest">
+
+        <ListPreference
+            android:key="pref_numberOfFlags"
+            android:entries="@array/flagNumber_list"
+            android:entryValues="@array/flagNumber_list"
+            android:title="@string/number_of_flags"
+            android:summary="@string/number_of_flags_description"
+            android:persistent="true"
+            android:defaultValue="5" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        app:title = "@string/answers">
+
+        <ListPreference
+            android:key="pref_numberOfChoices"
+            android:entries="@array/guesses_list"
+            android:entryValues="@array/guesses_list"
+            android:title="@string/number_of_choices"
+            android:summary="@string/number_of_choices_description"
+            android:persistent="true"
+            android:defaultValue="6" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        app:title = "@string/incorrect">
+
+        <ListPreference
+            android:key="pref_incorrect"
+            android:entries="@array/incorrect_list"
+            android:entryValues="@array/incorrect_value_list"
+            android:title="@string/incorrect_stub"
+            android:summary="@string/incorrect_stub_description"
+            android:persistent="true"
+            android:defaultValue="1" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/sound">
+
+        <CheckBoxPreference
+            android:key="pref_cbSound"
+            android:title="@string/is_sound"
+            app:defaultValue="true"
+            android:summaryOn="@string/cbSortOn"
+            android:summaryOff="@string/cbSortOff">
+        </CheckBoxPreference>
+    </PreferenceCategory>
+
 </androidx.preference.PreferenceScreen>

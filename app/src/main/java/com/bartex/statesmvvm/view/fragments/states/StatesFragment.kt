@@ -130,28 +130,6 @@ class   StatesFragment : Fragment(),
                     }
                 })
         }
-
-//            stateViewModel.getDataFromDatabase()
-//                .observe(viewLifecycleOwner, Observer { list ->
-//                    if (list.size > 2000) { //если в базе есть записи берём из базы
-//                        listOfStates = list //запоминаем
-//                        chipGroupStates.check(UtilStates. getRegionId(region))
-//                        renderDataWithRegion(region)  // с учётом текущего региона
-//                    } else { //если в базе ничего нет
-//                        if (isNetworkAvailable) { //если сеть есть
-//                            //получаем страны из сети
-//                            stateViewModel.getStatesSealed()
-//                                .observe(viewLifecycleOwner, Observer { stateSealed ->
-//                                    renderData(stateSealed)
-//                                })
-//                        } else {//если данных нет ни в сети ни в базе - показываем предупреждение
-//                            showAlertDialog(
-//                                getString(R.string.dialog_title_device_is_offline),
-//                                getString(R.string.dialog_message_load_impossible)
-//                            )
-//                        }
-//                    }
-//                })
         //восстанавливаем позицию списка после поворота или возвращения на экран
         position =  stateViewModel.getPositionState()
 
@@ -278,7 +256,7 @@ class   StatesFragment : Fragment(),
                     3 -> {filtred = states.filter {it.area!=null && it.area!!>0}.sortedByDescending {it.area}}
                     4 -> {filtred = states.filter {it.area!=null && it.area!!>0}.sortedBy {it.area}}
                 }
-            //Log.d(TAG, "StatesFragment filtred:  $filtred")
+            //Log.d(TAG, "StatesQuizFragment filtred:  $filtred")
             adapter?.listStates = filtred
             adapter?.setRusLang(stateViewModel.getRusLang())
             rvStates.layoutManager?.scrollToPosition(position) //крутим в запомненную позицию списка
@@ -340,7 +318,7 @@ class   StatesFragment : Fragment(),
 
     override fun onQueryTextSubmit(query: String?): Boolean {
         //ничего не делаем - не будет фрагмента поиска, так как при вводе символов
-        //изменяется список внутри StatesFragment
+        //изменяется список внутри StatesQuizFragment
         return false
     }
 

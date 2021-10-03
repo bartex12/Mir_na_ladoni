@@ -19,12 +19,14 @@ import androidx.navigation.Navigation
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
 import androidx.preference.PreferenceManager
+import androidx.viewpager.widget.ViewPager
 import com.bartex.statesmvvm.App
 import com.bartex.statesmvvm.R
 import com.bartex.statesmvvm.common.AlertDialogFragment
 import com.bartex.statesmvvm.common.isOnline
 import com.bartex.statesmvvm.network.OnlineLiveData
 import com.bartex.statesmvvm.view.fragments.states.StatesViewModel
+import com.bartex.statesmvvm.view.shared.SharedViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
@@ -49,6 +51,9 @@ open class    MainActivity: AppCompatActivity(), NavigationView.OnNavigationItem
     private lateinit var bottomNavigationState : BottomNavigationView
 
     private lateinit var mainViewModel: MainViewModel
+
+    private val model by lazy{ViewModelProvider(this).get(SharedViewModel::class.java)}
+    private  var toolbarTitleFlag = ""
 
     companion object{
         const val DIALOG_FRAGMENT_TAG = "DIALOG_FRAGMENT_TAG"
@@ -118,6 +123,8 @@ open class    MainActivity: AppCompatActivity(), NavigationView.OnNavigationItem
         toolbar.setTitleTextAppearance(this, R.style.ToolbarTitleStyle)
         //поддержка экшенбара для создания строки поиска
         setSupportActionBar(toolbar)
+        //отключаем показ заголовка  - иначе не обновляется при переходе на новую викторину
+        supportActionBar?.setDisplayShowTitleEnabled(false)
 
         appBarConfiguration = AppBarConfiguration.Builder(navController.graph)
         //Отображать кнопку навигации как гамбургер , когда она не отображается как кнопка вверх
@@ -156,6 +163,19 @@ open class    MainActivity: AppCompatActivity(), NavigationView.OnNavigationItem
             }
         }
 
+        //передача данных о надписи на тулбаре из фрагмента викторины с флагами
+        model.toolbarTitleFromFlag
+            .observe(this, Observer { newTitle->
+                toolbarTitleFlag = newTitle
+                if(getViewPagerCurrentItem() == 0){
+                    toolbar.title = toolbarTitleFlag //здесь тоже, иначе не обновляется само
+                }
+            })
+    }
+    private fun getViewPagerCurrentItem(): Int? {
+        val frag = supportFragmentManager.findFragmentById(R.id.nav_host_fragment)
+        val vp: ViewPager? = frag?.view?.findViewById(R.id.view_pager_quiz)
+        return vp?.currentItem
     }
 
     // Этот метод вызывается всякий раз, когда пользователь выбирает переход вверх
@@ -211,12 +231,22 @@ open class    MainActivity: AppCompatActivity(), NavigationView.OnNavigationItem
         //нашел способ установить видимость иконок в тулбаре без перебора всех вариантов
         val id = navController.currentDestination?.id
         //видимость иконок в тулбаре
-        id?. let {
+        id?.let {
             menu?.findItem(R.id.search_toolbar)?.isVisible = it == R.id.statesFragment
-            menu?.findItem(R.id.help_toolbar)?.isVisible = it!= R.id.helpFragment
-                    && it!= R.id.homeFragment && it!= R.id.weatherFragment
+            menu?.findItem(R.id.help_toolbar)?.isVisible = it != R.id.helpFragment
+                    && it != R.id.homeFragment && it != R.id.weatherFragment
             menu?.findItem(R.id.settings_toolbar)?.isVisible = it != R.id.settingsFragment
-                    && it!= R.id.homeFragment && it!= R.id.weatherFragment
+                    && it != R.id.homeFragment && it != R.id.weatherFragment
+
+            //заголовки тулбара в зависимости от фрагмента викторины
+            if (id == R.id.tabsFragment) {
+                toolbar.title = when (getViewPagerCurrentItem()) {
+                    0 -> toolbarTitleFlag
+                    1 -> getString(R.string.app_name)
+                    2 -> getString(R.string.mistakes)
+                    else -> getString(R.string.app_name)
+                }
+            }
         }
         return super.onPrepareOptionsMenu(menu)
     }
@@ -380,7 +410,7 @@ open class    MainActivity: AppCompatActivity(), NavigationView.OnNavigationItem
             "MainActivity onBackPressed  Destination = ${navController.currentDestination?.label}"
         )
         if( navController.currentDestination?.id  == R.id.homeFragment){
-            Log.d(TAG, "MainActivity onBackPressed  это StatesFragment")
+            Log.d(TAG, "MainActivity onBackPressed  это StatesQuizFragment")
             //если флаг = true - а это при двойном щелчке - закрываем программу
             if (doubleBackToExitPressedOnce) {
                 Log.d(TAG, "MainActivity onBackPressed  doubleBackToExitPressedOnce")
@@ -401,7 +431,7 @@ open class    MainActivity: AppCompatActivity(), NavigationView.OnNavigationItem
             Handler(Looper.getMainLooper())
                 .postDelayed({ doubleBackToExitPressedOnce = false }, 2000)
         }else{
-            Log.d(TAG, "MainActivity onBackPressed  это НЕ StatesFragment ")
+            Log.d(TAG, "MainActivity onBackPressed  это НЕ StatesQuizFragment ")
             super.onBackPressed()
         }
     }

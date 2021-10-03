@@ -1,4 +1,4 @@
-package com.bartex.statesmvvm.view.fragments.tabs
+package com.bartex.statesmvvm.view.fragments.quiz.tabs
 
 import android.os.Bundle
 import android.view.LayoutInflater

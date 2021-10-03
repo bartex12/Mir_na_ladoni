@@ -68,7 +68,7 @@ class ToolBarMenuTest {
         Assert.assertNotNull(favorite)
     }
 
-    // Проверяем поиск по списку в StatesFragment
+    // Проверяем поиск по списку в StatesQuizFragment
     // в uiautomatorviewer смотрим resourceId иконки = com.bartex.states_search:id/search
     @Test
     fun test_OpenSearchWidget() {
@@ -114,7 +114,7 @@ class ToolBarMenuTest {
         //Кликаем по ней
         flags.click()
         //Ожидаем конкретного события: появления ресайклера rv_flags
-        //Это будет означать, что FlagsFragment открылся и rv_flags видно на экране.
+        //Это будет означать, что FlagsQuizFragment открылся и rv_flags видно на экране.
         val rv_flags = uiDevice.wait(
             Until.findObject(By.res(packageName, "rv_flags")),
             TIMEOUT

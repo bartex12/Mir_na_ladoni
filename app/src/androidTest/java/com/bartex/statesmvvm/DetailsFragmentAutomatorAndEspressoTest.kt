@@ -48,7 +48,7 @@ class DetailsFragmentAutomatorAndEspressoTest {
         uiDevice.wait(Until.hasObject(By.pkg(packageName).depth(0)), TIMEOUT)
     }
 
-    //Открываем StatesFragment, крутим список до 22 элемента , кликаем по нему
+    //Открываем StatesQuizFragment, крутим список до 22 элемента , кликаем по нему
     //ждём переключения на DetailsFragment
     //находим на экране вьюху  с id = btn_removeFavorite - Удалить из избранного
     //если она не null, кликаем на ней
