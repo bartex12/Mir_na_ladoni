@@ -85,8 +85,8 @@ class   StatesFragment : Fragment(),
         //если первое включение
         if (sharedViewModel.getFirstRun()){
             sharedViewModel.setFirstRun(false) //устанавливаем флаг - не первое включение
-            //сначала смотрим в сети
-            if (isNetworkAvailable) { //если сеть есть
+            //todo сначала смотрим в сети
+            if (!isNetworkAvailable) { //если сеть есть
                 //получаем страны из сети
                 stateViewModel.getStatesSealed()
                     .observe(viewLifecycleOwner, Observer { stateSealed ->

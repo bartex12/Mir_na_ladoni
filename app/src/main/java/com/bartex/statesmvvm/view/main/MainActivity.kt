@@ -24,6 +24,7 @@ import com.bartex.statesmvvm.App
 import com.bartex.statesmvvm.R
 import com.bartex.statesmvvm.common.AlertDialogFragment
 import com.bartex.statesmvvm.common.isOnline
+import com.bartex.statesmvvm.model.constants.Constants
 import com.bartex.statesmvvm.network.OnlineLiveData
 import com.bartex.statesmvvm.view.fragments.states.StatesViewModel
 import com.bartex.statesmvvm.view.shared.SharedViewModel
@@ -43,21 +44,16 @@ open class    MainActivity: AppCompatActivity(), NavigationView.OnNavigationItem
     private var oldSort:Int = 1
     private var isOldSort:Boolean = true
     private var isOldLang :Boolean = true
-
     private var isNetworkAvailable: Boolean = true
     private var isNet: Boolean = true
-
     private lateinit var toolbar: Toolbar
     private lateinit var bottomNavigationState : BottomNavigationView
-
     private lateinit var mainViewModel: MainViewModel
-
     private val model by lazy{ViewModelProvider(this).get(SharedViewModel::class.java)}
     private  var toolbarTitleFlag = ""
     private  var toolbarTitleState = ""
 
     companion object{
-        const val DIALOG_FRAGMENT_TAG = "DIALOG_FRAGMENT_TAG"
         const val TAG = "33333"
     }
 
@@ -97,7 +93,7 @@ open class    MainActivity: AppCompatActivity(), NavigationView.OnNavigationItem
         if (savedInstanceState == null) {
             isNetworkAvailable = isOnline(this) //флаг наличия сети, за которым наблюдаем
             if (!isNetworkAvailable) {
-                isNet = false  // флаг наличия сети, за которым не наблюдаем
+                isNet = false  // флаг наличия сети, за которым НЕ наблюдаем
                 showNoInternetConnectionDialog()
             }
         }
@@ -137,39 +133,12 @@ open class    MainActivity: AppCompatActivity(), NavigationView.OnNavigationItem
         //слушатель меню шторки -для обработки пунктов шторки
         nav_view.setNavigationItemSelectedListener(this)
 
-        navController.addOnDestinationChangedListener { _, destination, _ ->
-            when (destination.id) {
-                R.id.homeFragment -> bottomNavigationState.visibility = View.GONE
-                R.id.statesFragment -> {
-                    bottomNavigationState.visibility = View.VISIBLE
-                    bottomNavigationState.selectedItemId = R.id.states
-                }
-                R.id.weatherFragment -> bottomNavigationState.visibility = View.GONE
-                R.id.detailsFragment -> bottomNavigationState.visibility = View.GONE
-                R.id.favoriteFragment -> {
-                    bottomNavigationState.visibility = View.VISIBLE
-                    bottomNavigationState.selectedItemId = R.id.liked
-                }
-                R.id.helpFragment -> bottomNavigationState.visibility = View.GONE
-                R.id.settingsFragment -> bottomNavigationState.visibility = View.GONE
-                R.id.flagsFragment -> {
-                    bottomNavigationState.visibility = View.VISIBLE
-                    bottomNavigationState.selectedItemId = R.id.flags
-                }
-                R.id.tabsFragment -> {
-                    bottomNavigationState.visibility = View.VISIBLE
-                    bottomNavigationState.selectedItemId = R.id.quiz
-                }
-                else -> {}
-            }
-        }
-
         //передача данных о надписи на тулбаре из фрагмента викторины с флагами
         model.toolbarTitleFromFlag
             .observe(this, Observer { newTitle->
                 toolbarTitleFlag = newTitle
                 if(getViewPagerCurrentItem() == 0){
-                    toolbar.title = toolbarTitleFlag //здесь тоже, иначе не обновляется само
+                    toolbar.title = toolbarTitleFlag //иначе не обновляется при первом вхождении
                 }
             })
 
@@ -178,7 +147,7 @@ open class    MainActivity: AppCompatActivity(), NavigationView.OnNavigationItem
             .observe(this, Observer {newTitle->
                 toolbarTitleState = newTitle
                 if(getViewPagerCurrentItem() == 1){
-                    toolbar.title = toolbarTitleState //здесь тоже, иначе не обновляется само
+                    toolbar.title = toolbarTitleState //иначе не обновляется при первом вхождении
                 }
             })
     }
@@ -212,20 +181,19 @@ open class    MainActivity: AppCompatActivity(), NavigationView.OnNavigationItem
             recreate()
         }
     }
-
+    //получить состояние сети
     fun getNetworkAvailable(): Boolean = isNetworkAvailable
-
+    //вызвать диалог об отсутствии сети
     private fun showNoInternetConnectionDialog() {
         showAlertDialog(
             getString(R.string.dialog_title_device_is_offline),
             getString(R.string.dialog_message_device_is_offline)
         )
     }
-
+    //создать диалог об отсутствии сети
     private fun showAlertDialog(title: String?, message: String?) {
         AlertDialogFragment.newInstance(title, message).show(
-            supportFragmentManager,
-            DIALOG_FRAGMENT_TAG
+            supportFragmentManager, Constants.DIALOG_FRAGMENT
         )
     }
 
@@ -238,26 +206,62 @@ open class    MainActivity: AppCompatActivity(), NavigationView.OnNavigationItem
     //заголовки тулбара в зависимости от фрагмента прописаны в навигационном графе в label
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
         Log.d(TAG, "MainActivity onPrepareOptionsMenu ")
-        //нашел способ установить видимость иконок в тулбаре без перебора всех вариантов
         val id = navController.currentDestination?.id
-        //видимость иконок в тулбаре
+
+        //заголовок тулбара
+        toolbar.title = when (id){
+                        R.id.homeFragment->getString(R.string.app_name)
+                        R.id.statesFragment->getString(R.string.statesOfWorld)
+                        R.id.flagsFragment->getString(R.string.flags)
+                        R.id.favoriteFragment->getString(R.string.favorite_name)
+                        R.id.tabsFragment->{
+                            //заголовки тулбара в зависимости от фрагмента викторины
+                            when (getViewPagerCurrentItem()) {
+                                0 -> toolbarTitleFlag
+                                1 -> toolbarTitleState
+                                2 -> getString(R.string.mistakes)
+                                else -> getString(R.string.app_name)
+                            }
+                        }
+                        R.id.weatherFragment->getString(R.string.weather_name)
+                        R.id.detailsFragment->getString(R.string.details_name)
+                        R.id.settingsFragment->getString(R.string.sett)
+                        R.id.helpFragment->getString(R.string.help)
+                        else ->{getString(R.string.app_name)}
+        }
+
+       // видимость иконок в тулбаре
         id?.let {
             menu?.findItem(R.id.search_toolbar)?.isVisible = it == R.id.statesFragment
             menu?.findItem(R.id.help_toolbar)?.isVisible = it != R.id.helpFragment
                     && it != R.id.homeFragment && it != R.id.weatherFragment
             menu?.findItem(R.id.settings_toolbar)?.isVisible = it != R.id.settingsFragment
                     && it != R.id.homeFragment && it != R.id.weatherFragment
-
-            //заголовки тулбара в зависимости от фрагмента викторины
-            if (id == R.id.tabsFragment) {
-                toolbar.title = when (getViewPagerCurrentItem()) {
-                    0 -> toolbarTitleFlag
-                    1 -> toolbarTitleState
-                    2 -> getString(R.string.mistakes)
-                    else -> getString(R.string.app_name)
-                }
-            }
         }
+
+        //видимость нижнеего меню во фрагментах
+        when (id) {
+            R.id.homeFragment,
+            R.id.weatherFragment,
+            R.id.detailsFragment,
+            R.id.helpFragment,
+            R.id.settingsFragment -> bottomNavigationState.visibility = View.GONE
+
+            R.id.statesFragment,
+            R.id.favoriteFragment,
+            R.id.flagsFragment,
+            R.id.tabsFragment -> bottomNavigationState.visibility = View.VISIBLE
+            else -> {}
+        }
+
+        //выделение иконок и текста нижнего меню
+        when (id){
+            R.id.statesFragment -> bottomNavigationState.selectedItemId = R.id.states
+            R.id.tabsFragment -> bottomNavigationState.selectedItemId = R.id.quiz
+            R.id.favoriteFragment -> bottomNavigationState.selectedItemId = R.id.liked
+            R.id.flagsFragment -> bottomNavigationState.selectedItemId = R.id.flags
+        }
+
         return super.onPrepareOptionsMenu(menu)
     }
 
@@ -271,7 +275,7 @@ open class    MainActivity: AppCompatActivity(), NavigationView.OnNavigationItem
         when (id){
             R.id.settings_toolbar -> {
                 when(destinationId){
-                 R.id.helpFragment -> navController.navigate(R.id.action_helpFragment_to_settingsFragment)
+                    R.id.helpFragment -> navController.navigate(R.id.action_helpFragment_to_settingsFragment)
                     R.id.flagsFragment-> navController.navigate(R.id.action_flagsFragment_to_settingsFragment)
                     R.id.favoriteFragment->navController.navigate(R.id.action_favoriteFragment_to_settingsFragment)
                     R.id.tabsFragment->navController.navigate(R.id.action_tabsFragment_to_settingsFragment)
