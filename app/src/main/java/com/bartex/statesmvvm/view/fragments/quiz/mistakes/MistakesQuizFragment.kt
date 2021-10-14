@@ -1,9 +1,11 @@
 package com.bartex.statesmvvm.view.fragments.quiz.mistakes
 
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.TextView
 import androidx.appcompat.widget.SearchView
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
@@ -59,7 +61,7 @@ class MistakesQuizFragment: Fragment(),
         initMenu()
 
         //чтобы получить текущий регион - сделал обмен данными через SharedViewModel
-        // во FlagsQuizFragment и StateFragment в initChipGroupListener() кладём значение, а здесь принимаем
+        // во FlagsQuizFragment и StateQuizFragment в initChipGroupListener() кладём значение, а здесь принимаем
         model.newRegion.observe(viewLifecycleOwner, androidx.lifecycle.Observer{ newRegion->
             region = newRegion
             chipGroupMistake.check(UtilMistakes.getRegionId(region)) //отметка на чипе
@@ -71,9 +73,13 @@ class MistakesQuizFragment: Fragment(),
         mistakesViewModel.getAllMistakesLive()
                 .observe(viewLifecycleOwner, androidx.lifecycle.Observer{
                     listOfMistakeStates =   it.map {room->
-                        State(capital =room.capital, flag = room.flag, name =room.name,
-                            region = room.region, nameRus = room.nameRus,
-                            capitalRus = room.capitalRus, regionRus = room.regionRus
+//                        State(capital =room.capital, flag = room.flag, name =room.name,
+//                            region = room.region, nameRus = room.nameRus,
+//                            capitalRus = room.capitalRus, regionRus = room.regionRus
+//                        )
+                        State(room.capital, room.flag, room.name, room.region,
+                            room.population, room.area, arrayOf(room.lat, room.lng),
+                            room.nameRus, room.capitalRus, room.regionRus
                         )
                     }.filter {st-> //отбираем только те, где полные данные
                         UtilFilters.filterData(st)
@@ -109,6 +115,7 @@ class MistakesQuizFragment: Fragment(),
         rvStatesMistake.layoutManager = LinearLayoutManager(requireActivity())
 
         adapter = MistakesAdapter(
+            getOnMistakeClickListener(),
                 getOnRemoveListener(),
             GlideToVectorYouLoader(requireActivity())
         )
@@ -159,6 +166,20 @@ class MistakesQuizFragment: Fragment(),
             renderDataWithRegion(region)
         }
     }
+
+    private fun getOnMistakeClickListener(): MistakesAdapter.OnMistakeClickListener =
+        object : MistakesAdapter.OnMistakeClickListener{
+            override fun onMistakeClick(mistakeState: State) {
+                val bundle = bundleOf(Constants.STATE to mistakeState)
+                val destinationId = navController.currentDestination?.id
+                if(destinationId == R.id.tabsFragment) {
+                   navController.navigate(R.id.action_tabsFragment_to_detailsFragment, bundle)
+               }else{
+                    navController.navigate(R.id.detailsFragment, bundle)
+                }
+
+            }
+        }
 
     private fun getOnRemoveListener(): MistakesAdapter.OnRemoveListener =
             object: MistakesAdapter.OnRemoveListener{

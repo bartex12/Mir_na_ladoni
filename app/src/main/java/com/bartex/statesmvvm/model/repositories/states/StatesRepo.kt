@@ -7,6 +7,7 @@ import com.bartex.statesmvvm.common.MapOfState
 import com.bartex.statesmvvm.model.api.IDataSource
 import com.bartex.statesmvvm.model.entity.state.State
 import com.bartex.statesmvvm.model.repositories.states.cash.IRoomStateCash
+import com.bartex.statesmvvm.model.repositories.states.cash.RoomStateCash
 import com.bartex.statesmvvm.view.utils.UtilStates
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.schedulers.Schedulers
@@ -33,18 +34,17 @@ class StatesRepo(val dataSource: IDataSource, private val roomCash: IRoomStateCa
                         it.nameRus = MapOfState.mapStates[it.name] ?:"Unknown"
                         it.capitalRus = MapOfCapital.mapCapital[it.capital] ?:"Unknown"
                         it.regionRus = MapOfRegion.mapRegion[it.region] ?:"Unknown"
-//                        Log.d(TAG, "StatesRepo ${it.nameRus}" +
-//                                " ${it.flag} ${it.name}" +
-//                                " ${it.capitalRus} ${it.capital}" +
-//                                " ${it.regionRus} ${it.region}" )
                     }
-                    //фильтруем данные
-                    val filtredStates =  states.filter { state->
-                        UtilStates.filterData(state)
-                    }
-                    Log.d(TAG, "StatesRepo  getStates f_states.size = ${filtredStates.size}")
+//                    //фильтруем данные
+//                    val filtredStates =  states.filter { state->
+//                        Log.d(TAG, "StatesRepo getStates: ${states.size}")
+////                        Log.d(TAG, "StatesRepo getStates: " +
+////                                "${state.nameRus} ${state.name} ${state.capitalRus} ${state.capital}")
+//                        UtilStates.filterData(state)
+//                    }
+//                    Log.d(TAG, "StatesRepo getStates: ${filtredStates.size}")
                     //реализация кэширования списка пользователей из сети в базу данных
-                    roomCash.doStatesCash(filtredStates)
+                    roomCash.doStatesCash(states)
         }.subscribeOn(Schedulers.io())
 
 }

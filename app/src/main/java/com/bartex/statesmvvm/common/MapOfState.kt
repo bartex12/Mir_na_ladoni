@@ -247,6 +247,8 @@ val mapStates = mapOf(
     "Western Sahara" to "Западная Сахара",
     "Yemen" to "Йемен",
     "Zambia" to "Замбия",
-    "Zimbabwe" to "Зимбабве"
+    "Zimbabwe" to "Зимбабве",
+    "Antarctica" to "Антарктика",
+    "Macao" to "Макао"
      )
 }

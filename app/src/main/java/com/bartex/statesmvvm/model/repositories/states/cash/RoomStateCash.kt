@@ -156,10 +156,10 @@ class RoomStateCash(val db: Database): IRoomStateCash {
                     roomState.population, roomState.area, arrayOf(roomState.lat, roomState.lng),
                     roomState.nameRus, roomState.capitalRus, roomState.regionRus
                 )
-            }.filter {st-> //отбираем только те, где полные данные
-               // Log.d(TAG, "RoomStateCash loadAllData:${st.name} ${st.area} ${st.flag}")
+            }.toMutableList()/*.filter {st-> //отбираем только те, где полные данные
+               // Log.d(TAG, "RoomStateCash loadAllData: ${st.nameRus} ${st.name} ${st.capitalRus} ${st.capital}")
                 UtilStates.filterData(st)
-            }.toMutableList()
+            }.toMutableList()*/
         }.subscribeOn(Schedulers.io())
 
     private fun removeFavor(state: State): Boolean{

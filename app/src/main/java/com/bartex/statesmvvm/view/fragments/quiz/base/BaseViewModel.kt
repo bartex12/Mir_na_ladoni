@@ -22,6 +22,7 @@ import com.bartex.statesmvvm.model.room.Database
 import com.bartex.statesmvvm.view.fragments.quiz.setting.ISettingsProvider
 import com.bartex.statesmvvm.view.fragments.quiz.setting.SettingsProvider
 import com.bartex.statesmvvm.view.fragments.states.StatesSealed
+import com.bartex.statesmvvm.view.utils.UtilStates
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 
 open class BaseViewModel(
@@ -78,8 +79,12 @@ open class BaseViewModel(
 
     //сохраняем список стран чтобы не пропадал при поворотах экрана
     fun saveListOfStates( listStates:MutableList<State>){
-        dataFlags.listStatesFromNet = listStates //для удобства храним в данных
-        listOfStates = listStates //а также храним во ViewModel
+        val filtredListOfStates = listStates.filter {
+            UtilStates.filterData(it)
+        }.toMutableList()
+        dataFlags.listStatesFromNet = filtredListOfStates //для удобства храним в данных
+        listOfStates = filtredListOfStates //а также храним во ViewModel
+        Log.d(TAG, "BaseViewModel saveListOfStates  listOfStates size = ${listOfStates.size}")
     }
 
     fun getDataFromDatabase(): LiveData<MutableList<State>> {
@@ -176,6 +181,6 @@ open class BaseViewModel(
     }
 
     companion object{
-        const val TAG = "Quizday"
+        const val TAG = "33333"
     }
 }

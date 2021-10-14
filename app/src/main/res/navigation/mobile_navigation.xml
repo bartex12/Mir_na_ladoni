@@ -181,6 +181,10 @@
         <action
             android:id="@+id/action_tabsFragment_to_statesQuizFragment"
             app:destination="@id/statesQuizFragment" />
+        <action
+            android:id="@+id/action_tabsFragment_to_detailsFragment"
+            app:destination="@id/detailsFragment"
+            app:popUpTo="@id/tabsFragment" />
     </fragment>
     <fragment
         android:id="@+id/homeFragment"

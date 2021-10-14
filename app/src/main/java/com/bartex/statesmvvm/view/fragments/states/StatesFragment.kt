@@ -26,12 +26,10 @@ import com.bartex.statesmvvm.network.NoInternetDialogFragment
 import com.bartex.statesmvvm.view.adapter.GlideToVectorYouLoader
 import com.bartex.statesmvvm.view.adapter.StateRVAdapter
 import com.bartex.statesmvvm.view.main.MainActivity
-import com.bartex.statesmvvm.view.main.MainViewModel
 import com.bartex.statesmvvm.view.shared.SharedViewModel
 import com.bartex.statesmvvm.view.utils.UtilStates
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
-import kotlinx.android.synthetic.main.fragment_details.*
 import java.util.*
 
 class   StatesFragment : Fragment(),
@@ -46,7 +44,7 @@ class   StatesFragment : Fragment(),
     private lateinit var chipGroupStates: ChipGroup
     private lateinit var progressBarState: ProgressBar
     private var listOfStates  = mutableListOf<State>() //список стран мира
-    private var filtred:List<State> = listOf() // отфильтрованный и отсортированный список (список региона)
+    private var sorted:List<State> = listOf() // отфильтрованный и отсортированный список (список региона)
     private var region:String = Constants.REGION_ALL // текущий
 
     private val sharedViewModel: SharedViewModel by activityViewModels() //спец viewModel для обмена данными
@@ -79,14 +77,14 @@ class   StatesFragment : Fragment(),
 
        val  isNetworkAvailable = (requireActivity() as MainActivity).getNetworkAvailable()
 
+        //===========================================================
         //если первое включение - смотрим в сети, если сети нет - смотрим в базе - если и там нет - диалог
         //если не первое включение, сначала смотрим в базе если там нет -показываем диалог
         Log.d(TAG, "###StatesFragment onViewCreated: FirstRun = ${sharedViewModel.getFirstRun()}")
         //если первое включение
         if (sharedViewModel.getFirstRun()){
             sharedViewModel.setFirstRun(false) //устанавливаем флаг - не первое включение
-            //todo сначала смотрим в сети
-            if (!isNetworkAvailable) { //если сеть есть
+            if (isNetworkAvailable) { //если сеть есть
                 //получаем страны из сети
                 stateViewModel.getStatesSealed()
                     .observe(viewLifecycleOwner, Observer { stateSealed ->
@@ -129,8 +127,13 @@ class   StatesFragment : Fragment(),
                     }
                 })
         }
+
+        //===============================================================
+
         //восстанавливаем позицию списка после поворота или возвращения на экран
         position =  stateViewModel.getPositionState()
+
+        chipGroupStates.check(R.id.chip_all_region)
 
         stateViewModel.getNewRegion()
             .observe(viewLifecycleOwner, Observer {newRegion->
@@ -243,20 +246,23 @@ class   StatesFragment : Fragment(),
             rvStates.visibility =  View.VISIBLE
             emptyViewStates.visibility =View.GONE
 
-            getNumberOnChipName()
-
             val isSorted = stateViewModel.isSorted()
             val getSortCase = stateViewModel.getSortCase()
 
             if(isSorted){
                 when (getSortCase) {
-                    1 -> {filtred = states.filter {it.population!=null}.sortedByDescending {it.population} }
-                    2 -> {filtred = states.filter {it.population!=null}.sortedBy {it.population} }
-                    3 -> {filtred = states.filter {it.area!=null && it.area!!>0}.sortedByDescending {it.area}}
-                    4 -> {filtred = states.filter {it.area!=null && it.area!!>0}.sortedBy {it.area}}
+                    1 -> {sorted = states.filter {it.population!=null}.sortedByDescending {it.population} }
+                    2 -> {sorted = states.filter {it.population!=null}.sortedBy {it.population} }
+                    3 -> {sorted = states.filter {it.area!=null && it.area!!>0}.sortedByDescending {it.area}}
+                    4 -> {sorted = states.filter {it.area!=null && it.area!!>0}.sortedBy {it.area}}
                 }
-            //Log.d(TAG, "StatesQuizFragment filtred:  $filtred")
-            adapter?.listStates = filtred
+
+                sorted =  sorted.filter { UtilStates.filterData(it)}
+                Log.d(TAG, "*#*  StatesFragment filtered size =   ${sorted.size}")
+
+                getNumberOnChipName() //чиисло на чипе
+
+            adapter?.listStates = sorted
             adapter?.setRusLang(stateViewModel.getRusLang())
             rvStates.layoutManager?.scrollToPosition(position) //крутим в запомненную позицию списка
             Log.d(TAG, "StatesFragment renderState scrollToPosition = $position")
@@ -269,7 +275,8 @@ class   StatesFragment : Fragment(),
             val chip = chipGroupStates.getChildAt(i) as Chip
             val regionName =
                 if (chip.isChecked) {
-                getRegionNameAndNumber()
+                    "$region ${sorted.size}"
+                //getRegionNameAndNumber()
             }else{
                 UtilStates. getRegionName(chip.id)
             }
@@ -277,13 +284,13 @@ class   StatesFragment : Fragment(),
         }
     }
 
-    private fun getRegionNameAndNumber(): String {
-        val regionSize: Int = when (region) {
-            Constants.REGION_ALL -> listOfStates.size
-            else -> listOfStates.filter { it.regionRus == region }.size
-        }
-        return  "$region $regionSize"
-    }
+//    private fun getRegionNameAndNumber(): String {
+//        val regionSize: Int = when (region) {
+//            Constants.REGION_ALL -> sorted.size
+//            else -> sorted.filter { it.regionRus == region }.size
+//        }
+//        return  "$region $regionSize"
+//    }
 
     private fun getOnClickListener(): StateRVAdapter.OnitemClickListener =
         object : StateRVAdapter.OnitemClickListener{
@@ -349,7 +356,7 @@ class   StatesFragment : Fragment(),
                 adapter?.listStates = listSearched
             }else{
                 //если строка поиска  пуста - выводим то же что было
-                adapter?.listStates = filtred
+                adapter?.listStates = sorted
             }
         }
         return false

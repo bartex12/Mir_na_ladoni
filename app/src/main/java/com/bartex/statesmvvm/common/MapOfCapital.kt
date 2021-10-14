@@ -8,7 +8,7 @@ object MapOfCapital {
                 "Tirana" to "Тирана",
                 "Algiers" to "Алжир",
                 "Pago Pago" to "Паго Паго",
-                "Andorra" to "Андорра-ла-Велья",
+                "Andorra la Vella" to "Андорра-ла-Велья",
                 "Luanda" to "Луанда",
                 "The Valley" to "Долина",
                 "Saint John's" to "Сент-Джонс",
@@ -116,7 +116,7 @@ object MapOfCapital {
                 "Tokyo" to "Токио",
                 "Saint Helier" to "Сент-Хелиер",
                 "Amman" to "Амман",
-                "Astana" to "Нур-Султан",
+                "Nur-Sultan" to "Нур-Султан",
                 "Nairobi" to "Найроби",
                 "South Tarawa" to "Южная Тарава",
                 "Kuwait City" to "Кувейт",
@@ -234,19 +234,22 @@ object MapOfCapital {
                 "Cockburn Town" to "Кокберн Таун",
                 "Funafuti" to "Фунафути",
                 "Kampala" to "Кампала",
-                "Kiev" to "Киев",
+                "Kyiv" to "Киев",
                 "Abu Dhabi" to "Абу-Даби",
                 "London" to "Лондон",
                 "Washington, D.C." to "Вашингтон",
                 "Montevideo" to "Монтевидео",
                 "Tashkent" to "Ташкент",
-                "Port-Vila" to "Порт-Вила",
+                "Port Vila" to "Порт-Вила",
                 "Caracas" to "Каракас",
                 "Hanoi" to "Ханой",
                 "Mata-Utu" to "Мата-Уту",
                 "El Aaiún" to "Эль-Аюн",
                 "Sana'a" to "Сана",
                 "Lusaka" to "Лусака",
-                "Harare" to "Хараре"
+                "Harare" to "Хараре",
+                "Sri Jayawardenepura Kotte" to "Шри-Джаяварденепура-Котте",
+                "Gitega" to "Гитега"
+
     )
 }

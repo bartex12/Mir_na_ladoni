@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.*
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -51,7 +52,7 @@ class StatesQuizFragment : Fragment(){
     }
 
     private lateinit var handler : Handler   // Для задержки загрузки следующего флага
-    private lateinit var quizLinearLayout  : LinearLayout // root макета фрагмента
+    private lateinit var quizLinearLayout  : ConstraintLayout // root макета фрагмента
     private lateinit var answerTextView : TextView  //для правильно/неправильно
     private lateinit var questionTextView  : TextView  //Для вывода страны-вопроса
     private lateinit var guessButton: ImageView  // текущая кнопка ответа

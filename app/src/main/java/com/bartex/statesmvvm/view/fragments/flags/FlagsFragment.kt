@@ -80,7 +80,8 @@ class FlagsFragment:Fragment() {
             empty_view_flags.visibility = View.GONE
             Log.d(TAG, "FlagsFragment before filter ${states.size}")
             val filteredStates =  states.filter {
-                UtilStates.filterData(it) //фильтруем на всякий случай
+                //UtilStates.filterData(it) //фильтруем на всякий случай
+                true //без фильтрации
             }
             Log.d(TAG, "FlagsFragment after filter ${filteredStates.size}")
             adapter?.listFavoriteStates = filteredStates //передаём список в адаптер

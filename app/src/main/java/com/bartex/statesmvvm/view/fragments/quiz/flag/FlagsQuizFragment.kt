@@ -26,6 +26,7 @@ import com.bartex.statesmvvm.model.fsm.IFlagState
 import com.bartex.statesmvvm.model.fsm.entity.DataFlags
 import com.bartex.statesmvvm.model.fsm.substates.*
 import com.bartex.statesmvvm.network.NoInternetDialogFragment
+import com.bartex.statesmvvm.view.fragments.quiz.state.StatesQuizFragment
 import com.bartex.statesmvvm.view.fragments.states.StatesSealed
 import com.bartex.statesmvvm.view.main.MainActivity
 import com.bartex.statesmvvm.view.shared.SharedViewModel
@@ -87,6 +88,8 @@ class FlagsQuizFragment: Fragment(){
             flagsViewModel.getDataFromDatabase()
                     .observe(viewLifecycleOwner, Observer {listOfState->
                         if (listOfState.size >200){ //если в базе есть записи
+                            Log.d(TAG, "FlagsQuizFragment onViewCreated " +
+                                    "listOfState size = ${listOfState.size}")
                             renderDataFromDatabase(listOfState)  //берём из базы
                         }else{ //если в базе ничего нет
                             if (isNetworkAvailable){ //если сеть есть

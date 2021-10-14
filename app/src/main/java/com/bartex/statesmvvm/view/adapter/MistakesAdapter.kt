@@ -15,6 +15,7 @@ import com.bartex.statesmvvm.R
 import com.bartex.statesmvvm.model.entity.state.State
 
 class MistakesAdapter(
+    private val onMistakeClickListener: OnMistakeClickListener,
     private val onRemoveListener: OnRemoveListener,
     val imageLoader: IImageLoader<ImageView>)
     : RecyclerView.Adapter<MistakesAdapter.ViewHolder>() {
@@ -30,6 +31,10 @@ class MistakesAdapter(
 
     interface OnRemoveListener{
         fun onRemove(nameRus: String)
+    }
+
+    interface  OnMistakeClickListener{
+        fun onMistakeClick(mistakeState:State)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -57,30 +62,37 @@ class MistakesAdapter(
 
         fun bind(state: State) {
             tvNameMistake.text = state.nameRus
-            state.flag?.let {imageLoader.loadInto(it, ivFlagMistake)}
+            state.flag?.let { imageLoader.loadInto(it, ivFlagMistake) }
 
-            if (!isOPenList.contains(state.nameRus)){
+            if (!isOPenList.contains(state.nameRus)) {
                 setInvisibleName()
-            }else{
+            } else {
                 setVisibleName()
             }
 
             showMistakeNameLayout.setOnClickListener {
-                if (!isOPenList.contains(state.nameRus)){
+                if (!isOPenList.contains(state.nameRus)) {
                     state.nameRus?.let { nameRus -> isOPenList.add(nameRus) }
                     setVisibleName()
-                }else{
+                } else {
                     isOPenList.remove(state.nameRus)
                     setInvisibleName()
                 }
             }
 
             removeMistake.setOnClickListener {
-                state.nameRus?.let {nameRus ->
+                state.nameRus?.let { nameRus ->
                     removeItem(nameRus)
                     onRemoveListener.onRemove(nameRus)
                 }
-                state.nameRus?.let {  }
+                state.nameRus?.let { }
+            }
+
+            ivFlagMistake.setOnClickListener {
+                onMistakeClickListener.onMistakeClick(state)
+            }
+            tvNameMistake.setOnClickListener {
+                onMistakeClickListener.onMistakeClick(state)
             }
         }
 

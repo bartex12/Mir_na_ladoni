@@ -1,11 +1,10 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    android:background="@drawable/gr3"
-    >
+    android:id="@+id/quizLinearLayoutStates"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/gr3">
 
     <ProgressBar
         android:id="@+id/progressBarStates"
@@ -13,22 +12,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone"
-        android:layout_gravity="center"
-        tools:visibility="gone"/>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:paddingLeft="@dimen/activity_horizontal_margin_middle"
-        android:paddingRight="@dimen/activity_horizontal_margin_middle"
-        android:paddingBottom="@dimen/activity_vertical_margin_middle"
-        android:id="@+id/quizLinearLayoutStates"
-        tools:context="com.bartex.quizday.ui.flags.tabs.flag.FlagsFragment">
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        tools:visibility="gone" />
 
         <HorizontalScrollView
+            android:id="@+id/hor_scroll_view"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <com.google.android.material.chip.ChipGroup
                 android:id="@+id/chip_region_states"
@@ -83,23 +80,27 @@
         </HorizontalScrollView>
 
         <TextView
+            android:id="@+id/questionTextView_states"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="@string/questionsStub"
-            android:id="@+id/questionTextView_states"
-            android:layout_gravity="bottom|center_horizontal"
-            android:gravity="center_horizontal"
-            android:layout_margin="@dimen/layout_margin_8dp"
             android:textSize="@dimen/answer_size"
-            android:textStyle="bold"/>
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/hor_scroll_view"
+            app:layout_constraintBottom_toTopOf="@+id/row1LinearLayout_states"/>
 
         <LinearLayout
+            android:id="@+id/row1LinearLayout_states"
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:id="@+id/row1LinearLayout_states">
+            android:layout_marginTop="@dimen/layout_margin_8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/questionTextView_states">
 
             <ImageView
                 android:id="@+id/button_states"
@@ -115,11 +116,13 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/row2LinearLayout_states"
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:id="@+id/row2LinearLayout_states">
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/row1LinearLayout_states">
 
             <ImageView
                 android:id="@+id/button3_states"
@@ -135,11 +138,13 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/row3LinearLayout_states"
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:id="@+id/row3LinearLayout_states">
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/row2LinearLayout_states">
 
             <ImageView
                 android:id="@+id/button5_states"
@@ -155,16 +160,17 @@
         </LinearLayout>
 
         <TextView
+            android:id="@+id/answerTextView_states"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="@string/MediumTextStub"
-            android:id="@+id/answerTextView_states"
-            android:layout_gravity="bottom|center_horizontal"
-            android:gravity="center_horizontal"
-            android:paddingBottom="48dp"
+            android:layout_marginTop="@dimen/layout_margin_8dp"
+            android:paddingBottom="@dimen/layout_margin_8dp"
             android:textSize="@dimen/answer_size"
-            android:textStyle="bold"/>
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/row3LinearLayout_states"/>
 
-    </LinearLayout>
-</LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>

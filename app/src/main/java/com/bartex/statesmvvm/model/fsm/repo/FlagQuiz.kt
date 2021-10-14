@@ -67,7 +67,7 @@ class FlagQuiz: IFlagQuiz {
         //очистка списка кнопок с неправильными ответами
         dataFlags.buttonNotWellAnswerList.clear()
         val ss = dataFlags.quizCountriesList
-        Log.d(TAG, "loadNextFlag: $ss")
+        //Log.d(TAG, "loadNextFlag: $ss")
         // Получение  следующей страны для угадывания флага
         dataFlags.nextCountry = dataFlags.quizCountriesList.removeAt(0)
         // Обновление правильного ответа
