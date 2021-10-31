@@ -1,7 +1,6 @@
 package com.bartex.statesmvvm.view.fragments.quiz.mistakes
 
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import android.widget.TextView
 import androidx.appcompat.widget.SearchView
@@ -20,7 +19,7 @@ import com.bartex.statesmvvm.view.adapter.GlideToVectorYouLoader
 import com.bartex.statesmvvm.view.adapter.MistakesAdapter
 import com.bartex.statesmvvm.view.shared.SharedViewModel
 import com.bartex.statesmvvm.view.utils.UtilFilters
-import com.bartex.statesmvvm.view.utils.UtilMistakes
+import com.bartex.statesmvvm.view.utils.UtilRegion
 import com.google.android.material.chip.ChipGroup
 import java.util.*
 
@@ -64,7 +63,7 @@ class MistakesQuizFragment: Fragment(),
         // во FlagsQuizFragment и StateQuizFragment в initChipGroupListener() кладём значение, а здесь принимаем
         model.newRegion.observe(viewLifecycleOwner, androidx.lifecycle.Observer{ newRegion->
             region = newRegion
-            chipGroupMistake.check(UtilMistakes.getRegionId(region)) //отметка на чипе
+            chipGroupMistake.check(UtilRegion.getRegionMistakesId(region)) //отметка на чипе
             //не убирать эту строку иначе при повороте данные пропадают!
             renderDataWithRegion(region)
         })
@@ -73,10 +72,6 @@ class MistakesQuizFragment: Fragment(),
         mistakesViewModel.getAllMistakesLive()
                 .observe(viewLifecycleOwner, androidx.lifecycle.Observer{
                     listOfMistakeStates =   it.map {room->
-//                        State(capital =room.capital, flag = room.flag, name =room.name,
-//                            region = room.region, nameRus = room.nameRus,
-//                            capitalRus = room.capitalRus, regionRus = room.regionRus
-//                        )
                         State(room.capital, room.flag, room.name, room.region,
                             room.population, room.area, arrayOf(room.lat, room.lng),
                             room.nameRus, room.capitalRus, room.regionRus
@@ -85,8 +80,8 @@ class MistakesQuizFragment: Fragment(),
                         UtilFilters.filterData(st)
                     }  as MutableList<State>
 
-                    UtilMistakes.showCountByRegion(chipGroupMistake, listOfMistakeStates)
-                    chipGroupMistake.check(UtilMistakes.getRegionId(region))//отметка на чипе
+                    UtilRegion.showCountByRegion(chipGroupMistake, listOfMistakeStates)
+                    chipGroupMistake.check(UtilRegion.getRegionMistakesId(region))//отметка на чипе
                     renderDataWithRegion(region)
                 })
     }
@@ -162,7 +157,7 @@ class MistakesQuizFragment: Fragment(),
                 -1 -> chipGroupMistake.check( R.id.chip_all_mistakes) //если два раза на одном чипе
                 else-> chipGroupMistake.check(id) //если один раз
             }
-            region = UtilMistakes.getRegionName(id)
+            region = UtilRegion.getRegionMistakesName(id)
             renderDataWithRegion(region)
         }
     }

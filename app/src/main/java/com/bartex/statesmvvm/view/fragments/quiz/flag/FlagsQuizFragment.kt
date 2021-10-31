@@ -103,6 +103,7 @@ class FlagsQuizFragment: Fragment(){
                                         getString(R.string.dialog_title_device_is_offline),
                                         getString(R.string.dialog_message_load_impossible)
                                 )
+                                //todo переход на картинку выхода
                             }
                         }
                     })

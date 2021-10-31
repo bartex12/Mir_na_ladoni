@@ -1,14 +1,11 @@
 package com.bartex.statesmvvm.model.repositories.states
 
-import android.util.Log
 import com.bartex.statesmvvm.common.MapOfCapital
 import com.bartex.statesmvvm.common.MapOfRegion
 import com.bartex.statesmvvm.common.MapOfState
 import com.bartex.statesmvvm.model.api.IDataSource
 import com.bartex.statesmvvm.model.entity.state.State
 import com.bartex.statesmvvm.model.repositories.states.cash.IRoomStateCash
-import com.bartex.statesmvvm.model.repositories.states.cash.RoomStateCash
-import com.bartex.statesmvvm.view.utils.UtilStates
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.schedulers.Schedulers
 

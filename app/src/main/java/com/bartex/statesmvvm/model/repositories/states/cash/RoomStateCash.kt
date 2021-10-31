@@ -9,7 +9,6 @@ import com.bartex.statesmvvm.model.entity.state.State
 import com.bartex.statesmvvm.model.room.Database
 import com.bartex.statesmvvm.model.room.tables.RoomFavorite
 import com.bartex.statesmvvm.model.room.tables.RoomState
-import com.bartex.statesmvvm.view.utils.UtilStates
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.schedulers.Schedulers

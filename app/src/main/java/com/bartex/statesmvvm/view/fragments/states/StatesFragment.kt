@@ -27,7 +27,8 @@ import com.bartex.statesmvvm.view.adapter.GlideToVectorYouLoader
 import com.bartex.statesmvvm.view.adapter.StateRVAdapter
 import com.bartex.statesmvvm.view.main.MainActivity
 import com.bartex.statesmvvm.view.shared.SharedViewModel
-import com.bartex.statesmvvm.view.utils.UtilStates
+import com.bartex.statesmvvm.view.utils.UtilFilters
+import com.bartex.statesmvvm.view.utils.UtilRegion
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import java.util.*
@@ -77,58 +78,82 @@ class   StatesFragment : Fragment(),
 
        val  isNetworkAvailable = (requireActivity() as MainActivity).getNetworkAvailable()
 
-        //===========================================================
-        //если первое включение - смотрим в сети, если сети нет - смотрим в базе - если и там нет - диалог
-        //если не первое включение, сначала смотрим в базе если там нет -показываем диалог
-        Log.d(TAG, "###StatesFragment onViewCreated: FirstRun = ${sharedViewModel.getFirstRun()}")
-        //если первое включение
-        if (sharedViewModel.getFirstRun()){
-            sharedViewModel.setFirstRun(false) //устанавливаем флаг - не первое включение
-            if (isNetworkAvailable) { //если сеть есть
-                //получаем страны из сети
-                stateViewModel.getStatesSealed()
-                    .observe(viewLifecycleOwner, Observer { stateSealed ->
-                        renderData(stateSealed)
-                    })
-            } else {
-                //если данных в сети нет, смотрим в базе
-                stateViewModel.getDataFromDatabase()
-                    .observe(viewLifecycleOwner, Observer { list ->
+        //если в базе ничего нет, идём в сеть - если и там ничего нет - диалог
+            stateViewModel.getDataFromDatabase()
+                .observe(viewLifecycleOwner, Observer {list->
                         if (list.size > 200) { //если в базе есть записи берём из базы
                             listOfStates = list //запоминаем
-                            chipGroupStates.check(UtilStates. getRegionId(region))
+                             chipGroupStates.check(UtilRegion. getRegionId(region))
                             renderDataWithRegion(region)  // с учётом текущего региона
-                        }else{
-                            sharedViewModel.setFirstRun(true) //устанавливаем флаг чтобы при появлении сети повторить
-                            //если данных ни  в базе ни в сети нет, показываем диалог
+                    }else{ //если в базе ничего нет
+                        if (isNetworkAvailable){ //если сеть есть
+                            //получаем страны из сети и после этого запускаем викторину
+                            stateViewModel.getStatesSealed()
+                                .observe(viewLifecycleOwner, Observer {stateSealed->
+                                    renderData(stateSealed)
+                                })
+                        }else{//если нет ни сети ни данных в базе - показываем предупреждение
                             showAlertDialog(
                                 getString(R.string.dialog_title_device_is_offline),
                                 getString(R.string.dialog_message_load_impossible)
                             )
+                            //todo переход на картинку выхода
                         }
-                    })
-            }
-        }else{
-            //если не первое включение, сначала смотрим в базе
-            stateViewModel.getDataFromDatabase()
-                .observe(viewLifecycleOwner, Observer { list ->
-                    if (list.size > 200) { //если в базе есть записи берём из базы
-                        listOfStates = list //запоминаем
-                        chipGroupStates.check(UtilStates. getRegionId(region))
-                        renderDataWithRegion(region)  // с учётом текущего региона
-                    }else{
-                        //если в базе нет, это самый первый запуск приложения в отсутствие сети
-                        sharedViewModel.setFirstRun(true) //устанавливаем флаг чтобы при появлении сети повторить
-                        //показываем диалог
-                        showAlertDialog(
-                            getString(R.string.dialog_title_device_is_offline),
-                            getString(R.string.dialog_message_load_impossible)
-                        )
                     }
                 })
-        }
 
-        //===============================================================
+//        //===========================================================
+//        //если первое включение - смотрим в сети, если сети нет - смотрим в базе - если и там нет - диалог
+//        //если не первое включение, сначала смотрим в базе если там нет -показываем диалог
+//        Log.d(TAG, "###StatesFragment onViewCreated: FirstRun = ${sharedViewModel.getFirstRun()}")
+//        //если первое включение
+//        if (sharedViewModel.getFirstRun()){
+//            sharedViewModel.setFirstRun(false) //устанавливаем флаг - не первое включение
+//            if (isNetworkAvailable) { //если сеть есть
+//                //получаем страны из сети
+//                stateViewModel.getStatesSealed()
+//                    .observe(viewLifecycleOwner, Observer { stateSealed ->
+//                        renderData(stateSealed)
+//                    })
+//            } else {
+//                //если данных в сети нет, смотрим в базе
+//                stateViewModel.getDataFromDatabase()
+//                    .observe(viewLifecycleOwner, Observer { list ->
+//                        if (list.size > 200) { //если в базе есть записи берём из базы
+//                            listOfStates = list //запоминаем
+//                            chipGroupStates.check(UtilStates. getRegionId(region))
+//                            renderDataWithRegion(region)  // с учётом текущего региона
+//                        }else{
+//                            sharedViewModel.setFirstRun(true) //устанавливаем флаг чтобы при появлении сети повторить
+//                            //если данных ни  в базе ни в сети нет, показываем диалог
+//                            showAlertDialog(
+//                                getString(R.string.dialog_title_device_is_offline),
+//                                getString(R.string.dialog_message_load_impossible)
+//                            )
+//                        }
+//                    })
+//            }
+//        }else{
+//            //если не первое включение, сначала смотрим в базе
+//            stateViewModel.getDataFromDatabase()
+//                .observe(viewLifecycleOwner, Observer { list ->
+//                    if (list.size > 200) { //если в базе есть записи берём из базы
+//                        listOfStates = list //запоминаем
+//                        chipGroupStates.check(UtilStates. getRegionId(region))
+//                        renderDataWithRegion(region)  // с учётом текущего региона
+//                    }else{
+//                        //если в базе нет, это самый первый запуск приложения в отсутствие сети
+//                        sharedViewModel.setFirstRun(true) //устанавливаем флаг чтобы при появлении сети повторить
+//                        //показываем диалог
+//                        showAlertDialog(
+//                            getString(R.string.dialog_title_device_is_offline),
+//                            getString(R.string.dialog_message_load_impossible)
+//                        )
+//                    }
+//                })
+//        }
+//
+//        //===============================================================
 
         //восстанавливаем позицию списка после поворота или возвращения на экран
         position =  stateViewModel.getPositionState()
@@ -139,7 +164,7 @@ class   StatesFragment : Fragment(),
             .observe(viewLifecycleOwner, Observer {newRegion->
                 region = newRegion //текущий регион
                 //при смене региона обновляем данные
-                chipGroupStates.check(UtilStates. getRegionId(region))
+                chipGroupStates.check(UtilRegion. getRegionId(region))
                 renderDataWithRegion(region)
             })
     }
@@ -190,7 +215,7 @@ class   StatesFragment : Fragment(),
                 -1 -> chipGroupStates.check( R.id.chip_all_region) //если два раза
                 else-> chipGroupStates.check(id) //если один раз
             }
-            val newRegion:String = UtilStates.getRegionName(id)
+            val newRegion:String = UtilRegion.getRegionName(id)
             stateViewModel. updateRegion(newRegion)
         }
     }
@@ -256,8 +281,10 @@ class   StatesFragment : Fragment(),
                     3 -> {sorted = states.filter {it.area!=null && it.area!!>0}.sortedByDescending {it.area}}
                     4 -> {sorted = states.filter {it.area!=null && it.area!!>0}.sortedBy {it.area}}
                 }
-
-                sorted =  sorted.filter { UtilStates.filterData(it)}
+            }else{
+                sorted = states
+            }
+                sorted =  sorted.filter { UtilFilters.filterDataStates(it)}
                 Log.d(TAG, "*#*  StatesFragment filtered size =   ${sorted.size}")
 
                 getNumberOnChipName() //чиисло на чипе
@@ -266,7 +293,6 @@ class   StatesFragment : Fragment(),
             adapter?.setRusLang(stateViewModel.getRusLang())
             rvStates.layoutManager?.scrollToPosition(position) //крутим в запомненную позицию списка
             Log.d(TAG, "StatesFragment renderState scrollToPosition = $position")
-        }
     }
 }
 
@@ -278,7 +304,7 @@ class   StatesFragment : Fragment(),
                     "$region ${sorted.size}"
                 //getRegionNameAndNumber()
             }else{
-                UtilStates. getRegionName(chip.id)
+                    UtilRegion. getRegionName(chip.id)
             }
             chip.text = regionName
         }

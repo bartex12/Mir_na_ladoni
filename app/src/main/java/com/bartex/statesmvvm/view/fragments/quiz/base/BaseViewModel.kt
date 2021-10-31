@@ -22,7 +22,7 @@ import com.bartex.statesmvvm.model.room.Database
 import com.bartex.statesmvvm.view.fragments.quiz.setting.ISettingsProvider
 import com.bartex.statesmvvm.view.fragments.quiz.setting.SettingsProvider
 import com.bartex.statesmvvm.view.fragments.states.StatesSealed
-import com.bartex.statesmvvm.view.utils.UtilStates
+import com.bartex.statesmvvm.view.utils.UtilFilters
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 
 open class BaseViewModel(
@@ -80,7 +80,7 @@ open class BaseViewModel(
     //сохраняем список стран чтобы не пропадал при поворотах экрана
     fun saveListOfStates( listStates:MutableList<State>){
         val filtredListOfStates = listStates.filter {
-            UtilStates.filterData(it)
+            UtilFilters.filterDataStates(it)
         }.toMutableList()
         dataFlags.listStatesFromNet = filtredListOfStates //для удобства храним в данных
         listOfStates = filtredListOfStates //а также храним во ViewModel
