@@ -42,6 +42,8 @@
         <!--        свои атрибуты-->
         <item name="colorBottomIcon">@android:color/white</item>
         <item name="favorite"> @style/ButtonFavoriteStyle</item>
+
+
     </style>
 
 <!--    для памяти как делать NoActionBar-->

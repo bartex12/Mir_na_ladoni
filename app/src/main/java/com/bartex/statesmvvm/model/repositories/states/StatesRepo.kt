@@ -32,14 +32,6 @@ class StatesRepo(val dataSource: IDataSource, private val roomCash: IRoomStateCa
                         it.capitalRus = MapOfCapital.mapCapital[it.capital] ?:"Unknown"
                         it.regionRus = MapOfRegion.mapRegion[it.region] ?:"Unknown"
                     }
-//                    //фильтруем данные
-//                    val filtredStates =  states.filter { state->
-//                        Log.d(TAG, "StatesRepo getStates: ${states.size}")
-////                        Log.d(TAG, "StatesRepo getStates: " +
-////                                "${state.nameRus} ${state.name} ${state.capitalRus} ${state.capital}")
-//                        UtilStates.filterData(state)
-//                    }
-//                    Log.d(TAG, "StatesRepo getStates: ${filtredStates.size}")
                     //реализация кэширования списка пользователей из сети в базу данных
                     roomCash.doStatesCash(states)
         }.subscribeOn(Schedulers.io())

@@ -62,7 +62,9 @@ class DetailsFragment : Fragment() {
         //наблюдаем за добавлением страны в избранное
         state?. let {
             detailsViewModel.isFavoriteState(it)
-                .observe(viewLifecycleOwner, Observer<DetailsSealed> {renderData(it)})
+                .observe(viewLifecycleOwner, Observer<DetailsSealed> {
+                    renderData(it)
+                })
 
             //заполняем поля экрана
             if (detailsViewModel.getRusLang()){

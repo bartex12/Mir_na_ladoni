@@ -1,4 +1,4 @@
-package com.bartex.statesmvvm.view.main
+  package com.bartex.statesmvvm.view.main
 
 import android.content.Intent
 import android.net.Uri
@@ -142,7 +142,7 @@ open class    MainActivity: AppCompatActivity(), NavigationView.OnNavigationItem
                 }
             })
 
-        //передача данных о надписи на тулбаре из фрагмента викторины со странами
+        //передача данных о надписи на тулбаре
         model.toolbarTitleFromState
             .observe(this, Observer {newTitle->
                 toolbarTitleState = newTitle
