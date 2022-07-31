@@ -79,6 +79,7 @@ class DetailsFragment : Fragment() {
 
             tv_state_area.text =  detailsViewModel.getStateArea(it.area)
             tv_state_population.text =  detailsViewModel.getStatePopulation(it.population)
+            tv_state_density.text = detailsViewModel.getStateDensity(it.area, it.population)
 
             it.flag?. let{ flag->
                 GlideToVectorYou.justLoadImage(requireActivity(), Uri.parse(flag), iv_flag_big)

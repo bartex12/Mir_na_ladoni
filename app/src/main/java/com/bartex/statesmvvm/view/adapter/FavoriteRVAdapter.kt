@@ -12,14 +12,14 @@ import kotlinx.android.synthetic.main.item_state_favor.view.*
 
 
 class FavoriteRVAdapter(private val favoriteViewModel: FavoriteViewModel,
-                        private val onitemClickListener: OnitemClickListener,
+                        private val onItemClickListener: OnItemClickListener,
                         val imageLoader: IImageLoader<ImageView>)
     : RecyclerView.Adapter<FavoriteRVAdapter.ViewHolder> (){
 
     var isRus = false
 
-    interface OnitemClickListener{
-        fun onItemclick(state: State)
+    interface OnItemClickListener{
+        fun onItemClick(state: State)
     }
 
     //так сделано чтобы передавать список в адаптер без конструктора
@@ -52,11 +52,12 @@ class FavoriteRVAdapter(private val favoriteViewModel: FavoriteViewModel,
 
             itemView.tv_area_favor.text = favoriteViewModel.getArea(state.area)
             itemView.tv_population_favor.text = favoriteViewModel.getPopulation(state.population)
+            itemView.tv_density_favor.text = favoriteViewModel.getDensity(state.area, state.population)
 
             state.flag?.let { imageLoader.loadInto(it, itemView.iv_flag_favor) }
 
             itemView.setOnClickListener {
-                onitemClickListener.onItemclick(state)
+                onItemClickListener.onItemClick(state)
             }
         }
     }

@@ -72,7 +72,7 @@
     <string name="geo_name">Карта</string>
     <string name="forExit">Для выхода нажмите  НАЗАД  ещё раз</string>
     <string name="sett">Настройки</string>
-    <string name="area">"Площать "</string>
+    <string name="area">Площадь</string>
     <string name="population">Население</string>
     <string name="help_name">Справка</string>
     <string name="header">  Попробуйте моё новое приложение Мир на ладони,
@@ -119,6 +119,8 @@
         <item>По населению по возрастанию</item>
         <item>По площади по убыванию</item>
         <item>По площади по возрастанию</item>
+        <item>По плотности по убыванию</item>
+        <item>По плотности по возрастанию</item>
     </string-array>
 
     <string-array name="pref_entryValues_sort">
@@ -126,6 +128,8 @@
         <item>2</item>
         <item>3</item>
         <item>4</item>
+        <item>5</item>
+        <item>6</item>
     </string-array>
 
     <string-array name="pref_entry_color">
@@ -253,5 +257,7 @@
     <string name="questionsStub">Мадагаскар</string>
     <string name="any_image">Изображение</string>
     <string name="MediumTextStub">Правильно</string>
+    <string name="density">Плотность</string>
+    <string name="capital">Столица</string>
 
 </resources>

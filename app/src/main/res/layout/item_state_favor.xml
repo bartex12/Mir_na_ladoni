@@ -29,7 +29,8 @@
             android:id="@+id/iv_flag_favor"
             android:layout_width="60dp"
             android:layout_height="40dp"
-            android:layout_marginTop="8dp"/>
+            android:layout_marginTop="8dp"
+            tools:src="@tools:sample/avatars"/>
 
         <TextView
             android:id="@+id/tv_name_favor"
@@ -54,7 +55,6 @@
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
                 android:textColor="?colorPrimaryDark"
-                android:layout_marginBottom="2dp"
                 android:layout_marginTop="4dp"
                 tools:text="@string/area"
                 />
@@ -65,8 +65,16 @@
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
                 android:textColor="?colorPrimaryDark"
-                android:layout_marginBottom="8dp"
                 tools:text="@string/population"/>
+
+            <TextView
+                android:id="@+id/tv_density_favor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:textColor="?colorPrimaryDark"
+                android:layout_marginBottom="8dp"
+                tools:text="@string/density"/>
         </LinearLayout>
     </LinearLayout>
 </androidx.cardview.widget.CardView >

@@ -89,9 +89,9 @@ class FavoriteFragment: Fragment() {
         }
     }
 
-    private fun getOnClickListener(): FavoriteRVAdapter.OnitemClickListener =
-            object : FavoriteRVAdapter.OnitemClickListener{
-                override fun onItemclick(state: State) {
+    private fun getOnClickListener(): FavoriteRVAdapter.OnItemClickListener =
+            object : FavoriteRVAdapter.OnItemClickListener{
+                override fun onItemClick(state: State) {
                     val bundle = bundleOf(Constants.STATE to state)
                     navController.navigate(R.id.action_favoriteFragment_to_detailsFragment, bundle)
                 }

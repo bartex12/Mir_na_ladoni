@@ -30,6 +30,9 @@ class DetailsViewModel:ViewModel() {
 
     fun getStatePopulation(population:Int?) = stateUtils.getStatePopulation(population)
 
+    fun getStateDensity(area: Float?, population: Int?):String =
+        stateUtils.getStateDensity(area,population)
+
     fun getStateCapital(capital:String?) = stateUtils.getStateCapital(capital)
 
     fun getStateRegion(region:String?) = stateUtils.getStateRegion(region)

@@ -280,6 +280,10 @@ class   StatesFragment : Fragment(),
                     2 -> {sorted = states.filter {it.population!=null}.sortedBy {it.population} }
                     3 -> {sorted = states.filter {it.area!=null && it.area!!>0}.sortedByDescending {it.area}}
                     4 -> {sorted = states.filter {it.area!=null && it.area!!>0}.sortedBy {it.area}}
+                    5 -> {sorted = states.filter {it.population!=null && it.population >0 && it.area!=null && it.area!! >0}
+                        .sortedByDescending {it.population!!.toFloat()/it.area!!}}
+                    6 -> {sorted = states.filter {it.population!=null && it.population >0 && it.area!=null && it.area!! >0}
+                        .sortedBy {it.population!!.toFloat()/it.area!!}}
                 }
             }else{
                 sorted = states

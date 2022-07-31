@@ -8,5 +8,5 @@ interface IStateUtils {
     fun getStatezoom(state: State?):String
     fun getStateCapital(capital: String?):String
     fun getStateRegion(region: String?):String
-
+    fun getStateDensity(area: Float?, population: Int?):String
 }

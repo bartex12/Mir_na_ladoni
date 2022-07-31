@@ -8,12 +8,10 @@ class StateUtils:IStateUtils {
       var   textStateArea = "Площадь территории неизвестна"
         area?. let {
             textStateArea = if(it > 0f ){
-                if (it>1000000f){
-                    String.format("Площадь: %.1f млн. кв. км.", (it)/1000000)
-                }else if (it in 1000f..1000000f){
-                    String.format("Площадь: %.1f тыс. кв. км.", (it)/1000)
-                }else{
-                    String.format("Площадь: %.1f кв. км.", it)
+                when {
+                    it>1000000f -> { String.format("Площадь: %.1f млн. кв. км.", (it)/1000000)}
+                    it in 1000f..1000000f -> {String.format("Площадь: %.1f тыс. кв. км.", (it)/1000)}
+                    else -> {String.format("Площадь: %.1f кв. км.", it)}
                 }
             }else {
                 "Площадь территории неизвестна"
@@ -26,18 +24,31 @@ class StateUtils:IStateUtils {
         var   textStatePopulation = "Население: численность неизвестна"
         population?. let {
             textStatePopulation = if (it>0){
-                if(it>1000000){
-                    String.format("Население: %.1f млн. чел.", (it.toFloat())/1000000)
-                }else if (it in 1000..1000000){
-                    String.format("Население: %.1f тыс. чел.", (it.toFloat())/1000)
-                }else{
-                    String.format("Население: %s чел.", it)
+                when {
+                    it>1000000 -> {String.format("Население: %.1f млн. чел.", (it.toFloat())/1000000)}
+                    it in 1000..1000000 -> {String.format("Население: %.1f тыс. чел.", (it.toFloat())/1000)}
+                    else -> {String.format("Население: %s чел.", it)}
                 }
             }else{
                 "Население: численность неизвестна"
             }
         }
         return textStatePopulation
+    }
+
+    override fun getStateDensity(area: Float?, population: Int?): String {
+        val textStateDensity = "Плотность населения неизвестна"
+        var density = 0.0F
+
+        if (area!=null && area>0f && population!=null && population>0){
+            density = population.toFloat()/area
+            when {
+                density > 100f -> return  String.format("Плотность: %.0f человек на 1 кв км", density)
+                density in 1f..100f -> return  String.format("Плотность: %.1f человек на 1 кв км", density)
+                density < 1 -> return  String.format("Плотность: %.2f человек на 1 кв км", density)
+            }
+        }
+        return textStateDensity
     }
 
     override fun getStatezoom(state: State?): String {

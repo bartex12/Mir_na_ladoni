@@ -73,7 +73,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="start"
             android:layout_marginTop="16dp"
-            tools:text="@string/hello_state" />
+            tools:text="@string/region" />
 
         <TextView
             android:id="@+id/tv_state_area"
@@ -81,7 +81,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="start"
-            tools:text="@string/hello_state" />
+            tools:text="@string/area" />
 
         <TextView
             android:id="@+id/tv_state_population"
@@ -89,7 +89,18 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="start"
-            tools:text="@string/hello_state" />
+            tools:text="@string/population" />
+
+        <TextView
+            android:id="@+id/tv_state_density"
+            style="@style/StateStyleMiddle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_state_population"
+            tools:text="@string/density" />
 
         <TextView
             android:id="@+id/tv_state_capital"
@@ -97,7 +108,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="start"
-            tools:text="@string/hello_state" />
+            tools:text="@string/capital" />
 
     </LinearLayout>
 

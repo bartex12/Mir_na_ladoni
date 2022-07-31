@@ -43,7 +43,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/iv_flag_big"
-        tools:text="@string/hello_state" />
+        tools:text="@string/region" />
 
     <TextView
         android:id="@+id/tv_state_area"
@@ -54,7 +54,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_state_region"
-        tools:text="@string/hello_state" />
+        tools:text="@string/area" />
 
     <TextView
         android:id="@+id/tv_state_population"
@@ -65,7 +65,18 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_state_area"
-        tools:text="@string/hello_state" />
+        tools:text="@string/population" />
+
+    <TextView
+        android:id="@+id/tv_state_density"
+        style="@style/StateStyleMiddle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_state_population"
+        tools:text="@string/density" />
 
     <TextView
         android:id="@+id/tv_state_capital"
@@ -75,8 +86,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_state_population"
-        tools:text="@string/hello_state" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_state_density"
+        tools:text="@string/capital" />
 
     <Button
         android:id="@+id/btn_addToFavorite"
