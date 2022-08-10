@@ -38,18 +38,22 @@ class FavoriteViewModel() : ViewModel() {
     private fun loadFavorite() {
         val isSorted = helper.isSorted()
         val getSortCase = helper.getSortCase()
-        var f_st:List<State>?= null
+        var filterState:List<State>?= null
         roomCash. loadFavorite()
             .observeOn(Schedulers.computation())
             .flatMap {st->
                 if(isSorted){
                     when (getSortCase) {
-                        1 -> {f_st = st.filter {it.population!=null}.sortedByDescending {it.population}}
-                        2 -> {f_st = st.filter {it.population!=null}.sortedBy {it.population}}
-                        3 -> {f_st = st.filter {it.area!=null}.sortedByDescending {it.area} }
-                        4 -> { f_st = st.filter {it.area!=null}.sortedBy {it.area} }
+                        1 -> {filterState = st.filter {it.population!=null}.sortedByDescending {it.population}}
+                        2 -> {filterState = st.filter {it.population!=null}.sortedBy {it.population}}
+                        3 -> {filterState = st.filter {it.area!=null}.sortedByDescending {it.area} }
+                        4 -> { filterState = st.filter {it.area!=null}.sortedBy {it.area} }
+                        5 -> {filterState = st.filter {it.population!=null && it.population >0 && it.area!=null && it.area!! >0}
+                            .sortedByDescending {it.population!!.toFloat()/it.area!!}}
+                        6 -> {filterState = st.filter {it.population!=null && it.population >0 && it.area!=null && it.area!! >0}
+                            .sortedBy {it.population!!.toFloat()/it.area!!}}
                     }
-                    return@flatMap Single.just(f_st)
+                    return@flatMap Single.just(filterState)
                 }else{
                     return@flatMap Single.just( st.sortedBy{it.name})
                     }
