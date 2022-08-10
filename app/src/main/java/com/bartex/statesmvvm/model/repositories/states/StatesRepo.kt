@@ -20,9 +20,7 @@ class StatesRepo(val dataSource: IDataSource, private val roomCash: IRoomStateCa
     companion object{
         const val TAG = "33333"
     }
-        //метод  интерфейса ApiService getStates() - в зависимости от статуса сети
-    //мы или получаем данные из сети, записывая их в базу данных с помощью Room через map
-    //или берём из базы, преобразуя их также через map
+        // сюда попадаем только если в базе ничего нет - эта развилка реализована в onViewCreated StatesFragment
     override fun getStates(): Single<List<State>> =
             dataSource.getStates() //получаем данные из сети в виде Single<List<State>>
                 .flatMap {states->//получаем доступ к списку List<State>

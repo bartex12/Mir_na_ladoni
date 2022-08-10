@@ -76,6 +76,7 @@ class   StatesFragment : Fragment(),
         setHasOptionsMenu(true)
         requireActivity().invalidateOptionsMenu()
 
+        //доступ к статусу сети, который определяется на уровне активити
        val  isNetworkAvailable = (requireActivity() as MainActivity).getNetworkAvailable()
 
         //если в базе ничего нет, идём в сеть - если и там ничего нет - диалог
@@ -87,7 +88,7 @@ class   StatesFragment : Fragment(),
                             renderDataWithRegion(region)  // с учётом текущего региона
                     }else{ //если в базе ничего нет
                         if (isNetworkAvailable){ //если сеть есть
-                            //получаем страны из сети и после этого запускаем викторину
+                            //получаем страны из сети
                             stateViewModel.getStatesSealed()
                                 .observe(viewLifecycleOwner, Observer {stateSealed->
                                     renderData(stateSealed)
@@ -101,59 +102,6 @@ class   StatesFragment : Fragment(),
                         }
                     }
                 })
-
-//        //===========================================================
-//        //если первое включение - смотрим в сети, если сети нет - смотрим в базе - если и там нет - диалог
-//        //если не первое включение, сначала смотрим в базе если там нет -показываем диалог
-//        Log.d(TAG, "###StatesFragment onViewCreated: FirstRun = ${sharedViewModel.getFirstRun()}")
-//        //если первое включение
-//        if (sharedViewModel.getFirstRun()){
-//            sharedViewModel.setFirstRun(false) //устанавливаем флаг - не первое включение
-//            if (isNetworkAvailable) { //если сеть есть
-//                //получаем страны из сети
-//                stateViewModel.getStatesSealed()
-//                    .observe(viewLifecycleOwner, Observer { stateSealed ->
-//                        renderData(stateSealed)
-//                    })
-//            } else {
-//                //если данных в сети нет, смотрим в базе
-//                stateViewModel.getDataFromDatabase()
-//                    .observe(viewLifecycleOwner, Observer { list ->
-//                        if (list.size > 200) { //если в базе есть записи берём из базы
-//                            listOfStates = list //запоминаем
-//                            chipGroupStates.check(UtilStates. getRegionId(region))
-//                            renderDataWithRegion(region)  // с учётом текущего региона
-//                        }else{
-//                            sharedViewModel.setFirstRun(true) //устанавливаем флаг чтобы при появлении сети повторить
-//                            //если данных ни  в базе ни в сети нет, показываем диалог
-//                            showAlertDialog(
-//                                getString(R.string.dialog_title_device_is_offline),
-//                                getString(R.string.dialog_message_load_impossible)
-//                            )
-//                        }
-//                    })
-//            }
-//        }else{
-//            //если не первое включение, сначала смотрим в базе
-//            stateViewModel.getDataFromDatabase()
-//                .observe(viewLifecycleOwner, Observer { list ->
-//                    if (list.size > 200) { //если в базе есть записи берём из базы
-//                        listOfStates = list //запоминаем
-//                        chipGroupStates.check(UtilStates. getRegionId(region))
-//                        renderDataWithRegion(region)  // с учётом текущего региона
-//                    }else{
-//                        //если в базе нет, это самый первый запуск приложения в отсутствие сети
-//                        sharedViewModel.setFirstRun(true) //устанавливаем флаг чтобы при появлении сети повторить
-//                        //показываем диалог
-//                        showAlertDialog(
-//                            getString(R.string.dialog_title_device_is_offline),
-//                            getString(R.string.dialog_message_load_impossible)
-//                        )
-//                    }
-//                })
-//        }
-//
-//        //===============================================================
 
         //восстанавливаем позицию списка после поворота или возвращения на экран
         position =  stateViewModel.getPositionState()

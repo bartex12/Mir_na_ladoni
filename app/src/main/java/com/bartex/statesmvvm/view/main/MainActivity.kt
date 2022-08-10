@@ -93,7 +93,7 @@ open class    MainActivity: AppCompatActivity(), NavigationView.OnNavigationItem
         if (savedInstanceState == null) {
             isNetworkAvailable = isOnline(this) //флаг наличия сети, за которым наблюдаем
             if (!isNetworkAvailable) {
-                isNet = false  // флаг наличия сети, за которым НЕ наблюдаем
+                isNet = false  //если сети нет, меняем  флаг наличия сети, за которым НЕ наблюдаем
                 showNoInternetConnectionDialog()
             }
         }
@@ -105,10 +105,10 @@ open class    MainActivity: AppCompatActivity(), NavigationView.OnNavigationItem
             Observer<Boolean> {
                 isNetworkAvailable = it
                 if (!isNetworkAvailable) {
-                    showNoInternetConnectionDialog()
+                    showNoInternetConnectionDialog() //если сети нет
                 }else{
                     if (!isNet){
-                        recreate()
+                        recreate()// если сеть есть и isNet=false - перезагрузка
                     }
                 }
             })
@@ -183,6 +183,7 @@ open class    MainActivity: AppCompatActivity(), NavigationView.OnNavigationItem
     }
     //получить состояние сети
     fun getNetworkAvailable(): Boolean = isNetworkAvailable
+
     //вызвать диалог об отсутствии сети
     private fun showNoInternetConnectionDialog() {
         showAlertDialog(
