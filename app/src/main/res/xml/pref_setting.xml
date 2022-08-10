@@ -26,6 +26,19 @@
     </PreferenceCategory>
 
     <PreferenceCategory
+        android:title="@string/sound">
+
+        <CheckBoxPreference
+            android:key="pref_cbSound"
+            android:title="@string/is_sound"
+            app:defaultValue="true"
+            android:summaryOn="@string/soundOn"
+            android:summaryOff="@string/soundOff">
+        </CheckBoxPreference>
+    </PreferenceCategory>
+
+
+    <PreferenceCategory
         android:title="@string/theme_cat">
         <ListPreference
             android:entries="@array/pref_entry_color"
@@ -98,18 +111,6 @@
             android:summary="@string/incorrect_stub_description"
             android:persistent="true"
             android:defaultValue="1" />
-    </PreferenceCategory>
-
-    <PreferenceCategory
-        android:title="@string/sound">
-
-        <CheckBoxPreference
-            android:key="pref_cbSound"
-            android:title="@string/is_sound"
-            app:defaultValue="true"
-            android:summaryOn="@string/cbSortOn"
-            android:summaryOff="@string/cbSortOff">
-        </CheckBoxPreference>
     </PreferenceCategory>
 
 </androidx.preference.PreferenceScreen>

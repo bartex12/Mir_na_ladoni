@@ -11,7 +11,7 @@
     <string name="name">Россия</string>
     <string name="connecting">Подключение к серверу…</string>
     <string name="weatherInCap">Погода в столице</string>
-    <string name="geoLocation">Место на карте мира</string>
+    <string name="geoLocation">Место на карте</string>
     <string name="hello_capital">hello_capital</string>
     <string name="unknown">Unknown</string>
     <string name="Unknown">Unknown</string>
@@ -37,11 +37,9 @@
     <string name="remove">Удалить</string>
     <string name="weather">Погода</string>
     <string name="no_data_available">Нет данных \n Попробуйте изменить поисковый запрос </string>
-    <string name="no_data_state">Нет данных \n Проверьте наличие Интернета </string>
-    <string name="dialog_message_device_is_offline">Вы не сможете эффективно использовать приложение без подключения к Интернету. Пожалуйста, проверьте
-         интернет-соединение</string>
-    <string name="weather_device_is_offline">Вы не можете получить погоду без подключения к Интернету. Пожалуйста, проверьте
-         интернет-соединение</string>
+    <string name="no_data_state">"Нет данных   Проверьте наличие Интернета "</string>
+    <string name="dialog_message_device_is_offline">Вы не сможете эффективно использовать приложение без подключения к Интернету. Пожалуйста, проверьте интернет-соединение</string>
+    <string name="weather_device_is_offline">Вы не можете получить погоду без подключения к Интернету. Пожалуйста, проверьте интернет-соединение</string>
 
     <string name="search_in_list">Найти в списке</string>
     <string name="search_in_list_helper_text">Поищите страну в списке</string>
@@ -178,7 +176,7 @@
     <string name="Язык">lang</string>
     <string name="summary_switch_preference">Язык</string>
     <string name="changeLang">Выберите язык приложения</string>
-    <string name="appLang">Язык приложения</string>
+    <string name="appLang">Язык для названий стран</string>
     <string name="summary_on">Русский</string>
     <string name="summary_off">English</string>
     <string name="dialog_title_device_is_offline">Нет соединения с Интернетом</string>
@@ -200,7 +198,7 @@
     <string name="imageQuiz">Викторина</string>
 
     <string name="question">Вопрос %1$d из %2$d</string>
-    <string name="image_description">Изображнние текущего флага викторины</string>
+    <string name="image_description">Изображение текущего флага викторины</string>
     <string name="guess_country">Угадайте страну</string>
     <string name="incorrect_answer">Неправильно!</string>
     <string name="number_of_choices">Количество вариантов ответов</string>
@@ -237,7 +235,7 @@
     <string name="states">Страны</string>
     <string name="resultDialog">ResultDialog</string>
     <string name="drawer_name">Quizday - знания на ладони</string>
-    <string name="drawer_header_subtitle">Развлекательн-познавательная викторина</string>
+    <string name="drawer_header_subtitle">Развлекательно-познавательная викторина</string>
     <string name="stateName">Название страны</string>
     <string name="performance">performance</string>
     <string name="attempts">attempts</string>
@@ -259,5 +257,7 @@
     <string name="MediumTextStub">Правильно</string>
     <string name="density">Плотность</string>
     <string name="capital">Столица</string>
+    <string name="soundOn">Звук включен</string>
+    <string name="soundOff">Звук выключен</string>
 
 </resources>
