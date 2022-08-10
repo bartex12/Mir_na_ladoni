@@ -85,7 +85,24 @@
     <string name="Википедия">wiki</string>
     <string name="wiki">Wikipedia</string>
     <string name="lang">Choose language</string>
-    <string name="helpString222">World in the palm of your hand. The program is designed to obtain background information about various countries of the world. For each of the more than two hundred countries, population data can be obtained, the area of ​​the territory, the image of the flag, the name of the capital, etc. By the way, if you want to test your knowledge of national flags, you can make on screen with images of flags. The location of any country can be viewed on the world map by clicking on the Map icon. In the Google map that opens, by clicking on the name of the country or city, you get access to to colorful photos and other data related to the selected place. Current weather conditions in the capital of each country can be found by clicking on the Weather icon. More detailed information about the history, economy, culture of each country can be obtained from Wikipedia, by connecting to it by clicking on the Wiki icon. The search function located at the top of the screen with a list of countries, allows you to find the country you are interested in with just a few letters from its name. For faster access, the countries you like can be saved in the Favorites list.  Through the application settings, you can sort countries by population or territory, choose the language and color scheme of the application.</string>
+    <string name="helpString222">World in the palm\n\n
+        The program is designed to obtain background information about various countries of the world.\n\n
+        For each of the more than two hundred countries, population data can be obtained,
+        the area of the territory, the image of the flag, the name of the capital, etc. \n
+        By the way, if you want to test your knowledge of national flags,
+        you can make on screen with images of flags. \n\n
+        The location of any country can be viewed on the world map by clicking on the Map icon.
+        In the Google map that opens, by clicking on the name of the country or city, you get access
+        to colorful photos and other data related to the selected place. \n\n
+        Current weather conditions in the capital of each country can be found by clicking on the Weather icon.\n\n
+        More detailed information about the history, economy, culture of each country can be obtained from Wikipedia,
+        by connecting to it by clicking on the Wiki icon. \n\n
+        The search function located at the top of the screen with a list of countries,
+        allows you to find the country you are interested in with just a few letters from its name. \n\n
+        For faster access, the countries you like can be saved in the Favorites list. \n\n
+        Through the application settings, you can sort countries by population or territory,
+        choose the language and color scheme of the application.\n\n
+    </string>
     <string name="attachment_summary_off">Only download attachments when manually requested</string>
 
     <string-array name="pref_entry_sort">
@@ -149,7 +166,8 @@
     <string name="summary_on">Russian</string>
     <string name="summary_off">English</string>
     <string name="dialog_title_device_is_offline">No internet connection</string>
-    <string name="dialog_message_load_impossible">Internet is required for initial data download. Please check your internet connection</string>
+    <string name="dialog_message_load_impossible">Internet is required for initial data download.
+        Please check your internet connection</string>
     <string name="flags">Flags</string>
     <string name="mistakes">Mistakes</string>
     <string name="regions">Regions</string>
@@ -188,8 +206,8 @@
     <string name="region">Region</string>
     <string name="chooseRegion">Choose region</string>
     <string name="no_data_state_test">No data yet</string>
-    <string name="no_data_state_test_all">You didn\'t make mistakes in the quiz</string>
-    <string name="no_data_state_test_region">There are no errors in this region yet</string>
+    <string name="no_data_state_test_all">You didn\'t make mistakes \n in the quiz</string>
+    <string name="no_data_state_test_region">There are no errors \n  in this region yet</string>
     <string name="flag">Flag</string>
     <string name="home_item">home_item</string>
     <string name="search_country">Search</string>
@@ -197,7 +215,7 @@
     <string name="answer">Answer:</string>
     <string name="states">Countries</string>
     <string name="resultDialog">ResultDialog</string>
-    <string name="drawer_name">Quizday - знания на ладони</string>
+    <string name="drawer_name">Quizday - knowledge in the palm of your hand</string>
     <string name="drawer_header_subtitle">Entertaining and educational quiz</string>
     <string name="stateName">The name of the country</string>
     <string name="performance">performance</string>
