@@ -173,7 +173,6 @@
     <string name="theme_cat">Тема</string>
     <string name="toastForExit">Для выхода нажмите ещё раз</string>
     <string name="wiki_act">Википедия</string>
-    <string name="Язык">lang</string>
     <string name="summary_switch_preference">Язык</string>
     <string name="changeLang">Выберите язык приложения</string>
     <string name="appLang">Язык для названий стран</string>

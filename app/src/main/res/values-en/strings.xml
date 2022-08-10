@@ -19,7 +19,7 @@
     <string name="ErrorCity">City not found. Check for internet</string>
     <string name="action_find">Поиск</string>
     <string name="Help">Reference</string>
-    <string name="search">Poisk</string>
+    <string name="search">Search</string>
     <string name="identifier">android:id/search_close_btn</string>
     <string name="about">About the application</string>
     <string name="settings">Settings</string>
@@ -87,6 +87,43 @@
     <string name="lang">Choose language</string>
     <string name="helpString222">World in the palm of your hand. The program is designed to obtain background information about various countries of the world. For each of the more than two hundred countries, population data can be obtained, the area of ​​the territory, the image of the flag, the name of the capital, etc. By the way, if you want to test your knowledge of national flags, you can make on screen with images of flags. The location of any country can be viewed on the world map by clicking on the Map icon. In the Google map that opens, by clicking on the name of the country or city, you get access to to colorful photos and other data related to the selected place. Current weather conditions in the capital of each country can be found by clicking on the Weather icon. More detailed information about the history, economy, culture of each country can be obtained from Wikipedia, by connecting to it by clicking on the Wiki icon. The search function located at the top of the screen with a list of countries, allows you to find the country you are interested in with just a few letters from its name. For faster access, the countries you like can be saved in the Favorites list.  Through the application settings, you can sort countries by population or territory, choose the language and color scheme of the application.</string>
     <string name="attachment_summary_off">Only download attachments when manually requested</string>
+
+    <string-array name="pref_entry_sort">
+        <item>By population descending</item>
+        <item>By population ascending</item>
+        <item>By area descending</item>
+        <item>By area ascending</item>
+        <item>Density descending</item>
+        <item>Density ascending</item>
+    </string-array>
+
+    <string-array name="pref_entryValues_sort">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+    </string-array>
+
+    <string-array name="pref_entry_color">
+        <item>Standard</item>
+        <item>Green</item>
+        <item>Purple</item>
+        <item>Red</item>
+        <item>Blue</item>
+        <item>Black</item>
+    </string-array>
+
+    <string-array name="pref_entryValues_color">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+    </string-array>
+
     <string name="title_activity_settings">Settings</string>
     <string name="messages_header">Messages</string>
     <string name="sync_header">Sync</string>
