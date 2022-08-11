@@ -43,6 +43,12 @@ class   StatesFragment : Fragment(),
     private lateinit var rvStates: RecyclerView
     private lateinit  var emptyViewStates: TextView
     private lateinit var chipGroupStates: ChipGroup
+    private lateinit var chipAll: Chip
+
+
+
+
+
     private lateinit var progressBarState: ProgressBar
     private var listOfStates  = mutableListOf<State>() //список стран мира
     private var sorted:List<State> = listOf() // отфильтрованный и отсортированный список (список региона)
@@ -138,6 +144,8 @@ class   StatesFragment : Fragment(),
         rvStates =  view.findViewById(R.id.rv_states)
         emptyViewStates =  view.findViewById(R.id.empty_view)
         chipGroupStates =  view.findViewById(R.id.chip_region_region)
+        chipAll =  view.findViewById(R.id.chip_all_region)
+        chipAll.text = getString(R.string.all)
     }
 
     private fun showAlertDialog(title: String?, message: String?) {
