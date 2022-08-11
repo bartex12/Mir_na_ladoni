@@ -239,7 +239,7 @@ class   StatesFragment : Fragment(),
                 sorted =  sorted.filter { UtilFilters.filterDataStates(it)}
                 Log.d(TAG, "*#*  StatesFragment filtered size =   ${sorted.size}")
 
-                getNumberOnChipName() //чиисло на чипе
+                getNumberOnChipName() //число на чипе
 
             adapter?.listStates = sorted
             adapter?.setRusLang(stateViewModel.getRusLang())
@@ -254,21 +254,12 @@ class   StatesFragment : Fragment(),
             val regionName =
                 if (chip.isChecked) {
                     "$region ${sorted.size}"
-                //getRegionNameAndNumber()
             }else{
                     UtilRegion. getRegionName(chip.id)
             }
             chip.text = regionName
         }
     }
-
-//    private fun getRegionNameAndNumber(): String {
-//        val regionSize: Int = when (region) {
-//            Constants.REGION_ALL -> sorted.size
-//            else -> sorted.filter { it.regionRus == region }.size
-//        }
-//        return  "$region $regionSize"
-//    }
 
     private fun getOnClickListener(): StateRVAdapter.OnitemClickListener =
         object : StateRVAdapter.OnitemClickListener{
