@@ -1,6 +1,6 @@
 package com.bartex.statesmvvm.view.fragments.quiz.setting
 
-import com.bartex.statesmvvm.model.fsm.entity.DataFlags
+import com.bartex.statesmvvm.view.fragments.quiz.fsm.entity.DataFlags
 
 interface ISettingsProvider {
     fun updateSoundOnOff()

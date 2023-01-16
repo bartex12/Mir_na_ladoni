@@ -45,7 +45,7 @@ class FavoriteFragment: Fragment() {
             App.instance.appComponent.inject(this)
         }
 
-        favoriteViewModel.getFavorite().observe(viewLifecycleOwner,Observer<List<State>>{favorites->
+        favoriteViewModel.getFavorite().observe(viewLifecycleOwner,Observer<List<State>>{ favorites->
                 Log.d(TAG, "FavoriteFragment onChanged")
                 favorites?. let{
                     renderData(it)

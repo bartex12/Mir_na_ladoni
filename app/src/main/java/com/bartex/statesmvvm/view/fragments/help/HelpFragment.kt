@@ -35,6 +35,9 @@ class HelpFragment: Fragment() {
         const val SEARCH: String = "Функция поиска"
         const val SELECTED: String = "Избранное"
         const val SETTINGS: String = "настройки приложения"
+        const val QUIZ_FLAGS: String = "название страны по флагу"
+        const val QUIZ_STATES: String = "флаг по названию страны"
+        const val MISTAKES: String = "вкладке Ошибки"
 
     }
 
@@ -67,6 +70,9 @@ class HelpFragment: Fragment() {
             makeLinks(it, SEARCH, color, spanHelp)
             makeLinks(it, SELECTED, color, spanHelp)
             makeLinks(it, SETTINGS, color, spanHelp)
+            makeLinks(it, QUIZ_FLAGS, color, spanHelp)
+            makeLinks(it, QUIZ_STATES, color, spanHelp)
+            makeLinks(it, MISTAKES, color, spanHelp)
 
             //Чтобы TextView корректно обрабатывал клик на подстроке, нужно настроить параметр
             // movementMethod. Он указывает, кому делегировать touch event. В нашем случае
@@ -119,6 +125,7 @@ class HelpFragment: Fragment() {
                     FLAGS-> navController.navigate(R.id.flagsFragment)
                     SELECTED-> navController.navigate(R.id.favoriteFragment)
                     SETTINGS-> navController.navigate(R.id.settingsFragment)
+                    QUIZ_FLAGS, QUIZ_STATES, MISTAKES -> navController.navigate(R.id.tabsFragment)
                     else -> navController.navigate(R.id.statesFragment)
                 }
             }

@@ -100,8 +100,8 @@
         The search function located at the top of the screen with a list of countries,
         allows you to find the country you are interested in with just a few letters from its name. \n\n
         For faster access, the countries you like can be saved in the Favorites list. \n\n
-        Through the application settings, you can sort countries by population or territory,
-        choose the language and color scheme of the application.\n\n
+        Through the application settings, you can sort countries by area,population and population density,
+        as well as select the language and color scheme of the application.\n\n
     </string>
     <string name="attachment_summary_off">Only download attachments when manually requested</string>
 

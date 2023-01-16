@@ -9,10 +9,10 @@ import io.reactivex.rxjava3.core.Single
 interface IRoomStateCash {
     fun doStatesCash(listStates:List<State>):Single<List<State>>
     fun getStatesFromCash():Single<List<State>>//получение списка пользователей из кэша
-    fun addToFavorite(state:State):Completable
+    fun addToFavorite(state: State):Completable
     fun loadFavorite():Single<List<State>>
-    fun isFavorite(state:State):Single<Boolean>
-    fun removeFavorite(state:State):Completable
+    fun isFavorite(state: State):Single<Boolean>
+    fun removeFavorite(state: State):Completable
     fun loadAllData(): Single<MutableList<State>>
     fun getFlagsFromCash():Single<List<State>>//получение списка пользователей из кэша
     fun writeMistakeInDatabase(mistakeAnswer:String): Single<Boolean> //делаeм запись в базе данных о том, что ответ неверный

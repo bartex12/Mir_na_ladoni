@@ -7,6 +7,7 @@ import android.view.*
 import android.view.inputmethod.InputMethodManager
 import android.widget.ProgressBar
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
@@ -19,7 +20,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bartex.statesmvvm.App
 import com.bartex.statesmvvm.R
-import com.bartex.statesmvvm.common.toast
 import com.bartex.statesmvvm.model.constants.Constants
 import com.bartex.statesmvvm.model.entity.state.State
 import com.bartex.statesmvvm.network.NoInternetDialogFragment
@@ -27,7 +27,6 @@ import com.bartex.statesmvvm.view.adapter.GlideToVectorYouLoader
 import com.bartex.statesmvvm.view.adapter.StateRVAdapter
 import com.bartex.statesmvvm.view.main.MainActivity
 import com.bartex.statesmvvm.view.shared.SharedViewModel
-import com.bartex.statesmvvm.view.utils.UtilFilters
 import com.bartex.statesmvvm.view.utils.UtilRegion
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
@@ -44,11 +43,6 @@ class   StatesFragment : Fragment(),
     private lateinit  var emptyViewStates: TextView
     private lateinit var chipGroupStates: ChipGroup
     private lateinit var chipAll: Chip
-
-
-
-
-
     private lateinit var progressBarState: ProgressBar
     private var listOfStates  = mutableListOf<State>() //список стран мира
     private var sorted:List<State> = listOf() // отфильтрованный и отсортированный список (список региона)
@@ -84,10 +78,11 @@ class   StatesFragment : Fragment(),
 
         //доступ к статусу сети, который определяется на уровне активити
        val  isNetworkAvailable = (requireActivity() as MainActivity).getNetworkAvailable()
-
+        //chipGroupStates.check(R.id.chip_all_region)
         //если в базе ничего нет, идём в сеть - если и там ничего нет - диалог
             stateViewModel.getDataFromDatabase()
                 .observe(viewLifecycleOwner, Observer {list->
+                   // Log.d(TAG, "*******StatesFragment getDataFromDatabase list.size = ${list.size} list.regionRus = ${list.map {it.regionRus }}")
                         if (list.size > 200) { //если в базе есть записи берём из базы
                             listOfStates = list //запоминаем
                              chipGroupStates.check(UtilRegion. getRegionId(region))
@@ -194,7 +189,8 @@ class   StatesFragment : Fragment(),
             is StatesSealed.Success -> {
                 renderLoadingStop()
                 listOfStates = data.state as MutableList<State>
-                renderStates(listOfStates)
+                //renderStates(listOfStates) //если так, то при возврате из страны бедет регион 238
+                renderDataWithRegion(region)
             }
             is StatesSealed.Error ->{
                 renderLoadingStop()
@@ -215,7 +211,7 @@ class   StatesFragment : Fragment(),
     }
 
     private fun renderError(error: Throwable) {
-        toast(error.message)
+        Toast.makeText(requireActivity(), "${error.message}", Toast.LENGTH_SHORT).show()
     }
 
     private fun renderStates(states: List<State>) {
@@ -244,15 +240,13 @@ class   StatesFragment : Fragment(),
             }else{
                 sorted = states
             }
-                sorted =  sorted.filter { UtilFilters.filterDataStates(it)}
-                Log.d(TAG, "*#*  StatesFragment filtered size =   ${sorted.size}")
-
                 getNumberOnChipName() //число на чипе
 
             adapter?.listStates = sorted
             adapter?.setRusLang(stateViewModel.getRusLang())
             rvStates.layoutManager?.scrollToPosition(position) //крутим в запомненную позицию списка
-            Log.d(TAG, "StatesFragment renderState scrollToPosition = $position")
+            //Log.d(TAG, "StatesFragment renderState scrollToPosition = $position")
+            Log.d(TAG, "***StatesFragment renderState sorted.size = ${sorted.size} sorted = $sorted")
     }
 }
 

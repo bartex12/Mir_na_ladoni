@@ -1,6 +1,6 @@
-package com.bartex.statesmvvm.model.fsm
+package com.bartex.statesmvvm.view.fragments.quiz.fsm
 
-import com.bartex.statesmvvm.model.fsm.entity.DataFlags
+import com.bartex.statesmvvm.view.fragments.quiz.fsm.entity.DataFlags
 
 sealed class Action{
     class OnNextFlagClicked(val data: DataFlags) : Action()

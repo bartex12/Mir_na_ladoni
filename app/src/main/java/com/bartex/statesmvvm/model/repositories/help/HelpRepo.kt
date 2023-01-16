@@ -6,8 +6,6 @@ import com.bartex.statesmvvm.R
 class     HelpRepo(var app: App): IHelpRepo {
 
     override fun getHelpText(): String {
-//        val iFile: InputStream = app.resources.openRawResource(R.raw.help_states)
-//        return inputStreamToString(iFile)
         return app.applicationContext.getString(R.string.helpString222)
     }
 }

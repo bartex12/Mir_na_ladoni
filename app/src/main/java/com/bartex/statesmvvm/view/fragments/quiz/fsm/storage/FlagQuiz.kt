@@ -1,11 +1,10 @@
-package com.bartex.statesmvvm.model.fsm.repo
+package com.bartex.statesmvvm.view.fragments.quiz.fsm.storage
 
-import android.util.Log
 import com.bartex.statesmvvm.model.constants.Constants
 import com.bartex.statesmvvm.model.entity.state.State
-import com.bartex.statesmvvm.model.fsm.entity.Answer
-import com.bartex.statesmvvm.model.fsm.entity.ButtonTag
-import com.bartex.statesmvvm.model.fsm.entity.DataFlags
+import com.bartex.statesmvvm.view.fragments.quiz.fsm.entity.Answer
+import com.bartex.statesmvvm.view.fragments.quiz.fsm.entity.ButtonTag
+import com.bartex.statesmvvm.view.fragments.quiz.fsm.entity.DataFlags
 import java.security.SecureRandom
 
 class FlagQuiz: IFlagQuiz {
@@ -46,7 +45,7 @@ class FlagQuiz: IFlagQuiz {
         while (flagCounter <= dataFlags.flagsInQuiz) {
             val randomIndex = SecureRandom().nextInt(numberOfFlags)
             // Получение случайного элемента списка - экземпляра класса State
-            val state:State = dataFlags.listStates[randomIndex]
+            val state: State = dataFlags.listStates[randomIndex]
             // Если элемент списка еще не был выбран, добавляем его в список  для текущей викторины
             if (!dataFlags.quizCountriesList.contains(state)) {
                 dataFlags.quizCountriesList.add(state)  // Добавить элемент в список для викторины

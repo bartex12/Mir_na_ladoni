@@ -1,9 +1,8 @@
-package com.bartex.statesmvvm.model.fsm.substates
+package com.bartex.statesmvvm.view.fragments.quiz.fsm.substates
 
-import com.bartex.statesmvvm.model.fsm.Action
-import com.bartex.statesmvvm.model.fsm.IFlagState
-import com.bartex.statesmvvm.model.fsm.entity.DataFlags
-import com.bartex.statesmvvm.model.fsm.substates.ReadyState
+import com.bartex.statesmvvm.view.fragments.quiz.fsm.Action
+import com.bartex.statesmvvm.view.fragments.quiz.fsm.IFlagState
+import com.bartex.statesmvvm.view.fragments.quiz.fsm.entity.DataFlags
 
 class WellAndLastAnswerState(val data: DataFlags): IFlagState {
     override fun executeAction(action: Action): IFlagState {

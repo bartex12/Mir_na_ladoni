@@ -60,10 +60,10 @@ class StatesViewModel(
             .observeOn(schedulerProvider.computation())
             .observeOn(schedulerProvider.ui())
             .subscribe ({states->
-                states?. let{
+                states.let{
                     // если данные загружены - выставляем value в MutableLiveData
                     listStatesFromNet.value = StatesSealed.Success(state = it)
-                    Log.d(TAG, "StatesViewModel  loadData states.size = ${it.size}")
+                    Log.d(TAG, "StatesViewModel  loadDataSealed states.size = ${it.size}")
                 }
             }, {error ->
                 //если произошла ошибка - выставляем value в MutableLiveData в ошибку

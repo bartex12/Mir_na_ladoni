@@ -249,7 +249,8 @@ object MapOfCapital {
                 "Lusaka" to "Лусака",
                 "Harare" to "Хараре",
                 "Sri Jayawardenepura Kotte" to "Шри-Джаяварденепура-Котте",
-                "Gitega" to "Гитега"
+                "Gitega" to "Гитега",
+                "Mbabane" to "Мбабане"
 
     )
 }

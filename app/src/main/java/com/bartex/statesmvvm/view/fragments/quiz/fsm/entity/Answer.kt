@@ -1,4 +1,4 @@
-package com.bartex.statesmvvm.model.fsm.entity
+package com.bartex.statesmvvm.view.fragments.quiz.fsm.entity
 
 sealed class Answer{
    object NotWell: Answer()

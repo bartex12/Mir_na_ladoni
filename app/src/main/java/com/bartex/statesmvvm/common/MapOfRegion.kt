@@ -7,6 +7,9 @@ object MapOfRegion {
      "Asia" to "Азия",
      "Americas" to "Америка",
      "Africa" to "Африка",
-     "Oceania" to "Океания"
+     "Oceania" to "Австралия",
+     "Polar" to "Антарктида",
+     "Antarctic" to "Антарктида",
+     "Antarctic Ocean" to "Антарктида"
     )
 }

@@ -37,7 +37,7 @@ class DetailsViewModel:ViewModel() {
 
     fun getStateRegion(region:String?) = stateUtils.getStateRegion(region)
 
-    fun getStateZoom(state:State) = stateUtils.getStatezoom(state)
+    fun getStateZoom(state: State) = stateUtils.getStatezoom(state)
 
     fun isFavoriteState(state: State):LiveData<DetailsSealed>{
         roomCash.isFavorite(state)
@@ -52,7 +52,7 @@ class DetailsViewModel:ViewModel() {
         return isFavorite
     }
 
-    fun addToFavorite(state:State){
+    fun addToFavorite(state: State){
         Log.d(TAG, "DetailsViewModel addToFavorite ")
         roomCash.addToFavorite(state)
             .observeOn(AndroidSchedulers.mainThread())
@@ -64,7 +64,7 @@ class DetailsViewModel:ViewModel() {
             })
     }
 
-    fun removeFavorite(state:State){
+    fun removeFavorite(state: State){
         Log.d(TAG, "DetailsViewModel removeFavorite ")
         roomCash.removeFavorite(state)
             .observeOn(AndroidSchedulers.mainThread())

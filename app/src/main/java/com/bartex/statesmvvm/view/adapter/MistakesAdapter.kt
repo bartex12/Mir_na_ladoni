@@ -34,7 +34,7 @@ class MistakesAdapter(
     }
 
     interface  OnMistakeClickListener{
-        fun onMistakeClick(mistakeState:State)
+        fun onMistakeClick(mistakeState: State)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

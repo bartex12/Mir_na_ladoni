@@ -240,7 +240,7 @@ open class    MainActivity: AppCompatActivity(), NavigationView.OnNavigationItem
                     && it != R.id.homeFragment && it != R.id.weatherFragment
         }
 
-        //видимость нижнеего меню во фрагментах
+        //видимость нижнего меню во фрагментах
         when (id) {
             R.id.homeFragment,
             R.id.weatherFragment,
@@ -390,7 +390,7 @@ open class    MainActivity: AppCompatActivity(), NavigationView.OnNavigationItem
                 Intent.EXTRA_TEXT,
                 """ 
                     ${getString(R.string.header)}
-                    
+
                     ${getString(R.string.uri_stor)}
                     
                     ${getString(R.string.blok1)}
@@ -425,7 +425,7 @@ open class    MainActivity: AppCompatActivity(), NavigationView.OnNavigationItem
             "MainActivity onBackPressed  Destination = ${navController.currentDestination?.label}"
         )
         if( navController.currentDestination?.id  == R.id.homeFragment){
-            Log.d(TAG, "MainActivity onBackPressed  это StatesQuizFragment")
+            Log.d(TAG, "MainActivity onBackPressed  это HomeFragment")
             //если флаг = true - а это при двойном щелчке - закрываем программу
             if (doubleBackToExitPressedOnce) {
                 Log.d(TAG, "MainActivity onBackPressed  doubleBackToExitPressedOnce")

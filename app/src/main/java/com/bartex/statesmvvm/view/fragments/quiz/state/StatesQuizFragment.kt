@@ -23,11 +23,11 @@ import androidx.navigation.Navigation
 import com.bartex.statesmvvm.R
 import com.bartex.statesmvvm.model.constants.Constants
 import com.bartex.statesmvvm.model.entity.state.State
-import com.bartex.statesmvvm.model.fsm.IFlagState
-import com.bartex.statesmvvm.model.fsm.entity.ButtonTag
-import com.bartex.statesmvvm.model.fsm.entity.DataFlags
-import com.bartex.statesmvvm.model.fsm.substates.*
+import com.bartex.statesmvvm.view.fragments.quiz.fsm.IFlagState
+import com.bartex.statesmvvm.view.fragments.quiz.fsm.entity.ButtonTag
+import com.bartex.statesmvvm.view.fragments.quiz.fsm.entity.DataFlags
 import com.bartex.statesmvvm.network.NoInternetDialogFragment
+import com.bartex.statesmvvm.view.fragments.quiz.fsm.substates.*
 import com.bartex.statesmvvm.view.fragments.states.StatesSealed
 import com.bartex.statesmvvm.view.main.MainActivity
 import com.bartex.statesmvvm.view.shared.SharedViewModel
@@ -238,8 +238,8 @@ class StatesQuizFragment : Fragment(){
                 quizLinearLayout.visibility = View.VISIBLE
                 progressBarStates.visibility = View.GONE
 
-                //список стран с названиями, столицами, флагами
-                val  listStates = data.state as MutableList<State>
+                //список стран с названиями, столицами, флагами, отфильтровав неполные данные
+                val  listStates = data.state  as MutableList<State>
                 //сохраняем список стран во ViewModel на время жизни фрагмента
                 statesViewModel.saveListOfStates(listStates)
                 //переводим конечный автомат в состояние ReadyState

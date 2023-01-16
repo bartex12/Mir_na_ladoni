@@ -38,7 +38,7 @@ interface StateDao {
     fun update(roomStates:List<RoomState>)
 
     @Query("SELECT * FROM RoomState")
-    fun getAll():List<RoomState>
+    fun  getAll():List<RoomState>
 
     @Query("SELECT * FROM RoomState WHERE name LIKE '%' ||:name || '%'")
     fun findByName(name:String): List<RoomState>

@@ -249,6 +249,9 @@ val mapStates = mapOf(
     "Zambia" to "Замбия",
     "Zimbabwe" to "Зимбабве",
     "Antarctica" to "Антарктика",
-    "Macao" to "Макао"
+    "Macao" to "Макао",
+    "Heard Island and McDonald Islands" to "Остров Херд и остров Макдональд",
+    "Bouvet Island" to "Остров Буве",
+    "United States Minor Outlying Islands" to "Внешние малые о-ва (США)"
      )
 }

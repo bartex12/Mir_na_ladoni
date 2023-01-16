@@ -1,8 +1,8 @@
 package com.bartex.statesmvvm.view.fragments.quiz.state
 
-import com.bartex.statesmvvm.model.fsm.Action
-import com.bartex.statesmvvm.model.fsm.entity.Answer
-import com.bartex.statesmvvm.model.fsm.entity.ButtonTag
+import com.bartex.statesmvvm.view.fragments.quiz.fsm.Action
+import com.bartex.statesmvvm.view.fragments.quiz.fsm.entity.Answer
+import com.bartex.statesmvvm.view.fragments.quiz.fsm.entity.ButtonTag
 import com.bartex.statesmvvm.view.fragments.quiz.base.BaseViewModel
 
 class StatesQuizModel: BaseViewModel()  {

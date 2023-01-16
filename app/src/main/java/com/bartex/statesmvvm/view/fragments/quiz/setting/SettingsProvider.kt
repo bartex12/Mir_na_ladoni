@@ -5,7 +5,7 @@ import android.media.AudioManager
 import androidx.preference.PreferenceManager
 import com.bartex.statesmvvm.App
 import com.bartex.statesmvvm.model.constants.Constants
-import com.bartex.statesmvvm.model.fsm.entity.DataFlags
+import com.bartex.statesmvvm.view.fragments.quiz.fsm.entity.DataFlags
 
 class SettingsProvider(val app: App) : ISettingsProvider {
 

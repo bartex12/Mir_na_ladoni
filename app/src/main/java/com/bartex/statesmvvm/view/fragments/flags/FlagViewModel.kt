@@ -35,7 +35,7 @@ class FlagViewModel:ViewModel() {
     private fun getStatesFromCash() {
         val isSorted = helper.isSorted()
         val getSortCase = helper.getSortCase()
-        var f_st:List<State>?= null
+        var f_st:List<State> = listOf()
         roomCash.getFlagsFromCash()
             .observeOn(Schedulers.computation())
             .flatMap {st->
@@ -45,6 +45,10 @@ class FlagViewModel:ViewModel() {
                         2 -> {f_st = st.filter {it.population!=null}.sortedBy {it.population}}
                         3 -> {f_st = st.filter {it.area!=null}.sortedByDescending {it.area} }
                         4 -> { f_st = st.filter {it.area!=null}.sortedBy {it.area} }
+                        5 -> {f_st = st.filter {it.population!=null && it.population >0 && it.area!=null && it.area!! >0}
+                            .sortedByDescending {it.population!!.toFloat()/it.area!!}}
+                        6 -> {f_st = st.filter {it.population!=null && it.population >0 && it.area!=null && it.area!! >0}
+                            .sortedBy {it.population!!.toFloat()/it.area!!}}
                     }
                     return@flatMap Single.just(f_st)
                 }else{
@@ -54,7 +58,7 @@ class FlagViewModel:ViewModel() {
             .observeOn(mainThreadScheduler)
             .subscribe ({states->
                 //обновляем список в случае его изменения
-                states?. let{
+                states.let{
                     Log.d(TAG, "FlagViewModel loadFavorite: states.size =  ${it.size}")}
                 listFlags.value = states
             }, {error ->

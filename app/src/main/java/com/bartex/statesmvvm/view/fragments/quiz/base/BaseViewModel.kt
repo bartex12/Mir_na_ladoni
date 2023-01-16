@@ -5,15 +5,15 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.bartex.statesmvvm.App
-import com.bartex.statesmvvm.model.fsm.entity.DataFlags
-import com.bartex.statesmvvm.model.fsm.repo.FlagQuiz
-import com.bartex.statesmvvm.model.fsm.repo.IFlagQuiz
-import com.bartex.statesmvvm.model.fsm.substates.ReadyState
+import com.bartex.statesmvvm.view.fragments.quiz.fsm.entity.DataFlags
+import com.bartex.statesmvvm.view.fragments.quiz.fsm.storage.FlagQuiz
+import com.bartex.statesmvvm.view.fragments.quiz.fsm.storage.IFlagQuiz
+import com.bartex.statesmvvm.view.fragments.quiz.fsm.substates.ReadyState
 import com.bartex.statesmvvm.model.api.DataSourceRetrofit
 import com.bartex.statesmvvm.model.constants.Constants
 import com.bartex.statesmvvm.model.entity.state.State
-import com.bartex.statesmvvm.model.fsm.Action
-import com.bartex.statesmvvm.model.fsm.IFlagState
+import com.bartex.statesmvvm.view.fragments.quiz.fsm.Action
+import com.bartex.statesmvvm.view.fragments.quiz.fsm.IFlagState
 import com.bartex.statesmvvm.model.repositories.states.IStatesRepo
 import com.bartex.statesmvvm.model.repositories.states.StatesRepo
 import com.bartex.statesmvvm.model.repositories.states.cash.IRoomStateCash
@@ -79,11 +79,11 @@ open class BaseViewModel(
 
     //сохраняем список стран чтобы не пропадал при поворотах экрана
     fun saveListOfStates( listStates:MutableList<State>){
-        val filtredListOfStates = listStates.filter {
-            UtilFilters.filterDataStates(it)
+        val filteredListOfStates = listStates.filter {
+            UtilFilters.filterData(it)
         }.toMutableList()
-        dataFlags.listStatesFromNet = filtredListOfStates //для удобства храним в данных
-        listOfStates = filtredListOfStates //а также храним во ViewModel
+        dataFlags.listStatesFromNet = filteredListOfStates //для удобства храним в данных
+        listOfStates = filteredListOfStates //а также храним во ViewModel
         Log.d(TAG, "BaseViewModel saveListOfStates  listOfStates size = ${listOfStates.size}")
     }
 
@@ -148,7 +148,7 @@ open class BaseViewModel(
     }
 
     //сохраняем текущее состояние
-    fun saveCurrentState( newState:IFlagState){
+    fun saveCurrentState( newState: IFlagState){
         currentState = newState
     }
 
