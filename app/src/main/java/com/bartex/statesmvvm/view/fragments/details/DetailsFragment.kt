@@ -8,6 +8,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -16,7 +17,6 @@ import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import com.bartex.statesmvvm.App
 import com.bartex.statesmvvm.R
-import com.bartex.statesmvvm.common.toast
 import com.bartex.statesmvvm.model.constants.Constants
 import com.bartex.statesmvvm.model.entity.state.State
 import com.github.twocoffeesoneteam.glidetovectoryou.GlideToVectorYou
@@ -114,7 +114,7 @@ class DetailsFragment : Fragment() {
                 }
             }
             is DetailsSealed.Error -> {
-                toast(data.error.message)
+                Toast.makeText(requireActivity(), "${data.error.message}", Toast.LENGTH_SHORT).show()
                 Log.d(TAG, "DetailsFragment renderData Error")
             }
         }
