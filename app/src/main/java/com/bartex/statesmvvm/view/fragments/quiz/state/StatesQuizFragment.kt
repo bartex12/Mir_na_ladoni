@@ -200,11 +200,22 @@ class StatesQuizFragment : Fragment(){
         Thread { mToneGenerator.startTone(ToneGenerator.TONE_DTMF_0, 50) }.start()
         model.updateToolbarTitleFromState(getToolbarTitle(data))//обновить номер текущего вопроса
         showCorrectAnswer(data) //показать правильный ответ
+        imageDisable(false)
         handler.postDelayed(
                 { //todo сделать анимацию исчезновения флага
                     statesViewModel.loadNextFlag(data)
+                    imageDisable(true)
                 }, 1000
         )
+    }
+
+    private fun imageDisable(isEnabled:Boolean) {
+        for (row in guessLinearLayouts){
+            for (column in 0 until row!!.childCount ){
+                val imageView = row.getChildAt(column) as ImageView
+                imageView.isEnabled = isEnabled
+            }
+        }
     }
 
     // Ответ правильный и викторина закончена
@@ -213,6 +224,7 @@ class StatesQuizFragment : Fragment(){
         Thread { mToneGenerator.startTone(ToneGenerator.TONE_DTMF_0, 100) }.start()
         model.updateToolbarTitleFromState(getToolbarTitle(data))//обновить номер текущего вопроса
         showCorrectAnswer(data) //показать правильный ответ
+        //imageDisable()
         showNextCountry(data) //показываем название страны которую нужно угадать*
 
         //если диалог не создан - создаём и передаём данные
