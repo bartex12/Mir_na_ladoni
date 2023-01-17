@@ -4,27 +4,30 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.bartex.statesmvvm.App
 import com.bartex.statesmvvm.model.entity.state.State
 import com.bartex.statesmvvm.model.repositories.prefs.IPreferenceHelper
+import com.bartex.statesmvvm.model.repositories.prefs.PreferenceHelper
 import com.bartex.statesmvvm.model.repositories.states.cash.IRoomStateCash
+import com.bartex.statesmvvm.model.repositories.states.cash.RoomStateCash
+import com.bartex.statesmvvm.model.room.Database
 import com.bartex.statesmvvm.model.utils.IStateUtils
+import com.bartex.statesmvvm.model.utils.StateUtils
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.schedulers.Schedulers
 import javax.inject.Inject
 
-class DetailsViewModel:ViewModel() {
+class DetailsViewModel(
+    val helper : IPreferenceHelper = PreferenceHelper(app = App.instance),
+    val roomCash: IRoomStateCash = RoomStateCash(db = Database.getInstance() as Database),
+    private val stateUtils: IStateUtils = StateUtils()
+):ViewModel() {
+
     companion object{
         const val TAG = "33333"
     }
 
     private val isFavorite = MutableLiveData<DetailsSealed>()
-
-    @Inject
-    lateinit var helper : IPreferenceHelper
-    @Inject
-    lateinit var roomCash: IRoomStateCash
-    @Inject
-    lateinit var stateUtils: IStateUtils
 
     fun  getStateArea(area:Float?) = stateUtils.getStateArea(area)
 

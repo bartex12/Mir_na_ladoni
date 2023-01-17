@@ -4,29 +4,31 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.bartex.statesmvvm.App
 import com.bartex.statesmvvm.model.entity.state.State
 import com.bartex.statesmvvm.model.repositories.prefs.IPreferenceHelper
+import com.bartex.statesmvvm.model.repositories.prefs.PreferenceHelper
 import com.bartex.statesmvvm.model.repositories.states.cash.IRoomStateCash
+import com.bartex.statesmvvm.model.repositories.states.cash.RoomStateCash
+import com.bartex.statesmvvm.model.room.Database
 import com.bartex.statesmvvm.model.utils.IStateUtils
+import com.bartex.statesmvvm.model.utils.StateUtils
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Scheduler
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.schedulers.Schedulers
 import javax.inject.Inject
 
-class FavoriteViewModel() : ViewModel() {
+class FavoriteViewModel(
+    val helper : IPreferenceHelper = PreferenceHelper(app = App.instance),
+    val roomCash: IRoomStateCash = RoomStateCash(db = Database.getInstance() as Database),
+    private val mainThreadScheduler: Scheduler = AndroidSchedulers.mainThread(),
+    private val stateUtils: IStateUtils = StateUtils()
+) : ViewModel() {
 
     companion object{
         const val TAG = "33333"
     }
-
-    @Inject
-    lateinit var helper : IPreferenceHelper
-    @Inject
-    lateinit var roomCash: IRoomStateCash
-    @Inject
-    lateinit var mainThreadScheduler: Scheduler
-    @Inject
-    lateinit var stateUtils: IStateUtils
 
     private  var listFavoriteStates = MutableLiveData<List<State>>()
 
@@ -38,7 +40,7 @@ class FavoriteViewModel() : ViewModel() {
     private fun loadFavorite() {
         val isSorted = helper.isSorted()
         val getSortCase = helper.getSortCase()
-        var filterState:List<State>?= null
+        var filterState:List<State> = listOf()
         roomCash. loadFavorite()
             .observeOn(Schedulers.computation())
             .flatMap {st->
@@ -56,12 +58,12 @@ class FavoriteViewModel() : ViewModel() {
                     return@flatMap Single.just(filterState)
                 }else{
                     return@flatMap Single.just( st.sortedBy{it.name})
-                    }
+                }
             }
             .observeOn(mainThreadScheduler)
             .subscribe ({states->
                 //обновляем список в случае его изменения
-                states?. let{
+                states.let{
                     Log.d(TAG, "FavoriteViewModel loadFavorite: states.size =  ${it.size}")}
                     listFavoriteStates.value = states
             }, {error ->
