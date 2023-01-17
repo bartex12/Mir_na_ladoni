@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.bartex.statesmvvm.App
 import com.bartex.statesmvvm.model.api.ApiServiceWeather
+import com.bartex.statesmvvm.model.api.DataWeatherRetrofit
 import com.bartex.statesmvvm.model.entity.state.State
 import com.bartex.statesmvvm.model.entity.weather.WeatherQuery
 import com.bartex.statesmvvm.model.repositories.prefs.IPreferenceHelper
@@ -24,35 +25,16 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class  WeatherViewModel(
     var helper : IPreferenceHelper = PreferenceHelper(App.instance),
-    var schedulerProvider: SchedulerProvider = StatesSchedulerProvider(),
-    var weatherRepo: IWeatherRepo = WeatherRepo(
-      api =  Retrofit.Builder()
-            .baseUrl(baseUrl)
-            .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
-            .addConverterFactory(GsonConverterFactory.create(
-                GsonBuilder()
-                    .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
-                    .excludeFieldsWithoutExposeAnnotation()
-                    .create()))
-            .build()
-            .create(ApiServiceWeather::class.java),
-        roomWeatherCash =  RoomWeatherCash(db = Database.getInstance() as Database)
-    )
-
-):ViewModel() {
+    private var schedulerProvider: SchedulerProvider = StatesSchedulerProvider(),
+    private var weatherRepo: IWeatherRepo = WeatherRepo(weatherRetrofit = DataWeatherRetrofit(),
+        roomWeatherCash =  RoomWeatherCash(db = Database.getInstance() as Database))
+)
+    :ViewModel() {
 
     companion object{
         const val TAG = "33333"
         const val baseUrl =   "https://api.openweathermap.org/"
     }
-
-//    @Inject
-//    lateinit var helper : IPreferenceHelper
-//
-//    @Inject
-//    lateinit var mainThreadScheduler: Scheduler
-//    @Inject
-//    lateinit var weatherRepo: IWeatherRepo
 
     private val weatherSealed= MutableLiveData<WeatherSealed>()
 

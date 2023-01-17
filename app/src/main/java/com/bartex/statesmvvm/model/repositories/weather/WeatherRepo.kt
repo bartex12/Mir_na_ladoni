@@ -2,6 +2,8 @@ package com.bartex.statesmvvm.model.repositories.weather
 
 import android.util.Log
 import com.bartex.statesmvvm.model.api.ApiServiceWeather
+import com.bartex.statesmvvm.model.api.DataWeatherRetrofit
+import com.bartex.statesmvvm.model.api.IWeatherSourse
 import com.bartex.statesmvvm.model.entity.weather.WeatherInCapital
 import com.bartex.statesmvvm.model.repositories.weather.cash.IRoomWeatherCash
 import com.bartex.statesmvvm.model.repositories.weather.cash.RoomWeatherCash
@@ -10,10 +12,9 @@ import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.schedulers.Schedulers
 
 class WeatherRepo(
-    val api: ApiServiceWeather,
+    private val weatherRetrofit: IWeatherSourse = DataWeatherRetrofit(),
     private val  roomWeatherCash: IRoomWeatherCash = RoomWeatherCash(db = Database.getInstance() as Database)
-)
-    :IWeatherRepo {
+):IWeatherRepo {
 
     companion object{
         const val TAG = "33333"
@@ -25,16 +26,18 @@ class WeatherRepo(
         isNetworkAvailable:Boolean, capital: String?, keyApi:String, units:String)
             : Single<WeatherInCapital> =
         if(isNetworkAvailable){
+            weatherRetrofit.getWeatherInCapital(capital, keyApi, units)
+                .flatMap { weatherInCapital ->
+                    Log.d(TAG, "WeatherRepo  loadWeatherInCapitalRu name = " +
+                            "${weatherInCapital.name} temp = ${weatherInCapital.main?.temp}"
+                    )
+                    //реализация кэширования погоды в столице из сети в базу данных
+                    roomWeatherCash.doWeatherCash(weatherInCapital)
+                }
                      //Log.d(TAG, "WeatherRepo  isOnLine  = true")
                     //получаем данные из сети в виде Single<WeatherInCapital>
-                    api.loadWeatherInCapitalEng(capital, keyApi, units)
-                        .flatMap { weatherInCapital ->
-                            Log.d(TAG, "WeatherRepo  loadWeatherInCapitalRu name = " +
-                                        "${weatherInCapital.name} temp = ${weatherInCapital.main?.temp}"
-                            )
-                            //реализация кэширования погоды в столице из сети в базу данных
-                            roomWeatherCash.doWeatherCash(weatherInCapital)
-                        }
+//                    api.loadWeatherInCapitalEng(capital, keyApi, units)
+
         }else{
             //Log.d(TAG, "WeatherRepo  isNetworkAvailable  = false")
             //получение погоды в столице из кэша

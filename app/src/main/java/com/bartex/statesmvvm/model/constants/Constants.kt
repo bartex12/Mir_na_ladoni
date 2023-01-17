@@ -2,6 +2,7 @@ package com.bartex.statesmvvm.model.constants
 
 object Constants {
     const val baseUrl =  "https://restcountries.com/v2/"
+    const val baseUrlWeather =  "https://api.openweathermap.org/"
     const val SEARCH = "SEARCH"
     const val STATE = "STATE"
     const val FAVORITE = "FAVORITE"
