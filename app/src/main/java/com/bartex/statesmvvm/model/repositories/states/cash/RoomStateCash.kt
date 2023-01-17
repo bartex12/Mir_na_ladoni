@@ -13,7 +13,9 @@ import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.schedulers.Schedulers
 
-class RoomStateCash(val db: Database): IRoomStateCash {
+class RoomStateCash(
+    val db: Database = Database.getInstance() as Database)
+    : IRoomStateCash {
 
     companion object{
         const val TAG = "33333"

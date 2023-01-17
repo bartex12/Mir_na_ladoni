@@ -9,7 +9,9 @@ import com.bartex.statesmvvm.model.room.Database
 import com.bartex.statesmvvm.model.room.tables.RoomWeather
 import io.reactivex.rxjava3.core.Single
 
-class RoomWeatherCash(val db: Database):IRoomWeatherCash {
+class RoomWeatherCash(
+    val db: Database =  Database.getInstance() as Database)
+    :IRoomWeatherCash {
 
     companion object{
         const val TAG = "33333"

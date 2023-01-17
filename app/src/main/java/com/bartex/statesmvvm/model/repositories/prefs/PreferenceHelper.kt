@@ -6,7 +6,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.bartex.statesmvvm.App
 
-class PreferenceHelper(val app: App):
+class PreferenceHelper(
+    val app: App = App.instance
+):
     IPreferenceHelper {
 
     companion object{
