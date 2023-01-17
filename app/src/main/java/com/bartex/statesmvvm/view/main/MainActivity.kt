@@ -84,7 +84,6 @@ open class    MainActivity: AppCompatActivity(), NavigationView.OnNavigationItem
         setContentView(R.layout.activity_main)
 
         mainViewModel = ViewModelProvider(this).get(MainViewModel::class.java)
-        mainViewModel.apply { App.instance.appComponent.inject(this)}
 
         bottomNavigationState = findViewById(R.id.bottom_navigation_state)
         bottomNavigationState.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)

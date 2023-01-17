@@ -14,22 +14,22 @@ import javax.inject.Singleton
 @Singleton
 @Component(
     modules = [
-        AppModule::class,
-        CacheModule::class,
-        ApiModule::class,
-        RepoModule::class,
-        PrefModule::class,
-        HelpModule::class,
-        UtilsModule::class
-    ]
+//        AppModule::class,
+//        CacheModule::class,
+//        ApiModule::class,
+//        RepoModule::class,
+//        PrefModule::class,
+//        HelpModule::class,
+//        UtilsModule::class
+   ]
 )
 
 interface AppComponent {
-    fun inject(flagViewModel: FlagViewModel)
-    fun inject(favoriteViewModel: FavoriteViewModel)
-    fun inject(statesViewModel: StatesViewModel)
-    fun inject(detailsViewModel: DetailsViewModel)
-    fun inject(weatherViewModel: WeatherViewModel)
-    fun inject(helpViewModel: HelpViewModel)
-    fun inject(mainViewModel: MainViewModel)
+//    fun inject(flagViewModel: FlagViewModel)
+//    fun inject(favoriteViewModel: FavoriteViewModel)
+//    fun inject(statesViewModel: StatesViewModel)
+//    fun inject(detailsViewModel: DetailsViewModel)
+//    fun inject(weatherViewModel: WeatherViewModel)
+//    fun inject(helpViewModel: HelpViewModel)
+//    fun inject(mainViewModel: MainViewModel)
 }

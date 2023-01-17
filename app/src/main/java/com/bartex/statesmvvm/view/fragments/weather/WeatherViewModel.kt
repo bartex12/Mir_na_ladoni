@@ -26,7 +26,8 @@ import retrofit2.converter.gson.GsonConverterFactory
 class  WeatherViewModel(
     var helper : IPreferenceHelper = PreferenceHelper(App.instance),
     private var schedulerProvider: SchedulerProvider = StatesSchedulerProvider(),
-    private var weatherRepo: IWeatherRepo = WeatherRepo(weatherRetrofit = DataWeatherRetrofit(),
+    private var weatherRepo: IWeatherRepo =
+        WeatherRepo(weatherRetrofit = DataWeatherRetrofit(),
         roomWeatherCash =  RoomWeatherCash(db = Database.getInstance() as Database))
 )
     :ViewModel() {

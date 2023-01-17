@@ -52,9 +52,7 @@ class HelpFragment: Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         navController = Navigation.findNavController(view)
-
         helpViewModel = ViewModelProvider(this).get(HelpViewModel::class.java)
-        helpViewModel.apply { App.instance.appComponent.inject(this) }
 
         val helpText = helpViewModel.getHelpText()
         val spanHelp = SpannableString(helpText)

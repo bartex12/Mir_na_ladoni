@@ -7,7 +7,7 @@ import com.bartex.statesmvvm.App
 import com.bartex.statesmvvm.model.constants.Constants
 import com.bartex.statesmvvm.view.fragments.quiz.fsm.entity.DataFlags
 
-class SettingsProvider(val app: App) : ISettingsProvider {
+class SettingsProvider(val app: App = App.instance) : ISettingsProvider {
 
     override fun updateSoundOnOff() {
         val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(app)

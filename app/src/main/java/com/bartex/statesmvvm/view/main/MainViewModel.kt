@@ -5,17 +5,17 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
+import com.bartex.statesmvvm.App
 import com.bartex.statesmvvm.model.repositories.prefs.IPreferenceHelper
+import com.bartex.statesmvvm.model.repositories.prefs.PreferenceHelper
 import javax.inject.Inject
 
-class MainViewModel: ViewModel() {
+class MainViewModel(var helper : IPreferenceHelper = PreferenceHelper(app = App.instance))
+    : ViewModel() {
 
     companion object{
         private const val TAG = "33333"
     }
-
-    @Inject
-    lateinit var helper : IPreferenceHelper
 
     private val colorTheme = MutableLiveData<Int>()
 

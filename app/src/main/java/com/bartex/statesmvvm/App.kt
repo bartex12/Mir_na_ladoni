@@ -11,7 +11,7 @@ class App : Application() {
         lateinit var instance: App
     }
 
-    lateinit var appComponent: AppComponent
+//    lateinit var appComponent: AppComponent
 
 
     override fun onCreate() {
@@ -21,8 +21,8 @@ class App : Application() {
         //создаём базу данных
         Database.create(this)
 
-        appComponent = DaggerAppComponent.builder()
-            .appModule(AppModule(this))
-            .build()
+//        appComponent = DaggerAppComponent.builder()
+//            .appModule(AppModule(this))
+//            .build()
     }
 }

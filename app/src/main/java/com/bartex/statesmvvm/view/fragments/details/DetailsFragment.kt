@@ -53,9 +53,7 @@ class DetailsFragment : Fragment() {
         Log.d(TAG, "DetailsFragment onViewCreated state = ${state.toString()}")
 
         navController = Navigation.findNavController(view)
-
         detailsViewModel = ViewModelProvider(this).get(DetailsViewModel::class.java)
-        detailsViewModel.apply { App.instance.appComponent.inject(this) }
 
         bottom_navigation.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
 

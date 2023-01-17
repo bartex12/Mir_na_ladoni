@@ -33,13 +33,6 @@ class StatesViewModel(
         const val TAG = "33333"
     }
 
-   // @Inject
-   // lateinit var helper : IPreferenceHelper
-//    @Inject
-//    lateinit var mainThreadScheduler: Scheduler
-//    @Inject
-//    lateinit var statesRepo: IStatesRepo  //репозиторий
-
     //список стран из сети
     private val listStatesFromNet = MutableLiveData<StatesSealed>()
     //список стран из базы

@@ -41,9 +41,6 @@ class FlagsFragment:Fragment() {
 
         navController = Navigation.findNavController(view)
         flagViewModel = ViewModelProvider(this).get(FlagViewModel::class.java)
-        flagViewModel.apply {
-            App.instance.appComponent.inject(this)
-        }
 
         flagViewModel.getStateFlafs().observe(viewLifecycleOwner, Observer<List<State>>{ states->
             Log.d(TAG, "FlagsFragment onChanged")

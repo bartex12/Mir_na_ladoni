@@ -41,9 +41,6 @@ class FavoriteFragment: Fragment() {
 
         navController = Navigation.findNavController(view)
         favoriteViewModel = ViewModelProvider(this).get(FavoriteViewModel::class.java)
-        favoriteViewModel.apply {
-            App.instance.appComponent.inject(this)
-        }
 
         favoriteViewModel.getFavorite().observe(viewLifecycleOwner,Observer<List<State>>{ favorites->
                 Log.d(TAG, "FavoriteFragment onChanged")

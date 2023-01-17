@@ -44,9 +44,7 @@ class  WeatherFragment : Fragment()  {
         super.onViewCreated(view, savedInstanceState)
 
         arguments?.let {state = it.getParcelable<State>(Constants.DETAILS)}
-
         weatherViewModel = ViewModelProvider(this).get(WeatherViewModel::class.java)
-        weatherViewModel.apply { App.instance.appComponent.inject(this) }
 
         val  isNetworkAvailable = main?.getNetworkAvailable()
         Log.d(StatesFragment.TAG, "WeatherFragment onViewCreated isNetworkAvailable =$isNetworkAvailable")

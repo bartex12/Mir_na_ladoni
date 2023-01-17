@@ -63,9 +63,8 @@ class   StatesFragment : Fragment(),
         Log.d(TAG, "StatesFragment onViewCreated ")
 
         navController = Navigation.findNavController(view)
-
         stateViewModel = ViewModelProvider(this).get(StatesViewModel::class.java)
-        stateViewModel.apply { App.instance.appComponent.inject(this)}
+
 
         initViews(view)
         initAdapter()
