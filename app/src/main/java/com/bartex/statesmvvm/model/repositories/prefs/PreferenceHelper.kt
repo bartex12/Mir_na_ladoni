@@ -1,15 +1,13 @@
 package com.bartex.statesmvvm.model.repositories.prefs
 
+import android.app.Application
+import android.content.Context
 import androidx.preference.PreferenceManager
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.bartex.statesmvvm.App
 
-class PreferenceHelper(
-    val app: App = App.instance
-):
-    IPreferenceHelper {
+class PreferenceHelper(private  val app: Application): IPreferenceHelper {
 
     companion object{
         const val TAG = "33333"

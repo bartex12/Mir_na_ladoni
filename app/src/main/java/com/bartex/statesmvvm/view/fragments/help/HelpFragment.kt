@@ -20,7 +20,9 @@ import com.bartex.statesmvvm.App
 import com.bartex.statesmvvm.R
 import com.bartex.statesmvvm.model.constants.Constants
 import com.bartex.statesmvvm.model.entity.state.State
+import com.bartex.statesmvvm.view.fragments.home.HomeViewModel
 import kotlinx.android.synthetic.main.fragment_help.*
+import org.koin.android.viewmodel.ext.android.viewModel
 
 class HelpFragment: Fragment() {
 
@@ -38,10 +40,9 @@ class HelpFragment: Fragment() {
         const val QUIZ_FLAGS: String = "название страны по флагу"
         const val QUIZ_STATES: String = "флаг по названию страны"
         const val MISTAKES: String = "вкладке Ошибки"
-
     }
 
-    private lateinit var helpViewModel: HelpViewModel
+    private  val helpViewModel: HelpViewModel by viewModel()
     lateinit var navController: NavController
 
     override fun onCreateView( inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View{
@@ -52,7 +53,6 @@ class HelpFragment: Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         navController = Navigation.findNavController(view)
-        helpViewModel = ViewModelProvider(this).get(HelpViewModel::class.java)
 
         val helpText = helpViewModel.getHelpText()
         val spanHelp = SpannableString(helpText)

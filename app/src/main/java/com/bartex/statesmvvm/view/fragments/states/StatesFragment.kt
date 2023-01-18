@@ -18,7 +18,6 @@ import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.bartex.statesmvvm.App
 import com.bartex.statesmvvm.R
 import com.bartex.statesmvvm.model.constants.Constants
 import com.bartex.statesmvvm.model.entity.state.State
@@ -30,6 +29,7 @@ import com.bartex.statesmvvm.view.shared.SharedViewModel
 import com.bartex.statesmvvm.view.utils.UtilRegion
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
+import org.koin.android.viewmodel.ext.android.viewModel
 import java.util.*
 
 class   StatesFragment : Fragment(),
@@ -38,7 +38,7 @@ class   StatesFragment : Fragment(),
     private var position = 0
     private var adapter: StateRVAdapter? = null
     lateinit var navController:NavController
-    private lateinit var stateViewModel: StatesViewModel
+    private val stateViewModel: StatesViewModel by viewModel()
     private lateinit var rvStates: RecyclerView
     private lateinit  var emptyViewStates: TextView
     private lateinit var chipGroupStates: ChipGroup
@@ -47,8 +47,6 @@ class   StatesFragment : Fragment(),
     private var listOfStates  = mutableListOf<State>() //список стран мира
     private var sorted:List<State> = listOf() // отфильтрованный и отсортированный список (список региона)
     private var region:String = Constants.REGION_ALL // текущий
-
-    private val sharedViewModel: SharedViewModel by activityViewModels() //спец viewModel для обмена данными
 
     companion object {
         const val TAG = "33333"
@@ -63,8 +61,6 @@ class   StatesFragment : Fragment(),
         Log.d(TAG, "StatesFragment onViewCreated ")
 
         navController = Navigation.findNavController(view)
-        stateViewModel = ViewModelProvider(this).get(StatesViewModel::class.java)
-
 
         initViews(view)
         initAdapter()

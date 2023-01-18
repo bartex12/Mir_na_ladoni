@@ -1,28 +1,27 @@
 package com.bartex.statesmvvm
 
 import android.app.Application
-import com.bartex.statesmvvm.dagger.AppComponent
-import com.bartex.statesmvvm.dagger.AppModule
-import com.bartex.statesmvvm.dagger.DaggerAppComponent
+import com.bartex.statesmvvm.koin.allScreen
+import com.bartex.statesmvvm.koin.application
 import com.bartex.statesmvvm.model.room.Database
+import org.koin.android.ext.koin.androidContext
+import org.koin.core.context.startKoin
 
 class App : Application() {
-    companion object {
-        lateinit var instance: App
+
+    companion object{
+        //lateinit var instance:App
     }
-
-//    lateinit var appComponent: AppComponent
-
 
     override fun onCreate() {
         super.onCreate()
-        instance = this //здесь определяем свойство instance - контекст приложения
 
-        //создаём базу данных
-        Database.create(this)
+        //instance =this
 
-//        appComponent = DaggerAppComponent.builder()
-//            .appModule(AppModule(this))
-//            .build()
+      startKoin {
+          androidContext(applicationContext)
+          modules(listOf(application, allScreen))
+      }
     }
 }
+//androidContext(applicationContext)

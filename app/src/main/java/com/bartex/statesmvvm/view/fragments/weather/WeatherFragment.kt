@@ -18,11 +18,12 @@ import com.bartex.statesmvvm.model.entity.weather.WeatherInCapital
 import com.bartex.statesmvvm.view.fragments.states.StatesFragment
 import com.bartex.statesmvvm.view.main.MainActivity
 import kotlinx.android.synthetic.main.fragment_weather.*
+import org.koin.android.viewmodel.ext.android.viewModel
 
 class  WeatherFragment : Fragment()  {
 
     private var state: State? = null
-    private lateinit var weatherViewModel:WeatherViewModel
+    private  val weatherViewModel:WeatherViewModel by viewModel()
     //для доступа к полю MainActivity isNetworkAvailable, где проверяется доступ к интернету
     var main: MainActivity? = null
 
@@ -44,7 +45,6 @@ class  WeatherFragment : Fragment()  {
         super.onViewCreated(view, savedInstanceState)
 
         arguments?.let {state = it.getParcelable<State>(Constants.DETAILS)}
-        weatherViewModel = ViewModelProvider(this).get(WeatherViewModel::class.java)
 
         val  isNetworkAvailable = main?.getNetworkAvailable()
         Log.d(StatesFragment.TAG, "WeatherFragment onViewCreated isNetworkAvailable =$isNetworkAvailable")

@@ -22,10 +22,11 @@ import com.bartex.statesmvvm.model.entity.state.State
 import com.github.twocoffeesoneteam.glidetovectoryou.GlideToVectorYou
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.fragment_details.*
+import org.koin.android.viewmodel.ext.android.viewModel
 
 class DetailsFragment : Fragment() {
 
-    private lateinit var detailsViewModel :DetailsViewModel
+    private  val detailsViewModel :DetailsViewModel by viewModel()
     lateinit var navController: NavController
     private var state: State? = null
 
@@ -53,7 +54,6 @@ class DetailsFragment : Fragment() {
         Log.d(TAG, "DetailsFragment onViewCreated state = ${state.toString()}")
 
         navController = Navigation.findNavController(view)
-        detailsViewModel = ViewModelProvider(this).get(DetailsViewModel::class.java)
 
         bottom_navigation.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
 

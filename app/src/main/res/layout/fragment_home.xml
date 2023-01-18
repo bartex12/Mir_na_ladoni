@@ -8,16 +8,16 @@
 
     <RelativeLayout
         android:id="@+id/RelativeLayout02"
-        android:layout_height="fill_parent"
-        android:layout_width="fill_parent">
+        android:layout_height="match_parent"
+        android:layout_width="match_parent">
 
         <ListView
-            android:layout_height="wrap_content"
             android:id="@+id/listViewHome"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:divider="@drawable/divider"
             android:layout_alignParentTop="true"
-            tools:listitem="@layout/item_state"/>
+            />
 <!--        android:listSelector="@drawable/textured_fio"-->
 
         <ImageView
@@ -28,6 +28,7 @@
             android:layout_alignParentStart="true"
             android:layout_alignParentBottom="true"
             android:scaleType="center"
-            android:src="@drawable/pazl_coner400" />
+            android:src="@drawable/pazl_coner400"
+            android:contentDescription="@string/homePage" />
     </RelativeLayout>
 </LinearLayout>

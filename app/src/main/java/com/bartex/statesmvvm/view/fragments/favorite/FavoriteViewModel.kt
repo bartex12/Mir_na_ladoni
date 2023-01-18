@@ -13,6 +13,7 @@ import com.bartex.statesmvvm.model.repositories.states.cash.RoomStateCash
 import com.bartex.statesmvvm.model.room.Database
 import com.bartex.statesmvvm.model.utils.IStateUtils
 import com.bartex.statesmvvm.model.utils.StateUtils
+import com.bartex.statesmvvm.view.fragments.scheduler.SchedulerProvider
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Scheduler
 import io.reactivex.rxjava3.core.Single
@@ -20,9 +21,9 @@ import io.reactivex.rxjava3.schedulers.Schedulers
 import javax.inject.Inject
 
 class FavoriteViewModel(
-    val helper : IPreferenceHelper = PreferenceHelper(app = App.instance),
-    val roomCash: IRoomStateCash = RoomStateCash(db = Database.getInstance() as Database),
-    private val mainThreadScheduler: Scheduler = AndroidSchedulers.mainThread(),
+    private val helper : IPreferenceHelper,
+    private val roomCash: IRoomStateCash,
+    private val schedulerProvider: SchedulerProvider,
     private val stateUtils: IStateUtils = StateUtils()
 ) : ViewModel() {
 
@@ -60,7 +61,7 @@ class FavoriteViewModel(
                     return@flatMap Single.just( st.sortedBy{it.name})
                 }
             }
-            .observeOn(mainThreadScheduler)
+            .observeOn(schedulerProvider.ui())
             .subscribe ({states->
                 //обновляем список в случае его изменения
                 states.let{

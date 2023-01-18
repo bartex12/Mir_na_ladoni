@@ -20,22 +20,20 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
 import androidx.preference.PreferenceManager
 import androidx.viewpager.widget.ViewPager
-import com.bartex.statesmvvm.App
 import com.bartex.statesmvvm.R
 import com.bartex.statesmvvm.common.AlertDialogFragment
 import com.bartex.statesmvvm.common.isOnline
 import com.bartex.statesmvvm.model.constants.Constants
 import com.bartex.statesmvvm.network.OnlineLiveData
-import com.bartex.statesmvvm.view.fragments.states.StatesViewModel
 import com.bartex.statesmvvm.view.shared.SharedViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.app_bar_main.*
+import org.koin.android.viewmodel.ext.android.viewModel
 
 
-open class    MainActivity: AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+  open class    MainActivity: AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     private var doubleBackToExitPressedOnce = false
     private lateinit var navController:NavController
@@ -48,7 +46,7 @@ open class    MainActivity: AppCompatActivity(), NavigationView.OnNavigationItem
     private var isNet: Boolean = true
     private lateinit var toolbar: Toolbar
     private lateinit var bottomNavigationState : BottomNavigationView
-    private lateinit var mainViewModel: MainViewModel
+    private  val mainViewModel: MainViewModel by viewModel()
     private val model by lazy{ViewModelProvider(this).get(SharedViewModel::class.java)}
     private  var toolbarTitleFlag = ""
     private  var toolbarTitleState = ""
@@ -82,8 +80,6 @@ open class    MainActivity: AppCompatActivity(), NavigationView.OnNavigationItem
         }
         //устанавливаем макет
         setContentView(R.layout.activity_main)
-
-        mainViewModel = ViewModelProvider(this).get(MainViewModel::class.java)
 
         bottomNavigationState = findViewById(R.id.bottom_navigation_state)
         bottomNavigationState.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)

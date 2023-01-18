@@ -24,11 +24,9 @@ import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 
 class  WeatherViewModel(
-    var helper : IPreferenceHelper = PreferenceHelper(App.instance),
-    private var schedulerProvider: SchedulerProvider = StatesSchedulerProvider(),
-    private var weatherRepo: IWeatherRepo =
-        WeatherRepo(weatherRetrofit = DataWeatherRetrofit(),
-        roomWeatherCash =  RoomWeatherCash(db = Database.getInstance() as Database))
+    var helper : IPreferenceHelper,
+    private var schedulerProvider: SchedulerProvider,
+    private var weatherRepo: IWeatherRepo
 )
     :ViewModel() {
 

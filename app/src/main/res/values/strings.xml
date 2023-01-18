@@ -262,5 +262,6 @@
     <string name="soundOn">Звук включен</string>
     <string name="soundOff">Звук выключен</string>
     <string name="Язык">Язык</string>
+    <string name="homePage">home</string>
 
 </resources>

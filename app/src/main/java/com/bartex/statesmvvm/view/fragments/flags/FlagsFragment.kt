@@ -21,17 +21,18 @@ import com.bartex.statesmvvm.view.adapter.FlagGridAdapter
 import com.bartex.statesmvvm.view.adapter.GlideToVectorYouLoader
 import com.bartex.statesmvvm.view.utils.UtilFilters
 import kotlinx.android.synthetic.main.fragment_flags.*
+import org.koin.android.viewmodel.ext.android.viewModel
 
 class FlagsFragment:Fragment() {
     private var adapter: FlagGridAdapter? = null
     lateinit var navController: NavController
-    private lateinit var flagViewModel: FlagViewModel
+    private  val flagViewModel: FlagViewModel by viewModel()
 
     companion object {
         const val TAG = "33333"
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?) =
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View =
         View.inflate(context, R.layout.fragment_flags, null)
 
 
@@ -40,7 +41,6 @@ class FlagsFragment:Fragment() {
         Log.d(TAG, "FlagsFragment onViewCreated ")
 
         navController = Navigation.findNavController(view)
-        flagViewModel = ViewModelProvider(this).get(FlagViewModel::class.java)
 
         flagViewModel.getStateFlafs().observe(viewLifecycleOwner, Observer<List<State>>{ states->
             Log.d(TAG, "FlagsFragment onChanged")

@@ -11,13 +11,12 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import com.bartex.statesmvvm.R
+import com.bartex.statesmvvm.view.main.MainViewModel
+import org.koin.android.viewmodel.ext.android.viewModel
 
 class HomeFragment: Fragment() {
 
-    private val homeViewModel by lazy {
-        ViewModelProvider(this).get(HomeViewModel::class.java)
-    }
-
+    private  val homeViewModel: HomeViewModel by viewModel()
     lateinit var navController: NavController
     lateinit var listView: ListView
 

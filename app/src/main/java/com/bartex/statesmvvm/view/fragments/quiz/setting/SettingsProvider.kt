@@ -1,5 +1,6 @@
 package com.bartex.statesmvvm.view.fragments.quiz.setting
 
+import android.app.Application
 import android.content.Context
 import android.media.AudioManager
 import androidx.preference.PreferenceManager
@@ -7,7 +8,7 @@ import com.bartex.statesmvvm.App
 import com.bartex.statesmvvm.model.constants.Constants
 import com.bartex.statesmvvm.view.fragments.quiz.fsm.entity.DataFlags
 
-class SettingsProvider(val app: App = App.instance) : ISettingsProvider {
+class SettingsProvider(val app: Application) : ISettingsProvider {
 
     override fun updateSoundOnOff() {
         val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(app)

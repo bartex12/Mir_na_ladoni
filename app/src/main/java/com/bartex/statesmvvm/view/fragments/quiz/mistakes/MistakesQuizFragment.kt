@@ -21,6 +21,7 @@ import com.bartex.statesmvvm.view.shared.SharedViewModel
 import com.bartex.statesmvvm.view.utils.UtilFilters
 import com.bartex.statesmvvm.view.utils.UtilRegion
 import com.google.android.material.chip.ChipGroup
+import org.koin.android.viewmodel.ext.android.viewModel
 import java.util.*
 
 class MistakesQuizFragment: Fragment(),
@@ -30,10 +31,7 @@ class MistakesQuizFragment: Fragment(),
     private var adapter:  MistakesAdapter? = null
     private lateinit var navController: NavController
 
-    private val mistakesViewModel by lazy{
-        ViewModelProvider(requireActivity()).get(MistakesQuizModel::class.java)
-    }
-
+    private val mistakesViewModel:MistakesQuizModel by viewModel()
     private val model: SharedViewModel by activityViewModels()
 
     private var listOfMistakeStates  = mutableListOf<State>() //список стран региона с ошибками

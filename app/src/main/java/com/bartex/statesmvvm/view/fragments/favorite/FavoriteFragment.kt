@@ -19,13 +19,14 @@ import com.bartex.statesmvvm.model.entity.state.State
 import com.bartex.statesmvvm.view.adapter.FavoriteRVAdapter
 import com.bartex.statesmvvm.view.adapter.GlideToVectorYouLoader
 import kotlinx.android.synthetic.main.fragment_favorite.*
+import org.koin.android.viewmodel.ext.android.viewModel
 
 class FavoriteFragment: Fragment() {
 
     private var position = 0
     private var adapter: FavoriteRVAdapter? = null
     lateinit var navController:NavController
-    private lateinit var favoriteViewModel: FavoriteViewModel
+    private  val favoriteViewModel: FavoriteViewModel by viewModel()
 
     companion object {
         const val TAG = "33333"
@@ -40,7 +41,6 @@ class FavoriteFragment: Fragment() {
         Log.d(TAG, "FavoriteFragment onViewCreated ")
 
         navController = Navigation.findNavController(view)
-        favoriteViewModel = ViewModelProvider(this).get(FavoriteViewModel::class.java)
 
         favoriteViewModel.getFavorite().observe(viewLifecycleOwner,Observer<List<State>>{ favorites->
                 Log.d(TAG, "FavoriteFragment onChanged")

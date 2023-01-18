@@ -18,8 +18,8 @@ import io.reactivex.rxjava3.schedulers.Schedulers
 // выполнялись именно в io-потоке. Всегда лучше поступать именно таким образом, даже когда речь
 // не идёт о сети — во избежание выполнения операций в неверном потоке в вызывающем коде.
 class StatesRepo(
-    val dataSource: IDataSource = DataSourceRetrofit(),
-    private val roomCash: IRoomStateCash = RoomStateCash(db = Database.getInstance() as Database))
+    private val dataSource: IDataSource,
+    private val roomCash: IRoomStateCash )
     : IStatesRepo {
 
     companion object{

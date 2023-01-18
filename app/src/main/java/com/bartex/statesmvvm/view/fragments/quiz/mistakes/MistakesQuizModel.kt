@@ -13,8 +13,8 @@ import com.bartex.statesmvvm.model.room.tables.RoomState
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 
 class MistakesQuizModel(
-    private var helper : IPreferenceHelper = PreferenceHelper(App.instance),
-    private var roomCash : IRoomStateCash =  RoomStateCash(Database.getInstance() as Database)
+    private var helper : IPreferenceHelper,
+    private var roomCash : IRoomStateCash
 ):ViewModel() {
 
     fun getPositionState(): Int{

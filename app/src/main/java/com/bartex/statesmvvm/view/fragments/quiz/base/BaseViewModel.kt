@@ -26,12 +26,10 @@ import com.bartex.statesmvvm.view.utils.UtilFilters
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 
 open class BaseViewModel(
-    private var statesRepo: IStatesRepo = StatesRepo(
-                dataSource = DataSourceRetrofit(),
-                roomCash = RoomStateCash(db = Database.getInstance() as Database)),
-    val storage: IFlagQuiz = FlagQuiz(),
-    private val settingProvider: ISettingsProvider = SettingsProvider(app= App.instance),
-    private val roomCash: IRoomStateCash = RoomStateCash(db = Database.getInstance() as Database)
+    private var statesRepo: IStatesRepo,
+    private val storage: IFlagQuiz,
+    private val settingProvider: ISettingsProvider,
+    private val roomCash: IRoomStateCash
 ):ViewModel() {
 
     //список стран из сети

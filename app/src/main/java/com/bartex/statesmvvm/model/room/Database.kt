@@ -23,18 +23,18 @@ abstract class Database: RoomDatabase() {
 
     companion object{
         const val DB_NAME = "database.db"
-        private var instance:Database? = null
+       // private var instance:Database? = null
 
-        //получение экземпляра базы
-        fun  getInstance() = instance?:RuntimeException("База данных не создана")
-
-        //создание базы - вызов в App
-        fun create(context: Context) {
-            if(instance == null) {
-                instance = Room.databaseBuilder(context, Database::class.java, DB_NAME )
-                    .addMigrations(MigrationDb().migration1to2)
-                    .build()
-            }
-        }
+//        //получение экземпляра базы
+//        fun  getInstance() = instance?:RuntimeException("База данных не создана")
+//
+//        //создание базы - вызов в App
+//        fun create(context: Context) {
+//            if(instance == null) {
+//                instance = Room.databaseBuilder(context, Database::class.java, DB_NAME )
+//                    .addMigrations(MigrationDb().migration1to2)
+//                    .build()
+//            }
+//        }
     }
 }

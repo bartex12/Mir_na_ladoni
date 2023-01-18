@@ -1,5 +1,6 @@
 package com.bartex.statesmvvm.view.fragments.quiz.fsm.storage
 
+import android.util.Log
 import com.bartex.statesmvvm.model.constants.Constants
 import com.bartex.statesmvvm.model.entity.state.State
 import com.bartex.statesmvvm.view.fragments.quiz.fsm.entity.Answer
@@ -41,6 +42,7 @@ class FlagQuiz: IFlagQuiz {
         var flagCounter = 1
         //dataFlags.listStates - список с названиями стран, столицами, флагами
         val numberOfFlags = dataFlags.listStates.size
+        Log.d(TAG, "***FlagQuiz resetQuiz: numberOfFlags = $numberOfFlags  ")
         // Добавление FLAGS_IN_QUIZ штук  случайных стран в quizCountriesList
         while (flagCounter <= dataFlags.flagsInQuiz) {
             val randomIndex = SecureRandom().nextInt(numberOfFlags)

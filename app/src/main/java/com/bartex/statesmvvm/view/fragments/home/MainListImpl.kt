@@ -1,9 +1,11 @@
 package com.bartex.statesmvvm.view.fragments.home
 
+import android.app.Application
+import android.content.Context
 import com.bartex.statesmvvm.App
 import com.bartex.statesmvvm.R
 
-class MainListImpl(private val app: App = App.instance):IMainList {
+class MainListImpl(private val app: Application):IMainList {
 
     override fun getList(): MutableList<ItemList> {
         return mutableListOf(

@@ -12,8 +12,8 @@ import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.schedulers.Schedulers
 
 class WeatherRepo(
-    private val weatherRetrofit: IWeatherSourse = DataWeatherRetrofit(),
-    private val  roomWeatherCash: IRoomWeatherCash = RoomWeatherCash(db = Database.getInstance() as Database)
+    private val weatherRetrofit: IWeatherSourse,
+    private val  roomWeatherCash: IRoomWeatherCash
 ):IWeatherRepo {
 
     companion object{

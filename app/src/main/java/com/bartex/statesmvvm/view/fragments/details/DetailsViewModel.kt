@@ -18,9 +18,9 @@ import io.reactivex.rxjava3.schedulers.Schedulers
 import javax.inject.Inject
 
 class DetailsViewModel(
-    val helper : IPreferenceHelper = PreferenceHelper(app = App.instance),
-    val roomCash: IRoomStateCash = RoomStateCash(db = Database.getInstance() as Database),
-    private val stateUtils: IStateUtils = StateUtils()
+    private val helper : IPreferenceHelper,
+    private val roomCash: IRoomStateCash,
+    private val stateUtils: IStateUtils
 ):ViewModel() {
 
     companion object{

@@ -32,6 +32,7 @@ import com.bartex.statesmvvm.view.shared.SharedViewModel
 import com.github.twocoffeesoneteam.glidetovectoryou.GlideToVectorYou
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
+import org.koin.android.viewmodel.ext.android.viewModel
 
 class FlagsQuizFragment: Fragment(){
 
@@ -39,10 +40,7 @@ class FlagsQuizFragment: Fragment(){
         const val TAG = "33333"
     }
 
-    private val flagsViewModel by lazy{
-        ViewModelProvider(requireActivity()).get(FlagsQuizModel::class.java)
-    }
-
+    private val flagsViewModel : FlagsQuizModel by viewModel()
     private val model: SharedViewModel by activityViewModels()
 
     private val  mToneGenerator: ToneGenerator by lazy{

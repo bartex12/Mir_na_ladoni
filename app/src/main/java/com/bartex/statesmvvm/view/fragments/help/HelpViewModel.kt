@@ -8,10 +8,7 @@ import com.bartex.statesmvvm.model.repositories.prefs.IPreferenceHelper
 import com.bartex.statesmvvm.model.repositories.prefs.PreferenceHelper
 import javax.inject.Inject
 
-class HelpViewModel(
-    val helpRepo: IHelpRepo = HelpRepo(App.instance),
-    val helper : IPreferenceHelper = PreferenceHelper(App.instance)
-):ViewModel() {
+class HelpViewModel(private val helpRepo: IHelpRepo):ViewModel() {
 
     fun getHelpText(): String {
       return  helpRepo.getHelpText()
