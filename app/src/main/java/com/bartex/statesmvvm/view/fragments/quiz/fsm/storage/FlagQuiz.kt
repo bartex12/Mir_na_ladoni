@@ -12,7 +12,6 @@ class FlagQuiz: IFlagQuiz {
     companion object{
         const val TAG = "33333"
     }
-
     private var random : SecureRandom = SecureRandom()
 
     //здесь сбрасываем переменные и очищаем списки а также формируем список с необходимым
