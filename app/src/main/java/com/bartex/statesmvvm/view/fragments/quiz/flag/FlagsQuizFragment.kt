@@ -1,5 +1,6 @@
 package com.bartex.statesmvvm.view.fragments.quiz.flag
 
+import android.app.AlertDialog
 import android.media.AudioManager
 import android.media.ToneGenerator
 import android.net.Uri
@@ -16,7 +17,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
+
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import com.bartex.statesmvvm.R
@@ -214,13 +215,27 @@ class FlagsQuizFragment: Fragment(){
         disableButtons() //сделать иконки недоступными
         showNextCountryFlag(data)  //svg изображение флага
 
-        //если диалог не создан - создаём и передаём данные
-        if(flagsViewModel.getNeedDialog()){
-            val bundle = Bundle()
-            bundle. putInt(Constants.TOTAL_QUESTIONS, data.flagsInQuiz )
-            bundle. putInt(Constants.TOTAL_GUESSES, data.totalGuesses )
-            navController.navigate(R.id.resultDialogFlags, bundle)
+        showFlagsDialog(data.flagsInQuiz, data.totalGuesses )
+    }
+
+    private fun showFlagsDialog(total: Int, totalGuesses: Int) {
+        val inflater = requireActivity().layoutInflater
+        val view: View = inflater.inflate(R.layout.dialog_statistica, null)
+        val builder = AlertDialog.Builder(activity )
+        builder.setView(view)
+
+        view.findViewById<TextView>(R.id.results).text = getString(R.string.result)
+        view.findViewById<TextView>(R.id.questions).text = getString(R.string.results_questions, total)
+        view.findViewById<TextView>(R.id.attempts).text = getString(R.string.results_attempts, totalGuesses)
+        view.findViewById<TextView>(R.id.performance).text =
+            getString(R.string.results_performance, total*100/totalGuesses.toDouble())
+
+        view.findViewById<TextView>(R.id.button_ok).setOnClickListener {
+            flagsViewModel.resetQuiz()
         }
+        builder.create().apply {
+            setCanceledOnTouchOutside(false)
+        }.show()
     }
 
     //получаем строку с номером вопроса

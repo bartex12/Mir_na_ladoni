@@ -203,19 +203,12 @@
             android:id="@+id/action_homeFragment_to_settingsFragment"
             app:destination="@id/settingsFragment" />
     </fragment>
-    <fragment
-        android:id="@+id/frTest"
-        android:name="com.bartex.statesmvvm.view.main.FrTest"
-        android:label="FrTest" />
 
     <fragment
         android:id="@+id/flagsQuizFragment"
         android:name="com.bartex.statesmvvm.view.fragments.quiz.flag.FlagsQuizFragment"
-        android:label="FlagsQuizFragment" >
-        <action
-            android:id="@+id/action_flagsQuizFragment_to_resultDialogFlags"
-            app:destination="@id/resultDialogFlags" />
-    </fragment>
+        android:label="FlagsQuizFragment" />
+
     <fragment
         android:id="@+id/mistakesQuizFragment"
         android:name="com.bartex.statesmvvm.view.fragments.quiz.mistakes.MistakesQuizFragment"
@@ -223,18 +216,5 @@
     <fragment
         android:id="@+id/statesQuizFragment"
         android:name="com.bartex.statesmvvm.view.fragments.quiz.state.StatesQuizFragment"
-        android:label="StatesQuizFragment" >
-        <action
-            android:id="@+id/action_statesQuizFragment_to_resultDialogState"
-            app:destination="@id/resultDialogState" />
-    </fragment>
-    <dialog
-        android:id="@+id/resultDialogFlags"
-        android:name="com.bartex.statesmvvm.view.fragments.quiz.flag.ResultDialogFlags"
-        android:label="ResultDialogFlags" />
-    <dialog
-        android:id="@+id/resultDialogState"
-        android:name="com.bartex.statesmvvm.view.fragments.quiz.state.ResultDialogState"
-        android:label="ResultDialogState" />
-
+        android:label="StatesQuizFragment"/>
 </navigation>

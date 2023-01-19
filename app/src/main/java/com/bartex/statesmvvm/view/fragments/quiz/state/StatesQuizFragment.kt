@@ -1,5 +1,6 @@
 package com.bartex.statesmvvm.view.fragments.quiz.state
 
+import android.app.AlertDialog
 import android.media.AudioManager
 import android.media.ToneGenerator
 import android.net.Uri
@@ -224,14 +225,35 @@ class StatesQuizFragment : Fragment(){
         showCorrectAnswer(data) //показать правильный ответ
         //imageDisable()
         showNextCountry(data) //показываем название страны которую нужно угадать*
+//
+//        //если диалог не создан - создаём и передаём данные
+//        if(statesViewModel.getNeedDialog()){
+//            val bundle = Bundle()
+//            bundle. putInt(Constants.TOTAL_QUESTIONS, data.flagsInQuiz )
+//            bundle. putInt(Constants.TOTAL_GUESSES, data.totalGuesses )
+//            navController.navigate(R.id.resultDialogState, bundle)
+//        }
+        showFlagsDialog(data.flagsInQuiz, data.totalGuesses )
+    }
 
-        //если диалог не создан - создаём и передаём данные
-        if(statesViewModel.getNeedDialog()){
-            val bundle = Bundle()
-            bundle. putInt(Constants.TOTAL_QUESTIONS, data.flagsInQuiz )
-            bundle. putInt(Constants.TOTAL_GUESSES, data.totalGuesses )
-            navController.navigate(R.id.resultDialogState, bundle)
+    private fun showFlagsDialog(total: Int, totalGuesses: Int) {
+        val inflater = requireActivity().layoutInflater
+        val view: View = inflater.inflate(R.layout.dialog_statistica, null)
+        val builder = AlertDialog.Builder(activity )
+        builder.setView(view)
+
+        view.findViewById<TextView>(R.id.results).text = getString(R.string.result)
+        view.findViewById<TextView>(R.id.questions).text = getString(R.string.results_questions, total)
+        view.findViewById<TextView>(R.id.attempts).text = getString(R.string.results_attempts, totalGuesses)
+        view.findViewById<TextView>(R.id.performance).text =
+            getString(R.string.results_performance, total*100/totalGuesses.toDouble())
+
+        view.findViewById<TextView>(R.id.button_ok).setOnClickListener {
+            statesViewModel.resetQuiz()
         }
+        builder.create().apply {
+            setCanceledOnTouchOutside(false)
+        }.show()
     }
 
     private fun renderDataFromDatabase(data: List<State>?) {
