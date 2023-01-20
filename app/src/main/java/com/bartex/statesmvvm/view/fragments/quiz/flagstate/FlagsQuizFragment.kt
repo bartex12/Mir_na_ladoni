@@ -1,4 +1,4 @@
-package com.bartex.statesmvvm.view.fragments.quiz.flag
+package com.bartex.statesmvvm.view.fragments.quiz.flagstate
 
 import android.app.AlertDialog
 import android.media.AudioManager
@@ -86,7 +86,8 @@ class FlagsQuizFragment: Fragment(){
             flagsViewModel.getDataFromDatabase()
                     .observe(viewLifecycleOwner, Observer {listOfState->
                         if (listOfState.size >200){ //если в базе есть записи
-                            Log.d(TAG, "FlagsQuizFragment onViewCreated " +
+                            Log.d(
+                                TAG, "FlagsQuizFragment onViewCreated " +
                                     "listOfState size = ${listOfState.size}")
                             renderDataFromDatabase(listOfState)  //берём из базы
                         }else{ //если в базе ничего нет
@@ -229,11 +230,12 @@ class FlagsQuizFragment: Fragment(){
         view.findViewById<TextView>(R.id.attempts).text = getString(R.string.results_attempts, totalGuesses)
         view.findViewById<TextView>(R.id.performance).text =
             getString(R.string.results_performance, total*100/totalGuesses.toDouble())
-
+        val dialog = builder.create()
         view.findViewById<TextView>(R.id.button_ok).setOnClickListener {
             flagsViewModel.resetQuiz()
+            dialog.dismiss()
         }
-        builder.create().apply {
+        dialog.apply {
             setCanceledOnTouchOutside(false)
         }.show()
     }

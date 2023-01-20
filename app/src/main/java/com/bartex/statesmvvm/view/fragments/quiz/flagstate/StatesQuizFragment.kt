@@ -1,4 +1,4 @@
-package com.bartex.statesmvvm.view.fragments.quiz.state
+package com.bartex.statesmvvm.view.fragments.quiz.flagstate
 
 import android.app.AlertDialog
 import android.media.AudioManager
@@ -18,7 +18,6 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import com.bartex.statesmvvm.R
@@ -43,7 +42,7 @@ class StatesQuizFragment : Fragment(){
         const val TAG = "Quizday"
     }
 
-    private val statesViewModel:StatesQuizModel by viewModel()
+    private val statesViewModel: StatesQuizModel by viewModel()
     private val model: SharedViewModel by activityViewModels()
 
     private val  mToneGenerator: ToneGenerator by lazy{
@@ -247,11 +246,12 @@ class StatesQuizFragment : Fragment(){
         view.findViewById<TextView>(R.id.attempts).text = getString(R.string.results_attempts, totalGuesses)
         view.findViewById<TextView>(R.id.performance).text =
             getString(R.string.results_performance, total*100/totalGuesses.toDouble())
-
+        val dialog = builder.create()
         view.findViewById<TextView>(R.id.button_ok).setOnClickListener {
             statesViewModel.resetQuiz()
+            dialog.dismiss()
         }
-        builder.create().apply {
+        dialog.apply {
             setCanceledOnTouchOutside(false)
         }.show()
     }

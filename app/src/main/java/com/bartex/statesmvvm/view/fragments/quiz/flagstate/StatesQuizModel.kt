@@ -1,49 +1,43 @@
-package com.bartex.statesmvvm.view.fragments.quiz.base
+package com.bartex.statesmvvm.view.fragments.quiz.flagstate
 
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.bartex.statesmvvm.App
-import com.bartex.statesmvvm.view.fragments.quiz.fsm.entity.DataFlags
-import com.bartex.statesmvvm.view.fragments.quiz.fsm.storage.FlagQuiz
-import com.bartex.statesmvvm.view.fragments.quiz.fsm.storage.IFlagQuiz
-import com.bartex.statesmvvm.view.fragments.quiz.fsm.substates.ReadyState
-import com.bartex.statesmvvm.model.api.DataSourceRetrofit
 import com.bartex.statesmvvm.model.constants.Constants
 import com.bartex.statesmvvm.model.entity.state.State
-import com.bartex.statesmvvm.view.fragments.quiz.fsm.Action
-import com.bartex.statesmvvm.view.fragments.quiz.fsm.IFlagState
 import com.bartex.statesmvvm.model.repositories.states.IStatesRepo
-import com.bartex.statesmvvm.model.repositories.states.StatesRepo
 import com.bartex.statesmvvm.model.repositories.states.cash.IRoomStateCash
-import com.bartex.statesmvvm.model.repositories.states.cash.RoomStateCash
-import com.bartex.statesmvvm.model.room.Database
+import com.bartex.statesmvvm.view.fragments.quiz.fsm.Action
+import com.bartex.statesmvvm.view.fragments.quiz.fsm.entity.Answer
+import com.bartex.statesmvvm.view.fragments.quiz.fsm.entity.ButtonTag
+import com.bartex.statesmvvm.view.fragments.quiz.fsm.IFlagState
+import com.bartex.statesmvvm.view.fragments.quiz.fsm.entity.DataFlags
+import com.bartex.statesmvvm.view.fragments.quiz.fsm.storage.IFlagQuiz
+import com.bartex.statesmvvm.view.fragments.quiz.fsm.substates.ReadyState
 import com.bartex.statesmvvm.view.fragments.quiz.setting.ISettingsProvider
-import com.bartex.statesmvvm.view.fragments.quiz.setting.SettingsProvider
 import com.bartex.statesmvvm.view.fragments.states.StatesSealed
 import com.bartex.statesmvvm.view.utils.UtilFilters
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 
-open class BaseViewModel(
-    private var statesRepo: IStatesRepo,
-    private val storage: IFlagQuiz,
-    private val settingProvider: ISettingsProvider,
-    private val roomCash: IRoomStateCash
-):ViewModel() {
+class StatesQuizModel( private var statesRepo: IStatesRepo,
+                       private val storage: IFlagQuiz,
+                       private val settingProvider: ISettingsProvider,
+                       private val roomCash: IRoomStateCash
+): ViewModel()  {
 
     //список стран из сети
     private val listStatesFromNet = MutableLiveData<StatesSealed>()
     //список стран из базы
     private val listStatesFromDatabase = MutableLiveData<MutableList<State>>()
     //состояние конечного автомата
-     val currentQuizState: MutableLiveData<IFlagState> = MutableLiveData<IFlagState>()
+    val currentQuizState: MutableLiveData<IFlagState> = MutableLiveData<IFlagState>()
 
-     var dataFlags: DataFlags = DataFlags() // здесь храним данные для состояний конечного автомата
-     private var listOfStates:MutableList<State> = mutableListOf() //Здесь храним список стран из сети
-     var region:String = Constants.REGION_EUROPE //Здесь храним текущий регион
-     var currentState: IFlagState = ReadyState(DataFlags()) //Здесь храним текущее состояние
-     private var isNeedToCreateDialog:Boolean = true//Здесь храним флаг необходимости создания диалога
+    var dataFlags: DataFlags = DataFlags() // здесь храним данные для состояний конечного автомата
+    private var listOfStates:MutableList<State> = mutableListOf() //Здесь храним список стран из сети
+    var region:String = Constants.REGION_EUROPE //Здесь храним текущий регион
+    var currentState: IFlagState = ReadyState(DataFlags()) //Здесь храним текущее состояние
+    private var isNeedToCreateDialog:Boolean = true//Здесь храним флаг необходимости создания диалога
 
     fun getNeedDialog():Boolean{
         return isNeedToCreateDialog
@@ -62,12 +56,12 @@ open class BaseViewModel(
         listStatesFromNet.value = StatesSealed.Loading(0)
 
         statesRepo.getStates()
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({states->
-                    listStatesFromNet.value = StatesSealed.Success(state = states)
-                },{error ->
-                    listStatesFromNet.value = StatesSealed.Error(error = error)
-                })
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({states->
+                listStatesFromNet.value = StatesSealed.Success(state = states)
+            },{error ->
+                listStatesFromNet.value = StatesSealed.Error(error = error)
+            })
     }
 
     //получить состояние конечного автомата
@@ -92,12 +86,12 @@ open class BaseViewModel(
 
     private fun loadDataFromDatabase() {
         roomCash.loadAllData()
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({
-                    listStatesFromDatabase.value = it
-                },{
-                    Log.d(TAG, "${it.message}")
-                })
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
+                listStatesFromDatabase.value = it
+            },{
+                Log.d(TAG, "${it.message}")
+            })
     }
 
     //начальное состояние не имеет предыдущего
@@ -116,16 +110,16 @@ open class BaseViewModel(
     fun writeMistakeInDatabase() {
         dataFlags.correctAnswer?. let{
             roomCash.writeMistakeInDatabase(it)
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe({ isMistakeWriten ->
-                        if (isMistakeWriten) {
-                            Log.d(TAG, "writeMistakeInDatabase: ")
-                        }else{
-                            Log.d(TAG, "NOT write ")
-                        }
-                    }, {
-                        Log.d(TAG, "${it.message}")
-                    })
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({ isMistakeWriten ->
+                    if (isMistakeWriten) {
+                        Log.d(TAG, "writeMistakeInDatabase: ")
+                    }else{
+                        Log.d(TAG, "NOT write ")
+                    }
+                }, {
+                    Log.d(TAG, "${it.message}")
+                })
         }
     }
 
@@ -175,10 +169,28 @@ open class BaseViewModel(
     }
 
     fun updateImageStub() {
-      dataFlags =  settingProvider.updateImageStub(dataFlags)
+        dataFlags =  settingProvider.updateImageStub(dataFlags)
     }
 
     companion object{
         const val TAG = "33333"
     }
+
+    //по типу ответа при щелчке по кнопке задаём состояние
+    fun answerImageButtonClick( tag: ButtonTag) {
+        dataFlags = storage.getTypeAnswerWithTag(tag, dataFlags)
+        when(dataFlags.typeAnswer){
+            Answer.NotWell -> {
+                currentQuizState.value = currentState.executeAction(Action.OnNotWellClicked(dataFlags))
+            }
+            Answer.WellNotLast -> {
+                currentQuizState.value =  currentState.executeAction(Action.OnWellNotLastClicked(dataFlags))
+            }
+            Answer.WellAndLast -> {
+                currentQuizState.value = currentState.executeAction(Action.OnWellAndLastClicked(dataFlags))
+            }
+        }
+    }
+
+
 }

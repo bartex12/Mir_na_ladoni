@@ -206,7 +206,7 @@
 
     <fragment
         android:id="@+id/flagsQuizFragment"
-        android:name="com.bartex.statesmvvm.view.fragments.quiz.flag.FlagsQuizFragment"
+        android:name="com.bartex.statesmvvm.view.fragments.quiz.flagstate.FlagsQuizFragment"
         android:label="FlagsQuizFragment" />
 
     <fragment
@@ -215,6 +215,6 @@
         android:label="MistakesQuizFragment" />
     <fragment
         android:id="@+id/statesQuizFragment"
-        android:name="com.bartex.statesmvvm.view.fragments.quiz.state.StatesQuizFragment"
+        android:name="com.bartex.statesmvvm.view.fragments.quiz.flagstate.StatesQuizFragment"
         android:label="StatesQuizFragment"/>
 </navigation>

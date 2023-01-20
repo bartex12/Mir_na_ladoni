@@ -28,14 +28,13 @@ import com.bartex.statesmvvm.view.fragments.help.HelpViewModel
 import com.bartex.statesmvvm.view.fragments.home.HomeViewModel
 import com.bartex.statesmvvm.view.fragments.home.IMainList
 import com.bartex.statesmvvm.view.fragments.home.MainListImpl
-import com.bartex.statesmvvm.view.fragments.quiz.base.BaseViewModel
-import com.bartex.statesmvvm.view.fragments.quiz.flag.FlagsQuizModel
+import com.bartex.statesmvvm.view.fragments.quiz.flagstate.FlagsQuizModel
 import com.bartex.statesmvvm.view.fragments.quiz.fsm.storage.FlagQuiz
 import com.bartex.statesmvvm.view.fragments.quiz.fsm.storage.IFlagQuiz
 import com.bartex.statesmvvm.view.fragments.quiz.mistakes.MistakesQuizModel
 import com.bartex.statesmvvm.view.fragments.quiz.setting.ISettingsProvider
 import com.bartex.statesmvvm.view.fragments.quiz.setting.SettingsProvider
-import com.bartex.statesmvvm.view.fragments.quiz.state.StatesQuizModel
+import com.bartex.statesmvvm.view.fragments.quiz.flagstate.StatesQuizModel
 import com.bartex.statesmvvm.view.fragments.scheduler.SchedulerProvider
 import com.bartex.statesmvvm.view.fragments.scheduler.StatesSchedulerProvider
 import com.bartex.statesmvvm.view.fragments.states.StatesViewModel
@@ -75,7 +74,6 @@ val allScreen = module {
     factory { FavoriteViewModel(get(),get(),get(),get()) }
     factory { DetailsViewModel(get(),get(),get()) }
     factory { FlagViewModel(get(),get(),get()) }
-    factory { BaseViewModel(get(),get(),get(),get()) }
     factory { FlagsQuizModel(get(),get(),get(),get()) }
     factory { StatesQuizModel(get(),get(),get(),get()) }
     factory { MistakesQuizModel(get(),get()) }
