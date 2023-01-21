@@ -30,6 +30,9 @@ interface StateDao {
     @Delete
     fun delete(roomStates:List<RoomState>)
 
+    @Query("DELETE from RoomState")
+    suspend fun  deleteAll()
+
     @Update
     fun update(roomState: RoomState)
     @Update

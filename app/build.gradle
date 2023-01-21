@@ -44,17 +44,16 @@ dependencies {
     implementation 'androidx.core:core-ktx:1.5.0'
     implementation 'androidx.appcompat:appcompat:1.3.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
-
+    implementation 'androidx.fragment:fragment-ktx:1.3.1' //by androidViewModel
     implementation 'androidx.navigation:navigation-fragment:2.3.5'
     implementation 'androidx.navigation:navigation-ui:2.3.5'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1'
-
     //чтобы работало extends PreferenceFragmentCompat
     implementation "androidx.preference:preference:1.1.1"
-
     //материал
     implementation 'com.google.android.material:material:1.3.0'
+
     //Moxy
     implementation "com.github.moxy-community:moxy:2.1.2"
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
@@ -63,21 +62,14 @@ dependencies {
     implementation "com.github.moxy-community:moxy-androidx:2.1.2"
     //recyclerview
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
-    //cicerone
-    //implementation 'ru.terrakok.cicerone:cicerone:5.0.0'
     //для rx
     implementation 'io.reactivex.rxjava3:rxandroid:3.0.0'
     implementation 'io.reactivex.rxjava3:rxjava:3.0.3'
-    //расширения Котлин для RxJava
     implementation 'io.reactivex.rxjava2:rxkotlin:2.3.0'
     //retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
     implementation 'com.squareup.retrofit2:adapter-rxjava3:2.9.0'
-
-//    //glide
-//    implementation 'com.github.bumptech.glide:glide:4.11.0'
-//    implementation 'com.caverock:androidsvg-aar:1.4'
 
     //SvgImageLoader
     //implementation 'com.github.ar-android:AndroidSvgLoader:1.0.2'
@@ -90,6 +82,7 @@ dependencies {
     //room
     implementation 'androidx.room:room-runtime:2.3.0'
     kapt 'androidx.room:room-compiler:2.3.0'
+    implementation 'androidx.room:room-ktx:2.3.0' //для deleteAll
 
     //preference
     implementation "androidx.preference:preference:1.1.1"
@@ -97,48 +90,46 @@ dependencies {
     implementation 'org.koin:koin-android:2.0.1'
     implementation 'org.koin:koin-android-viewmodel:2.0.1'
 
-
-
-    //тесты
-    testImplementation 'junit:junit:4.13.2'
-    testImplementation 'androidx.test:core:1.3.0'
-    testImplementation 'androidx.test:runner:1.3.0'
-    testImplementation 'androidx.test.ext:junit:1.1.2'
-    testImplementation 'androidx.test.ext:truth:1.3.0'
-    testImplementation 'androidx.test.espresso:espresso-core:3.3.0'
-    testImplementation 'androidx.test.espresso:espresso-intents:3.3.0'
-
-    //Mockito
-    testImplementation "org.mockito:mockito-core:3.10.0"
-    testImplementation 'org.mockito:mockito-inline:3.10.0'
-    testImplementation('com.nhaarman:mockito-kotlin:1.5.0') {
-        exclude group: 'org.jetbrains.kotlin'
-        exclude group: 'org.mockito'
-    }
-
-    //Robolectric
-    testImplementation 'org.robolectric:robolectric:4.5.1'
-
-    //UI Automator
-    androidTestImplementation 'androidx.test.uiautomator:uiautomator:2.2.0'
-    androidTestImplementation 'androidx.test:rules:1.4.0-rc01'
-
-    //теперь вместо AndroidJUnit4  AndroidJUnit4ClassRunner
-    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
-
-    //junit5
-    testImplementation("org.junit.jupiter:junit-jupiter-api:5.7.2")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.7.2")
-    testRuntimeOnly("org.junit.vintage:junit-vintage-engine:5.7.2")
-    testImplementation(platform("org.junit:junit-bom:5.7.2"))
-    testImplementation("org.junit.jupiter:junit-jupiter")
-
-    //тестирование для Fragment
-    debugImplementation 'androidx.fragment:fragment-testing:1.3.5'
-    //тестирование для RecyclerView
-    debugImplementation 'androidx.test.espresso:espresso-contrib:3.3.0'
-
-    //методы работы с Архитектурными компонентами
-    testImplementation 'androidx.arch.core:core-testing:2.1.0'
+//    //тесты
+//    testImplementation 'junit:junit:4.13.2'
+//    testImplementation 'androidx.test:core:1.3.0'
+//    testImplementation 'androidx.test:runner:1.3.0'
+//    testImplementation 'androidx.test.ext:junit:1.1.2'
+//    testImplementation 'androidx.test.ext:truth:1.3.0'
+//    testImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+//    testImplementation 'androidx.test.espresso:espresso-intents:3.3.0'
+//
+//    //Mockito
+//    testImplementation "org.mockito:mockito-core:3.10.0"
+//    testImplementation 'org.mockito:mockito-inline:3.10.0'
+//    testImplementation('com.nhaarman:mockito-kotlin:1.5.0') {
+//        exclude group: 'org.jetbrains.kotlin'
+//        exclude group: 'org.mockito'
+//    }
+//
+//    //Robolectric
+//    testImplementation 'org.robolectric:robolectric:4.5.1'
+//
+//    //UI Automator
+//    androidTestImplementation 'androidx.test.uiautomator:uiautomator:2.2.0'
+//    androidTestImplementation 'androidx.test:rules:1.4.0-rc01'
+//
+//    //теперь вместо AndroidJUnit4  AndroidJUnit4ClassRunner
+//    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+//
+//    //junit5
+//    testImplementation("org.junit.jupiter:junit-jupiter-api:5.7.2")
+//    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.7.2")
+//    testRuntimeOnly("org.junit.vintage:junit-vintage-engine:5.7.2")
+//    testImplementation(platform("org.junit:junit-bom:5.7.2"))
+//    testImplementation("org.junit.jupiter:junit-jupiter")
+//
+//    //тестирование для Fragment
+//    debugImplementation 'androidx.fragment:fragment-testing:1.3.5'
+//    //тестирование для RecyclerView
+//    debugImplementation 'androidx.test.espresso:espresso-contrib:3.3.0'
+//
+//    //методы работы с Архитектурными компонентами
+//    testImplementation 'androidx.arch.core:core-testing:2.1.0'
 
 }

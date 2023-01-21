@@ -9,6 +9,9 @@ interface ApiService {
     @GET("all")
     fun getStates(): Single<List<State>>
 
+    @GET("all")
+    suspend fun getStatesCoroutine(): List<State>
+
 //    @GET("name/{name}")
 //    fun searchStates( @Path("name") name: String): Single<List<State>>
 }

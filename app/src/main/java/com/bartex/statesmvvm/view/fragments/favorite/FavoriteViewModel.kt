@@ -4,21 +4,14 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.bartex.statesmvvm.App
 import com.bartex.statesmvvm.model.entity.state.State
 import com.bartex.statesmvvm.model.repositories.prefs.IPreferenceHelper
-import com.bartex.statesmvvm.model.repositories.prefs.PreferenceHelper
 import com.bartex.statesmvvm.model.repositories.states.cash.IRoomStateCash
-import com.bartex.statesmvvm.model.repositories.states.cash.RoomStateCash
-import com.bartex.statesmvvm.model.room.Database
 import com.bartex.statesmvvm.model.utils.IStateUtils
 import com.bartex.statesmvvm.model.utils.StateUtils
 import com.bartex.statesmvvm.view.fragments.scheduler.SchedulerProvider
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import io.reactivex.rxjava3.core.Scheduler
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.schedulers.Schedulers
-import javax.inject.Inject
 
 class FavoriteViewModel(
     private val helper : IPreferenceHelper,

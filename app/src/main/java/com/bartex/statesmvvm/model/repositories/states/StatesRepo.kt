@@ -39,4 +39,15 @@ class StatesRepo(
                     roomCash.doStatesCash(states)
         }.subscribeOn(Schedulers.io())
 
+    override suspend fun getStatesCoroutine(): List<State> {
+        val listStates = dataSource.getStatesCoroutine()
+        listStates.forEach {
+            it.nameRus = MapOfState.mapStates[it.name] ?:"Unknown"
+            it.capitalRus = MapOfCapital.mapCapital[it.capital] ?:"Unknown"
+            it.regionRus = MapOfRegion.mapRegion[it.region] ?:"Unknown"
+        }
+        roomCash.doStatesCashCoroutine(listStates)
+        return listStates
+    }
+
 }

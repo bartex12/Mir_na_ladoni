@@ -44,6 +44,28 @@ class RoomStateCash(private val db: Database ):IRoomStateCash {
        }
     }
 
+    override suspend fun doStatesCashCoroutine(listStates: List<State>) {
+        val litRoomStates:MutableList<RoomState> = mutableListOf()
+        listStates.forEach {state->
+           val roomState =  RoomState(
+                state.capital ?: "",
+                state.flag?: "",
+                state.name ?: "",
+                state.region ?: "",
+                state.population ?: 0,
+                state.area?:0f,
+                state.latlng?.get(0) ?:0f,
+                state.latlng?.get(1) ?:0f,
+                state.nameRus?:"Unknown",
+                state.capitalRus?:"Unknown",
+                state.regionRus ?:"Unknown"
+            )
+            litRoomStates.add(roomState)
+        }
+        db.stateDao.deleteAll() //стираем предыдущий список
+        db.stateDao.insert(litRoomStates) //пишем в базу
+    }
+
     override fun getStatesFromCash(): Single<List<State>> {
         Log.d(TAG, "RoomStateCash getStatesFromCash")
         return  Single.fromCallable {
@@ -125,7 +147,6 @@ class RoomStateCash(private val db: Database ):IRoomStateCash {
     override fun getAllDataLive(): LiveData<List<RoomState>> {
         return db.stateDao.getAllRegionsLive()
     }
-
 
     override fun isFavorite(state: State):Single<Boolean> {
         return Single.fromCallable {

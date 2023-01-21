@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.bartex.statesmvvm.App
 import com.bartex.statesmvvm.model.api.DataSourceRetrofit
 import com.bartex.statesmvvm.model.entity.state.State
@@ -17,6 +18,7 @@ import com.bartex.statesmvvm.model.room.Database
 import com.bartex.statesmvvm.view.fragments.scheduler.SchedulerProvider
 import com.bartex.statesmvvm.view.fragments.scheduler.StatesSchedulerProvider
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import kotlinx.coroutines.launch
 
 //var mainThreadScheduler:SchedulerProvider - сделан через интерфейс для целей тестирования
 //при тестировании вместо StatesSchedulerProvider будет использован класс-заглушка ScheduleProviderStub
@@ -44,7 +46,29 @@ class StatesViewModel(
         return listStatesFromNet
     }
 
-    fun loadDataSealed(){
+    fun getStatesSealedCoroutine() : LiveData<StatesSealed>{
+        loadDataSealedCoroutine()
+        return listStatesFromNet
+    }
+
+
+    private fun loadDataSealedCoroutine(){
+        listStatesFromNet.value = StatesSealed.Loading(null)
+        viewModelScope.launch {
+            try{
+                val listStates = statesRepo.getStatesCoroutine()
+                listStatesFromNet.value = StatesSealed.Success(state = listStates)
+                Log.d(TAG, "StatesViewModel  loadDataSealed listStates.size = ${listStates.size}")
+            }catch (error:Exception){
+                listStatesFromNet.value = StatesSealed.Error(error = error)
+                Log.d(TAG, "StatesViewModel onError ${error.message}")
+            }
+        }
+
+
+    }
+
+    private fun loadDataSealed(){
         listStatesFromNet.value = StatesSealed.Loading(null)
 
         statesRepo.getStates()

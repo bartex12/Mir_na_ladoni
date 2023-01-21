@@ -15,6 +15,10 @@ class DataSourceRetrofit :IDataSource{
         return  getDataSource().getStates()
     }
 
+    override suspend fun getStatesCoroutine(): List<State> {
+        return getDataSource().getStatesCoroutine()
+    }
+
     private fun getDataSource(): ApiService {
         return Retrofit.Builder()
             .baseUrl(Constants.baseUrl)
