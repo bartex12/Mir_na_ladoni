@@ -51,7 +51,9 @@ class  WeatherFragment : Fragment()  {
 
         isNetworkAvailable?. let{isNet->
 
-            weatherViewModel.loadWeatherSealed(state, isNet)
+            state?. let{
+                weatherViewModel.loadWeatherSealed(it, isNet)
+            }
 
             weatherViewModel.getWeatherSealed()
                 .observe(viewLifecycleOwner, Observer {

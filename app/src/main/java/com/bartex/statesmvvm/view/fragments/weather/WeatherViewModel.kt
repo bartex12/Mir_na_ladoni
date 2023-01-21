@@ -41,21 +41,23 @@ class  WeatherViewModel(
         return weatherSealed
     }
 
-   fun loadWeatherSealed(state: State?, isNetworkAvailable:Boolean) {
+   fun loadWeatherSealed(state: State, isNetworkAvailable:Boolean) {
        //начинаем загрузку данных
         weatherSealed.value = WeatherSealed.Loading(null)
-        state?. let {
-            weatherRepo.getWeatherInCapital(
-                isNetworkAvailable, it.capital, WeatherQuery.keyApi, WeatherQuery.units)
-        }?.observeOn(schedulerProvider.ui())
-            ?.subscribe(
-                {
-                    weatherSealed.value = WeatherSealed.Success(weather = it)
-                },
-                {error ->
-                    weatherSealed.value = WeatherSealed.Error(error = error)
-                    Log.d(TAG, "WeatherViewModel onError ${error.message}")}
-            )
+           weatherRepo.getWeatherInCapital(
+               isNetworkAvailable,
+               state.capital,
+               WeatherQuery.keyApi,
+               WeatherQuery.units
+           ).observeOn(schedulerProvider.ui())
+           .subscribe(
+               {
+                   weatherSealed.value = WeatherSealed.Success(weather = it)
+               },
+               {error ->
+                   weatherSealed.value = WeatherSealed.Error(error = error)
+                   Log.d(TAG, "WeatherViewModel onError ${error.message}")}
+           )
     }
 
     fun getRusLang():Boolean{
