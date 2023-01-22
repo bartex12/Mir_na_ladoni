@@ -11,9 +11,7 @@ import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -25,7 +23,6 @@ import com.bartex.statesmvvm.network.NoInternetDialogFragment
 import com.bartex.statesmvvm.view.adapter.GlideToVectorYouLoader
 import com.bartex.statesmvvm.view.adapter.StateRVAdapter
 import com.bartex.statesmvvm.view.main.MainActivity
-import com.bartex.statesmvvm.view.shared.SharedViewModel
 import com.bartex.statesmvvm.view.utils.UtilRegion
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup

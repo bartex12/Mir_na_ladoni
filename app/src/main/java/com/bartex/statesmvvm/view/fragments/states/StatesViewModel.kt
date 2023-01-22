@@ -5,19 +5,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.bartex.statesmvvm.App
-import com.bartex.statesmvvm.model.api.DataSourceRetrofit
 import com.bartex.statesmvvm.model.entity.state.State
 import com.bartex.statesmvvm.model.repositories.prefs.IPreferenceHelper
-import com.bartex.statesmvvm.model.repositories.prefs.PreferenceHelper
 import com.bartex.statesmvvm.model.repositories.states.IStatesRepo
-import com.bartex.statesmvvm.model.repositories.states.StatesRepo
 import com.bartex.statesmvvm.model.repositories.states.cash.IRoomStateCash
-import com.bartex.statesmvvm.model.repositories.states.cash.RoomStateCash
-import com.bartex.statesmvvm.model.room.Database
-import com.bartex.statesmvvm.view.fragments.scheduler.SchedulerProvider
-import com.bartex.statesmvvm.view.fragments.scheduler.StatesSchedulerProvider
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import kotlinx.coroutines.launch
 
 

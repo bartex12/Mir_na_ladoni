@@ -7,11 +7,9 @@ import android.view.ViewGroup
 import android.widget.ListView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import com.bartex.statesmvvm.R
-import com.bartex.statesmvvm.view.main.MainViewModel
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class HomeFragment: Fragment() {

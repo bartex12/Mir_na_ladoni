@@ -10,9 +10,9 @@ import com.bartex.statesmvvm.model.entity.state.State
 import com.bartex.statesmvvm.model.repositories.states.IStatesRepo
 import com.bartex.statesmvvm.model.repositories.states.cash.IRoomStateCash
 import com.bartex.statesmvvm.view.fragments.quiz.fsm.Action
+import com.bartex.statesmvvm.view.fragments.quiz.fsm.IFlagState
 import com.bartex.statesmvvm.view.fragments.quiz.fsm.entity.Answer
 import com.bartex.statesmvvm.view.fragments.quiz.fsm.entity.ButtonTag
-import com.bartex.statesmvvm.view.fragments.quiz.fsm.IFlagState
 import com.bartex.statesmvvm.view.fragments.quiz.fsm.entity.DataFlags
 import com.bartex.statesmvvm.view.fragments.quiz.fsm.storage.IFlagQuiz
 import com.bartex.statesmvvm.view.fragments.quiz.fsm.substates.ReadyState
@@ -20,7 +20,6 @@ import com.bartex.statesmvvm.view.fragments.quiz.setting.ISettingsProvider
 import com.bartex.statesmvvm.view.fragments.states.StatesSealed
 import com.bartex.statesmvvm.view.fragments.states.StatesViewModel
 import com.bartex.statesmvvm.view.utils.UtilFilters
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import kotlinx.coroutines.launch
 
 class StatesQuizModel( private var statesRepo: IStatesRepo,

@@ -4,8 +4,6 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import com.bartex.statesmvvm.App
 import com.bartex.statesmvvm.R
 
 class HomeViewModel(val app: Application): AndroidViewModel(app) {
@@ -15,7 +13,7 @@ class HomeViewModel(val app: Application): AndroidViewModel(app) {
     fun getMainList(): LiveData<MutableList<ItemList>> {
         return _mainList
     }
-//    private  val mainList:IMainList
+
     fun loadData(){
         _mainList.value =getList()
     }

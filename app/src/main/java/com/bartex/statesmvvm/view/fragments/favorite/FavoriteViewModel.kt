@@ -10,15 +10,11 @@ import com.bartex.statesmvvm.model.repositories.prefs.IPreferenceHelper
 import com.bartex.statesmvvm.model.repositories.states.cash.IRoomStateCash
 import com.bartex.statesmvvm.model.utils.IStateUtils
 import com.bartex.statesmvvm.model.utils.StateUtils
-import com.bartex.statesmvvm.view.fragments.scheduler.SchedulerProvider
-import io.reactivex.rxjava3.core.Single
-import io.reactivex.rxjava3.schedulers.Schedulers
 import kotlinx.coroutines.launch
 
 class FavoriteViewModel(
     private val helper : IPreferenceHelper,
     private val roomCash: IRoomStateCash,
-    private val schedulerProvider: SchedulerProvider,
     private val stateUtils: IStateUtils = StateUtils()
 ) : ViewModel() {
 
@@ -29,7 +25,6 @@ class FavoriteViewModel(
     private  var listFavoriteStates = MutableLiveData<List<State>>()
 
     fun getFavorite():LiveData<List<State>>{
-        //loadFavorite()
         loadFavoriteCoroutine()
         return listFavoriteStates
     }
@@ -78,6 +73,4 @@ class FavoriteViewModel(
     fun getRusLang():Boolean{
         return helper.getRusLang()
     }
-
-
 }

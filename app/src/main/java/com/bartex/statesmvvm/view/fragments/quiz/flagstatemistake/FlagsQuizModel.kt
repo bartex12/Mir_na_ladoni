@@ -19,7 +19,6 @@ import com.bartex.statesmvvm.view.fragments.quiz.setting.ISettingsProvider
 import com.bartex.statesmvvm.view.fragments.states.StatesSealed
 import com.bartex.statesmvvm.view.fragments.states.StatesViewModel
 import com.bartex.statesmvvm.view.utils.UtilFilters
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import kotlinx.coroutines.launch
 
 class FlagsQuizModel(

@@ -8,15 +8,11 @@ import androidx.lifecycle.viewModelScope
 import com.bartex.statesmvvm.model.entity.state.State
 import com.bartex.statesmvvm.model.repositories.prefs.IPreferenceHelper
 import com.bartex.statesmvvm.model.repositories.states.cash.IRoomStateCash
-import com.bartex.statesmvvm.view.fragments.scheduler.SchedulerProvider
-import io.reactivex.rxjava3.core.Single
-import io.reactivex.rxjava3.schedulers.Schedulers
 import kotlinx.coroutines.launch
 
 class FlagViewModel(
    private val helper : IPreferenceHelper,
-   private val roomCash: IRoomStateCash,
-   private val schedulerProvider: SchedulerProvider
+   private val roomCash: IRoomStateCash
 ):ViewModel() {
 
     companion object{
@@ -26,7 +22,6 @@ class FlagViewModel(
     private  var listFlags = MutableLiveData<List<State>>()
 
     fun getStateFlags(): LiveData<List<State>> {
-        //getStatesFromCash()
         getStateFlagsFromCashCoroutine()
         return listFlags
     }
