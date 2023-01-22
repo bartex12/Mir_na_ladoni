@@ -36,7 +36,7 @@ class StatesViewModel(
     //список стран из сети
     private val listStatesFromNet = MutableLiveData<StatesSealed>()
     //список стран из базы
-    private val listStatesFromDatabase = MutableLiveData<MutableList<State>>()
+    private val listStatesFromDatabase = MutableLiveData<List<State>>()
     //текущий регион
     private val newRegion = MutableLiveData<String>()
 
@@ -73,19 +73,20 @@ class StatesViewModel(
        return helper.getRusLang()
     }
 
-    fun getDataFromDatabase(): LiveData<MutableList<State>> {
-        loadDataFromDatabase()
+    fun getDataFromDatabase(): LiveData<List<State>> {
+        loadDataFromDatabaseCoroutine()
         return listStatesFromDatabase
     }
 
-    private fun loadDataFromDatabase() {
-        roomCash.loadAllData()
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({
-                listStatesFromDatabase.value = it
-            },{
-                Log.d(TAG, "${it.message}")
-            })
+    private fun loadDataFromDatabaseCoroutine() {
+        viewModelScope.launch {
+            try{
+                val list = roomCash.loadAllDataCoroutine()
+                listStatesFromDatabase.value = list
+            }catch (error:Exception){
+                Log.d(TAG, "${error.message}")
+            }
+        }
     }
 
     fun isSorted(): Boolean{

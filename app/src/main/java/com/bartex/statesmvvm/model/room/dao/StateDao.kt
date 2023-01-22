@@ -50,6 +50,9 @@ interface StateDao {
     @Query("SELECT * FROM RoomState")
     fun  getAll():List<RoomState>
 
+    @Query("SELECT*FROM RoomState ")
+    fun getAllRegionsLive():LiveData<List<RoomState>>
+
     @Query("SELECT * FROM RoomState")
     suspend fun  getAllCoroutine():List<RoomState>
 
@@ -59,15 +62,8 @@ interface StateDao {
     @Query("SELECT * FROM RoomState WHERE nameRus LIKE '%' ||:nameRus || '%'")
     fun findByNameRus(nameRus:String): List<RoomState>
 
-//    //*** викторина ***
-//    @Query("SELECT*FROM RoomState WHERE nameRus = :nameRus")
-//    fun getStateByNameRus(nameRus:String):RoomState
-
     @Query("SELECT*FROM RoomState WHERE nameRus = :nameRus")
     suspend fun getStateByNameRusCoroutine(nameRus:String):RoomState
-
-//    @Query("SELECT mistake FROM RoomState WHERE nameRus = :nameRus")
-//    fun getMistakeByNameRus(nameRus:String):Int
 
     @Query("SELECT mistake FROM RoomState WHERE nameRus = :nameRus")
    suspend fun getMistakeByNameRusCoroutine(nameRus:String):Int
@@ -78,6 +74,4 @@ interface StateDao {
     @Query("SELECT*FROM RoomState WHERE mistake = 1")
     fun getAllMistakesLive(): LiveData<List<RoomState>>
 
-    @Query("SELECT*FROM RoomState ")
-    fun getAllRegionsLive():LiveData<List<RoomState>>
 }

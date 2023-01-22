@@ -19,31 +19,6 @@ class RoomStateCash(private val db: Database ):IRoomStateCash {
         const val TAG = "33333"
     }
 
-    override fun doStatesCash(listStates: List<State>): Single<List<State>> {
-     return  Single.fromCallable { //создаём  Single из списка, по пути пишем в базу
-         // map для базы, так как классы разные
-         val roomState = listStates.map {state->
-             //Log.d(TAG, "RoomStateCash doStatesCash: state.nameRus = ${MapOfState.mapStates[state.name] }")
-             RoomState(
-                 state.capital ?: "",
-                 state.flag?: "",
-                 state.name ?: "",
-                 state.region ?: "",
-                 state.population ?: 0,
-                 state.area?:0f,
-                 state.latlng?.get(0) ?:0f,
-                 state.latlng?.get(1) ?:0f,
-                 MapOfState.mapStates[state.name] ?:"Unknown",
-                 MapOfCapital.mapCapital[state.capital] ?:"Unknown",
-                 MapOfRegion.mapRegion[state.region] ?:"Unknown"
-             )
-         }
-           //db.stateDao.insert(roomState) //пишем в базу
-           Log.d(TAG, "RoomStateCash doStatesCash: size = ${db.stateDao.getAll().size}")
-           return@fromCallable listStates //возвращаем в виде Single<List<State>>
-       }
-    }
-
     override suspend fun doStatesCashCoroutine(listStates: List<State>) {
         val litRoomStates:MutableList<RoomState> = mutableListOf()
         listStates.forEach {state->
@@ -124,15 +99,14 @@ class RoomStateCash(private val db: Database ):IRoomStateCash {
         return rf!=null
     }
 
-    override fun loadAllData(): Single<MutableList<State>> =
-        Single.fromCallable {
-            db.stateDao.getAll().map{roomState->
-                State(roomState.capital, roomState.flag, roomState.name, roomState.region,
-                    roomState.population, roomState.area, arrayOf(roomState.lat, roomState.lng),
-                    roomState.nameRus, roomState.capitalRus, roomState.regionRus
-                )
-            }.toMutableList()
-        }.subscribeOn(Schedulers.io())
+    override suspend fun loadAllDataCoroutine(): List<State> {
+       return db.stateDao.getAllCoroutine().map{roomState->
+            State(roomState.capital, roomState.flag, roomState.name, roomState.region,
+                roomState.population, roomState.area, arrayOf(roomState.lat, roomState.lng),
+                roomState.nameRus, roomState.capitalRus, roomState.regionRus
+            )
+        }
+    }
 
     override suspend fun removeFavoriteCoroutine(state: State) {
         var roomFavorite:RoomFavorite? = null

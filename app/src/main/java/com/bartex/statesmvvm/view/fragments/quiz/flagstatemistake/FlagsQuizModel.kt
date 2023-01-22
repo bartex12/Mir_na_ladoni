@@ -32,7 +32,7 @@ class FlagsQuizModel(
     //список стран из сети
     private val listStatesFromNet = MutableLiveData<StatesSealed>()
     //список стран из базы
-    private val listStatesFromDatabase = MutableLiveData<MutableList<State>>()
+    private val listStatesFromDatabase = MutableLiveData<List<State>>()
     //состояние конечного автомата
     val currentQuizState: MutableLiveData<IFlagState> = MutableLiveData<IFlagState>()
 
@@ -84,19 +84,20 @@ class FlagsQuizModel(
         Log.d(TAG, "BaseViewModel saveListOfStates  listOfStates size = ${listOfStates.size}")
     }
 
-    fun getDataFromDatabase(): LiveData<MutableList<State>> {
-        loadDataFromDatabase()
+    fun getDataFromDatabase(): LiveData<List<State>> {
+        loadDataFromDatabaseCoroutine()
         return listStatesFromDatabase
     }
 
-    private fun loadDataFromDatabase() {
-        roomCash.loadAllData()
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({
-                listStatesFromDatabase.value = it
-            },{
-                Log.d(TAG, "${it.message}")
-            })
+    private fun loadDataFromDatabaseCoroutine() {
+        viewModelScope.launch {
+            try {
+              val listStates =   roomCash.loadAllDataCoroutine()
+                listStatesFromDatabase.value = listStates
+            }catch (error:Exception){
+                Log.d(TAG, "${error.message}")
+            }
+        }
     }
 
     //начальное состояние не имеет предыдущего

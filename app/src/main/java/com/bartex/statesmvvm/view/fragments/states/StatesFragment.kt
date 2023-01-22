@@ -79,7 +79,7 @@ class   StatesFragment : Fragment(),
                 .observe(viewLifecycleOwner, Observer {list->
                    // Log.d(TAG, "*******StatesFragment getDataFromDatabase list.size = ${list.size} list.regionRus = ${list.map {it.regionRus }}")
                         if (list.size > 200) { //если в базе есть записи берём из базы
-                            listOfStates = list //запоминаем
+                            listOfStates = list.toMutableList() //запоминаем
                              chipGroupStates.check(UtilRegion. getRegionId(region))
                             renderDataWithRegion(region)  // с учётом текущего региона
                     }else{ //если в базе ничего нет
