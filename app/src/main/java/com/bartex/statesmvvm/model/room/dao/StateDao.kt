@@ -18,8 +18,11 @@ interface StateDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(vararg roomState: RoomState)
 
+//    @Insert(onConflict = OnConflictStrategy.REPLACE)
+//    fun insert(roomStates:List<RoomState>)
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(roomStates:List<RoomState>)
+    suspend fun insertList(roomStates:List<RoomState>)
 
     @Delete
     fun delete(roomState: RoomState)
@@ -27,14 +30,18 @@ interface StateDao {
     @Delete
     fun delete(vararg roomState: RoomState)
 
-    @Delete
-    fun delete(roomStates:List<RoomState>)
+//    @Delete
+//    fun delete(roomStates:List<RoomState>)
 
     @Query("DELETE from RoomState")
     suspend fun  deleteAll()
 
+//    @Update
+//    fun update(roomState: RoomState)
+
     @Update
-    fun update(roomState: RoomState)
+    suspend fun updateCoroutine(roomState: RoomState)
+
     @Update
     fun update(vararg roomState: RoomState)
     @Update
@@ -43,18 +50,27 @@ interface StateDao {
     @Query("SELECT * FROM RoomState")
     fun  getAll():List<RoomState>
 
+    @Query("SELECT * FROM RoomState")
+    suspend fun  getAllCoroutine():List<RoomState>
+
     @Query("SELECT * FROM RoomState WHERE name LIKE '%' ||:name || '%'")
     fun findByName(name:String): List<RoomState>
 
     @Query("SELECT * FROM RoomState WHERE nameRus LIKE '%' ||:nameRus || '%'")
     fun findByNameRus(nameRus:String): List<RoomState>
 
-    //*** викторина ***
+//    //*** викторина ***
+//    @Query("SELECT*FROM RoomState WHERE nameRus = :nameRus")
+//    fun getStateByNameRus(nameRus:String):RoomState
+
     @Query("SELECT*FROM RoomState WHERE nameRus = :nameRus")
-    fun getStateByNameRus(nameRus:String):RoomState
+    suspend fun getStateByNameRusCoroutine(nameRus:String):RoomState
+
+//    @Query("SELECT mistake FROM RoomState WHERE nameRus = :nameRus")
+//    fun getMistakeByNameRus(nameRus:String):Int
 
     @Query("SELECT mistake FROM RoomState WHERE nameRus = :nameRus")
-    fun getMistakeByNameRus(nameRus:String):Int
+   suspend fun getMistakeByNameRusCoroutine(nameRus:String):Int
 
     @Query("SELECT*FROM RoomState WHERE mistake = 1")
     fun getMistakesList():List<RoomState>

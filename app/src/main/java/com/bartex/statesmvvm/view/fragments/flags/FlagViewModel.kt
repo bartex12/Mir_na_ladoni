@@ -4,12 +4,14 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.bartex.statesmvvm.model.entity.state.State
 import com.bartex.statesmvvm.model.repositories.prefs.IPreferenceHelper
 import com.bartex.statesmvvm.model.repositories.states.cash.IRoomStateCash
 import com.bartex.statesmvvm.view.fragments.scheduler.SchedulerProvider
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.schedulers.Schedulers
+import kotlinx.coroutines.launch
 
 class FlagViewModel(
    private val helper : IPreferenceHelper,
@@ -23,42 +25,38 @@ class FlagViewModel(
 
     private  var listFlags = MutableLiveData<List<State>>()
 
-    fun getStateFlafs(): LiveData<List<State>> {
-        getStatesFromCash()
+    fun getStateFlags(): LiveData<List<State>> {
+        //getStatesFromCash()
+        getStateFlagsFromCashCoroutine()
         return listFlags
     }
 
-    private fun getStatesFromCash() {
+    private fun getStateFlagsFromCashCoroutine() {
         val isSorted = helper.isSorted()
         val getSortCase = helper.getSortCase()
-        var f_st:List<State> = listOf()
-        roomCash.getFlagsFromCash()
-            .observeOn(Schedulers.computation())
-            .flatMap {st->
+        var filtredList:List<State> = listOf()
+        viewModelScope.launch {
+            try {
+             val listStates =    roomCash.getFlagsFromCashCoroutine()
                 if(isSorted){
                     when (getSortCase) {
-                        1 -> {f_st = st.filter {it.population!=null}.sortedByDescending {it.population}}
-                        2 -> {f_st = st.filter {it.population!=null}.sortedBy {it.population}}
-                        3 -> {f_st = st.filter {it.area!=null}.sortedByDescending {it.area} }
-                        4 -> { f_st = st.filter {it.area!=null}.sortedBy {it.area} }
-                        5 -> {f_st = st.filter {it.population!=null && it.population >0 && it.area!=null && it.area!! >0}
+                        1 -> {filtredList = listStates.filter {it.population!=null}.sortedByDescending {it.population}}
+                        2 -> {filtredList = listStates.filter {it.population!=null}.sortedBy {it.population}}
+                        3 -> {filtredList = listStates.filter {it.area!=null}.sortedByDescending {it.area} }
+                        4 -> { filtredList = listStates.filter {it.area!=null}.sortedBy {it.area} }
+                        5 -> {filtredList = listStates.filter {it.population!=null && it.population >0 && it.area!=null && it.area!! >0}
                             .sortedByDescending {it.population!!.toFloat()/it.area!!}}
-                        6 -> {f_st = st.filter {it.population!=null && it.population >0 && it.area!=null && it.area!! >0}
+                        6 -> {filtredList = listStates.filter {it.population!=null && it.population >0 && it.area!=null && it.area!! >0}
                             .sortedBy {it.population!!.toFloat()/it.area!!}}
                     }
-                    return@flatMap Single.just(f_st)
                 }else{
-                    return@flatMap Single.just( st.sortedBy{it.name})
+                    filtredList = listStates.sortedBy{it.name}
                 }
-            }
-            .observeOn(schedulerProvider.ui())
-            .subscribe ({states->
-                //обновляем список в случае его изменения
-                states.let{
-                    Log.d(TAG, "FlagViewModel loadFavorite: states.size =  ${it.size}")}
-                listFlags.value = states
-            }, {error ->
+                listFlags.value = filtredList
+            }catch (error:Exception){
                 Log.d(TAG, "FlagViewModel onError ${error.message}")
-            })
+            }
+        }
     }
+
 }

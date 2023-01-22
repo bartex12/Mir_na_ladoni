@@ -9,11 +9,9 @@ import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.GridLayoutManager
-import com.bartex.statesmvvm.App
 import com.bartex.statesmvvm.R
 import com.bartex.statesmvvm.model.constants.Constants
 import com.bartex.statesmvvm.model.entity.state.State
@@ -42,7 +40,7 @@ class FlagsFragment:Fragment() {
 
         navController = Navigation.findNavController(view)
 
-        flagViewModel.getStateFlafs().observe(viewLifecycleOwner, Observer<List<State>>{ states->
+        flagViewModel.getStateFlags().observe(viewLifecycleOwner, Observer<List<State>>{ states->
             Log.d(TAG, "FlagsFragment onChanged")
             states?. let{
                 renderData(it)

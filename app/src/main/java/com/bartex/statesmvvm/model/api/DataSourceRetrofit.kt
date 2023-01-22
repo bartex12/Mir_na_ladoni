@@ -11,10 +11,6 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class DataSourceRetrofit :IDataSource{
 
-    override fun getStates(): Single<List<State>> {
-        return  getDataSource().getStates()
-    }
-
     override suspend fun getStatesCoroutine(): List<State> {
         return getDataSource().getStatesCoroutine()
     }

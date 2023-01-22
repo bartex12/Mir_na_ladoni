@@ -206,15 +206,15 @@
 
     <fragment
         android:id="@+id/flagsQuizFragment"
-        android:name="com.bartex.statesmvvm.view.fragments.quiz.flagstate.FlagsQuizFragment"
+        android:name="com.bartex.statesmvvm.view.fragments.quiz.flagstatemistake.FlagsQuizFragment"
         android:label="FlagsQuizFragment" />
 
     <fragment
         android:id="@+id/mistakesQuizFragment"
-        android:name="com.bartex.statesmvvm.view.fragments.quiz.mistakes.MistakesQuizFragment"
+        android:name="com.bartex.statesmvvm.view.fragments.quiz.flagstatemistake.MistakesQuizFragment"
         android:label="MistakesQuizFragment" />
     <fragment
         android:id="@+id/statesQuizFragment"
-        android:name="com.bartex.statesmvvm.view.fragments.quiz.flagstate.StatesQuizFragment"
+        android:name="com.bartex.statesmvvm.view.fragments.quiz.flagstatemistake.StatesQuizFragment"
         android:label="StatesQuizFragment"/>
 </navigation>

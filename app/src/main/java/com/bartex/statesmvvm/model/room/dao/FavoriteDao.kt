@@ -10,6 +10,9 @@ interface FavoriteDao {
     fun insert(roomFavorite: RoomFavorite)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertCoroutine(roomFavorite: RoomFavorite)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(vararg roomFavorite: RoomFavorite)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -17,6 +20,9 @@ interface FavoriteDao {
 
     @Delete
     fun delete(roomFavorite: RoomFavorite)
+
+    @Delete
+    suspend fun deleteCoroutine(roomFavorite: RoomFavorite)
 
     @Delete
     fun delete(vararg roomFavorite: RoomFavorite)
@@ -34,7 +40,13 @@ interface FavoriteDao {
     @Query("SELECT * FROM RoomFavorite")
     fun getAll():List<RoomFavorite>
 
+    @Query("SELECT * FROM RoomFavorite")
+    suspend fun getAllCoroutine():List<RoomFavorite>
+
     @Query("SELECT * FROM RoomFavorite WHERE name = :stateName LIMIT 1 ")
     fun findByName(stateName:String): RoomFavorite
+
+    @Query("SELECT * FROM RoomFavorite WHERE name = :stateName LIMIT 1 ")
+    suspend fun findByNameCoroutine(stateName:String): RoomFavorite
 
 }

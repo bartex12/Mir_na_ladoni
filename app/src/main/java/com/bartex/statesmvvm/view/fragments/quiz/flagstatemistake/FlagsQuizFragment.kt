@@ -1,4 +1,4 @@
-package com.bartex.statesmvvm.view.fragments.quiz.flagstate
+package com.bartex.statesmvvm.view.fragments.quiz.flagstatemistake
 
 import android.app.AlertDialog
 import android.media.AudioManager
@@ -183,7 +183,7 @@ class FlagsQuizFragment: Fragment(){
     //неправильный ответ
     private fun showNotWellState(data: DataFlags) {
         getNumberOnChipName(data)//показываем количество стран в регионе
-        flagsViewModel.writeMistakeInDatabase() //делаем отметку об ошибке в базе данных
+        flagsViewModel.writeMistakeInDatabaseCoroutine() //делаем отметку об ошибке в базе данных
         Thread { mToneGenerator.startTone(ToneGenerator.TONE_CDMA_LOW_PBX_L, 100) }.start()
         model.updateToolbarTitleFromFlag(getToolbarTitle(data))//обновить номер текущего вопроса
         showIncorrectAnswer()//показать неправильный ответ

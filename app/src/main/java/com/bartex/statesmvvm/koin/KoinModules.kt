@@ -28,13 +28,13 @@ import com.bartex.statesmvvm.view.fragments.help.HelpViewModel
 import com.bartex.statesmvvm.view.fragments.home.HomeViewModel
 import com.bartex.statesmvvm.view.fragments.home.IMainList
 import com.bartex.statesmvvm.view.fragments.home.MainListImpl
-import com.bartex.statesmvvm.view.fragments.quiz.flagstate.FlagsQuizModel
+import com.bartex.statesmvvm.view.fragments.quiz.flagstatemistake.FlagsQuizModel
 import com.bartex.statesmvvm.view.fragments.quiz.fsm.storage.FlagQuiz
 import com.bartex.statesmvvm.view.fragments.quiz.fsm.storage.IFlagQuiz
-import com.bartex.statesmvvm.view.fragments.quiz.mistakes.MistakesQuizModel
+import com.bartex.statesmvvm.view.fragments.quiz.flagstatemistake.MistakesQuizModel
 import com.bartex.statesmvvm.view.fragments.quiz.setting.ISettingsProvider
 import com.bartex.statesmvvm.view.fragments.quiz.setting.SettingsProvider
-import com.bartex.statesmvvm.view.fragments.quiz.flagstate.StatesQuizModel
+import com.bartex.statesmvvm.view.fragments.quiz.flagstatemistake.StatesQuizModel
 import com.bartex.statesmvvm.view.fragments.scheduler.SchedulerProvider
 import com.bartex.statesmvvm.view.fragments.scheduler.StatesSchedulerProvider
 import com.bartex.statesmvvm.view.fragments.states.StatesViewModel

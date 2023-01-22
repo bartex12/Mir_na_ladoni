@@ -59,7 +59,7 @@ class DetailsFragment : Fragment() {
 
         //наблюдаем за добавлением страны в избранное
         state?. let {
-            detailsViewModel.isFavoriteState(it)
+            detailsViewModel.isFavoriteStateCoroutine(it)
                 .observe(viewLifecycleOwner, Observer<DetailsSealed> {
                     renderData(it)
                 })
@@ -86,12 +86,12 @@ class DetailsFragment : Fragment() {
 
         btn_addToFavorite.setOnClickListener {
             state?. let {
-                detailsViewModel.addToFavorite(it)
+                detailsViewModel.addToFavoriteCoroutine(it)
             }
         }
         btn_removeFavorite.setOnClickListener {
             state?. let {
-                detailsViewModel.removeFavorite(it)
+                detailsViewModel.removeFavoriteCoroutine(it)
             }
         }
     }

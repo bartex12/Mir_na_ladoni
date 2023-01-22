@@ -38,7 +38,7 @@ class RoomStateCash(private val db: Database ):IRoomStateCash {
                  MapOfRegion.mapRegion[state.region] ?:"Unknown"
              )
          }
-           db.stateDao.insert(roomState) //пишем в базу
+           //db.stateDao.insert(roomState) //пишем в базу
            Log.d(TAG, "RoomStateCash doStatesCash: size = ${db.stateDao.getAll().size}")
            return@fromCallable listStates //возвращаем в виде Single<List<State>>
        }
@@ -63,111 +63,66 @@ class RoomStateCash(private val db: Database ):IRoomStateCash {
             litRoomStates.add(roomState)
         }
         db.stateDao.deleteAll() //стираем предыдущий список
-        db.stateDao.insert(litRoomStates) //пишем в базу
+        db.stateDao.insertList(litRoomStates) //пишем в базу
     }
 
-    override fun getStatesFromCash(): Single<List<State>> {
-        Log.d(TAG, "RoomStateCash getStatesFromCash")
-        return  Single.fromCallable {
-          db.stateDao.getAll().map {roomState->
-              State(roomState.capital,roomState.flag, roomState.name, roomState.region,
-                  roomState.population, roomState.area, arrayOf(roomState.lat, roomState.lng),
-                  roomState.nameRus, roomState.capitalRus, roomState.regionRus
-              )
-          }
+
+    override suspend fun loadFavoriteCoroutine(): List<State> {
+       return db.favoriteDao.getAllCoroutine().map {roomFavorite->
+            State(roomFavorite.capital, roomFavorite.flag, roomFavorite.name,
+                roomFavorite.region,roomFavorite.population, roomFavorite.area,
+                arrayOf(roomFavorite.lat, roomFavorite.lng), roomFavorite.nameRus,
+                roomFavorite.capitalRus, roomFavorite.regionRus)
         }
     }
-
-    override fun loadFavorite(): Single<List<State>> = Single.fromCallable {
-            db.favoriteDao.getAll().map {roomFavorite->
-                State(roomFavorite.capital, roomFavorite.flag, roomFavorite.name,
-                    roomFavorite.region,roomFavorite.population, roomFavorite.area,
-                    arrayOf(roomFavorite.lat, roomFavorite.lng), roomFavorite.nameRus,
-                    roomFavorite.capitalRus, roomFavorite.regionRus)
-            }
-        }.subscribeOn(Schedulers.io())
 
     //получение списка для флагов
-    override fun getFlagsFromCash(): Single<List<State>> =
-        Single.fromCallable {
-            db.stateDao.getAll().map {roomState->
-                State(roomState.capital, roomState.flag, roomState.name, roomState.region,
-                    roomState.population, roomState.area, arrayOf(roomState.lat, roomState.lng),
-                    roomState.nameRus, roomState.capitalRus, roomState.regionRus
-                )
-            }
-        }.subscribeOn(Schedulers.io())
-
-    //сделать отметку об ошибке
-    override fun writeMistakeInDatabase(mistakeAnswer: String): Single<Boolean> =
-        Single.fromCallable {
-            val mistakeRoomState: RoomState = db.stateDao.getStateByNameRus(mistakeAnswer) //получаем страну по имени
-            if (mistakeRoomState.mistake == 0) { //если статус ошибки = 0
-                mistakeRoomState.mistake = 1 //меняем статус ошибки на 1
-                db.stateDao.update(mistakeRoomState) //обновляем запись в базе
-            }
-            //проверяем как прошла запись
-            val result:Int =  db.stateDao.getMistakeByNameRus(mistakeAnswer)
-            result == 1 //если 1 - возвращаем true, иначе false
+    override suspend fun getFlagsFromCashCoroutine(): List<State> {
+       return db.stateDao.getAllCoroutine().map { roomState->
+            State(roomState.capital, roomState.flag, roomState.name, roomState.region,
+                roomState.population, roomState.area, arrayOf(roomState.lat, roomState.lng),
+                roomState.nameRus, roomState.capitalRus, roomState.regionRus
+            )
         }
-            .subscribeOn(Schedulers.io())
+    }
 
-    //получить список стран на которых сделаны ошибки
-    override fun getMistakesFromDatabase(): Single<List<State>> =
-        Single.fromCallable {
-            val listOfMistakes:List<RoomState> =  db.stateDao.getMistakesList()
-            val states =  listOfMistakes.map{roomState->
-                State(roomState.capital, roomState.flag, roomState.name, roomState.region,
-                    roomState.population, roomState.area, arrayOf(roomState.lat, roomState.lng),
-                    roomState.nameRus, roomState.capitalRus, roomState.regionRus
-                )
-            }
-            states
+    override suspend fun writeMistakeInDatabaseCoroutine(mistakeAnswer: String): Boolean {
+        val mistakeRoomState: RoomState = db.stateDao.getStateByNameRusCoroutine(mistakeAnswer) //получаем страну по имени
+        if (mistakeRoomState.mistake == 0) { //если статус ошибки = 0
+            mistakeRoomState.mistake = 1 //меняем статус ошибки на 1
+            db.stateDao.updateCoroutine(mistakeRoomState) //обновляем запись в базе
         }
-            .subscribeOn(Schedulers.io())
+        //проверяем как прошла запись
+        val result:Int =  db.stateDao.getMistakeByNameRusCoroutine(mistakeAnswer)
+        return result == 1 //если 1 - возвращаем true, иначе false
+    }
 
     override fun getAllMistakesLive(): LiveData<List<RoomState>> {
         return db.stateDao.getAllMistakesLive()
     }
 
-    //удалить отметку об ошибке
-    override fun removeMistakeFromDatabase(nameRus: String): Single<Boolean> =
-        Single.fromCallable {
-            val mistakeRoomState: RoomState = db.stateDao.getStateByNameRus(nameRus) //получаем страну по имени
-            if (mistakeRoomState.mistake == 1) { //если статус ошибки = 0
-                mistakeRoomState.mistake = 0 //меняем статус ошибки на 1
-                db.stateDao.update(mistakeRoomState) //обновляем запись в базе
-            }
-            //проверяем как прошло удаление отметки
-            val result:Int =  db.stateDao.getMistakeByNameRus(nameRus)
-            result == 0 //если 0 - возвращаем true, иначе false
+    override suspend fun removeMistakeFromDatabaseCoroutine(nameRus: String): Boolean {
+        val mistakeRoomState: RoomState = db.stateDao.getStateByNameRusCoroutine(nameRus) //получаем страну по имени
+        if (mistakeRoomState.mistake == 1) { //если статус ошибки = 0
+            mistakeRoomState.mistake = 0 //меняем статус ошибки на 1
+            db.stateDao.updateCoroutine(mistakeRoomState) //обновляем запись в базе
         }
-            .subscribeOn(Schedulers.io())
+        //проверяем как прошло удаление отметки
+        val result:Int =  db.stateDao.getMistakeByNameRusCoroutine(nameRus)
+        return result == 0 //если 0 - возвращаем true, иначе false
+    }
 
     override fun getAllDataLive(): LiveData<List<RoomState>> {
         return db.stateDao.getAllRegionsLive()
     }
 
-    override fun isFavorite(state: State):Single<Boolean> {
-        return Single.fromCallable {
-            var rf: RoomFavorite? = null
-            state.name?.let {
-                rf = db.favoriteDao.findByName(it)
-            }
-            return@fromCallable rf!=null
+    override suspend fun isFavoriteCoroutine(state: State): Boolean {
+        var rf: RoomFavorite? = null
+        state.name?.let {
+            rf = db.favoriteDao.findByNameCoroutine(it)
         }
+        return rf!=null
     }
-
-    override fun removeFavorite(state: State): Completable = Completable.create { emitter->
-        removeFavor(state). let{
-            if(it){
-                emitter.onComplete()
-                Log.d(TAG, "RoomStateCash addToFavorite emitter.onComplete()")
-            }else{
-                emitter.onError(RuntimeException(" Ошибка при удалении из избранного "))
-            }
-        }
-    }.subscribeOn(Schedulers.io())
 
     override fun loadAllData(): Single<MutableList<State>> =
         Single.fromCallable {
@@ -179,28 +134,15 @@ class RoomStateCash(private val db: Database ):IRoomStateCash {
             }.toMutableList()
         }.subscribeOn(Schedulers.io())
 
-    private fun removeFavor(state: State): Boolean{
+    override suspend fun removeFavoriteCoroutine(state: State) {
         var roomFavorite:RoomFavorite? = null
-        state.name?. let{roomFavorite = db.favoriteDao.findByName(it)}
+        state.name?. let{roomFavorite = db.favoriteDao.findByNameCoroutine(it)}
         roomFavorite?. let{
-            db.favoriteDao.delete(it)
-            return true
-        } ?:return false
+            db.favoriteDao.deleteCoroutine(it)
+        }
     }
 
-
-    override fun addToFavorite(state: State): Completable = Completable.create { emitter->
-        add(state). let{
-            if(it){
-                emitter.onComplete()
-                Log.d(TAG, "RoomStateCash addToFavorite emitter.onComplete()")
-            }else{
-                emitter.onError(RuntimeException(" Ошибка при добавлении в избранное "))
-            }
-        }
-    }.subscribeOn(Schedulers.io())
-
-    private fun add(state: State):Boolean {
+    override suspend fun addToFavoriteCoroutine(state: State) {
         val roomFavorite = RoomFavorite(
             capital = state.capital ?: "",
             flag = state.flag?: "",
@@ -214,13 +156,11 @@ class RoomStateCash(private val db: Database ):IRoomStateCash {
             capitalRus = state.capitalRus?:"Unknown",
             regionRus =  state.regionRus?:"Unknown"
         )
-        state.name?. let{
-         val rs: RoomFavorite =   db.favoriteDao.findByName(it)
-            rs?: let{
-                db.favoriteDao.insert(roomFavorite)
-                return true
-            }
-        }
-       return false
+        var rs: RoomFavorite? = null
+        state.name?. let{ rs = db.favoriteDao.findByNameCoroutine(it) }
+        rs?. let{
+            Log.d(TAG, "RoomStateCash addToFavoriteCoroutine  ")
+        }?:db.favoriteDao.insertCoroutine(roomFavorite)
     }
+
 }

@@ -85,7 +85,7 @@ class   StatesFragment : Fragment(),
                     }else{ //если в базе ничего нет
                         if (isNetworkAvailable){ //если сеть есть
                             //получаем страны из сети
-                            stateViewModel.getStatesSealed()
+                            stateViewModel.getStatesSealedCoroutine()
                                 .observe(viewLifecycleOwner, Observer {stateSealed->
                                     renderData(stateSealed)
                                 })

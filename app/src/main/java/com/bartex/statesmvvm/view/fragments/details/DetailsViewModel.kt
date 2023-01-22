@@ -4,12 +4,14 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.bartex.statesmvvm.model.entity.state.State
 import com.bartex.statesmvvm.model.repositories.prefs.IPreferenceHelper
 import com.bartex.statesmvvm.model.repositories.states.cash.IRoomStateCash
 import com.bartex.statesmvvm.model.utils.IStateUtils
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.schedulers.Schedulers
+import kotlinx.coroutines.launch
 
 class DetailsViewModel(
     private val helper : IPreferenceHelper,
@@ -36,41 +38,78 @@ class DetailsViewModel(
 
     fun getStateZoom(state: State) = stateUtils.getStatezoom(state)
 
-    fun isFavoriteState(state: State):LiveData<DetailsSealed>{
-        roomCash.isFavorite(state)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({
-                isFavorite.value =DetailsSealed.Success(isFavorite = it)
-            }, {
-                isFavorite.value =DetailsSealed.Error(error = it)
-                Log.d(TAG, "DetailsViewModel isFavorite error = ${it.message} ")
-            })
+//    fun isFavoriteState(state: State):LiveData<DetailsSealed>{
+//        roomCash.isFavorite(state)
+//            .subscribeOn(Schedulers.io())
+//            .observeOn(AndroidSchedulers.mainThread())
+//            .subscribe({
+//                isFavorite.value =DetailsSealed.Success(isFavorite = it)
+//            }, {
+//                isFavorite.value =DetailsSealed.Error(error = it)
+//                Log.d(TAG, "DetailsViewModel isFavorite error = ${it.message} ")
+//            })
+//        return isFavorite
+//    }
+
+    fun isFavoriteStateCoroutine(state: State):LiveData<DetailsSealed>{
+        viewModelScope.launch {
+            try{
+                val isFavor = roomCash.isFavoriteCoroutine(state)
+                isFavorite.value =DetailsSealed.Success(isFavorite = isFavor)
+            }catch (error:Exception){
+                isFavorite.value =DetailsSealed.Error(error = error)
+                Log.d(TAG, "DetailsViewModel isFavoriteStateCoroutine error = ${error.message} ")
+            }
+        }
         return isFavorite
     }
 
-    fun addToFavorite(state: State){
-        Log.d(TAG, "DetailsViewModel addToFavorite ")
-        roomCash.addToFavorite(state)
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe (   {
+//    fun addToFavorite(state: State){
+//        Log.d(TAG, "DetailsViewModel addToFavorite ")
+//        roomCash.addToFavorite(state)
+//            .observeOn(AndroidSchedulers.mainThread())
+//            .subscribe (   {
+//                isFavorite.value = DetailsSealed.Success(isFavorite = true)
+//            },{
+//                isFavorite.value =DetailsSealed.Error(error = it)
+//                Log.d(TAG, "DetailsViewModel addToFavorite error = ${it.message} ")
+//            })
+//    }
+
+    fun addToFavoriteCoroutine(state: State){
+        viewModelScope.launch {
+            try{
+                roomCash.addToFavoriteCoroutine(state)
                 isFavorite.value = DetailsSealed.Success(isFavorite = true)
-            },{
-                isFavorite.value =DetailsSealed.Error(error = it)
-                Log.d(TAG, "DetailsViewModel addToFavorite error = ${it.message} ")
-            })
+            }catch (error:Exception){
+                isFavorite.value =DetailsSealed.Error(error = error)
+                Log.d(TAG, "DetailsViewModel addToFavoriteCoroutine error = ${error.message} ")
+            }
+        }
     }
 
-    fun removeFavorite(state: State){
-        Log.d(TAG, "DetailsViewModel removeFavorite ")
-        roomCash.removeFavorite(state)
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe (   {
+//    fun removeFavorite(state: State){
+//        Log.d(TAG, "DetailsViewModel removeFavorite ")
+//        roomCash.removeFavorite(state)
+//            .observeOn(AndroidSchedulers.mainThread())
+//            .subscribe (   {
+//                isFavorite.value = DetailsSealed.Success(isFavorite = false)
+//            },{
+//                isFavorite.value =DetailsSealed.Error(error = it)
+//                Log.d(TAG, "DetailsViewModel removeFavorite error = ${it.message} ")
+//            })
+//    }
+
+    fun removeFavoriteCoroutine(state: State){
+        viewModelScope.launch {
+            try{
+                roomCash.removeFavoriteCoroutine(state)
                 isFavorite.value = DetailsSealed.Success(isFavorite = false)
-            },{
-                isFavorite.value =DetailsSealed.Error(error = it)
-                Log.d(TAG, "DetailsViewModel removeFavorite error = ${it.message} ")
-            })
+            }catch (error:Exception){
+                isFavorite.value =DetailsSealed.Error(error = error)
+                Log.d(TAG, "DetailsViewModel removeFavorite error = ${error.message} ")
+            }
+        }
     }
 
     fun getRusLang():Boolean{

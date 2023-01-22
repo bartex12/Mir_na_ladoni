@@ -1,30 +1,33 @@
-package com.bartex.statesmvvm.view.fragments.quiz.flagstate
+package com.bartex.statesmvvm.view.fragments.quiz.flagstatemistake
 
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.bartex.statesmvvm.model.constants.Constants
 import com.bartex.statesmvvm.model.entity.state.State
 import com.bartex.statesmvvm.model.repositories.states.IStatesRepo
 import com.bartex.statesmvvm.model.repositories.states.cash.IRoomStateCash
 import com.bartex.statesmvvm.view.fragments.quiz.fsm.Action
-import com.bartex.statesmvvm.view.fragments.quiz.fsm.entity.Answer
-import com.bartex.statesmvvm.view.fragments.quiz.fsm.entity.ButtonTag
 import com.bartex.statesmvvm.view.fragments.quiz.fsm.IFlagState
+import com.bartex.statesmvvm.view.fragments.quiz.fsm.entity.Answer
 import com.bartex.statesmvvm.view.fragments.quiz.fsm.entity.DataFlags
 import com.bartex.statesmvvm.view.fragments.quiz.fsm.storage.IFlagQuiz
 import com.bartex.statesmvvm.view.fragments.quiz.fsm.substates.ReadyState
 import com.bartex.statesmvvm.view.fragments.quiz.setting.ISettingsProvider
 import com.bartex.statesmvvm.view.fragments.states.StatesSealed
+import com.bartex.statesmvvm.view.fragments.states.StatesViewModel
 import com.bartex.statesmvvm.view.utils.UtilFilters
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import kotlinx.coroutines.launch
 
-class StatesQuizModel( private var statesRepo: IStatesRepo,
-                       private val storage: IFlagQuiz,
-                       private val settingProvider: ISettingsProvider,
-                       private val roomCash: IRoomStateCash
-): ViewModel()  {
+class FlagsQuizModel(
+    private var statesRepo: IStatesRepo,
+    private val storage: IFlagQuiz,
+    private val settingProvider: ISettingsProvider,
+    private val roomCash: IRoomStateCash
+) : ViewModel()  {
 
     //список стран из сети
     private val listStatesFromNet = MutableLiveData<StatesSealed>()
@@ -54,14 +57,16 @@ class StatesQuizModel( private var statesRepo: IStatesRepo,
 
     private fun loadDataSealed(){
         listStatesFromNet.value = StatesSealed.Loading(0)
-
-        statesRepo.getStates()
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({states->
-                listStatesFromNet.value = StatesSealed.Success(state = states)
-            },{error ->
+        viewModelScope.launch {
+            try{
+                val listStates = statesRepo.getStatesCoroutine()
+                listStatesFromNet.value = StatesSealed.Success(state = listStates)
+                Log.d(StatesViewModel.TAG, "StatesViewModel  loadDataSealed listStates.size = ${listStates.size}")
+            }catch (error:Exception){
                 listStatesFromNet.value = StatesSealed.Error(error = error)
-            })
+                Log.d(StatesViewModel.TAG, "StatesViewModel onError ${error.message}")
+            }
+        }
     }
 
     //получить состояние конечного автомата
@@ -107,19 +112,21 @@ class StatesQuizModel( private var statesRepo: IStatesRepo,
         currentQuizState.value =  currentState.executeAction(Action.OnNextFlagClicked(this.dataFlags))
     }
 
-    fun writeMistakeInDatabase() {
-        dataFlags.correctAnswer?. let{
-            roomCash.writeMistakeInDatabase(it)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ isMistakeWriten ->
-                    if (isMistakeWriten) {
-                        Log.d(TAG, "writeMistakeInDatabase: ")
+    fun writeMistakeInDatabaseCoroutine() {
+        Log.d(TAG, "###FlagsQuizModel writeMistakeInDatabaseCoroutine: ")
+        viewModelScope.launch {
+            try {
+                dataFlags.correctAnswer?. let{
+                    val isMistakeWrite =  roomCash.writeMistakeInDatabaseCoroutine(it)
+                    if (isMistakeWrite) {
+                        Log.d(TAG, "writeMistakeInDatabase ")
                     }else{
                         Log.d(TAG, "NOT write ")
                     }
-                }, {
-                    Log.d(TAG, "${it.message}")
-                })
+                }
+            }catch (error:Exception){
+                Log.d(TAG, "${error.message}")
+            }
         }
     }
 
@@ -177,8 +184,8 @@ class StatesQuizModel( private var statesRepo: IStatesRepo,
     }
 
     //по типу ответа при щелчке по кнопке задаём состояние
-    fun answerImageButtonClick( tag: ButtonTag) {
-        dataFlags = storage.getTypeAnswerWithTag(tag, dataFlags)
+    fun answer(guess:String){
+        dataFlags = storage.getTypeAnswer(guess, dataFlags)
         when(dataFlags.typeAnswer){
             Answer.NotWell -> {
                 currentQuizState.value = currentState.executeAction(Action.OnNotWellClicked(dataFlags))
@@ -191,6 +198,5 @@ class StatesQuizModel( private var statesRepo: IStatesRepo,
             }
         }
     }
-
 
 }

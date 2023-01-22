@@ -1,4 +1,4 @@
-package com.bartex.statesmvvm.view.fragments.quiz.mistakes
+package com.bartex.statesmvvm.view.fragments.quiz.flagstatemistake
 
 import android.os.Bundle
 import android.view.*
@@ -7,7 +7,6 @@ import androidx.appcompat.widget.SearchView
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -31,7 +30,7 @@ class MistakesQuizFragment: Fragment(),
     private var adapter:  MistakesAdapter? = null
     private lateinit var navController: NavController
 
-    private val mistakesViewModel:MistakesQuizModel by viewModel()
+    private val mistakesViewModel: MistakesQuizModel by viewModel()
     private val model: SharedViewModel by activityViewModels()
 
     private var listOfMistakeStates  = mutableListOf<State>() //список стран региона с ошибками
@@ -170,14 +169,13 @@ class MistakesQuizFragment: Fragment(),
                }else{
                     navController.navigate(R.id.detailsFragment, bundle)
                 }
-
             }
         }
 
     private fun getOnRemoveListener(): MistakesAdapter.OnRemoveListener =
             object: MistakesAdapter.OnRemoveListener{
                 override fun onRemove(nameRus: String) {
-                    mistakesViewModel.removeMistakeFromDatabase(nameRus)
+                    mistakesViewModel.removeMistakeFromDatabaseCoroutine(nameRus)
                 }
             }
 

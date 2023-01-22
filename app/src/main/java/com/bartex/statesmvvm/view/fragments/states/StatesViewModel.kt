@@ -41,11 +41,6 @@ class StatesViewModel(
     private val newRegion = MutableLiveData<String>()
 
 
-    fun getStatesSealed() : LiveData<StatesSealed>{
-        loadDataSealed()
-        return listStatesFromNet
-    }
-
     fun getStatesSealedCoroutine() : LiveData<StatesSealed>{
         loadDataSealedCoroutine()
         return listStatesFromNet
@@ -64,27 +59,6 @@ class StatesViewModel(
                 Log.d(TAG, "StatesViewModel onError ${error.message}")
             }
         }
-
-
-    }
-
-    private fun loadDataSealed(){
-        listStatesFromNet.value = StatesSealed.Loading(null)
-
-        statesRepo.getStates()
-            .observeOn(schedulerProvider.computation())
-            .observeOn(schedulerProvider.ui())
-            .subscribe ({states->
-                states.let{
-                    // если данные загружены - выставляем value в MutableLiveData
-                    listStatesFromNet.value = StatesSealed.Success(state = it)
-                    Log.d(TAG, "StatesViewModel  loadDataSealed states.size = ${it.size}")
-                }
-            }, {error ->
-                //если произошла ошибка - выставляем value в MutableLiveData в ошибку
-                listStatesFromNet.value = StatesSealed.Error(error = error)
-                Log.d(TAG, "StatesViewModel onError ${error.message}")
-            })
     }
 
     fun getPositionState(): Int{
