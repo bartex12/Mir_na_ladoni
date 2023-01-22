@@ -62,15 +62,14 @@ val application= module {
     single<IStateUtils> {  StateUtils() }
     single<IFlagQuiz> {  FlagQuiz() }
     single<ISettingsProvider> {  SettingsProvider(get()) }
-//    single<App> {  App.instance }
-//    single<Application> {  App.instance }
+
 }
 
 val allScreen = module {
     factory { MainViewModel() } //почемуто должен
     factory { HomeViewModel(get()) }
     factory { HelpViewModel(get()) }
-    factory { StatesViewModel(get(),get(),get(),get()) }
+    factory { StatesViewModel(get(),get(),get()) }
     factory { FavoriteViewModel(get(),get(),get(),get()) }
     factory { DetailsViewModel(get(),get(),get()) }
     factory { FlagViewModel(get(),get(),get()) }

@@ -20,11 +20,9 @@ import com.bartex.statesmvvm.view.fragments.scheduler.StatesSchedulerProvider
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import kotlinx.coroutines.launch
 
-//var mainThreadScheduler:SchedulerProvider - сделан через интерфейс для целей тестирования
-//при тестировании вместо StatesSchedulerProvider будет использован класс-заглушка ScheduleProviderStub
+
 class StatesViewModel(
     var helper : IPreferenceHelper ,
-    private var schedulerProvider: SchedulerProvider,
     private var statesRepo: IStatesRepo,
     private val roomCash: IRoomStateCash
 ): ViewModel() {
