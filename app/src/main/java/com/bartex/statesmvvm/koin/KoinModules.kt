@@ -4,7 +4,7 @@ import androidx.room.Room
 import com.bartex.statesmvvm.model.api.DataSourceRetrofit
 import com.bartex.statesmvvm.model.api.DataWeatherRetrofit
 import com.bartex.statesmvvm.model.api.IDataSource
-import com.bartex.statesmvvm.model.api.IWeatherSourse
+import com.bartex.statesmvvm.model.api.IWeatherSource
 import com.bartex.statesmvvm.model.repositories.help.HelpRepo
 import com.bartex.statesmvvm.model.repositories.help.IHelpRepo
 import com.bartex.statesmvvm.model.repositories.prefs.IPreferenceHelper
@@ -50,8 +50,7 @@ val application= module {
     single<IRoomStateCash> { RoomStateCash(get()) }
     single<IDataSource> {  DataSourceRetrofit()}
     single<IStatesRepo> {  StatesRepo(get(), get()) }
-   // single<SchedulerProvider> {  StatesSchedulerProvider() }
-    single<IWeatherSourse> {  DataWeatherRetrofit() }
+    single<IWeatherSource> {  DataWeatherRetrofit() }
     single<IRoomWeatherCash> {  RoomWeatherCash(get()) }
     single<IWeatherRepo> {  WeatherRepo(get(), get()) }
     single<IStateUtils> {  StateUtils() }

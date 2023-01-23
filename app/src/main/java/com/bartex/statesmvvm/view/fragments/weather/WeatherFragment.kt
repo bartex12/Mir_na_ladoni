@@ -13,7 +13,6 @@ import com.bartex.statesmvvm.R
 import com.bartex.statesmvvm.model.constants.Constants
 import com.bartex.statesmvvm.model.entity.state.State
 import com.bartex.statesmvvm.model.entity.weather.WeatherInCapital
-import com.bartex.statesmvvm.view.fragments.states.StatesFragment
 import com.bartex.statesmvvm.view.main.MainActivity
 import kotlinx.android.synthetic.main.fragment_weather.*
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -25,9 +24,7 @@ class  WeatherFragment : Fragment()  {
     //для доступа к полю MainActivity isNetworkAvailable, где проверяется доступ к интернету
     var main: MainActivity? = null
 
-    companion object {
-        const val TAG = "33333"
-    }
+    companion object {const val TAG = "33333" }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -45,14 +42,12 @@ class  WeatherFragment : Fragment()  {
         arguments?.let {state = it.getParcelable<State>(Constants.DETAILS)}
 
         val  isNetworkAvailable = main?.getNetworkAvailable()
-        Log.d(StatesFragment.TAG, "WeatherFragment onViewCreated isNetworkAvailable =$isNetworkAvailable")
+        Log.d(TAG, "WeatherFragment onViewCreated isNetworkAvailable =$isNetworkAvailable")
 
         isNetworkAvailable?. let{isNet->
-
             state?. let{
                 weatherViewModel.loadWeatherSealed(it, isNet)
             }
-
             weatherViewModel.getWeatherSealed()
                 .observe(viewLifecycleOwner, Observer {
                     renderData(it)
@@ -81,6 +76,7 @@ class  WeatherFragment : Fragment()  {
     private fun renderError(error: Throwable) {
         tv_capital_description.text = resources.getString(R.string.weather_device_is_offline)
         iv_icon.setImageDrawable( ContextCompat.getDrawable(requireContext(),R.drawable.whatcanido))
+        Log.d(TAG, "WeatherFragment renderError error = ${error.message}")
     }
 
     private fun renderWeather(weather: WeatherInCapital?) {

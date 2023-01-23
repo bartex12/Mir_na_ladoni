@@ -5,7 +5,7 @@ import com.bartex.statesmvvm.model.entity.weather.WeatherQuery
 import io.reactivex.rxjava3.core.Single
 
 interface IWeatherRepo {
-    fun getWeatherInCapital(
+   suspend fun getWeatherInCapitalCoroutine(
         isNetworkAvailable:Boolean,  capital: String?, keyApi:String, units:String)
-            : Single<WeatherInCapital>
+            : WeatherInCapital?
 }

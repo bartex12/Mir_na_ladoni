@@ -13,4 +13,11 @@ interface ApiServiceWeather {
         @Query("appid") keyApi: String?,
         @Query("units") units: String?
     ): Single<WeatherInCapital>
+
+    @GET("data/2.5/weather")
+   suspend fun loadWeatherInCapitalEngCoroutine(
+        @Query("q") capital: String?,
+        @Query("appid") keyApi: String?,
+        @Query("units") units: String?
+    ): WeatherInCapital
 }

@@ -5,8 +5,9 @@ import com.bartex.statesmvvm.model.room.tables.RoomWeather
 
 @Dao
 interface WeatherDao {
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(roomWeather: RoomWeather)
+   suspend fun insertCoroutine(roomWeather: RoomWeather)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(vararg roomWeather: RoomWeather)
@@ -30,9 +31,6 @@ interface WeatherDao {
     @Update
     fun update(roomWeathers:List<RoomWeather>)
 
-    @Query("SELECT * FROM RoomWeather")
-    fun getAll():List<RoomWeather>
-
-    @Query("SELECT * FROM RoomWeather WHERE capitalName = :capitalName LIMIT 1")
-    fun findByName(capitalName:String): RoomWeather?
+   @Query("SELECT * FROM RoomWeather WHERE capitalName = :capitalName LIMIT 1")
+   suspend fun findByNameCoroutine(capitalName:String): RoomWeather?
 }
