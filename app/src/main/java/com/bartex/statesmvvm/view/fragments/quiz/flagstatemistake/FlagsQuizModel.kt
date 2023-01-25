@@ -196,6 +196,7 @@ class FlagsQuizModel(
             Answer.WellAndLast -> {
                 currentQuizState.value = currentState.executeAction(Action.OnWellAndLastClicked(dataFlags))
             }
+            else -> {}
         }
     }
 

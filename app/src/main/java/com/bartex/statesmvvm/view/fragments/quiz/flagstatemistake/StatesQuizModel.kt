@@ -196,6 +196,7 @@ class StatesQuizModel( private var statesRepo: IStatesRepo,
             Answer.WellAndLast -> {
                 currentQuizState.value = currentState.executeAction(Action.OnWellAndLastClicked(dataFlags))
             }
+            else -> {}
         }
     }
 

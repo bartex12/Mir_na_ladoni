@@ -12,8 +12,8 @@ android {
         applicationId "com.bartex.states_search"
         minSdkVersion 21
         targetSdkVersion 33
-        versionCode 31
-        versionName "31"
+        versionCode 34
+        versionName "34"
 
         resConfigs "ru", "en"  //поддерживаемые языки
 
@@ -39,20 +39,19 @@ android {
 }
 
 dependencies {
-    implementation fileTree(dir: "libs", include: ["*.jar"])
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    implementation 'androidx.core:core-ktx:1.5.0'
-    implementation 'androidx.appcompat:appcompat:1.3.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
-    implementation 'androidx.fragment:fragment-ktx:1.3.1' //by androidViewModel
-    implementation 'androidx.navigation:navigation-fragment:2.3.5'
-    implementation 'androidx.navigation:navigation-ui:2.3.5'
+
+    implementation 'androidx.core:core-ktx:1.9.0'
+    implementation 'androidx.appcompat:appcompat:1.6.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    implementation 'androidx.fragment:fragment-ktx:1.5.5' //by androidViewModel
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.5.3'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.5.3'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
-    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1'
     //чтобы работало extends PreferenceFragmentCompat
-    implementation "androidx.preference:preference:1.1.1"
+    implementation "androidx.preference:preference-ktx:1.2.0"
     //материал
-    implementation 'com.google.android.material:material:1.3.0'
+    implementation 'com.google.android.material:material:1.6.0'
     //recyclerview
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
     //retrofit
@@ -66,11 +65,11 @@ dependencies {
     //picasso
     implementation 'com.squareup.picasso:picasso:2.71828'
     //room
-    implementation 'androidx.room:room-runtime:2.3.0'
-    kapt 'androidx.room:room-compiler:2.3.0'
-    implementation 'androidx.room:room-ktx:2.3.0' //для deleteAll
+    implementation 'androidx.room:room-runtime:2.5.0'
+    kapt 'androidx.room:room-compiler:2.5.0'
+    implementation 'androidx.room:room-ktx:2.5.0' //для deleteAll
     //preference
-    implementation "androidx.preference:preference:1.1.1"
+    implementation "androidx.preference:preference-ktx:1.2.0"
     //Koin
     implementation 'org.koin:koin-android:2.0.1'
     implementation 'org.koin:koin-android-viewmodel:2.0.1'

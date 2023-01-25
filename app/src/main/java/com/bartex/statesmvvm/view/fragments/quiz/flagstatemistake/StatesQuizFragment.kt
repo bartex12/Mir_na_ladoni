@@ -277,6 +277,7 @@ class StatesQuizFragment : Fragment(){
                 quizLinearLayout.visibility = View.GONE
                 progressBarStates.visibility = View.VISIBLE
             }
+            else -> {}
         }
     }
 

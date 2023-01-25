@@ -344,6 +344,7 @@ class FlagsQuizFragment: Fragment(){
                 quizLinearLayout.visibility = View.GONE
                 progressBarFlags.visibility = View.VISIBLE
             }
+            else -> {}
         }
     }
 
