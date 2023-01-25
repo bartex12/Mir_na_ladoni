@@ -26,8 +26,9 @@ class SplashActivity : AppCompatActivity() {
                     .scaleY(2f)
                     .scaleX(2f)
                     .setInterpolator(LinearInterpolator()).setDuration(3000)
-                    .setListener(object : AnimatorListenerAdapter() {
-                        override fun onAnimationEnd(animation: Animator?) {
+                    .setListener(object : AnimatorListenerAdapter(){
+                        override fun onAnimationEnd(animation: Animator) {
+                            super.onAnimationEnd(animation)
                             startActivity(Intent(this@SplashActivity, MainActivity::class.java))
                             finish()
                         }
