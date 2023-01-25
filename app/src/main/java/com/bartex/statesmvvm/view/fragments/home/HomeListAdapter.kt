@@ -41,7 +41,9 @@ class HomeListAdapter(private val context: Context,
         val itemList = getItem(position) as ItemList
         titleTextView.text = itemList.title
         itemList.image?. let{
-            Picasso.get().load(it).placeholder(R.mipmap.ic_launcher).into(imageView)
+            Picasso.get()
+                .load(it)
+                .into(imageView)
         }
         //установим шрифт для строк списка
         val titleTypeFace = ResourcesCompat.getFont(context, R.font.josefinsans_semibolditalic)
