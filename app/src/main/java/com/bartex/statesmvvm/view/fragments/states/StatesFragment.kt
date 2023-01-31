@@ -74,12 +74,13 @@ class   StatesFragment : Fragment(),
         //если в базе ничего нет, идём в сеть - если и там ничего нет - диалог
             stateViewModel.getDataFromDatabase()
                 .observe(viewLifecycleOwner, Observer {list->
-                   // Log.d(TAG, "*******StatesFragment getDataFromDatabase list.size = ${list.size} list.regionRus = ${list.map {it.regionRus }}")
+                    Log.d(TAG, "*******StatesFragment getDataFromDatabase list.size = ${list.size} ")
                         if (list.size > 200) { //если в базе есть записи берём из базы
                             listOfStates = list.toMutableList() //запоминаем
                              chipGroupStates.check(UtilRegion. getRegionId(region))
                             renderDataWithRegion(region)  // с учётом текущего региона
                     }else{ //если в базе ничего нет
+                            Log.d(TAG, "*******StatesFragment getDataFromDatabase isNetworkAvailable = $isNetworkAvailable ")
                         if (isNetworkAvailable){ //если сеть есть
                             //получаем страны из сети
                             stateViewModel.getStatesSealedCoroutine()

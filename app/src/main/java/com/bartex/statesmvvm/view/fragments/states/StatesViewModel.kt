@@ -31,6 +31,7 @@ class StatesViewModel(
 
 
     fun getStatesSealedCoroutine() : LiveData<StatesSealed>{
+        Log.d(TAG, "@@StatesViewModel  getStatesSealedCoroutine ")
         loadDataSealedCoroutine()
         return listStatesFromNet
     }
@@ -42,7 +43,7 @@ class StatesViewModel(
             try{
                 val listStates = statesRepo.getStatesCoroutine()
                 listStatesFromNet.value = StatesSealed.Success(state = listStates)
-                Log.d(TAG, "StatesViewModel  loadDataSealed listStates.size = ${listStates.size}")
+                Log.d(TAG, "StatesViewModel  loadDataSealedCoroutine listStates.size = ${listStates.size}")
             }catch (error:Exception){
                 listStatesFromNet.value = StatesSealed.Error(error = error)
                 Log.d(TAG, "StatesViewModel onError ${error.message}")

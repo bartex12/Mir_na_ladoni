@@ -96,9 +96,7 @@ import org.koin.android.viewmodel.ext.android.viewModel
         Log.d(TAG, "MainActivity onCreate  первый запуск isNetworkAvailable = $isNetworkAvailable")
 
         //следим за сетью через LiveData
-        OnlineLiveData(this).observe(
-            this@MainActivity,
-            Observer<Boolean> {
+        OnlineLiveData(this).observe(this@MainActivity,Observer<Boolean> {
                 isNetworkAvailable = it
                 if (!isNetworkAvailable) {
                     showNoInternetConnectionDialog() //если сети нет
