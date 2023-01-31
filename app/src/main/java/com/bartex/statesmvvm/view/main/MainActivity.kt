@@ -27,6 +27,7 @@ import com.bartex.statesmvvm.model.constants.Constants
 import com.bartex.statesmvvm.network.OnlineLiveData
 import com.bartex.statesmvvm.view.shared.SharedViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.navigation.NavigationBarView
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.*
@@ -82,7 +83,7 @@ import org.koin.android.viewmodel.ext.android.viewModel
         setContentView(R.layout.activity_main)
 
         bottomNavigationState = findViewById(R.id.bottom_navigation_state)
-        bottomNavigationState.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
+        bottomNavigationState.setOnItemSelectedListener(onNavigationItemSelectedListener)
 
         //получаем статус сети при первом запуске приложения не через LiveData
         if (savedInstanceState == null) {
@@ -301,7 +302,7 @@ import org.koin.android.viewmodel.ext.android.viewModel
     //чтобы при многократном вызове фрагментов друг из друга в стэке не скапливались фрагменты,
     //для всех action сделан popUp to statesFragment и для statesFragment сделан launchSingleTop
     private val  onNavigationItemSelectedListener =
-        BottomNavigationView.OnNavigationItemSelectedListener { item ->
+        NavigationBarView.OnItemSelectedListener { item ->
             val itemId =item.itemId
             val destinationId = navController.currentDestination?.id
             when (itemId){
@@ -311,6 +312,7 @@ import org.koin.android.viewmodel.ext.android.viewModel
                         R.id.favoriteFragment-> navController.navigate(R.id.action_favoriteFragment_to_statesFragment)
                         R.id.tabsFragment -> navController.navigate(R.id.action_tabsFragment_to_statesFragment)
                     }
+                    true
                 }
                 R.id.flags -> {
                     when(destinationId){
@@ -318,6 +320,7 @@ import org.koin.android.viewmodel.ext.android.viewModel
                         R.id.favoriteFragment-> navController.navigate(R.id.action_favoriteFragment_to_flagsFragment)
                         R.id.tabsFragment -> navController.navigate(R.id.action_tabsFragment_to_flagsFragment)
                     }
+                    true
                 }
                 R.id.liked -> {
                     when(destinationId){
@@ -325,6 +328,7 @@ import org.koin.android.viewmodel.ext.android.viewModel
                         R.id.flagsFragment->navController.navigate(R.id.action_flagsFragment_to_favoriteFragment)
                         R.id.tabsFragment ->navController.navigate(R.id.action_tabsFragment_to_favoriteFragment)
                     }
+                    true
                 }
                 R.id.quiz -> {
                     when(destinationId){
@@ -332,10 +336,11 @@ import org.koin.android.viewmodel.ext.android.viewModel
                         R.id.favoriteFragment->navController.navigate(R.id.action_favoriteFragment_to_tabsFragment)
                         R.id.flagsFragment->navController.navigate(R.id.action_flagsFragment_to_tabsFragment)
                     }
+                    true
                 }
-                else -> {}
+                else -> false
             }
-            true
+           //true
         }
 
     //меню шторки

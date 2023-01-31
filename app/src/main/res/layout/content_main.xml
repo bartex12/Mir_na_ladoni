@@ -18,7 +18,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@id/bottom_navigation_state"
         app:navGraph="@navigation/mobile_navigation"
-        tools:layout="@layout/fragment_states" />
+         />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation_state"

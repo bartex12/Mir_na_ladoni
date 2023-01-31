@@ -3,6 +3,7 @@ package com.bartex.statesmvvm.view.fragments.details
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
+import android.os.Build.VERSION.SDK_INT
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -19,6 +20,7 @@ import com.bartex.statesmvvm.model.constants.Constants
 import com.bartex.statesmvvm.model.entity.state.State
 import com.github.twocoffeesoneteam.glidetovectoryou.GlideToVectorYou
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.navigation.NavigationBarView
 import kotlinx.android.synthetic.main.fragment_details.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -45,21 +47,26 @@ class DetailsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         Log.d(TAG, "DetailsFragment onViewCreated")
 
-        bottomNavigation = requireActivity().findViewById(R.id.bottom_navigation)
-
+        bottomNavigation = view.findViewById(R.id.bottom_navigation)
         //здесь аргументы нужны для корректной обработки поворота экрана
-        arguments?.let {state = it.getParcelable<State>(Constants.STATE )}
+        arguments?.let {
+            state =    when {
+                SDK_INT >= 33 -> it.getParcelable(Constants.STATE , State::class.java)
+                else -> @Suppress("DEPRECATION") it.getParcelable<State>(Constants.STATE)
+            //state = it.getParcelable<State>(Constants.STATE )
+           }
+        }
         Log.d(TAG, "DetailsFragment onViewCreated state = ${state.toString()}")
 
         navController = Navigation.findNavController(view)
 
-        bottom_navigation.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
+        bottom_navigation.setOnItemSelectedListener(onNavigationItemSelectedListener)
 
         //наблюдаем за добавлением страны в избранное
         state?. let {
             detailsViewModel.isFavoriteStateCoroutine(it)
-                .observe(viewLifecycleOwner, Observer<DetailsSealed> {
-                    renderData(it)
+                .observe(viewLifecycleOwner, Observer<DetailsSealed> {data->
+                    renderData(data)
                 })
 
             //заполняем поля экрана
@@ -122,7 +129,7 @@ class DetailsFragment : Fragment() {
     }
 
     private val onNavigationItemSelectedListener =
-        BottomNavigationView.OnNavigationItemSelectedListener { item ->
+        NavigationBarView.OnItemSelectedListener { item ->
         when(item.itemId) {
             R.id.states_detail ->{
                 Log.d(TAG, "DetailsFragment BottomNavigationView states  ")
